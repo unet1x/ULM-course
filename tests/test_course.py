@@ -1913,6 +1913,39 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
             r"персональн(?:ую|ой)\s+(?:обязанность|норму)\s+(?:для\s+)?ученика",
         )
 
+    def test_supervised_solo_means_the_student_is_the_only_person_on_board(self):
+        glossary = GLOSSARY.read_text(encoding="utf-8")
+        glossary_section = glossary.split(
+            '<a id="term-supervised-solo-flight"></a>', 1
+        )[1].split('<a id="term-dual-flight-instruction"></a>', 1)[0]
+        terms = json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))
+        registry_definition = next(
+            term["definition"]
+            for term in terms
+            if term["canonical"] == "supervised solo flight"
+        )
+        for definition in (glossary_section, registry_definition):
+            with self.subTest(definition=definition):
+                self.assertRegex(
+                    definition,
+                    r"(?i)единственн\w+\s+(?:лиц\w+|человек\w+).{0,30}на\s+борту",
+                )
+                self.assertRegex(definition, r"(?i)без\s+пассажир|наблюдател")
+
+    def test_duplicate_logbook_faq_scope_names_the_direct_access_holder(self):
+        lesson = (ROOT / TASK4_CHAPTERS[0]).read_text(encoding="utf-8")
+        question = next(
+            item for item in parsed_question_blocks(lesson) if item["id"] == "Q-START-003"
+        )
+        prompt = _plain_markdown(question["prompt"])
+        self.assertRegex(prompt, r"(?is)обладател.*Part-FCL.*прям.*испан.*ULM")
+
+        audit = (ROOT / "docs/sources/audit-lapl-transition.md").read_text(
+            encoding="utf-8"
+        )
+        row = next(line for line in audit.splitlines() if "| LTR-ULM-006 |" in line)
+        self.assertRegex(row, r"(?is)обладател.*Part-FCL.*прям.*испан.*ULM")
+
 
 if __name__ == "__main__":
     unittest.main()
