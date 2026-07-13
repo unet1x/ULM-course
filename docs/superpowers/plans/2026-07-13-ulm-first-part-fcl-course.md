@@ -13,7 +13,7 @@
 - Основной маршрут: ULM/MAF для эксплуатации в Испании сначала; затем выбор LAPL(A) или PPL(A). Дополнительно объясняется возможное дальнейшее LAPL(A) → PPL(A), но оно не навязывается как обязательная третья ступень.
 - Нормативная дата: 13 июля 2026 года.
 - Базовые ULM-нормы: Real Decreto 123/2015 в редакции после Real Decreto 182/2026; Real Decreto 765/2022 в редакции, действующей с 1 апреля 2026 года; Real Decreto 141/2025.
-- Базовые LAPL/PPL-нормы: EASA Easy Access Rules for Aircrew от 24 февраля 2026 года и применимые положения Regulation (EU) No 1178/2011, включая изменения Regulation (EU) 2025/134.
+- Базовые LAPL/PPL-нормы: EASA Easy Access Rules for Aircrew от 24 февраля 2026 года и применимые положения Regulation (EU) No 1178/2011, включая Regulation (EU) 2024/2076 и Regulation (EU) 2025/134.
 - Изменяемое правило публикуется только с прямой ссылкой на первичный официальный источник и датой проверки.
 - Объяснения пишутся по-русски; профессиональные термины сохраняются в канонической English или español форме.
 - Первое употребление термина содержит русское объяснение и устойчивый якорь; каждое последующее употребление ссылается на исходное объяснение или глоссарий.
@@ -104,6 +104,7 @@
 - `https://www.boe.es/eli/es/rd/2022/09/20/765/con`;
 - `https://www.boe.es/eli/es/rd/2025/02/25/141`;
 - EASA Easy Access Rules for Aircrew от 24 февраля 2026 года;
+- Regulation (EU) 2024/2076, включая FCL.110.A/FCL.210.A и Appendix 1 §1.3;
 - Regulation (EU) 2025/134, применяемый с 18 февраля 2026 года;
 - FCL.100, FCL.105.A, FCL.110.A с AMC/GM, FCL.115, FCL.120, FCL.125, FCL.140.A;
 - FCL.210, FCL.215, FCL.235 и ограничения любого зачёта ULM-опыта.
@@ -230,7 +231,7 @@ Expected: FAIL because registries do not exist.
 
 - [ ] **Step 3: Populate the official source registry**
 
-At minimum include EASA Aircrew 2026, EUR-Lex 1178/2011 and 2025/134, BOE RD 123/2015 consolidated, RD 182/2026, RD 765/2022 consolidated, RD 141/2025, AESA ULM and LAPL/PPL procedures, ENAIRE AIP España and AEMET aviation. `official-sources.md` renders the same records for a human reader and explains the source hierarchy.
+At minimum include EASA Aircrew 2026, EUR-Lex 1178/2011, 2024/2076 and 2025/134, BOE RD 123/2015 consolidated, RD 182/2026, RD 765/2022 consolidated, RD 141/2025, AESA ULM and LAPL/PPL procedures, ENAIRE AIP España and AEMET aviation. `official-sources.md` renders the same records for a human reader and explains the source hierarchy.
 
 - [ ] **Step 4: Populate the initial glossary**
 
