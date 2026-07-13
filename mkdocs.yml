@@ -2,6 +2,12 @@ site_name: Теория ULM/MAF → LAPL(A) или PPL(A)
 site_description: ULM-first курс для Испании с последующим выбором LAPL(A) или PPL(A)
 docs_dir: docs
 site_dir: site
+exclude_docs: |
+  superpowers/
+
+validation:
+  links:
+    anchors: warn
 
 theme:
   name: material
