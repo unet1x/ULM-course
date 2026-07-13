@@ -60,6 +60,16 @@ TASK6_SVGS = (
     "docs/assets/diagrams/thunderstorm-hazards.svg",
     "docs/assets/diagrams/metar-taf-decoder.svg",
 )
+TASK7_CHAPTERS = (
+    "docs/04-communications/01-radio-basics-rtc.md",
+    "docs/04-communications/02-message-structure.md",
+    "docs/04-communications/03-departure-en-es.md",
+    "docs/04-communications/04-enroute-arrival-en-es.md",
+    "docs/04-communications/05-uncontrolled-aerodrome.md",
+    "docs/04-communications/06-urgency-distress-radio-failure.md",
+)
+TASK7_REFERENCE = "docs/reference/checklists-radio.md"
+TASK7_SVG = "docs/assets/diagrams/radio-message-flow.svg"
 APPLICABILITY_LABELS = (
     "[ULM — ОСНОВА]",
     "[ULM — ОСОБО ВАЖНО]",
@@ -207,6 +217,20 @@ REQUIRED_CANONICAL_TERMS = {
     "crosswind component",
     "surface wind",
     "significant weather chart for low-level flights (SWL)",
+    "radiotelephony (R/T)",
+    "air traffic control (ATC)",
+    "aerodrome flight information service (AFIS)",
+    "air-to-air (A/A)",
+    "readback",
+    "acknowledgement",
+    "callsign",
+    "plain language",
+    "listening watch",
+    "distress",
+    "urgency",
+    "communication failure",
+    "secondary surveillance radar (SSR)",
+    "language proficiency endorsement",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -859,7 +883,7 @@ def _substantive(value, minimum_words=3, minimum_length=12):
 def parsed_question_blocks(text):
     headings = list(
         re.finditer(
-            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET)-\d{3})\s+—\s+(.+?)"
+            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC)-\d{3})\s+—\s+(.+?)"
             r"(?:\s+\{#([a-z][a-z0-9-]*)\})?\s*$",
             text,
         )
@@ -3876,6 +3900,314 @@ class Task6MeteorologyTests(unittest.TestCase):
         }
         self.assertEqual("observation", parents["trend"])
         self.assertEqual("forecast", parents["change-groups"])
+
+
+def radio_phraseology_safety_errors(text):
+    """Return unsafe radio shortcuts from learner prose, clause by clause."""
+    learner_text = re.split(
+        r"(?m)^##\s+(?:Контрольные вопросы|Типичные ошибки)\b", text, maxsplit=1
+    )[0]
+    patterns = (
+        r"\bROGER\b.{0,45}(?:полн\w+\s+)?(?:readback|повтор\w+)",
+        r"(?:traffic information|информаци\w+\s+о\s+движен)\w*.{0,45}(?:явля\w+|это)\s+(?:ATC\s+)?(?:clearance|разрешен|разрешён)",
+        r"(?:молчани\w+|тишин\w+).{0,45}(?:означа\w+|доказыва\w+).{0,25}(?:нет|отсутств)\w*\s+движен",
+        r"радиовызов.{0,45}(?:созда[её]т|да[её]т).{0,25}(?:приоритет|право\s+пути)",
+        r"(?:English|английск\w+).{0,35}(?:Spanish|испанск\w+).{0,40}(?:свободн|произвольн)\w+\s+смеш",
+        r"кажд\w+\s+сообщени\w+.{0,35}(?:одинаков|те\s+же)\w*\s+(?:поля|элементы)",
+        r"\bMAYDAY\b.{0,35}\bPAN\s+PAN\b.{0,35}(?:взаимозамен|одно\s+и\s+то\s+же)",
+        r"\b7600\b.{0,25}(?:код\w+\s+)?(?:бедств|distress)",
+        r"\b7700\b.{0,25}(?:отказ\w+\s+радио|radio failure)",
+        r"\b121[.,]500\b.{0,40}(?:обычн\w+|планов\w+|рутинн\w+)\s+(?:проверк|radio check)",
+        r"сохран[её]нн\w+\s+частот\w+.{0,45}(?:всегда\s+)?(?:актуальн|действующ)",
+        r"\bAFIS\b.{0,35}(?:выда[её]т|да[её]т).{0,25}(?:ATC\s+)?(?:clearance|разрешен|разрешён)",
+        r"(?:uncontrolled|неконтролируем\w+)\w*.{0,35}(?:означа\w+|это).{0,20}(?:нет|отсутств\w+)\s+правил",
+        r"светов\w+\s+сигнал\w+.{0,35}(?:необязательн|декорац)",
+        r"(?:неразборчив|не\s+расслыш).{0,35}(?:придум|сочин).{0,35}(?:разрешен|разрешён)\w+\s+(?:на\s+)?ВПП",
+        r"(?:ULM|MAF).{0,20}RTC.{0,40}(?:достаточн|разреша\w+).{0,35}(?:controlled airspace|контролируем\w+\s+пространств)",
+    )
+    errors = []
+    for sentence in _sentences(learner_text):
+        clauses = re.split(r"(?i);\s*|,\s*(?:а|но|зато|и)\s+", _plain_markdown(sentence))
+        for clause in clauses:
+            for pattern in patterns:
+                match = re.search(pattern, clause, re.IGNORECASE)
+                if not match:
+                    continue
+                prefix = clause[max(0, match.start() - 36):match.start()]
+                within = clause[max(0, match.start() - 8):match.end()]
+                negated = re.search(
+                    r"(?i)(?:\bне\s+(?:явля\w+|означа\w+|созда[её]т|да[её]т|"
+                    r"выда[её]т|можно|достаточн|разреша\w+|заменя\w+|гарантир\w+)|"
+                    r"\bне\s+взаимозамен|\bне\s+обязательн|\bне\s+обязано\b|\bне\s+означает\b|"
+                    r"\bнедостаточн)",
+                    within,
+                ) or re.search(r"(?i)\bневерн\w*\s*,?\s*$", prefix)
+                if not negated:
+                    errors.append(clause.strip())
+                break
+    return errors
+
+
+class Task7CommunicationsTests(unittest.TestCase):
+    def _all_text(self):
+        return "\n".join(
+            (ROOT / path).read_text(encoding="utf-8") for path in TASK7_CHAPTERS
+        )
+
+    def test_radio_guard_rejects_clause_local_unsafe_probes(self):
+        probes = (
+            "ROGER является полным readback.",
+            "Traffic information является ATC clearance.",
+            "Молчание в эфире означает отсутствие движения.",
+            "Радиовызов создаёт право пути.",
+            "English и Spanish можно свободно смешивать.",
+            "Каждое сообщение содержит одинаковые поля.",
+            "MAYDAY и PAN PAN взаимозаменяемы.",
+            "7600 — код бедствия.",
+            "7700 — код отказа радио.",
+            "121.500 подходит для обычной проверки радио.",
+            "Сохранённая частота всегда актуальна.",
+            "AFIS выдаёт ATC clearance.",
+            "Uncontrolled означает отсутствие правил.",
+            "Световые сигналы — необязательная декорация.",
+            "Если не расслышал, можно придумать разрешение на ВПП.",
+            "ULM с RTC достаточно для controlled airspace.",
+            "ROGER не является полным readback, зато AFIS выдаёт clearance.",
+        )
+        for probe in probes:
+            with self.subTest(probe=probe):
+                self.assertTrue(radio_phraseology_safety_errors(probe))
+        for safe in (
+            "ROGER не является полным readback.",
+            "Traffic information не является ATC clearance.",
+            "Молчание не означает отсутствия движения.",
+            "AFIS не выдаёт ATC clearance.",
+            "ULM с RTC недостаточно для controlled airspace.",
+        ):
+            with self.subTest(safe=safe):
+                self.assertEqual([], radio_phraseology_safety_errors(safe))
+
+    def test_task7_files_exist_and_are_in_navigation(self):
+        nav_paths = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        for relative_path in (*TASK7_CHAPTERS, TASK7_REFERENCE):
+            with self.subTest(path=relative_path):
+                self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+                self.assertIn(relative_path.removeprefix("docs/"), nav_paths)
+        self.assertTrue((ROOT / TASK7_SVG).is_file(), TASK7_SVG)
+
+    def test_task7_template_scope_and_stable_anchors(self):
+        required = {
+            "purpose", "outcomes", "applicability", "theory", "ulm-application",
+            "part-fcl-extension", "safety", "common-errors", "summary",
+            "review-questions", "sources",
+        }
+        for relative_path in TASK7_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            with self.subTest(path=relative_path):
+                self.assertEqual([], explicit_atx_heading_errors(text))
+                self.assertTrue(required.issubset(markdown_anchors(text)))
+                for label in APPLICABILITY_LABELS:
+                    self.assertIn(label, applicability_table_labels(text))
+                plain = _plain_markdown(text)
+                self.assertRegex(plain, r"(?is)ULM.{0,180}Испани")
+                self.assertRegex(plain, r"(?is)(?:LAPL|PPL).{0,220}(?:позже|переход|Part-FCL)")
+
+    def test_task7_required_topics_and_exact_operational_boundaries(self):
+        text = self._all_text()
+        anchors = markdown_anchors(text)
+        required = {
+            "communication-model", "vhf-limitations", "alphabet-numbers-time",
+            "callsigns", "message-structure", "mandatory-readback", "plain-language",
+            "controlled-departure", "conditional-clearance", "controlled-entry",
+            "traffic-information", "controlled-arrival", "afis-boundary",
+            "air-to-air", "distress", "urgency", "communication-failure",
+            "ssr-codes", "light-signals",
+        }
+        self.assertTrue(required.issubset(anchors), required - anchors)
+        plain = _plain_markdown(text)
+        for pattern in (
+            r"полн\w+\s+позывн\w+.{0,130}перв\w+\s+контакт.{0,160}сокращ.{0,120}станци",
+            r"TAKE-OFF.{0,160}(?:только|исключительн).{0,120}(?:разрешен|разрешён|отмен)",
+            r"STANDBY.{0,100}не.{0,35}(?:одобр|разреш)",
+            r"121[.,]500.{0,130}(?:необходим|целесообраз)",
+            r"7000.{0,130}не.{0,45}универсальн\w+.{0,30}VFR",
+            r"IDENT.{0,100}только.{0,40}(?:указан|команд|инструкц)",
+        ):
+            self.assertRegex(plain, re.compile(pattern, re.IGNORECASE | re.DOTALL))
+
+    def test_task7_ulm_rtc_and_part_fcl_gates_are_separate(self):
+        text = self._all_text()
+        plain = _plain_markdown(text)
+        for pattern in (
+            r"ULM.{0,90}MAF.{0,90}RTC.{0,160}недостаточн.{0,120}контролируем",
+            r"1\s+апрел\w+\s+2026.{0,220}Part-FCL.{0,180}эквивалентн",
+            r"Communications.{0,120}экзамен.{0,180}не.{0,80}FCL\.055",
+            r"национальн\w+\s+RTC.{0,160}не.{0,70}автоматическ.{0,100}(?:зач[её]т|Part-FCL)",
+            r"FCL\.055.{0,180}(?:Level\s*4|уровн\w+\s*4)",
+        ):
+            self.assertRegex(plain, re.compile(pattern, re.IGNORECASE | re.DOTALL))
+        for chapter in TASK7_CHAPTERS:
+            self.assertEqual([], radio_phraseology_safety_errors((ROOT / chapter).read_text(encoding="utf-8")))
+
+    def test_task7_has_twenty_complete_labelled_synthetic_scenarios(self):
+        text = self._all_text()
+        matches = list(re.finditer(
+            r"(?m)^###\s+Сценарий RTC-(\d{2})\s+—\s+.+\{#scenario-rtc-\1\}\s*$",
+            text,
+        ))
+        self.assertEqual(20, len(matches))
+        self.assertEqual([f"{number:02d}" for number in range(1, 21)], [m.group(1) for m in matches])
+        for index, match in enumerate(matches):
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            next_h2 = re.search(r"(?m)^##\s+", text[match.end():end])
+            if next_h2:
+                end = match.end() + next_h2.start()
+            block = text[match.end():end]
+            plain_block = _plain_markdown(block)
+            with self.subTest(scenario=match.group(1)):
+                self.assertIn("СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА", block)
+                for label in (
+                    "Тип обслуживания", "Контекст", "English", "Español",
+                    "Пояснение", "Readback/acknowledgement", "Решение при сомнении",
+                ):
+                    self.assertRegex(plain_block, rf"{re.escape(label)}:")
+                self.assertRegex(block, r"SRC-[A-Z0-9-]+")
+                self.assertRegex(block, r"проверено\s+2026-07-13")
+        self.assertEqual(20, text.count("СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА"))
+
+    def test_scenarios_cover_services_and_required_exchanges(self):
+        plain = _plain_markdown(self._all_text())
+        for service in ("controlled ATS", "AFIS", "non-controlled A/A", "emergency"):
+            self.assertIn(service.casefold(), plain.casefold())
+        for token in (
+            "RADIO CHECK", "FREQUENCY CHANGE", "TAXI", "BEHIND", "LINE UP",
+            "CLEARED FOR TAKE-OFF", "POSITION", "REQUEST ENTRY", "TRAFFIC",
+            "REPORT BASE", "CLEARED TO LAND", "GO AROUND", "RUNWAY VACATED",
+            "MAYDAY", "PAN PAN", "7600",
+        ):
+            self.assertIn(token.casefold(), plain.casefold())
+        self.assertRegex(plain, r"(?is)AFIS.{0,180}не.{0,60}(?:clearance|разрешен|разрешён)")
+        self.assertRegex(plain, r"(?is)A/A.{0,200}(?:намерени|information).{0,180}не.{0,60}(?:clearance|разрешен|разрешён)")
+
+    def test_scenario_data_are_placeholders_and_dynamic_warnings_are_explicit(self):
+        text = self._all_text()
+        for match in re.finditer(r"\b\d{3}[.,]\d{3}\b", text):
+            with self.subTest(frequency=match.group()):
+                self.assertIn(match.group(), ("121.500", "121,500"))
+                context = text[max(0, match.start() - 180):match.end() + 180]
+                self.assertRegex(
+                    context,
+                    re.compile(
+                        r"(?:emergency|бедств|срочност|MAYDAY|PAN\s+PAN)",
+                        re.IGNORECASE,
+                    ),
+                )
+        for placeholder in ("[CALLSIGN]", "[AERODROME]", "[RUNWAY]", "[FREQUENCY]"):
+            self.assertIn(placeholder, text)
+        plain = _plain_markdown(text)
+        self.assertRegex(plain, r"(?is)частот.{0,120}(?:динамич|изменя).{0,160}текущ.{0,80}AIP")
+        self.assertRegex(plain, r"(?is)(?:AIP|NOTAM).{0,180}(?:местн|аэродромн).{0,140}перед\s+пол[её]т")
+        self.assertRegex(plain, r"(?is)сохран[её]нн\w+\s+частот.{0,80}не.{0,30}(?:гарантир|доказыва|означа).{0,40}актуальн")
+
+    def test_task7_has_thirty_substantive_unique_questions(self):
+        blocks = []
+        errors = []
+        for relative_path in TASK7_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            chapter = parsed_question_blocks(text)
+            self.assertEqual(5, len(chapter), relative_path)
+            blocks.extend(chapter)
+            errors.extend(f"{relative_path}: {error}" for error in question_block_errors(text))
+        self.assertEqual(30, len(blocks))
+        self.assertEqual(30, len({block["id"] for block in blocks}))
+        self.assertEqual(30, len({re.sub(r"\W+", " ", _plain_markdown(block["prompt"]).casefold()).strip() for block in blocks}))
+        self.assertEqual([], errors)
+
+    def test_task7_sources_are_registered_with_exact_pinpoints(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text())}
+        required = {
+            "SRC-BOE-RD-1180-2018", "SRC-BOE-FOM-1146-2019",
+            "SRC-AESA-ULM-RTC-PROGRAM", "SRC-ENAIRE-AIP-GEN-3-4-2026",
+            "SRC-ENAIRE-AIP-ENR-1-4-2026", "SRC-EASA-SERA-2025",
+            "SRC-EASA-AIRCREW-2026", "SRC-BOE-RD-765-2022",
+        }
+        self.assertTrue(required.issubset(sources), required - sources.keys())
+        combined = " ".join(
+            f"{sources[source]['edition']} {sources[source]['scope']}" for source in required
+        )
+        for pinpoint in (
+            "SERA.14015", "SERA.8015(e)", "SERA.14083", "SERA.13001",
+            "FCL.055", "arts. 12–13", "art. 4.1(d)", "GEN 3.4", "ENR 1.4-5",
+            "20 h", "10 h", "1 h",
+        ):
+            self.assertIn(pinpoint, combined)
+        chapter_text = self._all_text()
+        for source in required:
+            self.assertIn(source, chapter_text)
+
+    def test_task7_blank_cards_are_training_aids_not_cockpit_checklists(self):
+        text = (ROOT / TASK7_REFERENCE).read_text(encoding="utf-8")
+        self.assertEqual([], explicit_atx_heading_errors(text))
+        for anchor in ("scenario-index", "english-card", "spanish-card", "emergency-card"):
+            self.assertIn(anchor, markdown_anchors(text))
+        self.assertGreaterEqual(text.count("________________"), 12)
+        self.assertRegex(text, r"(?is)не.{0,60}(?:cockpit|кабинн|бортов).{0,80}чек-лист")
+        self.assertRegex(text, r"(?is)не.{0,40}заменя.{0,80}(?:AFM|POH).{0,100}местн")
+        for number in range(1, 21):
+            self.assertIn(f"RTC-{number:02d}", text)
+
+    def test_task7_terms_and_ru_first_explanations_are_registered(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text())}
+        required = {
+            "radiotelephony (R/T)", "air traffic control (ATC)",
+            "aerodrome flight information service (AFIS)", "air-to-air (A/A)",
+            "readback", "acknowledgement", "callsign", "plain language",
+            "listening watch", "distress", "urgency", "communication failure",
+            "secondary surveillance radar (SSR)", "language proficiency endorsement",
+        }
+        self.assertTrue(required.issubset(terms), required - terms.keys())
+        glossary = GLOSSARY.read_text(encoding="utf-8")
+        for canonical in required:
+            record = terms[canonical]
+            self.assertIn(f'<a id="{record["anchor"]}"></a>', glossary)
+            self.assertTrue(record["russian"].strip())
+            self.assertTrue(record["english"].strip())
+            self.assertTrue(record["spanish"].strip())
+
+    def test_task7_svg_is_accessible_mobile_readable_and_semantic(self):
+        root = ET.parse(ROOT / TASK7_SVG).getroot()
+        ns = "{http://www.w3.org/2000/svg}"
+        self.assertEqual(f"{ns}svg", root.tag)
+        self.assertEqual("img", root.attrib.get("role"))
+        self.assertTrue(root.attrib.get("aria-labelledby"))
+        self.assertIsNotNone(root.find(f"{ns}title"))
+        self.assertIsNotNone(root.find(f"{ns}desc"))
+        self.assertFalse(list(root.iter(f"{ns}image")))
+        vx, vy, vw, vh = (float(value) for value in root.attrib["viewBox"].split())
+        self.assertLessEqual(vw, 700)
+        sizes = [float(item.attrib["font-size"].removesuffix("px")) for item in root.iter(f"{ns}text") if "font-size" in item.attrib]
+        self.assertTrue(sizes)
+        self.assertGreaterEqual(min(sizes) * 340 / vw, 14.0)
+        ids = {item.attrib.get("id"): item for item in root.iter() if item.attrib.get("id")}
+        required = {
+            "prepare", "listen", "call", "classify", "clearance", "information",
+            "intention", "readback", "acknowledgement", "uncertainty",
+            "stop-before-action", "correct", "act-monitor", "return-path",
+        }
+        self.assertTrue(required.issubset(ids), required - ids.keys())
+        for item in root.iter():
+            bbox = element_bbox(item)
+            if bbox is None:
+                continue
+            x, y, width, height = bbox
+            self.assertGreaterEqual(x, vx)
+            self.assertGreaterEqual(y, vy)
+            self.assertLessEqual(x + width, vx + vw)
+            self.assertLessEqual(y + height, vy + vh)
+        self.assertGreaterEqual(sum(1 for item in root.iter() if item.attrib.get("marker-end", "").startswith("url(#")), 10)
+        words = " ".join(root.itertext()).casefold()
+        for phrase in ("разрешение", "информация", "намерение", "say again", "не выполнять"):
+            self.assertIn(phrase, words)
 
 
 if __name__ == "__main__":

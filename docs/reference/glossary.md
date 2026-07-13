@@ -1030,3 +1030,157 @@ GAMET — кодированный зональный прогноз для по
 - **Сокращение:** VFR2IMC
 
 Непреднамеренное развитие полёта VFR к входу в IMC (English: VFR into IMC, VFR2IMC; español: entrada de un vuelo VFR en IMC) — опасная ситуация, в которой пилот VFR приближается к условиям или входит в условия без визуальных ориентиров для безопасного продолжения. Термин напоминает о раннем пути отхода, но не создаёт приборных прав или числового эксплуатационного правила.
+
+<a id="term-radiotelephony-rt"></a>
+## Radiotelephony (R/T)
+
+- **Canonical:** radiotelephony (R/T)
+- **English:** radiotelephony (R/T)
+- **Español:** radiotelefonía
+- **Русский:** авиационная радиотелефонная связь
+- **Сокращение:** R/T
+
+Авиационная радиотелефонная связь (English: radiotelephony, R/T; español: radiotelefonía) — двусторонняя голосовая связь в авиационной подвижной службе. Навык связи не заменяет лицензию, радиооборудование, языковую отметку или эксплуатационное разрешение.
+
+<a id="term-air-traffic-control-atc"></a>
+## Air traffic control (ATC)
+
+- **Canonical:** air traffic control (ATC)
+- **English:** air traffic control (ATC)
+- **Español:** control de tránsito aéreo
+- **Русский:** диспетчерское обслуживание воздушного движения
+- **Сокращение:** ATC
+
+Диспетчерское обслуживание воздушного движения (English: air traffic control, ATC; español: control de tránsito aéreo) предотвращает столкновения и упорядочивает поток в пределах предоставляемого обслуживания. Его разрешение отличается от информации AFIS и сообщений A/A.
+
+<a id="term-aerodrome-flight-information-service-afis"></a>
+## Aerodrome flight information service (AFIS)
+
+- **Canonical:** aerodrome flight information service (AFIS)
+- **English:** aerodrome flight information service (AFIS)
+- **Español:** servicio de información de vuelo de aeródromo
+- **Русский:** аэродромное полётно-информационное обслуживание
+- **Сокращение:** AFIS
+
+Аэродромное полётно-информационное обслуживание (English: aerodrome flight information service, AFIS; español: servicio de información de vuelo de aeródromo) передаёт информацию и alerting service в установленной области, но не является ATC и не выдаёт диспетчерские разрешения.
+
+<a id="term-air-to-air-aa"></a>
+## Air-to-air (A/A)
+
+- **Canonical:** air-to-air (A/A)
+- **English:** air-to-air (A/A)
+- **Español:** aire-aire (A/A)
+- **Русский:** связь «воздух—воздух»
+- **Сокращение:** A/A
+
+Связь «воздух—воздух» (English: air-to-air, A/A; español: aire-aire, A/A) позволяет воздушным судам обмениваться информацией и намерениями на опубликованном канале; она не создаёт ATC clearance или право пути.
+
+<a id="term-readback"></a>
+## Readback
+
+- **Canonical:** readback
+- **English:** readback
+- **Español:** colación
+- **Русский:** обязательный повтор принятого элемента
+- **Сокращение:** нет
+
+Обязательный повтор принятого элемента (English: readback; español: colación) возвращает станции конкретные safety-critical элементы для проверки понимания. ROGER подтверждает приём, но не заменяет требуемый повтор.
+
+<a id="term-acknowledgement"></a>
+## Acknowledgement
+
+- **Canonical:** acknowledgement
+- **English:** acknowledgement
+- **Español:** acuse de recibo
+- **Русский:** подтверждение приёма сообщения
+- **Сокращение:** нет
+
+Подтверждение приёма сообщения (English: acknowledgement; español: acuse de recibo) показывает, что сообщение принято, но само по себе не повторяет обязательные элементы разрешения или указания.
+
+<a id="term-callsign"></a>
+## Callsign
+
+- **Canonical:** callsign
+- **English:** callsign
+- **Español:** distintivo de llamada
+- **Русский:** позывной
+- **Сокращение:** нет
+
+Позывной (English: callsign; español: distintivo de llamada) идентифицирует станцию или воздушное судно. Полная форма используется при первом контакте; пилот сокращает её лишь после того, как наземная станция сама использовала допустимое сокращение.
+
+<a id="term-plain-language"></a>
+## Plain language
+
+- **Canonical:** plain language
+- **English:** plain language
+- **Español:** lenguaje claro
+- **Русский:** ясная нестандартная речь
+- **Сокращение:** нет
+
+Ясная нестандартная речь (English: plain language; español: lenguaje claro) применяется, когда стандартной фразы недостаточно, чтобы однозначно сообщить ситуацию. Она должна быть короткой и не подменяет известную стандартную фразеологию.
+
+<a id="term-listening-watch"></a>
+## Listening watch
+
+- **Canonical:** listening watch
+- **English:** listening watch
+- **Español:** escucha permanente
+- **Русский:** прослушивание рабочей частоты
+- **Сокращение:** нет
+
+Прослушивание рабочей частоты (English: listening watch; español: escucha permanente) означает контролировать назначенный или применимый канал в требуемый период и не пропускать вызовы; конкретная обязанность определяется операцией и процедурой.
+
+<a id="term-distress"></a>
+## Distress
+
+- **Canonical:** distress
+- **English:** distress
+- **Español:** socorro
+- **Русский:** бедствие с серьёзной и/или непосредственной опасностью
+- **Сокращение:** нет
+
+Бедствие (English: distress; español: socorro) — состояние серьёзной и/или непосредственной опасности, требующее немедленной помощи; голосовой сигнал — MAYDAY.
+
+<a id="term-urgency"></a>
+## Urgency
+
+- **Canonical:** urgency
+- **English:** urgency
+- **Español:** urgencia
+- **Русский:** срочное сообщение без требования немедленной помощи
+- **Сокращение:** нет
+
+Срочность (English: urgency; español: urgencia) касается безопасности воздушного судна, лица или другого средства, но не требует немедленной помощи; голосовой сигнал — PAN PAN.
+
+<a id="term-communication-failure"></a>
+## Communication failure
+
+- **Canonical:** communication failure
+- **English:** communication failure
+- **Español:** fallo de comunicaciones
+- **Русский:** отказ двусторонней связи
+- **Сокращение:** нет
+
+Отказ двусторонней связи (English: communication failure; español: fallo de comunicaciones) — невозможность поддерживать требуемую передачу и/или приём. Реакция включает проверку оборудования, попытки связи, применимый SSR code и правила SERA, а не выдуманное разрешение.
+
+<a id="term-secondary-surveillance-radar-ssr"></a>
+## Secondary surveillance radar (SSR)
+
+- **Canonical:** secondary surveillance radar (SSR)
+- **English:** secondary surveillance radar (SSR)
+- **Español:** radar secundario de vigilancia (SSR)
+- **Русский:** вторичный обзорный радиолокатор и ответчик
+- **Сокращение:** SSR
+
+Вторичный обзорный радиолокатор (English: secondary surveillance radar, SSR; español: radar secundario de vigilancia, SSR) взаимодействует с бортовым ответчиком. Код и IDENT выбираются только по применимому правилу или указанию ATS.
+
+<a id="term-language-proficiency-endorsement"></a>
+## Language proficiency endorsement
+
+- **Canonical:** language proficiency endorsement
+- **English:** language proficiency endorsement
+- **Español:** anotación de competencia lingüística
+- **Русский:** языковая отметка в лицензии
+- **Сокращение:** нет
+
+Языковая отметка в лицензии (English: language proficiency endorsement; español: anotación de competencia lingüística) фиксирует уровень языка радиосвязи по FCL.055. Она отлична от предмета Communications и от полномочий радиотелефонии выбранного языка.

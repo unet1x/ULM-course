@@ -6,7 +6,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew",
     "edition": "онлайн-консолидация от 24.02.2026",
     "checked": "2026-07-13",
-    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; удобная, но не самостоятельная юридически обязательная публикация, поэтому спорные нормы сверяются с EUR-Lex"
+    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency; удобная публикация сверяется с EUR-Lex"
   },
   {
     "id": "SRC-EASA-SERA-2025",
@@ -15,7 +15,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-standardised-european?erules-id=ERULES-1963177438-9807",
     "edition": "онлайн-консолидация, revision August 2025",
     "checked": "2026-07-13",
-    "scope": "SERA rules of the air, right-of-way, VFR/VMC, airspace classes и minimum heights; текущие национальные AIP/NOTAM и ограничения применяются дополнительно"
+    "scope": "SERA.14015 language, SERA.8015(e) readback, SERA.13001/SERA.13005 SSR, SERA.14083 communication failure и Appendix 1 Table AP 1-1 light signals; текущие национальные AIP/NOTAM применяются дополнительно"
   },
   {
     "id": "SRC-EURLEX-1178-2011",
@@ -78,7 +78,7 @@
     "url": "https://www.boe.es/eli/es/rd/2022/09/20/765/con",
     "edition": "консолидировано 12.03.2026; изменения действуют с 01.04.2026",
     "checked": "2026-07-13",
-    "scope": "Испанские категории, эксплуатация, школы и национальная граница ULM; информационную консолидацию сверять с RD 182/2026"
+    "scope": "Испанские категории и эксплуатация; art. 4.1(d), (f) и 4.2 после RD 182/2026: ULM в controlled airspace требует оборудования и действующей эквивалентной Part-FCL licence; применяется с 01.04.2026"
   },
   {
     "id": "SRC-BOE-RD-141-2025",
@@ -322,5 +322,50 @@
     "edition": "live EASA safety-promotion page, no static issue date shown",
     "checked": "2026-07-13",
     "scope": "Recognition of weather deterioration, continuation risk and early escape planning; safety-promotion framing only, not operating minima, instrument privilege or a substitute for current weather"
+  },
+  {
+    "id": "SRC-BOE-RD-1180-2018",
+    "authority": "BOE",
+    "title": "Real Decreto 1180/2018 — reglas del aire y procedimientos de navegación aérea",
+    "url": "https://www.boe.es/eli/es/rd/2018/09/21/1180/con",
+    "edition": "texto consolidado; última actualización publicada 05.06.2024",
+    "checked": "2026-07-13",
+    "scope": "Arts. 42–43, RCA 4.7.1.5.1.3 и Annex V: открытые официальные пары ES/EN для ATC phraseology, distress/urgency и граница AFIS; применяется вместе с SERA и текущим AIP"
+  },
+  {
+    "id": "SRC-BOE-FOM-1146-2019",
+    "authority": "BOE",
+    "title": "Orden FOM/1146/2019 — competencia lingüística y radiotelefonía",
+    "url": "https://www.boe.es/eli/es/o/2019/11/13/fom1146/con",
+    "edition": "texto consolidado; última actualización 25.11.2019",
+    "checked": "2026-07-13",
+    "scope": "Arts. 2(a),(d), 3, 4, 7–9: Spanish/English radiotelephony annotation and FCL.055 language proficiency are separate; minimum operational Level 4"
+  },
+  {
+    "id": "SRC-AESA-ULM-RTC-PROGRAM",
+    "authority": "AESA",
+    "title": "Guía para el curso de Radiofonista (RTC) de ULM aprobado por AESA",
+    "url": "https://www.seguridadaerea.gob.es/sites/default/files/a_dla_urtc_01_guia_para_curso_radiofonista_rtc_de_ulm.pdf",
+    "edition": "A-DLA-URTC-01 v1.0; public copy checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "RD 123/2015 arts. 12–13; p. 5 §3 castellano qualification, p. 7 §6 and pp. 9–10 §8 minimum programme: 20 h theory + 10 h ground practice + 1 h flight; uncontrolled copy must be checked against current AESA page"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-GEN-3-4-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España GEN 3.4 — Servicios de comunicaciones y navegación",
+    "url": "https://aip.enaire.es/AIP/contenido_AIP/GEN/LE_GEN_3_4_es.html",
+    "edition": "GEN 3.4 WEF 16.04.2026; AIP snapshot 09.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Current Spanish communication service, language and station information; does not promise English at every ground station; dynamic AIP/AMDT must be rechecked before flight"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-ENR-1-4-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España ENR 1.4 — Clasificación y descripción del espacio aéreo ATS",
+    "url": "https://aip.enaire.es/AIP/contenido_AIP/ENR/LE_ENR_1_4_es.html",
+    "edition": "ENR 1.4-5; AIP snapshot 09.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Spain-specific ATS airspace service and communication summary; current airspace, frequency and procedure remain dynamic and require current AIP/NOTAM"
   }
 ]

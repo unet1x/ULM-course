@@ -61,3 +61,8 @@
 | AMA | [Aeronautical Meteorological Self-service (AMA)](glossary.md#term-aeronautical-meteorological-self-service-ama) | AEMET aviation weather self-service |
 | SWL | [significant weather chart for low-level flights (SWL)](glossary.md#term-significant-weather-chart-low-level-swl) | карта значимой погоды нижних уровней |
 | VFR2IMC | [VFR into IMC (VFR2IMC)](glossary.md#term-vfr-into-imc-vfr2imc) | развитие VFR-полёта к потере visual conditions |
+| R/T | [radiotelephony (R/T)](glossary.md#term-radiotelephony-rt) | авиационная радиотелефонная связь |
+| ATC | [air traffic control (ATC)](glossary.md#term-air-traffic-control-atc) | диспетчерское обслуживание воздушного движения |
+| AFIS | [aerodrome flight information service (AFIS)](glossary.md#term-aerodrome-flight-information-service-afis) | аэродромное полётно-информационное обслуживание |
+| A/A | [air-to-air (A/A)](glossary.md#term-air-to-air-aa) | связь «воздух—воздух» |
+| SSR | [secondary surveillance radar (SSR)](glossary.md#term-secondary-surveillance-radar-ssr) | вторичный обзорный радиолокатор и ответчик |

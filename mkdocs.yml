@@ -46,9 +46,17 @@ nav:
       - Грозы, обледенение и VFR2IMC: 03-meteorology/05-hazards-thunderstorm-icing.md
       - METAR, TAF, warnings и карты: 03-meteorology/06-metar-taf-sigmet-charts.md
       - Испанское решение go/no-go: 03-meteorology/07-spain-go-no-go.md
+  - Связь и радиотелефония:
+      - Основы радио и RTC: 04-communications/01-radio-basics-rtc.md
+      - Структура сообщения и readback: 04-communications/02-message-structure.md
+      - Вылет EN/ES: 04-communications/03-departure-en-es.md
+      - Маршрут и прибытие EN/ES: 04-communications/04-enroute-arrival-en-es.md
+      - Неконтролируемый аэродром и AFIS: 04-communications/05-uncontrolled-aerodrome.md
+      - Срочность, бедствие и отказ связи: 04-communications/06-urgency-distress-radio-failure.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md
+      - Карточки радиосвязи: reference/checklists-radio.md
   - Исследовательская база:
       - Реестр официальных источников: sources/official-sources.md
       - Испания и нормативная дата: sources/audit-spain-2026.md

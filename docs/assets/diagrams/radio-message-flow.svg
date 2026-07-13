@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1730" role="img" aria-labelledby="radio-flow-title radio-flow-desc">
+  <title id="radio-flow-title">Поток безопасного радиосообщения</title>
+  <desc id="radio-flow-desc">Вертикальный учебный поток от подготовки и прослушивания через вызов и классификацию ответа как разрешение, информация или собственное намерение. Разрешение требует применимого повтора, информация — подтверждения, намерение — проверки движения. При сомнении пилот запрашивает повтор, не выполняет критически важное для безопасности действие, исправляет сообщение и возвращается к прослушиванию.</desc>
+  <defs>
+    <marker id="radio-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 L 3 6 Z" fill="#334E68"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="500" height="1730" fill="#F8FAFC"/>
+
+  <g id="prepare">
+    <rect x="35" y="20" width="430" height="110" rx="14" fill="#1E3A5F"/>
+    <text x="250" y="57" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#FFFFFF">
+      <tspan x="250" y="57">1. Подготовить одну цель</tspan>
+      <tspan x="250" y="92" font-weight="400">служба · язык · позывной · данные</tspan>
+    </text>
+  </g>
+  <line x1="250" y1="130" x2="250" y2="168" stroke="#334E68" stroke-width="5" marker-end="url(#radio-arrow)"/>
+
+  <g id="listen">
+    <rect x="35" y="180" width="430" height="110" rx="14" fill="#DCEEFF" stroke="#2B6CB0" stroke-width="3"/>
+    <text x="250" y="217" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#1A365D">
+      <tspan x="250" y="217">2. Слушать до передачи</tspan>
+      <tspan x="250" y="252" font-weight="400">канал свободен? обстановка понятна?</tspan>
+    </text>
+  </g>
+  <line x1="250" y1="290" x2="250" y2="328" stroke="#334E68" stroke-width="5" marker-end="url(#radio-arrow)"/>
+
+  <g id="call">
+    <rect x="35" y="340" width="430" height="110" rx="14" fill="#DDF5E5" stroke="#2F855A" stroke-width="3"/>
+    <text x="250" y="377" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#22543D">
+      <tspan x="250" y="377">3. Короткий ясный вызов</tspan>
+      <tspan x="250" y="412" font-weight="400">адресат · кто · где · что нужно</tspan>
+    </text>
+  </g>
+  <line x1="250" y1="450" x2="250" y2="488" stroke="#334E68" stroke-width="5" marker-end="url(#radio-arrow)"/>
+
+  <g id="classify">
+    <rect x="35" y="500" width="430" height="110" rx="14" fill="#FFF0D5" stroke="#9A5B13" stroke-width="3"/>
+    <text x="250" y="537" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#653B0B">
+      <tspan x="250" y="537">4. Что именно получено?</tspan>
+      <tspan x="250" y="572" font-weight="400">не приписывать сообщению полномочия</tspan>
+    </text>
+  </g>
+
+  <path d="M 250 610 L 250 645 L 85 645 L 85 682" fill="none" stroke="#334E68" stroke-width="4" marker-end="url(#radio-arrow)"/>
+  <line x1="250" y1="610" x2="250" y2="682" stroke="#334E68" stroke-width="4" marker-end="url(#radio-arrow)"/>
+  <path d="M 250 645 L 415 645 L 415 682" fill="none" stroke="#334E68" stroke-width="4" marker-end="url(#radio-arrow)"/>
+
+  <g id="clearance">
+    <rect x="6" y="695" width="158" height="150" rx="12" fill="#FFE3E3" stroke="#C53030" stroke-width="3"/>
+    <text x="85" y="730" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#742A2A">
+      <tspan x="85" y="720">РАЗРЕШЕНО</tspan>
+      <tspan x="85" y="757" font-weight="400">только ATC</tspan>
+      <tspan x="85" y="793" font-weight="400">в границах</tspan>
+      <tspan x="85" y="827" font-weight="400">полномочий</tspan>
+    </text>
+  </g>
+  <g id="information">
+    <rect x="171" y="695" width="158" height="150" rx="12" fill="#DCEEFF" stroke="#2B6CB0" stroke-width="3"/>
+    <text x="250" y="730" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#1A365D">
+      <tspan x="250" y="720">СВЕДЕНИЯ</tspan>
+      <tspan x="250" y="747" font-weight="400">ATC / AFIS /</tspan>
+      <tspan x="250" y="774" font-weight="400">другой борт</tspan>
+      <tspan x="250" y="801" font-weight="400">не дают</tspan>
+      <tspan x="250" y="828" font-weight="400">разрешения</tspan>
+    </text>
+  </g>
+  <g id="intention">
+    <rect x="336" y="695" width="158" height="150" rx="12" fill="#EEE4FF" stroke="#6B46C1" stroke-width="3"/>
+    <text x="415" y="730" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#44337A">
+      <tspan x="415" y="720">НАМЕРЕНИЕ</tspan>
+      <tspan x="415" y="747" font-weight="400">вызов A/A</tspan>
+      <tspan x="415" y="774" font-weight="400">не даёт</tspan>
+      <tspan x="415" y="801" font-weight="400">права пути</tspan>
+      <tspan x="415" y="828" font-weight="400">и разрешения</tspan>
+    </text>
+  </g>
+
+  <line x1="85" y1="845" x2="85" y2="898" stroke="#334E68" stroke-width="4" marker-end="url(#radio-arrow)"/>
+  <line x1="250" y1="845" x2="250" y2="898" stroke="#334E68" stroke-width="4" marker-end="url(#radio-arrow)"/>
+  <line x1="415" y1="845" x2="415" y2="898" stroke="#334E68" stroke-width="4" marker-end="url(#radio-arrow)"/>
+
+  <g id="readback">
+    <rect x="6" y="910" width="158" height="128" rx="12" fill="#FFFFFF" stroke="#C53030" stroke-width="3"/>
+    <text x="85" y="947" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#742A2A">
+      <tspan x="85" y="947">ПОВТОР</tspan>
+      <tspan x="85" y="982" font-weight="400">обязательные</tspan>
+      <tspan x="85" y="1011" font-weight="400">элементы</tspan>
+    </text>
+  </g>
+  <g id="acknowledgement">
+    <rect x="171" y="910" width="158" height="128" rx="12" fill="#FFFFFF" stroke="#2B6CB0" stroke-width="3"/>
+    <text x="250" y="947" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#1A365D">
+      <tspan x="250" y="947">ПОДТВЕРДИТЬ</tspan>
+      <tspan x="250" y="982" font-weight="400">статус /</tspan>
+      <tspan x="250" y="1011" font-weight="400">понимание</tspan>
+    </text>
+  </g>
+  <g id="intention-check">
+    <rect x="336" y="910" width="158" height="128" rx="12" fill="#FFFFFF" stroke="#6B46C1" stroke-width="3"/>
+    <text x="415" y="940" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#44337A">
+      <tspan x="415" y="940">ПРОВЕРИТЬ</tspan>
+      <tspan x="415" y="970" font-weight="400">движение</tspan>
+      <tspan x="415" y="998" font-weight="400">правила</tspan>
+      <tspan x="415" y="1026" font-weight="400">геометрию</tspan>
+    </text>
+  </g>
+
+  <path d="M 85 1038 L 85 1075 L 250 1075 L 250 1113" fill="none" stroke="#334E68" stroke-width="4" marker-end="url(#radio-arrow)"/>
+  <line x1="250" y1="1038" x2="250" y2="1113" stroke="#334E68" stroke-width="4" marker-end="url(#radio-arrow)"/>
+  <path d="M 415 1038 L 415 1075 L 250 1075" fill="none" stroke="#334E68" stroke-width="4"/>
+
+  <g id="uncertainty">
+    <rect x="35" y="1125" width="430" height="125" rx="14" fill="#FFF0D5" stroke="#9A5B13" stroke-width="3"/>
+    <text x="250" y="1162" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#653B0B">
+      <tspan x="250" y="1162">5. Всё однозначно и выполнимо?</tspan>
+      <tspan x="250" y="1197" font-weight="400">нет → SAY AGAIN · уточнить · UNABLE</tspan>
+      <tspan x="250" y="1226" font-weight="400">да → безопасно действовать</tspan>
+    </text>
+  </g>
+
+  <path d="M 90 1250 L 90 1292" fill="none" stroke="#C53030" stroke-width="5" marker-end="url(#radio-arrow)"/>
+  <path d="M 410 1250 L 410 1458" fill="none" stroke="#2F855A" stroke-width="5" marker-end="url(#radio-arrow)"/>
+
+  <g id="stop-before-action">
+    <rect x="20" y="1305" width="300" height="120" rx="14" fill="#FFE3E3" stroke="#C53030" stroke-width="3"/>
+    <text x="170" y="1335" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#742A2A">
+      <tspan x="170" y="1335">НЕ ВЫПОЛНЯТЬ</tspan>
+      <tspan x="170" y="1365" font-weight="400">критически важное</tspan>
+      <tspan x="170" y="1393" font-weight="400">для безопасности</tspan>
+      <tspan x="170" y="1418" font-weight="400">до ясности</tspan>
+    </text>
+  </g>
+  <line x1="170" y1="1425" x2="170" y2="1463" stroke="#334E68" stroke-width="5" marker-end="url(#radio-arrow)"/>
+
+  <g id="correct">
+    <rect x="20" y="1475" width="300" height="115" rx="14" fill="#FFF0D5" stroke="#9A5B13" stroke-width="3"/>
+    <text x="170" y="1512" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#653B0B">
+      <tspan x="170" y="1505">Повтор / уточнение</tspan>
+      <tspan x="170" y="1535" font-weight="400">исправление</tspan>
+      <tspan x="170" y="1565" font-weight="400">получить новый ответ</tspan>
+    </text>
+  </g>
+
+  <g id="act-monitor">
+    <rect x="340" y="1475" width="145" height="115" rx="14" fill="#DDF5E5" stroke="#2F855A" stroke-width="3"/>
+    <text x="412" y="1512" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#22543D">
+      <tspan x="412" y="1512">ДЕЙСТВИЕ</tspan>
+      <tspan x="412" y="1547" font-weight="400">и контроль</tspan>
+    </text>
+  </g>
+
+  <path id="return-path" d="M 170 1590 L 170 1620 L 485 1620 L 485 235 L 465 235" fill="none" stroke="#334E68" stroke-width="5" stroke-linejoin="round" marker-end="url(#radio-arrow)"/>
+
+  <g id="training-note">
+    <rect x="20" y="1650" width="460" height="65" rx="10" fill="#1E3A5F"/>
+    <text x="250" y="1678" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#FFFFFF">
+      <tspan x="250" y="1678">Учебная схема: без реальной частоты</tspan>
+      <tspan x="250" y="1705">AIP · NOTAM · ATS имеют приоритет</tspan>
+    </text>
+  </g>
+</svg>

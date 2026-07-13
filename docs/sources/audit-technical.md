@@ -158,3 +158,14 @@ Where documents appear to conflict, stop and resolve the current approved hierar
 - Regulation (EU) 2026/781 was checked because it post-dates the consolidation; no PPL theory-syllabus change was found. This does not remove the need to check later amendments.
 - Live portals (AEMET, Rotax, BRS, Flight Design) are intentionally not frozen as course truth. The course should keep a controlled manifest containing URL, document identifier, revision/date, model/serial applicability and retrieval date for every type-specific lesson.
 - No commercial flight school, blog, retailer, forum, unauthorised book copy or third-party mirror is accepted as evidence in this register.
+
+## Evidence rows: радиосвязь ULM и Part-FCL {#communications-evidence}
+
+Статические учебные фразы в модуле радиосвязи проверены по открытым официальным источникам ниже. Реальные частоты, часы обслуживания, позывные, ВПП, reporting points и местные процедуры в курс не зашиваются: их получают из текущих AIP/NOTAM перед полётом.
+
+| ID | Проверенный факт | Первичный источник | Редакция/дата | Проверено | Ограничение применения |
+|---|---|---|---|---|---|
+| COM-ES-001 | RD 1180/2018 даёт открытые официальные пары испанской и английской фразеологии, границу AFIS и национальную реализацию для применения вместе с SERA. | https://www.boe.es/eli/es/rd/2018/09/21/1180/con | Texto consolidado; última actualización publicada 05.06.2024; arts. 42–43, RCA 4.7.1.5.1.3, Annex V | 2026-07-13 | Не заменяет текущий AIP и не превращает AFIS в ATC; курс использует синтетические placeholders, а не конкретный аэродром. |
+| COM-ULM-RTC-001 | Руководство AESA по RTC ULM указывает castellano qualification и минимальную программу: 20 h теории, 10 h наземной практики и 1 h полёта. | https://www.seguridadaerea.gob.es/sites/default/files/a_dla_urtc_01_guia_para_curso_radiofonista_rtc_de_ulm.pdf | A-DLA-URTC-01 v1.0; p. 5 §3, p. 7 §6, pp. 9–10 §8 | 2026-07-13 | Загруженная копия названа uncontrolled; перед формальным курсом сверить текущую страницу AESA. National RTC не создаёт Part-FCL licence или controlled-airspace privilege. |
+| COM-AIP-001 | GEN 3.4 публикует текущий испанский communications/language context и сведения о станциях. | https://aip.enaire.es/AIP/contenido_AIP/GEN/LE_GEN_3_4_es.html | GEN 3.4 WEF 16.04.2026; AIP snapshot 09.07.2026 | 2026-07-13 | Динамический источник: не обещает English на каждой ground station; перед полётом проверить текущие AIP/AMDT и NOTAM. |
+| COM-AIP-002 | ENR 1.4-5 описывает Spain-specific ATS airspace service и коммуникационный контекст. | https://aip.enaire.es/AIP/contenido_AIP/ENR/LE_ENR_1_4_es.html | ENR 1.4-5; AIP snapshot 09.07.2026 | 2026-07-13 | Класс/статус пространства, частота и процедура динамичны; нужны текущие AIP/NOTAM и отдельная проверка лицензионных/оборудовательных ворот ULM. |
