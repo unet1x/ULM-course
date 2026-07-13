@@ -101,11 +101,29 @@
   {
     "id": "SRC-AESA-MAF-SYLLABUS-ED01",
     "authority": "AESA",
-    "title": "Programa de conocimientos teóricos ULM MAF",
+    "title": "Programa de conocimientos teóricos ULM MAF — историческая GU01",
     "url": "https://www.seguridadaerea.gob.es/sites/default/files/FOR-ULM-P01-ETI01-GU01%20Conocimientos%20teoricos%20habilitacion%20licencia%20de%20piloto%20de%20ULM%20%28MAF%29.pdf",
-    "edition": "FOR-ULM-P01-ETI01-GU01 Ed.01; без календарной даты в PDF",
+    "edition": "FOR-ULM-P01-ETI01-GU01 Ed.01; историческая редакция без календарной даты в PDF",
     "checked": "2026-07-13",
-    "scope": "Официальный syllabus девяти предметов MAF; копия неконтролируемая, а ссылка на отменённый приказ 1988 года заменяется действующим RD 141/2025"
+    "scope": "Исторический/superseded syllabus, сохранённый только для происхождения прежних ссылок с исходным URL; заменён текущим SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01 и не используется как действующая программа"
+  },
+  {
+    "id": "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01",
+    "authority": "AESA",
+    "title": "Objetivos de aprendizaje para los conocimientos teóricos ULM",
+    "url": "https://www.seguridadaerea.gob.es/sites/default/files/FOR-ULM-P01-ETI01-GU09_Objetivos_de_aprendizaje_ULM.pdf",
+    "edition": "FOR-ULM-P01-ETI01-GU09 Ed.01; опубликовано 29.05.2026; применимость «Desde publicación»",
+    "checked": "2026-07-13",
+    "scope": "Текущие цели обучения ULM; это syllabus целей обучения, а не самостоятельный источник стабильной физики или технических механизмов. Документ содержит 66 страниц, все девять предметов на pp. 7–63 и отдельную Habilitación Radiotelefonía на pp. 64–65; аудированная копия SHA-256 52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2. Копия неконтролируемая: перед применением сверять текущую версию на сайте AESA. Аномалии: на p. 66 заголовок GU10 Ed.01, а упомянутого на p. 3 отдельного списка Trazabilidad в доступном 66-страничном PDF нет"
+  },
+  {
+    "id": "SRC-AESA-ULM-QUESTION-BANKS",
+    "authority": "AESA",
+    "title": "Bancos de preguntas — transición ULM",
+    "url": "https://www.seguridadaerea.gob.es/es/node/3759",
+    "edition": "динамическая страница, обновлена 23.06.2026",
+    "checked": "2026-07-13",
+    "scope": "AESA сообщает, что банк вопросов ULM пересматривается под новые цели обучения и его введение планируется после лета 2026; даты будут объявлены отдельно. Это изменяемое уведомление, не подтверждение полного соответствия текущего банка GU09 и не обещание даты перехода"
   },
   {
     "id": "SRC-AESA-LAPL-PPL-PROCEDURES",

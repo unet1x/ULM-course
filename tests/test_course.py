@@ -107,6 +107,9 @@ REQUIRED_SOURCE_IDS = {
     "SRC-BOE-RD-765-2022",
     "SRC-BOE-RD-141-2025",
     "SRC-AESA-ULM-PROCEDURES",
+    "SRC-AESA-MAF-SYLLABUS-ED01",
+    "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01",
+    "SRC-AESA-ULM-QUESTION-BANKS",
     "SRC-AESA-LAPL-PPL-PROCEDURES",
     "SRC-ENAIRE-AIP-ESPANA",
     "SRC-AEMET-AVIATION",
@@ -4635,6 +4638,199 @@ class Task7CommunicationsTests(unittest.TestCase):
         heading_left = float(acknowledgement_spans[0].attrib["x"]) - heading_width / 2
         self.assertGreaterEqual(heading_left, rect_x + 4)
         self.assertLessEqual(heading_left + heading_width, rect_x + rect_width - 4)
+
+
+class GU09MigrationTests(unittest.TestCase):
+    CURRENT_ID = "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01"
+    HISTORICAL_ID = "SRC-AESA-MAF-SYLLABUS-ED01"
+    CURRENT_URL = (
+        "https://www.seguridadaerea.gob.es/sites/default/files/"
+        "FOR-ULM-P01-ETI01-GU09_Objetivos_de_aprendizaje_ULM.pdf"
+    )
+    HISTORICAL_URL = (
+        "https://www.seguridadaerea.gob.es/sites/default/files/"
+        "FOR-ULM-P01-ETI01-GU01%20Conocimientos%20teoricos%20"
+        "habilitacion%20licencia%20de%20piloto%20de%20ULM%20%28MAF%29.pdf"
+    )
+    SUBJECT_SCOPES = (
+        ("Derecho Aéreo", "pp. 7–14"),
+        ("Principios de Vuelo", "pp. 15–20"),
+        ("Performance y Planificación Vuelo", "pp. 21–27"),
+        ("Navegación", "pp. 28–32"),
+        ("Conocimiento General de la Aeronave", "pp. 33–39"),
+        ("Meteorología", "pp. 40–48"),
+        ("Procedimientos Operacionales", "pp. 49–58"),
+        ("Actuaciones y Limitaciones Humanas", "pp. 59–62"),
+        ("Comunicaciones", "p. 63"),
+        ("Habilitación Radiotelefonía", "pp. 64–65"),
+    )
+
+    def _sources(self):
+        return {
+            source["id"]: source
+            for source in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+
+    def test_current_and_historical_sources_are_distinct_and_explicitly_superseded(self):
+        sources = self._sources()
+        self.assertIn(self.CURRENT_ID, sources)
+        self.assertIn(self.HISTORICAL_ID, sources)
+        current = sources[self.CURRENT_ID]
+        historical = sources[self.HISTORICAL_ID]
+        self.assertEqual(self.CURRENT_URL, current["url"])
+        self.assertEqual(self.HISTORICAL_URL, historical["url"])
+        self.assertNotEqual(current["url"], historical["url"])
+        self.assertRegex(current["edition"], r"GU09 Ed\.01.*29\.05\.2026")
+        self.assertIn("66", current["scope"])
+        self.assertIn(
+            "52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2",
+            current["scope"],
+        )
+        self.assertRegex(
+            historical["scope"],
+            rf"(?is)(?:историческ|замен[её]н|superseded).{{0,180}}{re.escape(self.CURRENT_ID)}",
+        )
+        self.assertRegex(
+            current["scope"],
+            r"(?is)(?:цели обучения|learning objectives).{0,200}"
+            r"не.{0,80}(?:источник|заменяет).{0,100}(?:физик|техническ)",
+        )
+
+    def test_old_gu01_id_is_absent_from_active_learner_chapters(self):
+        violations = []
+        for path in learner_chapter_files():
+            if self.HISTORICAL_ID in path.read_text(encoding="utf-8"):
+                violations.append(str(path.relative_to(ROOT)))
+        self.assertEqual([], violations)
+
+        allowed_history_files = {
+            "docs/sources/official-sources.json",
+            "docs/sources/official-sources.md",
+            "docs/sources/audit-technical.md",
+            "docs/sources/audit-spain-2026.md",
+        }
+        occurrences = {
+            str(path.relative_to(ROOT))
+            for path in COURSE_DOCS.rglob("*.md")
+            if self.HISTORICAL_ID in path.read_text(encoding="utf-8")
+        }
+        self.assertEqual(
+            allowed_history_files - {"docs/sources/official-sources.json"},
+            occurrences,
+        )
+
+    def test_each_active_gu09_citation_has_an_adjacent_exact_subject_page_scope(self):
+        aggregate_scope = re.compile(
+            r"(?is)(?:девят\w+\s+предмет|вс[ея]\s+программ).{0,100}"
+            r"pp\.\s*7[–-]63"
+        )
+        violations = []
+        seen = 0
+        for path in learner_chapter_files():
+            text = path.read_text(encoding="utf-8")
+            for paragraph in re.split(r"\n\s*\n", text):
+                if self.CURRENT_ID not in paragraph:
+                    continue
+                seen += paragraph.count(self.CURRENT_ID)
+                exact = any(
+                    subject in paragraph and pages in paragraph
+                    for subject, pages in self.SUBJECT_SCOPES
+                )
+                if not exact and not aggregate_scope.search(paragraph):
+                    line = text.count("\n", 0, text.find(paragraph)) + 1
+                    violations.append(f"{path.relative_to(ROOT)}:{line}")
+        self.assertGreater(seen, 0)
+        self.assertEqual([], violations)
+
+    def test_audit_matrix_represents_all_ten_gu09_subject_page_groups(self):
+        audit = (ROOT / "docs/sources/audit-technical.md").read_text(encoding="utf-8")
+        for subject, pages in self.SUBJECT_SCOPES:
+            with self.subTest(subject=subject):
+                row = next(
+                    (
+                        line
+                        for line in audit.splitlines()
+                        if self.CURRENT_ID in line and subject in line and pages in line
+                    ),
+                    None,
+                )
+                self.assertIsNotNone(row, f"{subject}, {pages}")
+
+    def test_gu09_document_control_anomalies_and_uncontrolled_copy_are_recorded(self):
+        evidence = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in (
+                SOURCE_REGISTRY,
+                SOURCE_REGISTRY_MD,
+                ROOT / "docs/sources/audit-technical.md",
+                ROOT / "docs/sources/audit-spain-2026.md",
+            )
+        )
+        for pattern in (
+            r"(?is)p\.\s*66.{0,100}GU10\s+Ed\.01",
+            r"(?is)p\.\s*3.{0,160}Trazabilidad.{0,220}"
+            r"(?:нет|отсутств|не\s+содержит).{0,120}(?:отдельн|перечень|список)",
+            r"(?is)(?:неконтролируем|uncontrolled).{0,140}"
+            r"(?:сайт|web|страниц).{0,120}(?:AESA|актуальн|текущ)",
+        ):
+            self.assertRegex(evidence, pattern)
+
+    def test_question_bank_transition_warning_is_dynamic_and_not_a_date_promise(self):
+        sources = self._sources()
+        source = sources["SRC-AESA-ULM-QUESTION-BANKS"]
+        self.assertEqual("https://www.seguridadaerea.gob.es/es/node/3759", source["url"])
+        self.assertIn("23.06.2026", source["edition"])
+
+        chapter = (ROOT / "docs/00-start/03-medical-training-exams.md").read_text(
+            encoding="utf-8"
+        )
+        warning = re.search(
+            r"(?ms)^###\s+Переход банка вопросов.*?(?=^###\s|^##\s|\Z)",
+            chapter,
+        )
+        self.assertIsNotNone(warning)
+        plain = _plain_markdown(warning.group(0))
+        for pattern in (
+            r"(?is)23\.06\.2026",
+            r"(?is)банк.{0,120}(?:пересматр|провер).{0,120}(?:GU09|нов\w+\s+цел)",
+            r"(?is)после\s+лета\s+2026.{0,140}(?:план|намер)",
+            r"(?is)дат\w+.{0,100}(?:объяв|опублик).{0,100}отдельн",
+            r"(?is)не.{0,100}(?:полн\w+\s+соответств|уже\s+соответств)",
+            r"(?is)не.{0,100}(?:обещан|гарантирован|фиксирован).{0,80}дат",
+        ):
+            self.assertRegex(plain, pattern)
+        self.assertIn("SRC-AESA-ULM-QUESTION-BANKS", warning.group(0))
+        self.assertNotRegex(
+            plain,
+            r"(?is)(?:переход|замена|внедрение).{0,50}"
+            r"(?:с|произойд[её]т|назначен).{0,30}\d{1,2}[./]\d{1,2}[./]2026",
+        )
+
+    def test_gu09_source_registry_markdown_and_both_audits_are_in_parity(self):
+        sources = self._sources()
+        registry_rows = {
+            row["id"]: row
+            for row in source_rows_from_markdown(
+                SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+            )
+        }
+        for source_id in (
+            self.CURRENT_ID,
+            self.HISTORICAL_ID,
+            "SRC-AESA-ULM-QUESTION-BANKS",
+        ):
+            self.assertEqual(sources[source_id], registry_rows[source_id])
+        for path in (
+            ROOT / "docs/sources/audit-technical.md",
+            ROOT / "docs/sources/audit-spain-2026.md",
+        ):
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(self.CURRENT_URL, text)
+            self.assertIn("https://www.seguridadaerea.gob.es/es/node/3759", text)
+        self.assertIn(
+            self.HISTORICAL_URL,
+            (ROOT / "docs/sources/audit-technical.md").read_text(encoding="utf-8"),
+        )
 
 
 if __name__ == "__main__":

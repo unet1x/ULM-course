@@ -221,7 +221,7 @@ D. Заполнить журнал до изменения траектории.
 
 ## Источники {#sources}
 
-- `SRC-AESA-MAF-SYLLABUS-ED01` — решение и риск в программе [MAF][maf].
+- `SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01` — решение и риск в Actuaciones y Limitaciones Humanas, pp. 59–62 программы [MAF][maf].
 - `SRC-EASA-AIRCREW-2026` — интеграция [нетехнических навыков (NTS)][nts], коммуникации и управления ошибками.
 - `SRC-EASA-EGAST-GA2` — материал по раннему решению и повышению безопасности; не норма.
 - `SRC-FAA-RISK-MANAGEMENT-2A` — [IMSAFE][imsafe], [PAVE][pave] и авиационное принятие решений; техническая педагогика, не право ЕС.
