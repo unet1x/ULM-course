@@ -2228,6 +2228,62 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
             r"персональн(?:ую|ой)\s+(?:обязанность|норму)\s+(?:для\s+)?ученика",
         )
 
+    def test_lapl_holder_and_exam_only_theory_credit_are_distinguished(self):
+        lesson = (ROOT / TASK4_CHAPTERS[8]).read_text(encoding="utf-8")
+        theory = lesson.split("## Теория и экзамены", 1)[1].split(
+            "## [LAPL(A)][lapl] → [PPL(A)][ppl]", 1
+        )[0]
+        self.assertRegex(
+            theory,
+            r"(?is)обладател\w*\s+уже\s+выданн\w+\s+.*LAPL.*той\s+же\s+"
+            r"категори.*полн\w+\s+зач[её]т.*не\s+ограничен.*24-месяч",
+        )
+        self.assertRegex(
+            theory,
+            r"(?is)без\s+выданн\w+\s+.*LAPL.*только\s+сдал.*теоретическ\w+\s+"
+            r"экзамен.*FCL\.025\(c\).*24\s+месяц",
+        )
+
+        question = next(
+            item for item in parsed_question_blocks(lesson) if item["id"] == "Q-LAW-023"
+        )
+        options = re.findall(
+            r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", question["body"]
+        )
+        self.assertEqual(list("ABCD"), [letter for letter, _ in options])
+        question_text = _plain_markdown(question["prompt"] + question["body"])
+        self.assertRegex(question_text, r"(?is)выданн\w+\s+LAPL.*только\s+сдал")
+        self.assertRegex(question_text, r"(?is)FCL\.025\(c\).*24\s+месяц")
+
+        audit = (ROOT / "docs/sources/audit-lapl-transition.md").read_text(
+            encoding="utf-8"
+        )
+        row = next(line for line in audit.splitlines() if "| LTR-PPL-009 |" in line)
+        self.assertRegex(row, r"(?i)обладател\w*\s+выданн\w+\s+LAPL")
+        self.assertRegex(row, r"(?i)без\s+выданн\w+\s+LAPL.*FCL\.025\(c\)")
+
+        sources = {
+            source["id"]: source
+            for source in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        scope = sources["SRC-EURLEX-2024-2076"]["scope"]
+        self.assertRegex(scope, r"(?i)обладател\w*\s+выданн\w+\s+LAPL")
+        self.assertRegex(scope, r"(?i)без\s+выданн\w+\s+LAPL.*FCL\.025\(c\)")
+
+        false_holder_expiry = re.compile(
+            r"(?is)(?:обладател\w*\s+(?:уже\s+)?выданн\w+\s+LAPL|"
+            r"(?<!без\s)выданн\w+\s+LAPL).{0,140}(?:только|лишь)\s+"
+            r"(?:пока|до).{0,100}"
+            r"(?:FCL\.025\(c\)|24[- ]месяч)"
+        )
+        for label, text in (
+            ("learner lesson", theory),
+            ("source audit", audit),
+            ("source scope", scope),
+        ):
+            with self.subTest(document=label):
+                self.assertNotRegex(text, false_holder_expiry)
+
     def test_supervised_solo_means_the_student_is_the_only_person_on_board(self):
         glossary = GLOSSARY.read_text(encoding="utf-8")
         glossary_section = glossary.split(
