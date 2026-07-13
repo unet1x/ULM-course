@@ -43,3 +43,9 @@
 | ADM | [aeronautical decision-making (ADM)](glossary.md#term-aeronautical-decision-making-adm) | принятие авиационных решений |
 | IMSAFE | [IMSAFE](glossary.md#term-imsafe) | личная предполётная самопроверка состояния |
 | PAVE | [PAVE](glossary.md#term-pave) | группировка риска: pilot, aircraft, environment, external pressures |
+| Part-MED | [Part-MED](glossary.md#term-part-med) | медицинские требования к лётному составу по праву ЕС |
+| AME | [aeromedical examiner (AME)](glossary.md#term-aeromedical-examiner-ame) | авиационный медицинский эксперт |
+| OTC | [over-the-counter medication (OTC)](glossary.md#term-over-the-counter-medication-otc) | безрецептурный лекарственный препарат |
+| CRM | [crew resource management (CRM)](glossary.md#term-crew-resource-management-crm) | управление ресурсами экипажа |
+| NTS | [non-technical skills (NTS)](glossary.md#term-non-technical-skills-nts) | нетехнические навыки пилота |
+| GA | [general aviation (GA)](glossary.md#term-general-aviation-ga) | авиация общего назначения |

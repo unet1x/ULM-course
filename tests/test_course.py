@@ -66,6 +66,8 @@ OFFICIAL_SOURCE_DOMAINS = {
     "sede.seguridadaerea.gob.es",
     "aip.enaire.es",
     "www.aemet.es",
+    "www.faa.gov",
+    "www.cdc.gov",
     "ama.aemet.es",
 }
 REQUIRED_SOURCE_IDS = {
@@ -85,6 +87,12 @@ REQUIRED_SOURCE_IDS = {
     "SRC-EASA-HYPOXIA-2016",
     "SRC-EASA-SIB-2020-01R1",
     "SRC-EASA-EGAST-GA2",
+    "SRC-FAA-PHAK-25C-CH17",
+    "SRC-FAA-RISK-MANAGEMENT-2A",
+    "SRC-FAA-MEDICATIONS-2017",
+    "SRC-FAA-HEARING-NOISE-98-3",
+    "SRC-FAA-FATIGUE-2020",
+    "SRC-CDC-CO-CLINICAL",
 }
 REQUIRED_CANONICAL_TERMS = {
     "ULM",
@@ -148,6 +156,16 @@ REQUIRED_CANONICAL_TERMS = {
     "PAVE",
     "personal minima",
     "external pressure",
+    "Part-MED",
+    "aeromedical examiner (AME)",
+    "over-the-counter medication (OTC)",
+    "crew resource management (CRM)",
+    "non-technical skills (NTS)",
+    "Human performance",
+    "go/no-go",
+    "continue/divert",
+    "AVIATE–NAVIGATE–COMMUNICATE",
+    "general aviation (GA)",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -173,6 +191,30 @@ HYBRID_TERMS_REQUIRING_EXPLANATION = (
     "AMC",
     "LAPL medical",
     "Class 2",
+    "go/no-go",
+    "continue/divert",
+    "Human performance",
+    "AVIATE",
+    "NAVIGATE",
+    "COMMUNICATE",
+    "intercom",
+    "the leans",
+    "somatogravic illusion",
+    "graveyard spiral",
+    "black-hole approach",
+    "instrument rating",
+    "instrument recovery",
+    "Part-MED",
+    "medical",
+    "AME",
+    "OTC",
+    "scope",
+    "non-technical skills",
+    "error management",
+    "safety promotion",
+    "TEM",
+    "CRM",
+    "GA",
 )
 
 FENCE_OPENER = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
@@ -839,14 +881,14 @@ EXPLANATION_SOURCE_OR_RULE = re.compile(
 )
 EXPLANATION_DOMAIN_CONCEPT = re.compile(
     r"(?i)\b(?:правов\w*|контекст\w*|универсальн\w*|предел\w*|"
-    r"знан\w*|модел\w*|математ\w*|максим\w*|индивидуальн\w*|"
+    r"знан\w*|математ\w*|максим\w*|индивидуальн\w*|"
     r"решен\w*|зач[её]т\w*|последств\w*|сходств\w*|перекрыт\w*|"
     r"международн\w*|национальн\w*|администр\w*|исключен\w*|"
     r"правил\w*|документ\w*|статус\w*|публикац\w*|компетенц\w*|"
     r"юридическ\w*|актуальн\w*|обязательн\w*|услов\w*|трениров\w*|"
     r"инструктор\w*|требован\w*|полномоч\w*|неконтрол\w*|"
     r"нерегулир\w*|форм\w*|высот\w*|актив\w*|маршрут\w*|"
-    r"механизм\w*|восстанов\w*|нал[её]т\w*|обучен\w*|"
+    r"восстанов\w*|нал[её]т\w*|обучен\w*|"
     r"срок\w*|дат\w*|полн\w*)\b"
 )
 
@@ -857,6 +899,7 @@ def _question_concepts(value):
         r"ответ\w*|вариант\w*|правильн\w*|невер\w*|почему|потому|"
         r"поскольку|именно|подход\w*|выб\w*|лучш\w*|хуж\w*|"
         r"остальн\w*|перед|после|только|один|одна|одно|одни|"
+        r"механизм\w*|модел\w*|основан\w*|"
         r"для|при|или|без|всег\w*|тако\w*)$"
     )
     concepts = set()
@@ -972,35 +1015,67 @@ def explicit_atx_heading_errors(text):
 
 
 def human_performance_safety_errors(text):
-    """Reject unsafe certainty, diagnosis/treatment and invented universal limits."""
+    """Reject unsafe claims using sentence-local features and predicate negation."""
     errors = []
     for sentence in _sentences(text):
         plain = _plain_markdown(sentence)
-        unsafe_claims = (
-            r"(?i)ULM.{0,35}летает\s+низко.{0,35}гипокси\w+\s+не\s+важ",
-            r"(?i)ниже\s+10[\s\u00a0]?000\s*(?:ft|фут).{0,30}гипокси\w+\s+невозмож",
-            r"(?i)гипокси\w+.{0,25}легко\s+отличить.{0,25}гипервентиляц",
-            r"(?i)(?:угарн\w+\s+газ|CO).{0,25}(?:полезн\w+|предупреждающ\w+)\s+запах",
-            r"(?i)(?:детектор|пульсоксиметр).{0,30}гарантиру\w+\s+безопас",
-            r"(?i)ощущени\w+.{0,30}над[её]жн\w+.{0,20}(?:без|при\s+потере)\s+горизонт",
-            r"(?i)кофеин.{0,25}(?:лечит|устраняет|вылечивает)\s+усталост",
-            r"(?i)действующ\w+\s+medical.{0,25}означает.{0,20}годен\w+\s+сегодня",
-            r"(?i)(?:OTC|безрецептурн\w+).{0,20}означает.{0,20}безопас",
-            r"(?i)IMSAFE.{0,20}(?:закон|норм\w+\s+EASA)",
-            r"(?i)личн\w+\s+минимум\w+.{0,25}заменя\w+\s+(?:правов\w+|законн\w+)",
-            r"(?i)законн\w+\s+VMC.{0,25}означа\w+.{0,20}подход\w+\s+пилот",
-        )
-        if any(re.search(pattern, plain) for pattern in unsafe_claims):
-            safe_refutation = re.search(
-                r"(?i)(?:\b(?:миф|неверно|ошибка|нельзя\s+(?:считать|утверждать)|"
-                r"не\s+означает)\b|^\s*(?:считать|приписывать)\b|"
-                r"\b(?:нет\s+(?:полезного\s+)?предупреждающего\s+запаха|"
-                r"не\s+гарантирует\s+безопасность|не\s+лечит\s+усталость|"
-                r"не\s+является\s+нормой\s+EASA|не\s+заменяют\s+законные))",
-                plain,
+
+        coordinator = re.compile(r"(?i)(?:;\s*|,\s*(?:а|но|зато|и)\s+)")
+
+        def predicate_is_positive(match):
+            """Negation belongs to this predicate, not another coordinated one."""
+            starts = [boundary.end() for boundary in coordinator.finditer(plain, 0, match.start())]
+            clause_start = starts[-1] if starts else 0
+            next_boundary = coordinator.search(plain, match.end())
+            clause_end = next_boundary.start() if next_boundary else len(plain)
+            prefix = plain[clause_start:match.start()]
+            suffix = plain[match.end():clause_end]
+            direct_negation = re.search(
+                r"(?i)(?:\bникогда\s+не|\bне(?:\s+(?:всегда|обязательно|может))?)"
+                r"(?:\s+[а-яёa-z-]+){0,3}\s*$",
+                prefix,
             )
-            if not safe_refutation:
-                errors.append(sentence)
+            negated_governing_predicate = re.search(
+                r"(?i)\bне\s+означа\w*(?:\s+автоматическ\w*)?\s*,?\s*"
+                r"(?:что\s+)?(?:\s*[а-яёa-z-]+){0,6}\s*$",
+                prefix,
+            )
+            quoted_refutation = (
+                re.search(r"(?i)\bмиф\s*:", plain[clause_start:match.start()])
+                and (
+                    re.search(r"(?i)(?:неверн|ошибочн)", suffix)
+                    or re.search(
+                        r"(?i)индивидуал\w*\s+восприимчив\w*\s+различ",
+                        plain[match.end():],
+                    )
+                )
+            )
+            return not (direct_negation or negated_governing_predicate or quoted_refutation)
+
+        feature_claims = (
+            (r"гипокси", r"ниже\s+\d[\d\s]*\s*(?:ft|фут)", r"невозмож"),
+            (r"действующ\w+\s+(?:medical|медицинск\w+\s+свидетельств)", r"сегодня", r"(?:гарантиру|означа).{0,20}год"),
+            (r"(?:OTC|безрецептурн\w+).{0,15}(?:препарат|лекарств)?", r"", r"безопас"),
+            (r"(?:детектор|пульсоксиметр)", r"", r"гарантиру\w+\s+безопас"),
+            (r"личн\w+\s+минимум", r"(?:AFM|POH|предел|огранич)", r"заменя"),
+            (r"(?:законн\w+|легальн\w+)\s+VMC", r"(?:пилот|тип|самол[её]т)", r"(?:подход|пригод)"),
+            (r"гипокси", r"гипервентиляц", r"легко\s+отлич"),
+            (r"кофеин", r"усталост", r"(?:лечит|устраняет|вылечивает)"),
+            (r"(?:CO|угарн\w+\s+газ)", r"предупреждающ\w+\s+запах", r"(?:имеет|обладает|есть)"),
+            (r"ULM", r"всегда\s+летает\s+низко", r"гипокси\w+\s+не\s+важн"),
+        )
+        unsafe_predicate_found = False
+        for first, second, predicate in feature_claims:
+            if re.search(first, plain, re.IGNORECASE) and (
+                not second or re.search(second, plain, re.IGNORECASE)
+            ):
+                for match in re.finditer(predicate, plain, re.IGNORECASE):
+                    if predicate_is_positive(match):
+                        errors.append(sentence)
+                        unsafe_predicate_found = True
+                        break
+            if unsafe_predicate_found:
+                break
         universal_limits = (
             r"(?i)(?:всегда|каждый\s+пилот).{0,30}(?:спать|сон).{0,12}\d+\s*час",
             r"(?i)(?:после\s+алкоголя|алкогол\w+).{0,30}(?:ждать|достаточно).{0,12}\d+\s*час",
@@ -1019,11 +1094,113 @@ def human_performance_safety_errors(text):
     return errors
 
 
+def human_evidence_adjacency_errors(text, registered_sources):
+    """Require claim-specific registered evidence in the same paragraph/table row."""
+    rules = (
+        (
+            re.compile(r"(?i)(?:дополнительн\w+\s+кислород|высот\w+\s+кабин).{0,100}(?:треб|\d[\d\s]*\s*ft)"),
+            {"SRC-BOE-RD-765-2022"},
+        ),
+        (
+            re.compile(r"(?i)гипервентиляц.{0,160}(?:углекисл|признак|дыхани|покалыван|головокруж)"),
+            {"SRC-FAA-PHAK-25C-CH17"},
+        ),
+        (
+            re.compile(r"(?i)(?:MED\.A\.020|снижени\w+\s+медицинск\w+\s+годност)"),
+            {"SRC-EASA-AIRCREW-2026"},
+        ),
+        (
+            re.compile(r"(?i)(?:IMSAFE|PAVE).{0,120}(?:Illness|Pilot|мнемоник|группир)"),
+            {"SRC-FAA-RISK-MANAGEMENT-2A"},
+        ),
+        (
+            re.compile(r"(?i)(?:CO|угарн\w+\s+газ).{0,150}(?:детектор|без\s+запах|выхлоп|признак)"),
+            {"SRC-EASA-SIB-2020-01R1"},
+        ),
+        (
+            re.compile(r"(?i)пульсоксиметр.{0,180}(?:CO|угарн|карбоксигемоглобин)"),
+            {"SRC-CDC-CO-CLINICAL"},
+        ),
+        (
+            re.compile(r"(?i)(?:центральн\w+\s+област\w+\s+сетчатк|перифер\w+\s+зрен|сканирован\w+\s+взгляд)"),
+            {"SRC-FAA-PHAK-25C-CH17"},
+        ),
+        (
+            re.compile(r"(?i)(?:полукружн\w+\s+канал|отолитов\w+\s+орган|вестибуляр\w+\s+иллюз)"),
+            {"SRC-FAA-PHAK-25C-CH17"},
+        ),
+        (
+            re.compile(r"(?i)(?:шум.{0,100}(?:маскир|реч|усталост|ошибк)|защит\w+слуха)"),
+            {"SRC-FAA-HEARING-NOISE-98-3"},
+        ),
+        (
+            re.compile(r"(?i)усталост\w*\s*(?:—|:|может|способн\w*)?\s*"
+                       r"(?:сниж|ухудш|вед|вызыв|сопровожд|деград).{0,100}"
+                       r"(?:вниман|работоспособ|концентр|ошибк|сужден|физическ|умствен)"),
+            {"SRC-FAA-PHAK-25C-CH17", "SRC-FAA-FATIGUE-2020"},
+        ),
+        (
+            re.compile(r"(?i)стресс.{0,150}(?:вниман|реакц|действ|ошиб|нагруз)"),
+            {"SRC-FAA-PHAK-25C-CH17", "SRC-FAA-FATIGUE-2020"},
+        ),
+        (
+            re.compile(r"(?i)алкогол.{0,150}(?:сужден|координац|вниман|сон|реакц)"),
+            {"SRC-FAA-PHAK-25C-CH17"},
+        ),
+        (
+            re.compile(r"(?i)ситуационн\w+\s+осведомл.{0,180}(?:восприн|понят|прогноз|решен)"),
+            {"SRC-EASA-AIRCREW-2026", "SRC-EASA-EGAST-GA2"},
+        ),
+        (
+            re.compile(r"(?i)(?:CRM|управлен\w+ресурс\w+экипаж).{0,180}(?:ресурс|коммуникац|ошиб|однопилот)"),
+            {"SRC-EASA-AIRCREW-2026"},
+        ),
+        (
+            re.compile(r"(?i)личн\w+\s+минимум.{0,180}(?:строж|границ|замен|огранич)"),
+            {"SRC-FAA-RISK-MANAGEMENT-2A"},
+        ),
+        (
+            re.compile(r"(?i)PART-FCL.{0,180}LAPL.{0,180}PPL.{0,180}(?:одинаков\w+\s+теоретическ\w+\s+глубин|программ\w+\s+PPL)"),
+            {"SRC-EASA-AIRCREW-2026"},
+        ),
+    )
+    clean = strip_fenced_code(text)
+    clean = re.sub(
+        r"(?ms)^##\s+(?:Результаты\s+обучения|Краткий\s+конспект|"
+        r"Контрольные\s+вопросы|Источники)\b.*?(?=^##\s|\Z)",
+        "",
+        clean,
+    )
+    blocks = [
+        block.strip()
+        for block in re.split(r"\n\s*\n|(?=^\|)", clean, flags=re.MULTILINE)
+        if block.strip()
+    ]
+    errors = []
+    for block in blocks:
+        plain = _plain_markdown(block)
+        if re.fullmatch(r"#{1,6}\s+.*", plain.strip()):
+            continue
+        cited = set(re.findall(r"SRC-[A-Z0-9-]+", block))
+        for cue, required in rules:
+            if cue.search(plain) and not cited.intersection(required):
+                errors.append(f"claim needs one of {sorted(required)}: {plain[:100]}")
+        unknown = cited - registered_sources
+        if unknown:
+            errors.append(f"unknown sources {sorted(unknown)}")
+    return errors
+
+
 def unexplained_hybrid_occurrences(text):
-    clean = strip_code(text)
+    # Inline code formatting does not explain an English/Spanish aviation term.
+    clean = strip_fenced_code(text)
     links, definition_spans = _markdown_link_spans(clean)
     explained_spans = []
     ignored = list(definition_spans)
+    ignored.extend(
+        match.span()
+        for match in re.finditer(r"\{[^}\n]*#[^}\n]+\}", clean)
+    )
     for is_image, label_start, label_end, target, start, end in links:
         ignored.extend(((start, label_start), (label_end, end)))
         fragment = unquote(urlsplit(_clean_target(target)).fragment)
@@ -2392,6 +2569,165 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
 
 
 class Task5HumanPerformanceTests(unittest.TestCase):
+    def test_lapl_and_ppl_use_the_same_human_performance_theory_depth(self):
+        for relative_path in TASK5_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            applicability = text.split("## Карта применимости", 1)[1].split("## Теория", 1)[0]
+            self.assertRegex(
+                _plain_markdown(applicability),
+                r"(?is)LAPL.*PPL.*одинаков\w+\s+теоретическ\w+\s+глубин|"
+                r"LAPL.*использует\s+программу\s+PPL",
+                relative_path,
+            )
+            self.assertNotRegex(applicability, r"(?i)PPL.{0,35}(?:углуб|добавляется)")
+
+    def test_task5_hybrid_terms_are_explained_across_all_learner_chapters(self):
+        violations = []
+        for path in learner_chapter_files():
+            violations.extend(
+                f"{path.relative_to(ROOT)}:{line}: {term}"
+                for line, term in unexplained_hybrid_occurrences(
+                    path.read_text(encoding="utf-8")
+                )
+            )
+        self.assertEqual([], violations)
+        probe = "Решение go/no-go; затем continue/divert, CRM, GA и TEM."
+        self.assertGreaterEqual(len(unexplained_hybrid_occurrences(probe)), 5)
+        self.assertEqual(
+            [],
+            unexplained_hybrid_occurrences("### Управление угрозами {#tem}"),
+        )
+
+    def test_co_definition_requires_response_to_one_signal_and_distinguishes_detector(self):
+        terms = {term["canonical"]: term for term in json.loads(TERMS_REGISTRY.read_text())}
+        definition = terms["carbon monoxide (CO)"]["definition"]
+        self.assertRegex(definition, r"(?is)активн\w+\s+CO-детектор")
+        self.assertRegex(definition, r"(?is)запах\w*\s+продукт\w+\s+выхлоп")
+        self.assertRegex(definition, r"(?is)люб\w+\s+одиночн\w+\s+подозрительн\w+\s+признак")
+        self.assertRegex(definition, r"(?is)не\s+жд")
+        physiology = (ROOT / TASK5_CHAPTERS[0]).read_text(encoding="utf-8")
+        self.assertRegex(physiology, r"(?is)пульсоксиметр.{0,180}не\s+является\s+CO-детектор")
+        self.assertRegex(physiology, r"(?is)пульсоксиметр.{0,220}не\s+(?:исключает|опровергает).{0,60}CO")
+        self.assertIn("SRC-CDC-CO-CLINICAL", physiology)
+
+    def test_imsafe_has_exactly_six_factors_and_never_eating(self):
+        combined = "\n".join(
+            [
+                (ROOT / TASK5_CHAPTERS[2]).read_text(encoding="utf-8"),
+                (ROOT / TASK5_CHAPTERS[3]).read_text(encoding="utf-8"),
+                GLOSSARY.read_text(encoding="utf-8"),
+                TERMS_REGISTRY.read_text(encoding="utf-8"),
+                (ROOT / TASK5_SVGS[1]).read_text(encoding="utf-8"),
+            ]
+        )
+        self.assertNotRegex(combined, r"(?i)Emotion\s*/\s*Eating|emotion/eating|E\s*=\s*Eating")
+        term = next(
+            item for item in json.loads(TERMS_REGISTRY.read_text()) if item["canonical"] == "IMSAFE"
+        )
+        for factor in ("Illness", "Medication", "Stress", "Alcohol", "Fatigue", "Emotion"):
+            self.assertIn(factor, term["english"])
+
+    def test_human_evidence_is_claim_adjacent_and_source_specific(self):
+        registered = {source["id"] for source in json.loads(SOURCE_REGISTRY.read_text())}
+        violations = []
+        for relative_path in TASK5_CHAPTERS:
+            violations.extend(
+                f"{relative_path}: {error}"
+                for error in human_evidence_adjacency_errors(
+                    (ROOT / relative_path).read_text(encoding="utf-8"), registered
+                )
+            )
+        self.assertEqual([], violations)
+        false_oxygen = (
+            "Дополнительный кислород требуется выше 1 000 ft. "
+            "Источник: `SRC-EASA-EGAST-GA2`."
+        )
+        self.assertTrue(human_evidence_adjacency_errors(false_oxygen, registered))
+        correct_oxygen = false_oxygen.replace(
+            "SRC-EASA-EGAST-GA2", "SRC-BOE-RD-765-2022"
+        )
+        self.assertEqual([], human_evidence_adjacency_errors(correct_oxygen, registered))
+        whitespace_sensitive_claims = (
+            "Центральная область сетчатки обеспечивает детальное зрение.",
+            "Полукружные каналы участвуют в возникновении вестибулярных иллюзий.",
+            "Ситуационная осведомлённость включает восприятие, понимание и прогноз.",
+            "Личные минимумы могут быть только строже обязательных ограничений.",
+            "Part-FCL: LAPL и PPL имеют одинаковую теоретическую глубину.",
+            "Part-FCL: LAPL и PPL используют программу PPL.",
+        )
+        for claim in whitespace_sensitive_claims:
+            with self.subTest(claim=claim):
+                self.assertTrue(human_evidence_adjacency_errors(claim, registered))
+
+    def test_human_sources_record_exact_documents_pages_and_limits(self):
+        sources = {
+            source["id"]: source
+            for source in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        expected = {
+            "SRC-FAA-PHAK-25C-CH17": (
+                "FAA-H-8083-25C", "hyperventilation 17-4",
+                "spatial disorientation 17-6–17-10", "stress and fatigue 17-12–17-13",
+                "alcohol and drugs 17-15–17-16", "vision and scanning 17-19–17-23",
+            ),
+            "SRC-FAA-RISK-MANAGEMENT-2A": ("FAA-H-8083-2A", "IMSAFE"),
+            "SRC-FAA-MEDICATIONS-2017": ("OK-17-2022", "pages 1–2"),
+            "SRC-FAA-HEARING-NOISE-98-3": (
+                "AM-400-98/3",
+                "substantive PDF pages 1–3; colophon page 4",
+            ),
+            "SRC-FAA-FATIGUE-2020": ("OK-20-0925", "PDF pages 1–2", "circadian"),
+            "SRC-CDC-CO-CLINICAL": (
+                "Confirmation of Diagnosis", "two-wavelength pulse oximeter", "COHgb",
+            ),
+        }
+        for source_id, needles in expected.items():
+            with self.subTest(source=source_id):
+                record = sources[source_id]
+                joined = f'{record["edition"]} {record["scope"]}'
+                for needle in needles:
+                    self.assertIn(needle, joined)
+                self.assertRegex(record["scope"], r"(?i)не\s+(?:норма|источник).*(?:ЕС|Испани)")
+
+    def test_med_a020_consultation_applies_to_lapl_and_class2_holders(self):
+        chapter = (ROOT / TASK5_CHAPTERS[2]).read_text(encoding="utf-8")
+        plain = _plain_markdown(chapter)
+        self.assertRegex(
+            plain,
+            r"(?is)MED\.A\.020.{0,500}обладател.{0,120}LAPL.{0,120}Class\s*2",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)без\s+неоправданной\s+задержки.{0,500}"
+            r"операц.{0,100}регулярн.{0,80}лекарств.{0,120}"
+            r"травм.{0,100}болезн.{0,100}беремен.{0,100}"
+            r"стационар.{0,120}корректирующ",
+        )
+        self.assertRegex(plain, r"(?is)при\s+сомнени.{0,80}консультац")
+        self.assertRegex(plain, r"(?is)ULM.{0,100}отдельн\w+\s+национальн\w+\s+режим")
+
+    def test_postflight_guidance_distinguishes_suspected_co(self):
+        chapter = (ROOT / TASK5_CHAPTERS[0]).read_text(encoding="utf-8")
+        plain = _plain_markdown(chapter)
+        self.assertRegex(
+            plain,
+            r"(?is)подозрен.{0,30}CO.{0,180}медицинск.{0,100}"
+            r"техническ.{0,50}проверк.{0,100}SRC-EASA-SIB-2020-01R1",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)друг\w+\s+симптом.{0,180}применим\w+\s+медицинск\w+\s+рекомендац|"
+            r"профессиональн\w+\s+оценк",
+        )
+
+    def test_question_grounding_rejects_generic_model_language(self):
+        self.assertFalse(
+            explanation_is_grounded(
+                "Этот механизм основан на модели и поэтому подходит.",
+                "Как CO влияет на перенос кислорода?",
+            )
+        )
+
     def test_task5_files_exist_and_are_in_navigation(self):
         nav_paths = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
         for relative_path in TASK5_CHAPTERS:
@@ -2503,6 +2839,19 @@ class Task5HumanPerformanceTests(unittest.TestCase):
             "Каждый пилот должен всегда спать 8 часов.",
             "После алкоголя достаточно ждать 8 часов.",
             "Диагностируйте гипоксию и назначьте лечение.",
+            "Гипоксия невозможна ниже 9 000 ft.",
+            "Действующий medical гарантирует годность сегодня.",
+            "OTC-препарат безопасен.",
+            "Личные минимумы заменяют AFM.",
+            "Законные VMC всегда пригодны для этого пилота.",
+            "Гипоксия невозможна ниже 9 000 ft, а её признаки неспецифичны.",
+            "Действующий medical гарантирует годность сегодня, но симптомы стоит отслеживать.",
+            "OTC-препарат безопасен, если он продаётся без рецепта.",
+            "Личные минимумы заменяют AFM, а законные VMC пригодны этому пилоту.",
+            "OTC-препарат не обязательно безопасен для пассажира, а для пилота безопасен.",
+            "Личные минимумы не заменяют пожелания пассажира, зато заменяют AFM.",
+            "Законные VMC не всегда пригодны пассажиру, но пригодны этому пилоту.",
+            "Гипоксия не невозможна ниже 9 000 ft, но невозможна ниже 8 000 ft.",
         )
         for probe in probes:
             with self.subTest(probe=probe):
@@ -2513,6 +2862,15 @@ class Task5HumanPerformanceTests(unittest.TestCase):
                 "Миф: ниже 10 000 ft гипоксия невозможна; индивидуальная восприимчивость различается."
             ),
         )
+        for safe in (
+            "Детектор не всегда гарантирует безопасность.",
+            "OTC-препарат не обязательно безопасен.",
+            "Личные минимумы никогда не заменяют ограничения AFM.",
+            "Законные VMC не всегда пригодны для этого пилота.",
+            "Законные VMC не означают, что условия пригодны этому пилоту.",
+        ):
+            with self.subTest(safe=safe):
+                self.assertEqual([], human_performance_safety_errors(safe))
 
     def test_task5_sources_and_terms_are_registered(self):
         sources = {source["id"] for source in json.loads(SOURCE_REGISTRY.read_text())}
@@ -2520,6 +2878,9 @@ class Task5HumanPerformanceTests(unittest.TestCase):
             {
                 "SRC-EASA-HYPOXIA-2016", "SRC-EASA-SIB-2020-01R1",
                 "SRC-EASA-EGAST-GA2",
+                "SRC-FAA-PHAK-25C-CH17", "SRC-FAA-RISK-MANAGEMENT-2A",
+                "SRC-FAA-MEDICATIONS-2017", "SRC-FAA-HEARING-NOISE-98-3",
+                "SRC-FAA-FATIGUE-2020", "SRC-CDC-CO-CLINICAL",
             }.issubset(sources)
         )
         canonical = {term["canonical"] for term in json.loads(TERMS_REGISTRY.read_text())}
@@ -2528,6 +2889,11 @@ class Task5HumanPerformanceTests(unittest.TestCase):
             "spatial disorientation", "situational awareness",
             "threat and error management (TEM)", "aeronautical decision-making (ADM)",
             "IMSAFE", "PAVE", "personal minima", "external pressure",
+            "Part-MED", "aeromedical examiner (AME)",
+            "over-the-counter medication (OTC)", "crew resource management (CRM)",
+            "non-technical skills (NTS)",
+            "Human performance", "go/no-go", "continue/divert",
+            "AVIATE–NAVIGATE–COMMUNICATE",
         ):
             self.assertIn(term, canonical)
 
@@ -2545,6 +2911,14 @@ class Task5HumanPerformanceTests(unittest.TestCase):
                 viewbox = tuple(float(value) for value in root.attrib["viewBox"].split())
                 self.assertEqual(4, len(viewbox))
                 vx, vy, vw, vh = viewbox
+                self.assertLessEqual(vw, 700, "mobile-readable SVG width")
+                text_sizes = [
+                    float(element.attrib["font-size"].removesuffix("px"))
+                    for element in root.iter(f"{namespace}text")
+                    if "font-size" in element.attrib
+                ]
+                self.assertTrue(text_sizes)
+                self.assertGreaterEqual(min(text_sizes) * 340 / vw, 14.0)
                 for element in root.iter():
                     bbox = element_bbox(element)
                     if bbox is None:
@@ -2579,14 +2953,52 @@ class Task5HumanPerformanceTests(unittest.TestCase):
         root = ET.parse(ROOT / TASK5_SVGS[0]).getroot()
         by_id = {element.attrib["id"]: element for element in root.iter() if "id" in element.attrib}
         for identifier in (
-            "hypoxia-path", "co-path", "aviate-control", "oxygen-checklist",
-            "descend-land", "medical-maintenance", "safety-disclaimer",
+            "hypoxia-path", "co-path", "branch-or", "aviate-control", "oxygen-checklist",
+            "descend-land", "postflight-co", "postflight-other", "safety-disclaimer",
         ):
             self.assertIn(identifier, by_id)
         words = " ".join(root.itertext()).casefold()
         self.assertIn("не медицинское лечение", words)
         self.assertIn("не чек-лист воздушного судна", words)
+        self.assertIn("или", words)
+        self.assertIn("при co", words)
+        self.assertIn("при других симптомах", words)
         self.assertFalse(bboxes_overlap(element_bbox(by_id["hypoxia-path"]), element_bbox(by_id["co-path"])))
+
+        hypoxia_panel = element_bbox(by_id["hypoxia-panel"])
+        co_panel = element_bbox(by_id["co-panel"])
+        branch_a = by_id["hypoxia-to-merge"]
+        branch_b = by_id["co-to-merge"]
+        merge_to_aviate = by_id["merge-to-aviate"]
+        endpoint_a = (float(branch_a.attrib["x2"]), float(branch_a.attrib["y2"]))
+        endpoint_b = (float(branch_b.attrib["x2"]), float(branch_b.attrib["y2"]))
+        self.assertEqual(endpoint_a, endpoint_b, "A and B must converge at one merge")
+        self.assertEqual(
+            endpoint_a,
+            (float(merge_to_aviate.attrib["x1"]), float(merge_to_aviate.attrib["y1"])),
+        )
+
+        def inside(point, box):
+            x, y = point
+            bx, by, bw, bh = box
+            return bx <= x <= bx + bw and by <= y <= by + bh
+
+        self.assertFalse(inside(endpoint_a, hypoxia_panel))
+        self.assertFalse(inside(endpoint_a, co_panel))
+        self.assertNotEqual(
+            (float(branch_a.attrib["x1"]), float(branch_a.attrib["y1"])),
+            (float(branch_b.attrib["x1"]), float(branch_b.attrib["y1"])),
+        )
+        co_follow = by_id["landing-to-co"]
+        other_follow = by_id["landing-to-other"]
+        self.assertEqual(
+            (float(co_follow.attrib["x1"]), float(co_follow.attrib["y1"])),
+            (float(other_follow.attrib["x1"]), float(other_follow.attrib["y1"])),
+        )
+        self.assertNotEqual(
+            (float(co_follow.attrib["x2"]), float(co_follow.attrib["y2"])),
+            (float(other_follow.attrib["x2"]), float(other_follow.attrib["y2"])),
+        )
 
     def test_decision_loop_has_complete_loop_and_preflight_inputs(self):
         root = ET.parse(ROOT / TASK5_SVGS[1]).getroot()
@@ -2601,6 +3013,60 @@ class Task5HumanPerformanceTests(unittest.TestCase):
         self.assertIn("IMSAFE", words)
         self.assertIn("личные минимумы", words.casefold())
         self.assertIn("TEM", words)
+        markers = list(root.iter("{http://www.w3.org/2000/svg}marker"))
+        self.assertTrue(markers, "decision flow requires arrow markers")
+        self.assertGreaterEqual(
+            len([
+                element for element in root.iter()
+                if element.attrib.get("marker-end", "").startswith("url(#")
+            ]),
+            6,
+        )
+        return_path = next(
+            element for element in root.iter()
+            if element.attrib.get("id") == "return-path"
+        )
+        self.assertTrue(return_path.attrib.get("marker-end", "").startswith("url(#"))
+
+    def test_task5_diagram_panels_do_not_overlap_and_colours_have_contrast(self):
+        def luminance(hex_colour):
+            channels = [int(hex_colour[index:index + 2], 16) / 255 for index in (1, 3, 5)]
+            linear = [value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4 for value in channels]
+            return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+
+        def contrast(first, second):
+            bright, dark = sorted((luminance(first), luminance(second)), reverse=True)
+            return (bright + 0.05) / (dark + 0.05)
+
+        for relative_path in TASK5_SVGS:
+            root = ET.parse(ROOT / relative_path).getroot()
+            by_id = {element.attrib.get("id"): element for element in root.iter()}
+            panels = [
+                element_bbox(element)
+                for identifier, element in by_id.items()
+                if identifier and identifier.endswith("-panel")
+            ]
+            for index, first in enumerate(panels):
+                for second in panels[index + 1:]:
+                    self.assertFalse(bboxes_overlap(first, second), relative_path)
+            self.assertGreaterEqual(contrast("#F8FAFC", "#0F172A"), 7.0)
+            self.assertGreaterEqual(contrast("#FFFFFF", "#1E3A5F"), 7.0)
+
+    def test_task5_distractors_avoid_reviewed_strawmen(self):
+        text = "\n".join(
+            (ROOT / path).read_text(encoding="utf-8") for path in TASK5_CHAPTERS
+        )
+        for strawman in (
+            r"кислород\s+полностью\s+исчезает",
+            r"сердце\s+переста[её]т\s+перекачивать",
+            r"уменьшение\s+контраста.{0,30}блик",
+            r"PAVE.{0,80}квалификационн\w+\s+отметк",
+            r"одн\w+\s+приемлем\w+\s+сектор.{0,50}четыр",
+            r"зрени\w+\s+автоматическ\w+\s+восстанавлива\w+\s+горизонт",
+            r"дела\w+\s+стандартн\w+\s+структур\w+\s+сообщен\w+\s+ненужн",
+            r"испанск\w+\s+лицензи\w+.{0,40}медицинск\w+\s+осмотр",
+        ):
+            self.assertNotRegex(_plain_markdown(text), re.compile(strawman, re.IGNORECASE))
 
 
 if __name__ == "__main__":

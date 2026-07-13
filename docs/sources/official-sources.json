@@ -169,5 +169,59 @@
     "edition": "EGAST GA 2, publication date 01.04.2011",
     "checked": "2026-07-13",
     "scope": "Safety-promotion материал о go/no-go, ситуационной осведомлённости, раннем распознавании необходимости решения и влиянии давления; не юридическая норма и не замена текущим ограничениям"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH17",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 17 Aeromedical Factors",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/phak/19_phak_ch17.pdf",
+    "edition": "FAA-H-8083-25C (2023), Chapter 17, printed pages 17-1–17-30",
+    "checked": "2026-07-13",
+    "scope": "Техническая педагогика FAA; точные printed-page pinpoints: hyperventilation 17-4; spatial disorientation 17-6–17-10; stress and fatigue 17-12–17-13; alcohol and drugs 17-15–17-16; vision and scanning 17-19–17-23. Не норма и не источник права, medical clearance, диагноза или процедур для ЕС/Испании"
+  },
+  {
+    "id": "SRC-FAA-RISK-MANAGEMENT-2A",
+    "authority": "FAA",
+    "title": "Risk Management Handbook",
+    "url": "https://www.faa.gov/sites/faa.gov/files/2022-06/risk_management_handbook_2A.pdf",
+    "edition": "FAA-H-8083-2A, 2022",
+    "checked": "2026-07-13",
+    "scope": "PAVE pages 1-2 and 3-4–3-8; IMSAFE pages 3-5–3-6; mitigation page 5-1; ADM/3P/SRM pages 8-1–8-4. Не норма и не источник права или operational minima для ЕС/Испании"
+  },
+  {
+    "id": "SRC-FAA-MEDICATIONS-2017",
+    "authority": "FAA",
+    "title": "Medications and Flying",
+    "url": "https://www.faa.gov/sites/faa.gov/files/pilots/safety/pilotsafetybrochures/Meds_brochure.pdf",
+    "edition": "OK-17-2022 (10), CAMI rev. 2017, PDF pages 1–2",
+    "checked": "2026-07-13",
+    "scope": "Болезнь, новый препарат и побочные эффекты как авиационные факторы. Не норма и не источник допуска лекарств для ЕС/Испании; американские списки и периоды ожидания не переносятся"
+  },
+  {
+    "id": "SRC-FAA-HEARING-NOISE-98-3",
+    "authority": "FAA",
+    "title": "Hearing and Noise in Aviation",
+    "url": "https://www.faa.gov/sites/faa.gov/files/pilots/safety/pilotsafetybrochures/hearing.pdf",
+    "edition": "AM-400-98/3, substantive PDF pages 1–3; colophon page 4",
+    "checked": "2026-07-13",
+    "scope": "Шум маскирует речь, отвлекает, усиливает усталость и ошибки; защита слуха может улучшать signal-to-noise ratio. Не норма и не источник пределов воздействия для ЕС/Испании"
+  },
+  {
+    "id": "SRC-FAA-FATIGUE-2020",
+    "authority": "FAA",
+    "title": "Fatigue in Aviation",
+    "url": "https://www.faa.gov/sites/faa.gov/files/pilots/safety/pilotsafetybrochures/Fatigue_Aviation.pdf",
+    "edition": "OK-20-0925, 29.04.2020, PDF pages 1–2",
+    "checked": "2026-07-13",
+    "scope": "PDF page 2 связывает усталость с нарушением circadian rhythm, ночными полётами/сменой часовых поясов и снижением концентрации, бдительности и памяти. Не норма и не источник права или универсального минимума сна для ЕС/Испании"
+  },
+  {
+    "id": "SRC-CDC-CO-CLINICAL",
+    "authority": "CDC",
+    "title": "Clinical Guidance for Carbon Monoxide Poisoning Following Disasters and Severe Weather",
+    "url": "https://www.cdc.gov/carbon-monoxide/hcp/clinical-guidance/index.html",
+    "edition": "CDC web guidance, 08.07.2024",
+    "checked": "2026-07-13",
+    "scope": "Раздел Confirmation of Diagnosis прямо указывает: conventional two-wavelength pulse oximeter неточен при наличии COHgb. В курсе используется только как узкое техническое ограничение прибора; не норма и не источник авиационного права, летной годности, диагноза или лечения для ЕС/Испании"
   }
 ]

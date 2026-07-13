@@ -578,7 +578,7 @@
     "spanish": "monóxido de carbono (CO)",
     "russian": "угарный газ (CO)",
     "abbreviation": "CO",
-    "definition": "Carbon monoxide (CO) — бесцветный газ без запаха, образующийся при неполном сгорании и мешающий переносу кислорода кровью. Симптомы неспецифичны; сигнал детектора или сочетание признаков требует эксплуатационной реакции по применимому чек-листу, а не самостоятельной диагностики.",
+    "definition": "Carbon monoxide (CO) — бесцветный газ без запаха, образующийся при неполном сгорании и мешающий переносу кислорода кровью. Активный CO-детектор, запах продуктов выхлопа или любой одиночный подозрительный признак требует немедленной консервативной реакции по применимому чек-листу: не ждите сочетания сигналов и не ставьте диагноз.",
     "anchor": "term-carbon-monoxide-co",
     "defined_in": "docs/reference/glossary.md#term-carbon-monoxide-co"
   },
@@ -629,11 +629,11 @@
   {
     "id": "term-imsafe",
     "canonical": "IMSAFE",
-    "english": "Illness, Medication, Stress, Alcohol, Fatigue, Emotion/Eating self-check",
-    "spanish": "lista personal Enfermedad, Medicación, Estrés, Alcohol, Fatiga, Emoción/Alimentación",
+    "english": "Illness, Medication, Stress, Alcohol, Fatigue, Emotion self-check",
+    "spanish": "lista personal Enfermedad, Medicación, Estrés, Alcohol, Fatiga y Emoción",
     "russian": "мнемоническая самопроверка состояния пилота",
     "abbreviation": "IMSAFE",
-    "definition": "IMSAFE — американская учебная мнемоника личной предполётной самопроверки: illness, medication, stress, alcohol, fatigue, emotion/eating. Она полезна как консервативный фильтр, но не является нормой EASA, медицинским диагнозом или разрешением лететь.",
+    "definition": "IMSAFE — американская учебная мнемоника личной предполётной самопроверки: Illness, Medication, Stress, Alcohol, Fatigue, Emotion. Она полезна как консервативный фильтр, но не является нормой EASA, медицинским диагнозом или разрешением лететь.",
     "anchor": "term-imsafe",
     "defined_in": "docs/reference/glossary.md#term-imsafe"
   },
@@ -669,5 +669,115 @@
     "definition": "External pressure — неавиационная мотивация завершить вылет или продолжить полёт: встреча, пассажир, расходы, репутация или желание вернуться домой. Она повышает риск предвзятого продолжения и должна быть названа до принятия решения.",
     "anchor": "term-external-pressure",
     "defined_in": "docs/reference/glossary.md#term-external-pressure"
+  },
+  {
+    "id": "term-part-med",
+    "canonical": "Part-MED",
+    "english": "Part-MED medical requirements",
+    "spanish": "Parte MED sobre requisitos médicos",
+    "russian": "часть правил ЕС о медицинских требованиях к лётному составу",
+    "abbreviation": "Part-MED",
+    "definition": "Part-MED — Annex IV к Regulation (EU) No 1178/2011 о медицинских требованиях к лётному составу, медицинских свидетельствах и соответствующих специалистах. Этот режим применяется в пределах Part-FCL и не переносится автоматически на испанскую национальную эксплуатацию ULM.",
+    "anchor": "term-part-med",
+    "defined_in": "docs/reference/glossary.md#term-part-med"
+  },
+  {
+    "id": "term-aeromedical-examiner-ame",
+    "canonical": "aeromedical examiner (AME)",
+    "english": "aeromedical examiner (AME)",
+    "spanish": "médico examinador aéreo",
+    "russian": "авиационный медицинский эксперт",
+    "abbreviation": "AME",
+    "definition": "Aeromedical examiner (AME) — врач, уполномоченный компетентным органом проводить аэромедицинские освидетельствования и выдавать, продлевать или возобновлять медицинские свидетельства в пределах конкретного полномочия. Обычная врачебная консультация и полномочие AME не тождественны.",
+    "anchor": "term-aeromedical-examiner-ame",
+    "defined_in": "docs/reference/glossary.md#term-aeromedical-examiner-ame"
+  },
+  {
+    "id": "term-over-the-counter-medication-otc",
+    "canonical": "over-the-counter medication (OTC)",
+    "english": "over-the-counter medication (OTC)",
+    "spanish": "medicamento sin receta",
+    "russian": "безрецептурный лекарственный препарат",
+    "abbreviation": "OTC",
+    "definition": "Over-the-counter medication (OTC) — препарат, отпускаемый без рецепта. Такой статус описывает продажу, но не доказывает авиационную пригодность: учитываются болезнь, действующее вещество, побочные эффекты, сочетания и индивидуальная реакция.",
+    "anchor": "term-over-the-counter-medication-otc",
+    "defined_in": "docs/reference/glossary.md#term-over-the-counter-medication-otc"
+  },
+  {
+    "id": "term-crew-resource-management-crm",
+    "canonical": "crew resource management (CRM)",
+    "english": "crew resource management (CRM)",
+    "spanish": "gestión de recursos de la tripulación",
+    "russian": "управление ресурсами экипажа",
+    "abbreviation": "CRM",
+    "definition": "Crew resource management (CRM) — применение доступных людей, информации, оборудования и процедур для безопасного решения и управления ошибками. В однопилотной эксплуатации смысл адаптируют к ресурсам одного пилота; ответственность командира не передаётся помощнику или автоматике.",
+    "anchor": "term-crew-resource-management-crm",
+    "defined_in": "docs/reference/glossary.md#term-crew-resource-management-crm"
+  },
+  {
+    "id": "term-non-technical-skills-nts",
+    "canonical": "non-technical skills (NTS)",
+    "english": "non-technical skills (NTS)",
+    "spanish": "competencias no técnicas",
+    "russian": "нетехнические навыки пилота",
+    "abbreviation": "NTS",
+    "definition": "Non-technical skills (NTS) — когнитивные и социальные навыки, дополняющие ручное управление и технические знания: ситуационная осведомлённость, решение, коммуникация, управление рабочей нагрузкой и ошибками. Они интегрируются с технической подготовкой, а не заменяют её.",
+    "anchor": "term-non-technical-skills-nts",
+    "defined_in": "docs/reference/glossary.md#term-non-technical-skills-nts"
+  },
+  {
+    "id": "term-human-performance",
+    "canonical": "Human performance",
+    "english": "Human performance",
+    "spanish": "Actuaciones y limitaciones humanas",
+    "russian": "возможности и ограничения человека",
+    "abbreviation": null,
+    "definition": "Human performance — учебный предмет о физиологических, когнитивных и социальных возможностях и ограничениях пилота. В программе AESA ULM используется испанское Actuaciones y limitaciones humanas.",
+    "anchor": "term-human-performance",
+    "defined_in": "docs/reference/glossary.md#term-human-performance"
+  },
+  {
+    "id": "term-go-no-go",
+    "canonical": "go/no-go",
+    "english": "go/no-go decision",
+    "spanish": "decisión salir/no salir",
+    "russian": "решение лететь/не лететь",
+    "abbreviation": null,
+    "definition": "Go/no-go — предполётное решение выполнять или отменить/перенести вылет по применимым ограничениям и заранее заданным критериям.",
+    "anchor": "term-go-no-go",
+    "defined_in": "docs/reference/glossary.md#term-go-no-go"
+  },
+  {
+    "id": "term-continue-divert",
+    "canonical": "continue/divert",
+    "english": "continue/divert decision",
+    "spanish": "decisión continuar/desviarse",
+    "russian": "решение продолжать/уходить",
+    "abbreviation": null,
+    "definition": "Continue/divert — повторное решение в полёте: продолжать ли исходный план или выбрать возврат, уход на запасной либо посадку, пока сохраняется запас вариантов.",
+    "anchor": "term-continue-divert",
+    "defined_in": "docs/reference/glossary.md#term-continue-divert"
+  },
+  {
+    "id": "term-aviate-navigate-communicate",
+    "canonical": "AVIATE–NAVIGATE–COMMUNICATE",
+    "english": "AVIATE–NAVIGATE–COMMUNICATE",
+    "spanish": "VOLar–NAVEGAR–COMUNICAR",
+    "russian": "управлять–вести навигацию–установить связь",
+    "abbreviation": null,
+    "definition": "AVIATE–NAVIGATE–COMMUNICATE — мнемоника приоритетов: сначала сохранить управление и безопасную траекторию, затем обеспечить навигацию и после этого установить нужную связь. Она не заменяет чек-лист или процедуру конкретного борта.",
+    "anchor": "term-aviate-navigate-communicate",
+    "defined_in": "docs/reference/glossary.md#term-aviate-navigate-communicate"
+  },
+  {
+    "id": "term-general-aviation-ga",
+    "canonical": "general aviation (GA)",
+    "english": "general aviation (GA)",
+    "spanish": "aviación general",
+    "russian": "авиация общего назначения",
+    "abbreviation": "GA",
+    "definition": "General aviation (GA) — гражданская авиация вне регулярных коммерческих воздушных перевозок и военных операций; конкретная правовая область термина зависит от применимого документа.",
+    "anchor": "term-general-aviation-ga",
+    "defined_in": "docs/reference/glossary.md#term-general-aviation-ga"
   }
 ]

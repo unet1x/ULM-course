@@ -1,61 +1,124 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="hypoxia-title hypoxia-desc">
-  <title id="hypoxia-title">Безопасная эксплуатационная реакция при неспецифичных физиологических признаках</title>
-  <desc id="hypoxia-desc">Оригинальная концептуальная схема с отдельными путями гипоксии и воздействия угарного газа: сначала управление, затем одобренное оборудование и чек-лист, прекращение воздействия, посадка, медицинская и техническая оценка.</desc>
-  <rect x="0" y="0" width="1200" height="760" fill="#f7fafc"/>
-  <text x="600" y="42" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#102a43">Неспецифичные признаки: действуйте, не ставьте диагноз</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1390" role="img" aria-labelledby="hypoxia-title hypoxia-desc">
+  <title id="hypoxia-title">Эксплуатационная реакция при неспецифичных физиологических признаках</title>
+  <desc id="hypoxia-desc">Два независимых входа, гипоксия или гипервентиляция и подозрение на угарный газ, сходятся к одному порядку: управление, применимый чек-лист, прекращение воздействия и разные действия после посадки при CO и при других симптомах.</desc>
+  <defs>
+    <marker id="flow-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 L 3 6 Z" fill="#334E68"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="500" height="1390" fill="#F8FAFC"/>
+
+  <text x="250" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#0F172A">
+    <tspan x="250" y="34">Неспецифичные признаки:</tspan>
+    <tspan x="250" y="64">действуйте рано</tspan>
+  </text>
 
   <g id="hypoxia-path">
-    <rect x="30" y="75" width="540" height="180" rx="18" fill="#e6f6ff" stroke="#0b5c8e" stroke-width="4"/>
-    <text x="55" y="112" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#063b5c">Путь A — гипоксия / гипервентиляция</text>
-    <text x="55" y="150" font-family="Arial, sans-serif" font-size="19" fill="#102a43">
-      <tspan x="55" y="150">Головная боль, сонливость, изменение поведения,</tspan>
-      <tspan x="55" y="181">учащённое дыхание, ухудшение зрения и суждения.</tspan>
-      <tspan x="55" y="220" font-weight="700">Признаки перекрываются и различаются у людей.</tspan>
+    <rect id="hypoxia-panel" x="20" y="92" width="220" height="248" rx="14" fill="#E6F6FF" stroke="#0B5C8E" stroke-width="4"/>
+    <text x="130" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#063B5C">
+      <tspan x="130" y="122">Путь A</tspan>
+      <tspan x="130" y="149">Гипоксия /</tspan>
+      <tspan x="130" y="176">гипервентиляция</tspan>
+      <tspan x="130" y="211" font-weight="400" fill="#0F172A">головная боль;</tspan>
+      <tspan x="130" y="238" font-weight="400" fill="#0F172A">сонливость;</tspan>
+      <tspan x="130" y="265" font-weight="400" fill="#0F172A">частое дыхание;</tspan>
+      <tspan x="130" y="292" font-weight="400" fill="#0F172A">хуже зрение</tspan>
+      <tspan x="130" y="319" font-weight="400" fill="#0F172A">или суждение</tspan>
     </text>
+  </g>
+
+  <g id="branch-or">
+    <text x="250" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#0F172A">ИЛИ</text>
   </g>
 
   <g id="co-path">
-    <rect x="630" y="75" width="540" height="180" rx="18" fill="#fff4e6" stroke="#9c4221" stroke-width="4"/>
-    <text x="655" y="112" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#6b2a16">Путь B — подозрение на CO</text>
-    <text x="655" y="150" font-family="Arial, sans-serif" font-size="18" fill="#102a43">
-      <tspan x="655" y="150">Сигнал детектора, головная боль, тошнота,</tspan>
-      <tspan x="655" y="181">сонливость или спутанность. CO без цвета и запаха.</tspan>
-      <tspan x="655" y="220" font-weight="700">Не ждите подтверждения вторым признаком.</tspan>
+    <rect id="co-panel" x="260" y="92" width="220" height="248" rx="14" fill="#FFF4E6" stroke="#9C4221" stroke-width="4"/>
+    <text x="370" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#6B2A16">
+      <tspan x="370" y="122">Путь B</tspan>
+      <tspan x="370" y="149">Подозрение на CO</tspan>
+      <tspan x="370" y="191" font-weight="400" fill="#0F172A">сигнал детектора;</tspan>
+      <tspan x="370" y="218" font-weight="400" fill="#0F172A">продукты выхлопа;</tspan>
+      <tspan x="370" y="245" font-weight="400" fill="#0F172A">головная боль;</tspan>
+      <tspan x="370" y="272" font-weight="400" fill="#0F172A">сонливость;</tspan>
+      <tspan x="370" y="306" fill="#6B2A16">одного триггера</tspan>
+      <tspan x="370" y="331" fill="#6B2A16">достаточно</tspan>
     </text>
   </g>
 
-  <line x1="300" y1="255" x2="300" y2="295" stroke="#334e68" stroke-width="5"/>
-  <line x1="900" y1="255" x2="900" y2="295" stroke="#334e68" stroke-width="5"/>
-  <line x1="300" y1="295" x2="900" y2="295" stroke="#334e68" stroke-width="5"/>
-  <line x1="600" y1="295" x2="600" y2="325" stroke="#334e68" stroke-width="5"/>
+  <line id="hypoxia-to-merge" x1="130" y1="340" x2="250" y2="390" stroke="#334E68" stroke-width="5"/>
+  <line id="co-to-merge" x1="370" y1="340" x2="250" y2="390" stroke="#334E68" stroke-width="5"/>
+  <circle cx="250" cy="390" r="8" fill="#334E68"/>
+  <line id="merge-to-aviate" x1="250" y1="390" x2="250" y2="426" stroke="#334E68" stroke-width="5" marker-end="url(#flow-arrow)"/>
 
   <g id="aviate-control">
-    <rect x="315" y="325" width="570" height="72" rx="14" fill="#102a43"/>
-    <text x="600" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#ffffff">1. AVIATE — управление и безопасная траектория</text>
+    <rect id="aviate-panel" x="25" y="440" width="450" height="112" rx="14" fill="#1E3A5F"/>
+    <text x="250" y="476" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#FFFFFF">
+      <tspan x="250" y="476">1. Сохраните управление</tspan>
+      <tspan x="250" y="507">и безопасную траекторию</tspan>
+      <tspan x="250" y="538" font-weight="400">не ставьте диагноз в полёте</tspan>
+    </text>
   </g>
-  <line x1="600" y1="397" x2="600" y2="425" stroke="#334e68" stroke-width="5"/>
+
+  <line x1="250" y1="552" x2="250" y2="584" stroke="#334E68" stroke-width="5" marker-end="url(#flow-arrow)"/>
 
   <g id="oxygen-checklist">
-    <rect x="245" y="425" width="710" height="86" rx="14" fill="#d9e2ec" stroke="#334e68" stroke-width="3"/>
-    <text x="600" y="459" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#102a43">2. Одобренные кислород / оборудование / чек-лист</text>
-    <text x="600" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#243b53">Только если установлены, применимы и предусмотрены для этого борта</text>
+    <rect id="oxygen-panel" x="25" y="598" width="450" height="152" rx="14" fill="#E2E8F0" stroke="#334E68" stroke-width="3"/>
+    <text x="250" y="633" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0F172A">
+      <tspan x="250" y="633">2. Примените чек-лист борта</tspan>
+      <tspan x="250" y="667" font-weight="400">Кислород и оборудование —</tspan>
+      <tspan x="250" y="696" font-weight="400">только если установлены</tspan>
+      <tspan x="250" y="725" font-weight="400">и предусмотрены документацией</tspan>
+    </text>
   </g>
-  <line x1="600" y1="511" x2="600" y2="538" stroke="#334e68" stroke-width="5"/>
+
+  <line x1="250" y1="750" x2="250" y2="782" stroke="#334E68" stroke-width="5" marker-end="url(#flow-arrow)"/>
 
   <g id="descend-land">
-    <rect x="180" y="538" width="840" height="84" rx="14" fill="#c6f6d5" stroke="#276749" stroke-width="3"/>
-    <text x="600" y="573" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#174d34">3. Прекратить воздействие: снижение / прекращение маршрута / посадка</text>
-    <text x="600" y="604" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#174d34">Для CO вентиляция и обогрев — только по применимому чек-листу</text>
+    <rect id="landing-panel" x="25" y="796" width="450" height="148" rx="14" fill="#DDF5E5" stroke="#276749" stroke-width="3"/>
+    <text x="250" y="832" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#174D34">
+      <tspan x="250" y="832">3. Прекратите воздействие</tspan>
+      <tspan x="250" y="866" font-weight="400">Снижайтесь, прекращайте маршрут</tspan>
+      <tspan x="250" y="895" font-weight="400">или садитесь по обстановке</tspan>
+      <tspan x="250" y="924" font-weight="400">и применимому чек-листу</tspan>
+    </text>
   </g>
-  <line x1="600" y1="622" x2="600" y2="645" stroke="#334e68" stroke-width="5"/>
 
-  <g id="medical-maintenance">
-    <rect x="180" y="645" width="840" height="62" rx="14" fill="#fff5f5" stroke="#9b2c2c" stroke-width="3"/>
-    <text x="600" y="684" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#742a2a">4. Медицинская оценка; при CO — также проверка воздушного судна</text>
+  <line id="landing-to-co" x1="250" y1="944" x2="130" y2="991" stroke="#334E68" stroke-width="5" marker-end="url(#flow-arrow)"/>
+  <line id="landing-to-other" x1="250" y1="944" x2="370" y2="991" stroke="#334E68" stroke-width="5" marker-end="url(#flow-arrow)"/>
+
+  <g id="postflight-co">
+    <rect id="postflight-co-panel" x="20" y="1005" width="220" height="228" rx="14" fill="#FFF1F2" stroke="#9B2C2C" stroke-width="3"/>
+    <text x="130" y="1040" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#742A2A">
+      <tspan x="130" y="1040">При CO</tspan>
+      <tspan x="130" y="1069">после посадки:</tspan>
+      <tspan x="130" y="1105" font-weight="400">медицинская</tspan>
+      <tspan x="130" y="1132" font-weight="400">помощь</tspan>
+      <tspan x="130" y="1166">+</tspan>
+      <tspan x="130" y="1193" font-weight="400">техническая</tspan>
+      <tspan x="130" y="1220" font-weight="400">проверка борта</tspan>
+    </text>
+  </g>
+
+  <g id="postflight-other">
+    <rect id="postflight-other-panel" x="260" y="1005" width="220" height="228" rx="14" fill="#F3E8FF" stroke="#6B46C1" stroke-width="3"/>
+    <text x="370" y="1040" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#44337A">
+      <tspan x="370" y="1037">При других</tspan>
+      <tspan x="370" y="1064">симптомах</tspan>
+      <tspan x="370" y="1091">после посадки:</tspan>
+      <tspan x="370" y="1125" font-weight="400">применимый</tspan>
+      <tspan x="370" y="1152" font-weight="400">медицинский совет</tspan>
+      <tspan x="370" y="1179" font-weight="400">или</tspan>
+      <tspan x="370" y="1206" font-weight="400">профессиональная</tspan>
+      <tspan x="370" y="1229" font-weight="400">оценка по ситуации</tspan>
+    </text>
   </g>
 
   <g id="safety-disclaimer">
-    <rect x="75" y="718" width="1050" height="34" rx="8" fill="#742a2a"/>
-    <text x="600" y="741" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#ffffff">КОНЦЕПТУАЛЬНО: не медицинское лечение и не чек-лист воздушного судна</text>
+    <rect id="disclaimer-panel" x="20" y="1260" width="460" height="108" rx="12" fill="#1E3A5F"/>
+    <text x="250" y="1294" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#FFFFFF">
+      <tspan x="250" y="1294">КОНЦЕПТУАЛЬНАЯ СХЕМА:</tspan>
+      <tspan x="250" y="1324">не медицинское лечение</tspan>
+      <tspan x="250" y="1354">и не чек-лист воздушного судна</tspan>
+    </text>
   </g>
 </svg>
