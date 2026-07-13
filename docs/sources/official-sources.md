@@ -1,0 +1,39 @@
+# Реестр официальных источников
+
+Реестр фиксирует только официальные источники, уже проверенные в исследовательских аудитах курса. Контрольная дата всех записей — **13.07.2026**. JSON-файл [`official-sources.json`](official-sources.json) является машиночитаемым представлением тех же записей.
+
+## Иерархия источников
+
+1. Юридически применимые акты EUR-Lex и BOE имеют приоритет для нормы права.
+2. EASA Easy Access Rules, официальные процедуры и разъяснения AESA помогают применять норму в контексте, но не расширяют её буквальный scope. FAQ AESA не становится нормативным актом.
+3. ENAIRE/AIP España и AEMET дают текущую эксплуатационную информацию. Руководство или снимок портала не заменяет предполётную проверку.
+
+В техническом вопросе закон и применимые AMC задают учебный scope, однако текущий AFM или POH конкретного воздушного судна и его supplements управляют самолётными ограничениями и процедурами. Самостоятельное руководство двигателя или оборудования не отменяет самолётный уровень документации.
+
+## Контроль консолидаций
+
+EASA Easy Access Rules объединяет нормы, AMC и GM для чтения, но не является самостоятельной юридически обязательной публикацией. Консолидированные тексты BOE имеют информационный характер. Поэтому применимый текст сверяется с EUR-Lex либо оригинальным актом BOE, а изменения после даты консолидации проверяются отдельно. В частности, RD 123/2015 и RD 765/2022 читаются вместе с RD 182/2026, а Aircrew — вместе с Regulation (EU) 2024/2076, 2025/134 и контрольной проверкой 2026/781.
+
+## Контроль динамических источников
+
+Динамические страницы AESA, AIP España, AIP SUP, AIC, NOTAM и продукты AEMET проверяются заново перед практическим применением. Edition в таблице описывает состояние на дату аудита, а не замораживает источник. Перед полётом используются действующие AIP/NOTAM и актуальная авиационная погода AEMET; архивный пример не считается briefing package.
+
+## Записи
+
+| ID | Authority | Title | Edition | Checked | Scope | Direct HTTPS URL |
+|---|---|---|---|---|---|---|
+| SRC-EASA-AIRCREW-2026 | EASA | Easy Access Rules for Aircrew | онлайн-консолидация от 24.02.2026 | 2026-07-13 | Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; удобная, но не самостоятельная юридически обязательная публикация, поэтому спорные нормы сверяются с EUR-Lex | <https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew> |
+| SRC-EURLEX-1178-2011 | EUR-Lex | Regulation (EU) No 1178/2011 — Aircrew | консолидированный текст от 22.02.2026 | 2026-07-13 | Юридический текст Part-FCL и Part-MED на указанную дату консолидации; последующие акты и даты применимости проверяются отдельно | <https://eur-lex.europa.eu/eli/reg/2011/1178/2026-02-22/eng> |
+| SRC-EURLEX-2024-2076 | EUR-Lex | Commission Implementing Regulation (EU) 2024/2076 | OJ от 29.07.2024; применимые положения с 14.08.2024 | 2026-07-13 | Изменения FCL.110.A, FCL.140.A, FCL.210.A, FCL.740.A и зачёт действующего экзамена LAPL для PPL той же категории; не создаёт автоматического зачёта ULM/MAF | <https://eur-lex.europa.eu/eli/reg_impl/2024/2076/oj/eng> |
+| SRC-EURLEX-2025-0134 | EUR-Lex | Commission Implementing Regulation (EU) 2025/134 | OJ 2025/134; применимые изменения с 18.02.2026 | 2026-07-13 | Поправки Aircrew, включённые EASA в консолидацию от 24.02.2026; используется только для затронутых положений Part-FCL и Part-MED | <https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202500134> |
+| SRC-EURLEX-2026-0781 | EUR-Lex | Commission Implementing Regulation (EU) 2026/781 | OJ от 10.04.2026 | 2026-07-13 | Контроль поправок после консолидации EASA; проверенные изменения FCL.110 и FCL.210 относятся к вертолётам и не меняют описанные требования LAPL(A) и PPL(A) | <https://eur-lex.europa.eu/eli/reg_impl/2026/781/oj/eng> |
+| SRC-BOE-RD-123-2015 | BOE | Real Decreto 123/2015 — licencia y habilitaciones ULM | консолидировано 12.03.2026 после RD 182/2026 | 2026-07-13 | Испанские требования к обучению, экзаменам, лицензии, habilitaciones, recency и RTC ULM; информационную консолидацию сверять с актом изменения RD 182/2026 | <https://www.boe.es/eli/es/rd/2015/02/27/123/con> |
+| SRC-BOE-RD-182-2026 | BOE | Real Decreto 182/2026 — modificación del régimen ULM | BOE от 12.03.2026; вступление применимых изменений 01.04.2026 | 2026-07-13 | Официальный акт изменений RD 123/2015 и RD 765/2022, включая recency, прямой доступ Part-FCL к ULM и требования к школам | <https://www.boe.es/eli/es/rd/2026/03/11/182> |
+| SRC-BOE-RD-765-2022 | BOE | Real Decreto 765/2022 — aeronaves ultraligeras | консолидировано 12.03.2026; изменения действуют с 01.04.2026 | 2026-07-13 | Испанские категории, эксплуатация, школы и национальная граница ULM; информационную консолидацию сверять с RD 182/2026 | <https://www.boe.es/eli/es/rd/2022/09/20/765/con> |
+| SRC-BOE-RD-141-2025 | BOE | Real Decreto 141/2025 — aeronavegabilidad ULM | BOE от 26.02.2025; действует с 27.02.2025 | 2026-07-13 | Начальная и поддерживаемая лётная годность испанских ULM; не регулирует лицензию пилота и эксплуатационные привилегии | <https://www.boe.es/eli/es/rd/2025/02/25/141> |
+| SRC-AESA-ULM-PROCEDURES | AESA | Formación ULM — programas, guías y escuelas autorizadas | динамическая страница, обновлена 29.05.2026 | 2026-07-13 | Официальная точка доступа AESA к действующим программам MAF, RTC и других habilitaciones и к перечню школ; редакции проверяются перед применением | <https://www.seguridadaerea.gob.es/es/ambitos/formacion-y-examenes/formacion-al-personal-de-vuelo/formacion-ulm> |
+| SRC-AESA-MAF-SYLLABUS-ED01 | AESA | Programa de conocimientos teóricos ULM MAF | FOR-ULM-P01-ETI01-GU01 Ed.01; без календарной даты в PDF | 2026-07-13 | Официальный syllabus девяти предметов MAF; копия неконтролируемая, а ссылка на отменённый приказ 1988 года заменяется действующим RD 141/2025 | <https://www.seguridadaerea.gob.es/sites/default/files/FOR-ULM-P01-ETI01-GU01%20Conocimientos%20teoricos%20habilitacion%20licencia%20de%20piloto%20de%20ULM%20%28MAF%29.pdf> |
+| SRC-AESA-LAPL-PPL-PROCEDURES | AESA | Inscripción y calendario de exámenes teóricos FCL y ULM | динамическая страница, обновлена 29.06.2026 | 2026-07-13 | Испанская процедура и календарь теоретических экзаменов, где процессы Part-FCL LAPL/PPL и ULM разделены; формы и даты проверяются перед регистрацией | <https://www.seguridadaerea.gob.es/es/ambitos/formacion-y-examenes/examenes-de-piloto/examenes-teoricos/inscripcion-y-calendario> |
+| SRC-AESA-RD182-FAQ-2026 | AESA | Preguntas y respuestas frecuentes sobre el nuevo RD 182/2026 | FAQ RD 182/2026, 2026 | 2026-07-13 | Официальное процедурное разъяснение AESA о logbook, recency и признании часов ULM MAF для LAPL(A), но не для initial PPL(A); не нормативный акт | <https://sede.seguridadaerea.gob.es/sede-aesa/sites/default/files/Preguntas_y_respuestas_frecuentes_nuevo_RD182_2026.pdf> |
+| SRC-ENAIRE-AIP-ESPANA | ENAIRE | AIP España | AIRAC 06/26 и AMDT 408/26 от 09.07.2026 на дату аудита | 2026-07-13 | Официальная AIS для постоянной и долговременной информации; это датированный снимок, который не заменяет текущие AIP, SUP, AIC и NOTAM перед полётом | <https://aip.enaire.es/AIP/AIP-en.html> |
+| SRC-AEMET-AVIATION | AEMET | Servicio meteorológico aeronáutico | динамический авиационный сервис, проверен 13.07.2026 | 2026-07-13 | Официальный доступ к наблюдениям, прогнозам, предупреждениям и авиационным продуктам; архивные примеры и дата реестра не являются текущей погодой для вылета | <https://www.aemet.es/en/eltiempo/prediccion/aeronautica> |

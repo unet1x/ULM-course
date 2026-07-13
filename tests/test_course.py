@@ -9,6 +9,69 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 COURSE_DOCS = ROOT / "docs"
 EXCLUDED_DOCS = COURSE_DOCS / "superpowers"
+SOURCE_REGISTRY = COURSE_DOCS / "sources" / "official-sources.json"
+SOURCE_REGISTRY_MD = COURSE_DOCS / "sources" / "official-sources.md"
+TERMS_REGISTRY = COURSE_DOCS / "reference" / "terms.json"
+GLOSSARY = COURSE_DOCS / "reference" / "glossary.md"
+ABBREVIATIONS = COURSE_DOCS / "reference" / "abbreviations.md"
+AUDIT_FILES = (
+    COURSE_DOCS / "sources" / "audit-spain-2026.md",
+    COURSE_DOCS / "sources" / "audit-technical.md",
+    COURSE_DOCS / "sources" / "audit-lapl-transition.md",
+)
+
+OFFICIAL_SOURCE_DOMAINS = {
+    "www.easa.europa.eu",
+    "eur-lex.europa.eu",
+    "www.boe.es",
+    "www.seguridadaerea.gob.es",
+    "sede.seguridadaerea.gob.es",
+    "aip.enaire.es",
+    "www.aemet.es",
+    "ama.aemet.es",
+}
+REQUIRED_SOURCE_IDS = {
+    "SRC-EASA-AIRCREW-2026",
+    "SRC-EURLEX-1178-2011",
+    "SRC-EURLEX-2024-2076",
+    "SRC-EURLEX-2025-0134",
+    "SRC-BOE-RD-123-2015",
+    "SRC-BOE-RD-182-2026",
+    "SRC-BOE-RD-765-2022",
+    "SRC-BOE-RD-141-2025",
+    "SRC-AESA-ULM-PROCEDURES",
+    "SRC-AESA-LAPL-PPL-PROCEDURES",
+    "SRC-ENAIRE-AIP-ESPANA",
+    "SRC-AEMET-AVIATION",
+}
+REQUIRED_CANONICAL_TERMS = {
+    "ULM",
+    "MAF",
+    "LAPL(A)",
+    "PPL(A)",
+    "Part-FCL",
+    "DTO",
+    "ATO",
+    "SERA",
+    "AIP",
+    "NOTAM",
+    "AFM",
+    "POH",
+    "PIC",
+    "VFR",
+    "VMC",
+    "IMC",
+    "angle of attack",
+    "stall",
+    "load factor",
+    "MTOM",
+    "centre of gravity",
+    "METAR",
+    "TAF",
+    "QNH",
+    "flight plan",
+    "radiofonista (RTC)",
+}
 
 FENCED_CODE = re.compile(r"(?ms)^ {0,3}(`{3,}|~{3,})[^\n]*\n.*?^ {0,3}\1\s*$")
 INLINE_CODE = re.compile(r"(`+)(?:[^`]|`(?!\1))*?\1")
@@ -246,6 +309,178 @@ def markdown_references(text):
         position = after_label
 
     return references
+
+
+def _markdown_link_spans(text):
+    definitions, definition_spans = _reference_definitions(text)
+    references = []
+    position = 0
+    span_index = 0
+
+    while position < len(text):
+        while (
+            span_index < len(definition_spans)
+            and position >= definition_spans[span_index][1]
+        ):
+            span_index += 1
+        if (
+            span_index < len(definition_spans)
+            and definition_spans[span_index][0]
+            <= position
+            < definition_spans[span_index][1]
+        ):
+            position = definition_spans[span_index][1]
+            continue
+        if text[position] == "\\":
+            position += 2
+            continue
+
+        is_image = text.startswith("![", position)
+        label_start = position + 1 if is_image else position
+        if text[label_start] != "[":
+            position += 1
+            continue
+        parsed_label = _parse_bracket(text, label_start)
+        if parsed_label is None:
+            position += 1
+            continue
+        label, after_label = parsed_label
+        target = None
+        after_reference = after_label
+
+        if after_label < len(text) and text[after_label] == "(":
+            parsed_inline = _parse_inline_target(text, after_label)
+            if parsed_inline is not None:
+                target, after_reference = parsed_inline
+        elif after_label < len(text) and text[after_label] == "[":
+            parsed_reference = _parse_bracket(text, after_label)
+            if parsed_reference is not None:
+                reference, after_reference = parsed_reference
+                target = definitions.get(normalise_reference(reference or label))
+        else:
+            target = definitions.get(normalise_reference(label))
+
+        if target is not None:
+            references.append(
+                (
+                    is_image,
+                    label_start + 1,
+                    after_label - 1,
+                    target,
+                    position,
+                    after_reference,
+                )
+            )
+            position = after_reference
+            continue
+        position = after_label
+
+    return references, definition_spans
+
+
+def _inside_any(position, spans):
+    return any(start <= position < end for start, end in spans)
+
+
+def _term_pattern(canonical):
+    parts = [re.escape(part) for part in canonical.split()]
+    body = r"\s+".join(parts)
+    return re.compile(rf"(?<![\w]){body}(?![\w])", re.IGNORECASE)
+
+
+def unlinked_term_occurrences(text, term):
+    clean_text = strip_code(text)
+    links, definition_spans = _markdown_link_spans(clean_text)
+    ignored = list(definition_spans)
+    linked_labels = []
+    anchor = term["anchor"]
+
+    for is_image, label_start, label_end, target, start, end in links:
+        ignored.extend(((start, label_start), (label_end, end)))
+        if is_image:
+            ignored.append((label_start, label_end))
+            continue
+        fragment = unquote(urlsplit(_clean_target(target)).fragment)
+        if fragment == anchor:
+            linked_labels.append((label_start, label_end))
+
+    ignored.extend(
+        match.span()
+        for match in re.finditer(r"<https?://[^>\n]+>", clean_text)
+    )
+    offset = 0
+    anchor_pattern = re.compile(
+        rf"<a\b[^>]*\bid\s*=\s*(['\"]){re.escape(anchor)}\1[^>]*>",
+        re.IGNORECASE,
+    )
+    for line in clean_text.splitlines(keepends=True):
+        if anchor_pattern.search(line):
+            ignored.append((offset, offset + len(line)))
+        offset += len(line)
+
+    seen = 0
+    violations = []
+    for match in _term_pattern(term["canonical"]).finditer(clean_text):
+        if _inside_any(match.start(), ignored):
+            continue
+        seen += 1
+        if _inside_any(match.start(), linked_labels):
+            continue
+        if seen > 1:
+            line = clean_text.count("\n", 0, match.start()) + 1
+            violations.append(line)
+    return violations
+
+
+def is_learner_chapter(path):
+    try:
+        relative = path.relative_to(COURSE_DOCS)
+    except ValueError:
+        return False
+    return bool(relative.parts and re.fullmatch(r"\d{2}-.+", relative.parts[0]))
+
+
+def learner_chapter_files():
+    return sorted(
+        path
+        for path in COURSE_DOCS.rglob("*.md")
+        if path.is_file() and is_learner_chapter(path)
+    )
+
+
+def source_rows_from_markdown(text):
+    rows = []
+    for line in text.splitlines():
+        if not re.match(r"^\|\s*SRC-[A-Z0-9-]+\s*\|", line):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) != 7:
+            continue
+        identifier, authority, title, edition, checked, scope, url = cells
+        rows.append(
+            {
+                "id": identifier,
+                "authority": authority,
+                "title": title,
+                "url": url.removeprefix("<").removesuffix(">"),
+                "edition": edition,
+                "checked": checked,
+                "scope": scope,
+            }
+        )
+    return rows
+
+
+def abbreviation_links_from_markdown(text):
+    links = set()
+    row_pattern = re.compile(
+        r"^\|\s*([^|]+?)\s*\|\s*\[[^]]+\]"
+        r"\(glossary\.md#(term-[a-z0-9-]+)\)\s*\|",
+        re.MULTILINE,
+    )
+    for abbreviation, anchor in row_pattern.findall(text):
+        links.add((abbreviation.strip(), anchor))
+    return links
 
 
 def _markdown_unescape(value):
@@ -538,6 +773,239 @@ Setext section
             "local_target_is_valid", lambda path, is_image: path.exists()
         )
         self.assertFalse(target_is_valid(resolved, True))
+
+    def test_repeated_term_links_ignore_code_destinations_and_definitions(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = """ULM вводится один раз.
+Далее используется [ULM][term-ulm].
+`ULM ULM` и:
+```text
+ULM
+```
+[источник](https://example.test/ULM)
+[term-ulm]: ../reference/glossary.md#term-ulm
+"""
+        self.assertEqual([], unlinked_term_occurrences(text, term))
+
+    def test_second_plain_term_use_is_reported(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = "ULM вводится один раз.\nЗатем ULM повторяется без ссылки.\n"
+        self.assertEqual([2], unlinked_term_occurrences(text, term))
+
+    def test_inline_term_link_to_own_anchor_is_accepted(self):
+        term = {"canonical": "angle of attack", "anchor": "term-angle-of-attack"}
+        text = (
+            "angle of attack вводится один раз. Затем "
+            "[angle of attack](../reference/glossary.md#term-angle-of-attack)."
+        )
+        self.assertEqual([], unlinked_term_occurrences(text, term))
+
+    def test_term_link_to_wrong_anchor_is_reported(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = "ULM вводится. Затем [ULM](../reference/glossary.md#term-maf)."
+        self.assertEqual([1], unlinked_term_occurrences(text, term))
+
+    def test_term_on_its_explicit_definition_line_is_ignored(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = (
+            '<a id="term-ulm"></a> ULM — собственное определение.\n'
+            "ULM впервые используется в учебном тексте.\n"
+        )
+        self.assertEqual([], unlinked_term_occurrences(text, term))
+
+    def test_only_numbered_course_directories_are_learner_chapters(self):
+        self.assertTrue(is_learner_chapter(COURSE_DOCS / "01-air-law" / "intro.md"))
+        for path in (
+            COURSE_DOCS / "sources" / "audit-spain-2026.md",
+            COURSE_DOCS / "sources" / "official-sources.md",
+            COURSE_DOCS / "reference" / "glossary.md",
+            COURSE_DOCS / "superpowers" / "plans" / "plan.md",
+            COURSE_DOCS / "index.md",
+            ROOT / "README.md",
+            ROOT / "CONTRIBUTING.md",
+        ):
+            with self.subTest(path=path):
+                self.assertFalse(is_learner_chapter(path))
+
+
+class CourseRegistryTests(unittest.TestCase):
+    def load_json(self, path):
+        self.assertTrue(path.is_file(), path.relative_to(ROOT))
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def test_registry_files_exist(self):
+        for path in (
+            SOURCE_REGISTRY,
+            SOURCE_REGISTRY_MD,
+            TERMS_REGISTRY,
+            GLOSSARY,
+            ABBREVIATIONS,
+        ):
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertTrue(path.is_file(), path.relative_to(ROOT))
+
+    def test_official_source_registry_schema_and_required_coverage(self):
+        sources = self.load_json(SOURCE_REGISTRY)
+        self.assertIsInstance(sources, list)
+        required_fields = {
+            "id",
+            "authority",
+            "title",
+            "url",
+            "edition",
+            "checked",
+            "scope",
+        }
+        identifiers = []
+        for source in sources:
+            with self.subTest(source=source.get("id")):
+                self.assertTrue(required_fields.issubset(source))
+                self.assertRegex(source["id"], r"^SRC-[A-Z0-9-]+$")
+                self.assertEqual("2026-07-13", source["checked"])
+                parsed = urlsplit(source["url"])
+                self.assertEqual("https", parsed.scheme)
+                self.assertIn(parsed.hostname, OFFICIAL_SOURCE_DOMAINS)
+                for field in required_fields - {"checked"}:
+                    self.assertTrue(str(source[field]).strip(), field)
+                identifiers.append(source["id"])
+        self.assertEqual(len(identifiers), len(set(identifiers)))
+        self.assertTrue(REQUIRED_SOURCE_IDS.issubset(identifiers))
+
+    def test_human_source_registry_exactly_matches_json(self):
+        sources = self.load_json(SOURCE_REGISTRY)
+        self.assertTrue(SOURCE_REGISTRY_MD.is_file(), SOURCE_REGISTRY_MD)
+        rows = source_rows_from_markdown(
+            SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            {source["id"]: source for source in sources},
+            {row["id"]: row for row in rows},
+        )
+
+    def test_human_source_registry_explains_source_controls(self):
+        self.assertTrue(SOURCE_REGISTRY_MD.is_file(), SOURCE_REGISTRY_MD)
+        text = SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+        self.assertRegex(text, r"(?i)иерархи")
+        self.assertRegex(text, r"(?i)консолид")
+        self.assertRegex(text, r"(?i)динамическ")
+        self.assertRegex(text, r"(?i)AIP.*NOTAM|NOTAM.*AIP")
+        self.assertRegex(text, r"(?i)AEMET")
+
+    def test_every_registered_source_was_distilled_from_audit_evidence(self):
+        sources = self.load_json(SOURCE_REGISTRY)
+        evidence = "\n".join(
+            path.read_text(encoding="utf-8") for path in AUDIT_FILES
+        )
+        for source in sources:
+            with self.subTest(source=source["id"]):
+                self.assertIn(source["url"], evidence)
+
+    def test_term_registry_schema_required_terms_and_unique_stable_ids(self):
+        terms = self.load_json(TERMS_REGISTRY)
+        self.assertIsInstance(terms, list)
+        required_fields = {
+            "id",
+            "canonical",
+            "english",
+            "spanish",
+            "russian",
+            "definition",
+            "anchor",
+            "defined_in",
+        }
+        identifiers = []
+        anchors = []
+        for term in terms:
+            with self.subTest(term=term.get("id")):
+                self.assertTrue(required_fields.issubset(term))
+                self.assertRegex(term["id"], r"^term-[a-z0-9-]+$")
+                self.assertEqual(term["id"], term["anchor"])
+                for field in required_fields:
+                    self.assertTrue(str(term[field]).strip(), field)
+                if "abbreviation" in term:
+                    self.assertTrue(
+                        term["abbreviation"] is None
+                        or str(term["abbreviation"]).strip()
+                    )
+                identifiers.append(term["id"])
+                anchors.append(term["anchor"])
+        self.assertEqual(len(identifiers), len(set(identifiers)))
+        self.assertEqual(len(anchors), len(set(anchors)))
+        self.assertEqual(
+            REQUIRED_CANONICAL_TERMS,
+            {term["canonical"] for term in terms},
+        )
+
+    def test_term_definitions_and_abbreviations_match_manifest(self):
+        terms = self.load_json(TERMS_REGISTRY)
+        self.assertTrue(GLOSSARY.is_file(), GLOSSARY)
+        self.assertTrue(ABBREVIATIONS.is_file(), ABBREVIATIONS)
+        glossary = GLOSSARY.read_text(encoding="utf-8")
+        abbreviations = ABBREVIATIONS.read_text(encoding="utf-8")
+        explicit_term_anchors = {
+            next(group for group in match.groups() if group is not None)
+            for match in EXPLICIT_HTML_ANCHOR.finditer(glossary)
+            if next(group for group in match.groups() if group is not None).startswith(
+                "term-"
+            )
+        }
+        self.assertEqual(
+            {term["anchor"] for term in terms}, explicit_term_anchors
+        )
+        for term in terms:
+            with self.subTest(term=term["id"]):
+                self.assertIn(f'<a id="{term["anchor"]}"></a>', glossary)
+                for field in (
+                    "canonical",
+                    "english",
+                    "spanish",
+                    "russian",
+                    "definition",
+                ):
+                    self.assertIn(str(term[field]), glossary)
+                if term.get("abbreviation"):
+                    self.assertIn(str(term["abbreviation"]), abbreviations)
+                    self.assertIn(
+                        f"glossary.md#{term['anchor']}", abbreviations
+                    )
+        self.assertEqual(
+            {
+                (term["abbreviation"], term["anchor"])
+                for term in terms
+                if term.get("abbreviation")
+            },
+            abbreviation_links_from_markdown(abbreviations),
+        )
+
+    def test_defined_in_paths_and_anchors_are_valid(self):
+        terms = self.load_json(TERMS_REGISTRY)
+        for term in terms:
+            with self.subTest(term=term["id"]):
+                parsed = urlsplit(term["defined_in"])
+                self.assertFalse(parsed.scheme)
+                self.assertFalse(parsed.netloc)
+                self.assertTrue(parsed.path.startswith("docs/reference/"))
+                self.assertEqual(term["anchor"], parsed.fragment)
+                path = ROOT / unquote(parsed.path)
+                self.assertTrue(path.is_file(), path.relative_to(ROOT))
+                self.assertTrue(
+                    fragment_exists(
+                        path.read_text(encoding="utf-8"), parsed.fragment
+                    )
+                )
+
+    def test_future_learner_chapters_link_repeated_manifest_terms(self):
+        terms = self.load_json(TERMS_REGISTRY)
+        violations = []
+        for path in learner_chapter_files():
+            text = path.read_text(encoding="utf-8")
+            for term in terms:
+                lines = unlinked_term_occurrences(text, term)
+                violations.extend(
+                    f"{path.relative_to(ROOT)}:{line}: {term['canonical']}"
+                    for line in lines
+                )
+        self.assertEqual([], violations)
 
 
 class CourseStructureTests(unittest.TestCase):

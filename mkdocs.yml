@@ -22,7 +22,11 @@ plugins:
 
 nav:
   - Главная: index.md
+  - Справочники:
+      - Глоссарий: reference/glossary.md
+      - Сокращения: reference/abbreviations.md
   - Исследовательская база:
+      - Реестр официальных источников: sources/official-sources.md
       - Испания и нормативная дата: sources/audit-spain-2026.md
       - Техническая карта: sources/audit-technical.md
       - Переход к LAPL(A): sources/audit-lapl-transition.md
