@@ -119,6 +119,10 @@ REQUIRED_CANONICAL_TERMS = {
     "dual flight instruction",
     "cross-country flight",
     "Head of Training",
+    "TMG",
+    "AMC",
+    "LAPL medical certificate",
+    "Class 2 medical certificate",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -140,6 +144,10 @@ HYBRID_TERMS_REQUIRING_EXPLANATION = (
     "rolling",
     "checkout",
     "assessment",
+    "TMG",
+    "AMC",
+    "LAPL medical",
+    "Class 2",
 )
 
 FENCE_OPENER = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
@@ -614,7 +622,8 @@ def normative_claim_errors(text, registered_sources):
     sections = re.split(r"(?m)(?=^##\s+)", clean)
     cue = re.compile(
         r"(?i)(?:\b(?:обязан(?:а|ы)?|требу(?:ет|ется|ются)|допускается|"
-        r"запрещ[её]н(?:а|о|ы)?|действител(?:ен|ьна|ьно|ьны)|разрешает|"
+        r"запрещ[её]н(?:а|о|ы)?|долж(?:ен|на|но|ны)|"
+        r"действител(?:ен|ьна|ьно|ьны)|разрешает|"
         r"выда[её]тся|призна[её]тся|не\s+превышает|не\s+менее|минимум|"
         r"максимум)\b|\b(?:FCL|SERA)\.\d)"
     )
@@ -655,12 +664,13 @@ def automatic_recognition_claims(text):
             r"[^.!?\n]{0,45}?PPL"
         ),
         re.compile(
-            r"(?i)ULM[^.!?\n]{0,30}?автоматически[^.!?\n]{0,16}?"
-            r"(?P<verb>превращается|становится)[^.!?\n]{0,30}?LAPL"
+            r"(?i)ULM[^.!?\n]{0,30}?автоматически[^.!?\n]{0,20}?"
+            r"(?P<verb>превращается|становится|призна[её]тся)"
+            r"(?:\s+как)?[^.!?\n]{0,30}?(?:LAPL|PPL)"
         ),
         re.compile(
             r"(?i)ULM[^.!?\n]{0,20}?(?P<verb>конвертируется)"
-            r"[^.!?\n]{0,30}?PPL\s+без\s+(?:оценки|проверки)"
+            r"[^.!?\n]{0,30}?(?:LAPL|PPL)\s+без\s+(?:оценки|проверки)"
         ),
     )
     errors = []
@@ -685,13 +695,43 @@ FOREIGN_OPERATION = re.compile(
     r"маршрут|пересеч|вл[её]т|пол[её]т|airspace|AIP|NOTAM|радио|план\s+пол[её]та)"
 )
 
+DESTINATION_NAME = (
+    r"(?!(?:Испани(?:я|и|ю|е|ей)|Spain)\b)"
+    r"[A-ZА-ЯЁ][A-Za-zА-Яа-яЁё-]+"
+)
+NAMED_FOREIGN_DESTINATION = re.compile(
+    rf"(?:пол[её]т\w*|вылет\w*|маршрут\w*|вл[её]т\w*)\s+"
+    rf"(?:в|во|через|до)\s+{DESTINATION_NAME}|"
+    rf"границ\w+\s+(?:с\s+)?{DESTINATION_NAME}"
+)
+GENERIC_FOREIGN_SCOPE = re.compile(
+    r"(?i)(?:вне\s+(?:Испани\w*|испанск\w+\s+воздушн\w+\s+пространств\w*)|"
+    r"иностранн\w+|друг\w+\s+государств\w+|международн\w+|"
+    r"пересеч\w+\s+границ\w+)"
+)
+SPAIN_ONLY_DISCLAIMER = re.compile(
+    r"(?i)(?:только\s+в\s+Испани\w*|огранич\w+\s+Испани\w*|"
+    r"не\s+(?:учит|обучает|описывает|рассматривает|выда[её]т|препода|явля)|"
+    r"запрещ\w*)"
+)
+
 
 def cross_border_procedure_errors(text):
-    return [
-        sentence
-        for sentence in _sentences(text)
-        if FOREIGN_COUNTRY.search(sentence) and FOREIGN_OPERATION.search(sentence)
-    ]
+    errors = []
+    learner_text = re.split(
+        r"(?m)^##\s+Контрольные вопросы\b", text, maxsplit=1
+    )[0]
+    for sentence in _sentences(learner_text):
+        if SPAIN_ONLY_DISCLAIMER.search(sentence):
+            continue
+        destination = FOREIGN_COUNTRY.search(sentence) or NAMED_FOREIGN_DESTINATION.search(
+            sentence
+        )
+        if FOREIGN_OPERATION.search(sentence) and (
+            destination or GENERIC_FOREIGN_SCOPE.search(sentence)
+        ):
+            errors.append(sentence)
+    return errors
 
 
 def _plain_markdown(value):
@@ -734,8 +774,32 @@ def parsed_question_blocks(text):
 ABSURD_DISTRACTOR = re.compile(
     r"(?i)(?:купить.{0,20}книж|рекламн(?:ый|ая|ое)\s+сайт|"
     r"автор\s+этого\s+курса|количеств[оа]\s+букв|цвет\s+приложения|"
-    r"если\s+нет\s+ветра)"
+    r"если\s+нет\s+ветра|подбросить\s+монет|выбрать\s+наугад|"
+    r"цвет.{0,24}назван.{0,24}(?:размер\s+шрифт|шрифт))"
 )
+
+TAUTOLOGICAL_EXPLANATION = re.compile(
+    r"(?is)(?:ответ[^.!?\n]{0,20}(?:правильн\w*|верн\w*)|"
+    r"вариант[^.!?\n]{0,20}невер\w*)[^.!?\n]{0,30}"
+    r"потому\s+что[^.!?\n]{0,55}(?:правильн\w*|верн\w*|невер\w*)"
+)
+
+
+def explanation_is_tautological(value):
+    plain = _plain_markdown(value)
+    if TAUTOLOGICAL_EXPLANATION.search(plain):
+        return True
+    filler = re.compile(
+        r"(?i)^(?:этот|эта|это|ответ|вариант|правильн\w*|верн\w*|"
+        r"невер\w*|потому|явля\w*|поэтому|услови\w*|вопрос\w*|"
+        r"подход\w*|выбран\w*)$"
+    )
+    concepts = {
+        token.casefold()
+        for token in re.findall(r"[A-Za-zА-Яа-яЁё0-9.-]+", plain)
+        if len(token) >= 4 and not filler.match(token)
+    }
+    return len(concepts) < 2
 
 
 def question_block_errors(text):
@@ -780,8 +844,12 @@ def question_block_errors(text):
         )
         if why is None or not _substantive(why.group(1), 5, 28):
             errors.append(f"{identifier}: explanation is not substantive")
+        elif explanation_is_tautological(why.group(1)):
+            errors.append(f"{identifier}: explanation is tautological")
         if distractor is None or not _substantive(distractor.group(1), 5, 28):
             errors.append(f"{identifier}: distractor explanation is not substantive")
+        elif explanation_is_tautological(distractor.group(1)):
+            errors.append(f"{identifier}: distractor explanation is tautological")
     return errors
 
 
@@ -825,12 +893,66 @@ def unexplained_hybrid_occurrences(text):
     return errors
 
 
-def element_bbox(element):
-    value = element.attrib.get("data-bbox", "")
-    numbers = [float(item) for item in value.split()]
-    if len(numbers) != 4:
+def _bbox_union(boxes):
+    boxes = [box for box in boxes if box is not None]
+    if not boxes:
         return None
-    return tuple(numbers)
+    left = min(box[0] for box in boxes)
+    top = min(box[1] for box in boxes)
+    right = max(box[0] + box[2] for box in boxes)
+    bottom = max(box[1] + box[3] for box in boxes)
+    return (left, top, right - left, bottom - top)
+
+
+def element_bbox(element):
+    """Derive a conservative box from real SVG geometry, never data-bbox."""
+    tag = element.tag.rsplit("}", 1)[-1]
+    if tag == "rect":
+        return tuple(
+            float(element.attrib.get(name, 0))
+            for name in ("x", "y", "width", "height")
+        )
+    if tag == "line":
+        x1, y1, x2, y2 = (
+            float(element.attrib.get(name, 0))
+            for name in ("x1", "y1", "x2", "y2")
+        )
+        return (min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1))
+    if tag == "path":
+        numbers = [
+            float(item)
+            for item in re.findall(r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)", element.attrib.get("d", ""))
+        ]
+        if len(numbers) < 2 or len(numbers) % 2:
+            return None
+        points = list(zip(numbers[0::2], numbers[1::2]))
+        xs = [point[0] for point in points]
+        ys = [point[1] for point in points]
+        return (min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys))
+    if tag == "text":
+        font_size = element.attrib.get("font-size")
+        if font_size is None:
+            return None
+        font_size = float(font_size.removesuffix("px"))
+        lines = list(element) or [element]
+        boxes = []
+        for line in lines:
+            content = " ".join("".join(line.itertext()).split())
+            if not content:
+                continue
+            x = float(line.attrib.get("x", element.attrib.get("x", 0)))
+            y = float(line.attrib.get("y", element.attrib.get("y", 0)))
+            width = len(content) * font_size * 0.56
+            anchor = line.attrib.get(
+                "text-anchor", element.attrib.get("text-anchor", "start")
+            )
+            if anchor == "middle":
+                x -= width / 2
+            elif anchor == "end":
+                x -= width
+            boxes.append((x, y - font_size, width, font_size * 1.15))
+        return _bbox_union(boxes)
+    return _bbox_union(element_bbox(child) for child in element)
 
 
 def bboxes_overlap(first, second):
@@ -1578,13 +1700,22 @@ class Task4ValidatorRegressionTests(unittest.TestCase):
         with_source = without_source + "\nИсточник: `SRC-TEST`.\n"
         self.assertTrue(normative_claim_errors(without_source, registered))
         self.assertEqual([], normative_claim_errors(with_source, registered))
+        common_obligation = """## Обычная обязанность {#ordinary-duty}
+
+Пилот должен иметь действующую лицензию.
+"""
+        self.assertTrue(normative_claim_errors(common_obligation, registered))
 
     def test_automatic_recognition_is_sentence_local_and_requires_tight_negation(self):
         positives = (
             "Часы ULM полностью засчитываются при выдаче PPL.",
             "ULM автоматически превращается в LAPL.",
+            "ULM автоматически становится PPL.",
+            "ULM автоматически признаётся как LAPL.",
             "ULM конвертируется в PPL без оценки.",
+            "ULM конвертируется в LAPL без оценки.",
             "Это не относится к погоде. Часы ULM полностью засчитываются при выдаче PPL.",
+            "Это не очевидно: ULM автоматически становится PPL.",
         )
         for value in positives:
             with self.subTest(value=value):
@@ -1592,7 +1723,10 @@ class Task4ValidatorRegressionTests(unittest.TestCase):
         allowed = (
             "Часы ULM не полностью засчитываются при выдаче PPL.",
             "ULM автоматически не превращается в LAPL.",
+            "ULM автоматически не становится PPL.",
+            "ULM автоматически не признаётся как LAPL.",
             "ULM не конвертируется в PPL без оценки.",
+            "ULM не конвертируется в LAPL без оценки.",
         )
         for value in allowed:
             with self.subTest(value=value):
@@ -1603,6 +1737,8 @@ class Task4ValidatorRegressionTests(unittest.TestCase):
             "Для полёта в Italy запросите местное разрешение.",
             "Перед пересечением границы Германии изучите её AIP.",
             "Маршрут во Францию требует отдельной процедуры.",
+            "Для полёта в Марокко запросите местное разрешение.",
+            "Перед вылетом в Андорру изучите процедуру пересечения границы.",
         ):
             with self.subTest(value=value):
                 self.assertTrue(cross_border_procedure_errors(value))
@@ -1612,6 +1748,41 @@ class Task4ValidatorRegressionTests(unittest.TestCase):
                 "Курс рассматривает ULM только в Испании и не обучает иностранным процедурам."
             ),
         )
+
+    def test_question_parser_rejects_whimsical_and_tautological_content(self):
+        invalid = """### Q-LAW-903 — Как определить применимые границы зоны перед вылетом? {#q-law-903}
+
+A. Подбросить монету перед полётом.<br>
+B. Проверить горизонтальные, вертикальные и временные пределы.<br>
+C. Цвет, название и размер шрифта.<br>
+D. Сверить только координату геометрического центра зоны.
+
+**Правильный ответ:** B.
+
+**Почему:** Этот ответ правильный, потому что он является правильным ответом на вопрос.
+
+**Почему главный отвлекающий вариант неверен:** Этот вариант неверен, потому что он является неверным вариантом ответа.
+"""
+        errors = "\n".join(question_block_errors(invalid))
+        self.assertIn("option A is an absurd distractor", errors)
+        self.assertIn("option C is an absurd distractor", errors)
+        self.assertIn("explanation is tautological", errors)
+        self.assertIn("distractor explanation is tautological", errors)
+
+    def test_svg_geometry_ignores_stale_hand_authored_metadata(self):
+        root = ET.fromstring(
+            '<svg xmlns="http://www.w3.org/2000/svg">'
+            '<rect id="terrain" x="0" y="80" width="100" height="20" '
+            'data-bbox="0 80 100 20"/>'
+            '<rect id="zone" x="10" y="85" width="20" height="10" '
+            'data-bbox="10 10 20 10"/>'
+            '</svg>'
+        )
+        elements = {item.attrib["id"]: item for item in root if "id" in item.attrib}
+        terrain = element_bbox(elements["terrain"])
+        zone = element_bbox(elements["zone"])
+        self.assertEqual((10.0, 85.0, 20.0, 10.0), zone)
+        self.assertTrue(bboxes_overlap(terrain, zone))
 
     def test_question_parser_rejects_empty_duplicate_and_absurd_content(self):
         invalid = """### Q-LAW-901 — Пусто {#q-law-901}
@@ -1868,6 +2039,37 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
                 )
             )
         self.assertEqual([], violations)
+
+    def test_beginner_transition_terms_are_explained_in_russian_at_first_use(self):
+        roadmap = (ROOT / TASK4_CHAPTERS[1]).read_text(encoding="utf-8")
+        transition = (ROOT / TASK4_CHAPTERS[8]).read_text(encoding="utf-8")
+        expected = {
+            "roadmap TMG": (roadmap, "туристических мотопланёрах ([TMG][tmg])"),
+            "roadmap AMC": (
+                roadmap,
+                "приемлемые способы подтверждения соответствия ([AMC][amc])",
+            ),
+            "roadmap LAPL medical": (
+                roadmap,
+                "медицинское свидетельство LAPL ([LAPL medical certificate][lapl-medical])",
+            ),
+            "roadmap Class 2": (
+                roadmap,
+                "медицинским свидетельством класса 2 ([Class 2 medical certificate][class-2-medical])",
+            ),
+            "transition TMG": (transition, "туристическом мотопланёре ([TMG][tmg])"),
+            "transition LAPL medical": (
+                transition,
+                "медицинское свидетельство LAPL ([LAPL medical certificate][lapl-medical])",
+            ),
+            "transition Class 2": (
+                transition,
+                "медицинское свидетельство класса 2 ([Class 2 medical certificate][class-2-medical])",
+            ),
+        }
+        for label, (text, phrase) in expected.items():
+            with self.subTest(term=label):
+                self.assertIn(phrase, text)
 
     def test_index_prominently_links_to_first_lesson(self):
         text = (ROOT / "docs/index.md").read_text(encoding="utf-8")

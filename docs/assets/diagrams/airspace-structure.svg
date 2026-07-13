@@ -44,22 +44,22 @@
   <text x="940" y="488" class="body">правила всё равно действуют</text>
 
   <!-- Terrain is intentionally painted before the operational symbols and labels. -->
-  <path id="terrain-layer" data-bbox="55 620 1090 100" d="M 55 670 L 190 625 L 300 665 L 410 620 L 520 670 L 640 635 L 760 675 L 890 625 L 1010 670 L 1145 630 L 1145 720 L 55 720 Z" class="terrain"/>
+  <path id="terrain-layer" d="M 55 670 L 190 625 L 300 665 L 410 620 L 520 670 L 640 635 L 760 675 L 890 625 L 1010 670 L 1145 630 L 1145 720 L 55 720 Z" class="terrain"/>
   <text x="600" y="705" class="terrain-label">рельеф / SFC — учитывайте препятствия и систему отсчёта высоты</text>
 
-  <g id="special-use-zone" data-bbox="820 510 220 100">
+  <g id="special-use-zone">
     <rect x="820" y="510" width="220" height="100" rx="12" class="zone"/>
     <text x="930" y="543" class="label">P / R / D</text>
     <text x="930" y="574" class="body">проверить пределы</text>
     <text x="930" y="600" class="body">и активацию</text>
   </g>
 
-  <g id="aerodrome-symbol" data-bbox="525 525 150 82">
+  <g id="aerodrome-symbol">
     <path d="M 540 575 L 600 535 L 660 575 Z" fill="#102a43"/>
     <rect x="525" y="575" width="150" height="12" fill="#102a43"/>
     <text x="600" y="607" class="body">аэродром</text>
   </g>
 
-  <rect id="warning-panel" data-bbox="95 752 1010 52" x="95" y="752" width="1010" height="52" rx="12" fill="#102a43"/>
+  <rect id="warning-panel" x="95" y="752" width="1010" height="52" rx="12" fill="#102a43"/>
   <text id="warning-text" x="600" y="785" class="warn" fill="#ffffff">Фактические классы, границы, частоты, расписания и NOTAM берите только из текущей AIS</text>
 </svg>

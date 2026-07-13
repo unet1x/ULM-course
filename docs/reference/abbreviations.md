@@ -35,3 +35,5 @@
 | AIC | [AIC](glossary.md#term-aic) | Aeronautical Information Circular |
 | ATC | [ATC clearance](glossary.md#term-atc-clearance) | air traffic control clearance |
 | SEP | [SEP](glossary.md#term-sep) | single-engine piston aeroplane class rating |
+| TMG | [TMG](glossary.md#term-tmg) | туристический мотопланёр |
+| AMC | [AMC](glossary.md#term-amc) | приемлемые способы подтверждения соответствия EASA |

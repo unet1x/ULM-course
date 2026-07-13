@@ -89,7 +89,7 @@
 
 ### Слой 2: способ применения {#study-guide-section-10}
 
-AMC/GM [EASA][easa], процедуры [AESA][aesa] и официальные FAQ помогают понять процесс. FAQ не расширяет буквальный объём нормы.
+Приемлемые способы подтверждения соответствия ([AMC][amc])/GM [EASA][easa], процедуры [AESA][aesa] и официальные FAQ помогают понять процесс. FAQ не расширяет буквальный объём нормы.
 
 ### Слой 3: текущая эксплуатационная информация {#study-guide-section-11}
 
@@ -196,3 +196,4 @@ D. Когда запомнилась буква ответа.
 [notam]: ../reference/glossary.md#term-notam
 [aesa]: ../reference/glossary.md#term-aesa
 [easa]: ../reference/glossary.md#term-easa
+[amc]: ../reference/glossary.md#term-amc

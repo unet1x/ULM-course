@@ -53,8 +53,8 @@
   <text x="613" y="626" class="small">необязательный LAPL(A) → PPL(A):</text>
   <text x="613" y="651" class="small">новая оценка + совокупные пороги</text>
 
-  <rect id="roadmap-warning-panel" data-bbox="215 665 770 50" x="215" y="665" width="770" height="50" class="warning"/>
-  <text id="roadmap-warning-text" data-bbox="250 671 700 40" x="600" y="687" class="danger">
+  <rect id="roadmap-warning-panel" x="215" y="665" width="770" height="50" class="warning"/>
+  <text id="roadmap-warning-text" x="600" y="687" class="danger" font-size="20" text-anchor="middle">
     <tspan x="600" y="687">Нет автоматической конверсии или гарантии минимальных часов.</tspan>
     <tspan x="600" y="708">Каждый зачёт требует нормы и индивидуальной оценки.</tspan>
   </text>

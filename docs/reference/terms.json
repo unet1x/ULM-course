@@ -504,5 +504,49 @@
     "definition": "Head of Training — назначенное лицо учебной организации, отвечающее за согласованность и стандарт подготовки в пределах применимой системы. Роль DTO/ATO по Part-FCL нельзя автоматически отождествлять со всеми функциями jefe de instrucción национальной школы ULM: точные обязанности определяет соответствующий режим.",
     "anchor": "term-head-of-training",
     "defined_in": "docs/reference/glossary.md#term-head-of-training"
+  },
+  {
+    "id": "term-tmg",
+    "canonical": "TMG",
+    "english": "touring motor glider",
+    "spanish": "motovelero de turismo",
+    "russian": "туристический мотопланёр",
+    "abbreviation": "TMG",
+    "definition": "TMG — используемое в Part-FCL обозначение туристического мотопланёра. В требованиях LAPL(A) и PPL(A) TMG может перечисляться рядом с самолётами, однако любой планер или ULM нельзя автоматически считать TMG.",
+    "anchor": "term-tmg",
+    "defined_in": "docs/reference/glossary.md#term-tmg"
+  },
+  {
+    "id": "term-amc",
+    "canonical": "AMC",
+    "english": "Acceptable Means of Compliance",
+    "spanish": "Medios Aceptables de Cumplimiento",
+    "russian": "приемлемые способы подтверждения соответствия",
+    "abbreviation": "AMC",
+    "definition": "AMC — опубликованный способ показать соответствие требованию EASA. AMC помогает применять правило, но не заменяет текст регламента; возможность альтернативного способа и порядок его принятия проверяют в применимой системе.",
+    "anchor": "term-amc",
+    "defined_in": "docs/reference/glossary.md#term-amc"
+  },
+  {
+    "id": "term-lapl-medical-certificate",
+    "canonical": "LAPL medical certificate",
+    "english": "LAPL medical certificate",
+    "spanish": "certificado médico LAPL",
+    "russian": "медицинское свидетельство LAPL",
+    "abbreviation": null,
+    "definition": "LAPL medical certificate — медицинское свидетельство по Part-MED, соответствующее реализации полномочий LAPL при соблюдении его срока и ограничений. Само по себе оно не является медицинским основанием для реализации полномочий PPL.",
+    "anchor": "term-lapl-medical-certificate",
+    "defined_in": "docs/reference/glossary.md#term-lapl-medical-certificate"
+  },
+  {
+    "id": "term-class-2-medical-certificate",
+    "canonical": "Class 2 medical certificate",
+    "english": "Class 2 medical certificate",
+    "spanish": "certificado médico de clase 2",
+    "russian": "медицинское свидетельство класса 2",
+    "abbreviation": null,
+    "definition": "Class 2 medical certificate — медицинское свидетельство по Part-MED, требуемое как минимум для реализации полномочий PPL и также охватывающее медицинские полномочия LAPL, пока документ действителен и соблюдаются его ограничения.",
+    "anchor": "term-class-2-medical-certificate",
+    "defined_in": "docs/reference/glossary.md#term-class-2-medical-certificate"
   }
 ]
