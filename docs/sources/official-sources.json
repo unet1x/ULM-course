@@ -9,6 +9,15 @@
     "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; удобная, но не самостоятельная юридически обязательная публикация, поэтому спорные нормы сверяются с EUR-Lex"
   },
   {
+    "id": "SRC-EASA-SERA-2025",
+    "authority": "EASA",
+    "title": "Easy Access Rules for Standardised European Rules of the Air",
+    "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-standardised-european?erules-id=ERULES-1963177438-9807",
+    "edition": "онлайн-консолидация, revision August 2025",
+    "checked": "2026-07-13",
+    "scope": "SERA rules of the air, right-of-way, VFR/VMC, airspace classes и minimum heights; текущие национальные AIP/NOTAM и ограничения применяются дополнительно"
+  },
+  {
     "id": "SRC-EURLEX-1178-2011",
     "authority": "EUR-Lex",
     "title": "Regulation (EU) No 1178/2011 — Aircrew",

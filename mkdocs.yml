@@ -22,6 +22,17 @@ plugins:
 
 nav:
   - Главная: index.md
+  - Старт и лицензии:
+      - Как учиться: 00-start/01-how-to-study.md
+      - Дорожная карта MAF → LAPL(A) или PPL(A): 00-start/02-ulm-to-part-fcl-roadmap.md
+      - Medical, школа и экзамены: 00-start/03-medical-training-exams.md
+  - Воздушное право и Испания:
+      - Нормативная система: 01-air-law/01-regulatory-system.md
+      - Лицензия ULM и MAF: 01-air-law/02-ulm-licence-maf.md
+      - Правила полётов: 01-air-law/03-rules-of-air.md
+      - Воздушное пространство Испании: 01-air-law/04-airspace-spain.md
+      - AIP, NOTAM и сообщения о событиях: 01-air-law/05-aip-notam-occurrence-reporting.md
+      - Переход к LAPL(A) или PPL(A): 01-air-law/06-lapl-ppl-transition.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md

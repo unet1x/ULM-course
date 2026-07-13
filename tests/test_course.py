@@ -2,6 +2,7 @@ import json
 import re
 import unicodedata
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -20,6 +21,32 @@ AUDIT_FILES = (
     COURSE_DOCS / "sources" / "audit-lapl-transition.md",
 )
 
+TASK4_CHAPTERS = (
+    "docs/00-start/01-how-to-study.md",
+    "docs/00-start/02-ulm-to-part-fcl-roadmap.md",
+    "docs/00-start/03-medical-training-exams.md",
+    "docs/01-air-law/01-regulatory-system.md",
+    "docs/01-air-law/02-ulm-licence-maf.md",
+    "docs/01-air-law/03-rules-of-air.md",
+    "docs/01-air-law/04-airspace-spain.md",
+    "docs/01-air-law/05-aip-notam-occurrence-reporting.md",
+    "docs/01-air-law/06-lapl-ppl-transition.md",
+)
+TASK4_SVGS = (
+    "docs/assets/diagrams/airspace-structure.svg",
+    "docs/assets/diagrams/ulm-to-lapl-ppl-roadmap.svg",
+)
+APPLICABILITY_LABELS = (
+    "[ULM — ОСНОВА]",
+    "[ULM — ОСОБО ВАЖНО]",
+    "[PART-FCL — ОБЩЕЕ]",
+    "[LAPL — ПЕРЕХОД]",
+    "[PPL — РАСШИРЕНИЕ]",
+    "[ИСПАНИЯ]",
+    "[БЕЗОПАСНОСТЬ]",
+    "[ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ]",
+)
+
 OFFICIAL_SOURCE_DOMAINS = {
     "www.easa.europa.eu",
     "eur-lex.europa.eu",
@@ -32,6 +59,7 @@ OFFICIAL_SOURCE_DOMAINS = {
 }
 REQUIRED_SOURCE_IDS = {
     "SRC-EASA-AIRCREW-2026",
+    "SRC-EASA-SERA-2025",
     "SRC-EURLEX-1178-2011",
     "SRC-EURLEX-2024-2076",
     "SRC-EURLEX-2025-0134",
@@ -71,6 +99,18 @@ REQUIRED_CANONICAL_TERMS = {
     "QNH",
     "flight plan",
     "radiofonista (RTC)",
+    "AESA",
+    "EASA",
+    "ICAO",
+    "ENAIRE",
+    "AIP SUP",
+    "AIC",
+    "ATC clearance",
+    "controlled airspace",
+    "recency",
+    "occurrence reporting",
+    "SEP",
+    "skill test",
 }
 
 FENCE_OPENER = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
@@ -1197,6 +1237,123 @@ class CourseStructureTests(unittest.TestCase):
                         source=path.relative_to(ROOT), target=target
                     ):
                         self.assertTrue(label.strip(), "image alt text is required")
+
+
+class Task4RoadmapAndAirLawTests(unittest.TestCase):
+    def test_task4_chapters_exist_and_are_in_navigation(self):
+        config = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+        for relative_path in TASK4_CHAPTERS:
+            with self.subTest(path=relative_path):
+                self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+                self.assertIn(relative_path.removeprefix("docs/"), config)
+
+    def test_every_task4_chapter_has_visible_applicability_table(self):
+        for relative_path in TASK4_CHAPTERS:
+            path = ROOT / relative_path
+            self.assertTrue(path.is_file(), relative_path)
+            text = path.read_text(encoding="utf-8")
+            with self.subTest(path=relative_path):
+                self.assertIn("## Карта применимости", text)
+                self.assertRegex(
+                    text,
+                    r"(?m)^\|\s*Метка\s*\|\s*Как использовать главу\s*\|$",
+                )
+                for label in APPLICABILITY_LABELS:
+                    self.assertIn(label, text)
+
+    def test_normative_subsections_cite_registered_sources(self):
+        registered = {
+            source["id"] for source in json.loads(SOURCE_REGISTRY.read_text())
+        }
+        for relative_path in TASK4_CHAPTERS:
+            path = ROOT / relative_path
+            if not path.is_file():
+                continue
+            text = path.read_text(encoding="utf-8")
+            matches = list(
+                re.finditer(r"(?m)^#{2,4}\s+.+\{#norm-[a-z0-9-]+\}\s*$", text)
+            )
+            self.assertTrue(matches, f"no normative subsection in {relative_path}")
+            for index, match in enumerate(matches):
+                end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+                section = text[match.end() : end]
+                cited = set(re.findall(r"SRC-[A-Z0-9-]+", section))
+                with self.subTest(path=relative_path, heading=match.group(0)):
+                    self.assertTrue(cited, "normative subsection needs SRC citation")
+                    self.assertTrue(cited.issubset(registered), cited - registered)
+
+    def test_course_does_not_claim_automatic_ulm_part_fcl_recognition(self):
+        forbidden = re.compile(
+            r"(?i)(?:автоматическ(?:ий|ое|ая)\s+"
+            r"(?:зачёт|признание|конверсия)|"
+            r"ULM\s*(?:=|равен)\s*(?:LAPL|PPL))"
+        )
+        allowed_negation = re.compile(r"(?i)(?:нет|не|без|отсутствует).{0,35}$")
+        for relative_path in TASK4_CHAPTERS:
+            path = ROOT / relative_path
+            if not path.is_file():
+                continue
+            text = strip_code(path.read_text(encoding="utf-8"))
+            for match in forbidden.finditer(text):
+                prefix = text[max(0, match.start() - 40) : match.start()]
+                with self.subTest(path=relative_path, phrase=match.group(0)):
+                    self.assertRegex(prefix, allowed_negation)
+
+    def test_task4_does_not_teach_cross_border_ulm_procedures(self):
+        forbidden_country_procedure = re.compile(
+            r"(?i)(?:франц|португал|\bfrance\b|\bportugal\b)"
+        )
+        for relative_path in TASK4_CHAPTERS:
+            path = ROOT / relative_path
+            if not path.is_file():
+                continue
+            with self.subTest(path=relative_path):
+                self.assertIsNone(
+                    forbidden_country_procedure.search(
+                        strip_code(path.read_text(encoding="utf-8"))
+                    )
+                )
+
+    def test_task4_svgs_are_accessible_original_conceptual_diagrams(self):
+        for relative_path in TASK4_SVGS:
+            path = ROOT / relative_path
+            with self.subTest(path=relative_path):
+                self.assertTrue(path.is_file(), relative_path)
+                root = ET.parse(path).getroot()
+                namespace = "{http://www.w3.org/2000/svg}"
+                self.assertEqual(f"{namespace}svg", root.tag)
+                self.assertTrue(root.attrib.get("viewBox"))
+                self.assertEqual("img", root.attrib.get("role"))
+                self.assertIsNotNone(root.find(f"{namespace}title"))
+                self.assertIsNotNone(root.find(f"{namespace}desc"))
+                self.assertFalse(list(root.iter(f"{namespace}image")))
+                words = " ".join(root.itertext()).casefold()
+                self.assertIn("концептуальн", words)
+
+    def test_task4_has_at_least_30_unique_explained_questions(self):
+        combined = "\n".join(
+            (ROOT / path).read_text(encoding="utf-8")
+            for path in TASK4_CHAPTERS
+            if (ROOT / path).is_file()
+        )
+        blocks = list(
+            re.finditer(
+                r"(?ms)^###\s+(Q-(?:START|LAW)-\d{3})\b(.*?)(?=^###\s+Q-(?:START|LAW)-\d{3}\b|\Z)",
+                combined,
+            )
+        )
+        identifiers = [match.group(1) for match in blocks]
+        self.assertGreaterEqual(len(identifiers), 30)
+        self.assertEqual(len(identifiers), len(set(identifiers)))
+        for match in blocks:
+            with self.subTest(question=match.group(1)):
+                body = match.group(2)
+                self.assertIn("**Правильный ответ:**", body)
+                self.assertIn("**Почему:**", body)
+                self.assertIn(
+                    "**Почему главный отвлекающий вариант неверен:**",
+                    body,
+                )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="roadmap-title roadmap-desc">
+  <title id="roadmap-title">Дорожная карта ULM/MAF к LAPL(A) или PPL(A)</title>
+  <desc id="roadmap-desc">Концептуальная схема: сначала национальная лицензия ULM с MAF для Испании, затем независимый выбор курса LAPL(A) с индивидуальной оценкой prior PIC либо прямого курса PPL(A) без credit часов MAF. От LAPL(A) возможен отдельный индивидуальный переход к PPL(A).</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#17324d"/>
+    </marker>
+    <style>
+      .box { stroke: #17324d; stroke-width: 4; rx: 18; }
+      .national { fill: #fff1b8; }
+      .choice { fill: #d9ecff; }
+      .lapl { fill: #dff4df; }
+      .ppl { fill: #eadfff; }
+      .warning { fill: #ffffff; stroke: #8b1e1e; stroke-width: 4; rx: 14; }
+      .line { fill: none; stroke: #17324d; stroke-width: 5; marker-end: url(#arrow); }
+      .dash { fill: none; stroke: #4b3b75; stroke-width: 4; stroke-dasharray: 12 10; marker-end: url(#arrow); }
+      .title { font: 700 28px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .body { font: 21px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .small { font: 18px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .danger { font: 700 20px system-ui, sans-serif; fill: #8b1e1e; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <text x="600" y="42" class="title">Концептуальная учебная схема — не решение о credit</text>
+
+  <rect x="380" y="75" width="440" height="120" class="box national"/>
+  <text x="600" y="116" class="title">1. ULM + MAF</text>
+  <text x="600" y="150" class="body">национальная лицензия Испании</text>
+  <text x="600" y="178" class="small">обучение, экзамены, отдельный logbook</text>
+
+  <path d="M 600 195 L 600 250" class="line"/>
+  <rect x="400" y="250" width="400" height="90" class="box choice"/>
+  <text x="600" y="287" class="title">2. Выбор цели</text>
+  <text x="600" y="318" class="body">письменный план DTO/ATO</text>
+
+  <path d="M 520 340 C 450 385 350 390 300 425" class="line"/>
+  <path d="M 680 340 C 750 385 850 390 900 425" class="line"/>
+
+  <rect x="90" y="425" width="430" height="155" class="box lapl"/>
+  <text x="305" y="465" class="title">Ветвь A: LAPL(A)</text>
+  <text x="305" y="501" class="body">full-syllabus pre-entry assessment</text>
+  <text x="305" y="533" class="small">prior MAF PIC: только индивидуальный</text>
+  <text x="305" y="560" class="small">ограниченный credit по FCL.110.A(c)</text>
+
+  <rect x="680" y="425" width="430" height="155" class="box ppl"/>
+  <text x="895" y="465" class="title">Ветвь B: direct PPL(A)</text>
+  <text x="895" y="501" class="body">полная программа FCL.210.A</text>
+  <text x="895" y="533" class="small">AESA: часы MAF не являются</text>
+  <text x="895" y="560" class="small">credit для initial PPL(A)</text>
+
+  <path d="M 520 530 C 610 610 665 605 750 580" class="dash"/>
+  <text x="613" y="626" class="small">необязательный LAPL(A) → PPL(A):</text>
+  <text x="613" y="651" class="small">новая assessment + совокупные thresholds</text>
+
+  <rect x="250" y="665" width="700" height="42" class="warning"/>
+  <text x="600" y="693" class="danger">Нет автоматической конверсии, двойного счёта или гарантии минимальных часов</text>
+</svg>

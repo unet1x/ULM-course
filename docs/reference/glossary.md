@@ -267,3 +267,128 @@ Flight plan в данном контексте — установленный н
 - **Сокращение:** RTC
 
 Radiofonista (RTC) — национальная habilitación ULM после одобренного AESA курса и проверок. Она не объявляется эквивалентной Part-FCL R/T privileges или language proficiency endorsement FCL.055; обратный автоматический перенос RTC в Part-FCL в проверенных источниках не установлен.
+
+<a id="term-aesa"></a>
+## AESA
+
+- **English:** Spanish Aviation Safety and Security Agency
+- **Español:** Agencia Estatal de Seguridad Aérea
+- **Русский:** государственное агентство авиационной безопасности Испании
+- **Сокращение:** AESA
+
+AESA — компетентный орган Испании по отнесённым к нему задачам лицензирования, экзаменов, школ и авиационного надзора. Публикация AESA помогает применить норму, но не заменяет юридический текст BOE или EUR-Lex и не является документом EASA.
+
+<a id="term-easa"></a>
+## EASA
+
+- **English:** European Union Aviation Safety Agency
+- **Español:** Agencia de la Unión Europea para la Seguridad Aérea
+- **Русский:** Агентство Европейского союза по авиационной безопасности
+- **Сокращение:** EASA
+
+EASA — агентство Европейского союза, разрабатывающее и применяющее порученные ему элементы общей системы авиационной безопасности. EASA и испанская AESA — разные органы; Easy Access Rules EASA являются удобной консолидацией, а применимый юридический текст проверяется в EUR-Lex.
+
+<a id="term-icao"></a>
+## ICAO
+
+- **English:** International Civil Aviation Organization
+- **Español:** Organización de Aviación Civil Internacional
+- **Русский:** Международная организация гражданской авиации
+- **Сокращение:** ICAO
+
+ICAO — специализированное учреждение ООН, формирующее международные Standards and Recommended Practices для государств. ICAO не выдаёт пилоту испанскую лицензию и не заменяет применимое право ЕС, национальное право или текущую AIS.
+
+<a id="term-enaire"></a>
+## ENAIRE
+
+- **English:** Spanish air navigation service provider and AIS publisher
+- **Español:** proveedor de servicios de navegación aérea y proveedor AIS de España
+- **Русский:** испанский поставщик аэронавигационного обслуживания и официальной AIS
+- **Сокращение:** ENAIRE
+
+ENAIRE публикует официальный AIP España и связанные продукты AIS. Датированная страница или загруженный файл ENAIRE не является вечной истиной: перед полётом проверяются действующие amendment, AIP SUP, AIC и NOTAM.
+
+<a id="term-aip-sup"></a>
+## AIP SUP
+
+- **English:** AIP Supplement
+- **Español:** Suplemento AIP
+- **Русский:** дополнение к сборнику аэронавигационной информации
+- **Сокращение:** AIP SUP
+
+AIP SUP публикует временную аэронавигационную информацию, требующую расширенного текста, таблицы или графики, либо иным образом предназначенную для supplement. Он читается вместе с основным AIP, текущим перечнем действующих supplements и NOTAM.
+
+<a id="term-aic"></a>
+## AIC
+
+- **English:** Aeronautical Information Circular
+- **Español:** Circular de Información Aeronáutica
+- **Русский:** циркуляр аэронавигационной информации
+- **Сокращение:** AIC
+
+AIC передаёт разъясняющую, административную или долгосрочно значимую информацию, которая не подходит для включения в AIP либо NOTAM как непосредственное изменение. Для решения пилот проверяет scope, дату и связь циркуляра с другими AIS products.
+
+<a id="term-atc-clearance"></a>
+## ATC clearance
+
+- **Canonical:** ATC clearance
+- **English:** air traffic control clearance
+- **Español:** autorización de control de tránsito aéreo
+- **Русский:** разрешение органа управления воздушным движением
+- **Сокращение:** ATC
+
+ATC clearance — разрешение aircraft действовать в условиях, установленных органом ATC. Оно не подтверждает автоматически licence privileges, airworthiness или weather suitability; пилот должен понять clearance, выполнить обязательный readback и запросить clarification при сомнении.
+
+<a id="term-controlled-airspace"></a>
+## Controlled airspace
+
+- **Canonical:** controlled airspace
+- **English:** controlled airspace
+- **Español:** espacio aéreo controlado
+- **Русский:** контролируемое воздушное пространство
+- **Сокращение:** нет
+
+Controlled airspace — воздушное пространство установленных dimensions, в котором air traffic control service предоставляется в соответствии с классификацией. Само наличие radio или RTC не даёт права входа: нужны применимые aircraft, pilot, flight-plan, language и clearance conditions.
+
+<a id="term-recency"></a>
+## Recency
+
+- **Canonical:** recency
+- **English:** recent-experience conditions
+- **Español:** requisitos de experiencia reciente
+- **Русский:** условия недавнего опыта для использования полномочий
+- **Сокращение:** нет
+
+Recency — установленные условия недавнего опыта, событий, training или проверки, необходимые для использования конкретных privileges. Это не универсальная дата expiry: ULM MAF, LAPL(A) и PPL(A) class rating используют разные механизмы и окна.
+
+<a id="term-occurrence-reporting"></a>
+## Occurrence reporting
+
+- **Canonical:** occurrence reporting
+- **English:** occurrence reporting
+- **Español:** notificación de sucesos
+- **Русский:** сообщение о событиях, связанных с безопасностью
+- **Сокращение:** нет
+
+Occurrence reporting — установленный процесс фиксации и направления safety-related event соответствующему адресату. Он не заменяет немедленные aviate, protect people and communicate actions; применимые канал, содержание и срок определяются текущими правилами и процедурой организации.
+
+<a id="term-sep"></a>
+## SEP
+
+- **English:** single-engine piston aeroplane class rating
+- **Español:** habilitación de clase de avión monomotor de pistón
+- **Русский:** квалификационная отметка класса одномоторных поршневых самолётов
+- **Сокращение:** SEP
+
+SEP — class rating Part-FCL для применимой группы single-engine piston aeroplanes. SEP не является синонимом ULM MAF; aircraft matching, variant differences, expiry, revalidation и конкретные privileges проверяются отдельно.
+
+<a id="term-skill-test"></a>
+## Skill test
+
+- **Canonical:** skill test
+- **English:** skill test
+- **Español:** prueba de pericia
+- **Русский:** проверка практических навыков для выдачи лицензии или квалификации
+- **Сокращение:** нет
+
+Skill test — формальная практическая проверка для выдачи применимой Part-FCL licence или rating, выполняемая examiner по установленному scope. Она отличается от national ULM practical exam, pre-entry flight assessment, proficiency check и обычного school progress check.

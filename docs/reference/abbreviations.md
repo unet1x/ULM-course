@@ -27,3 +27,11 @@
 | TAF | [TAF](glossary.md#term-taf) | аэродромный прогноз |
 | QNH | [QNH](glossary.md#term-qnh) | altimeter pressure setting для altitude AMSL |
 | RTC | [radiofonista (RTC)](glossary.md#term-radiofonista-rtc) | национальная habilitación радиотелефониста ULM |
+| AESA | [AESA](glossary.md#term-aesa) | испанский компетентный орган авиационной безопасности |
+| EASA | [EASA](glossary.md#term-easa) | European Union Aviation Safety Agency |
+| ICAO | [ICAO](glossary.md#term-icao) | International Civil Aviation Organization |
+| ENAIRE | [ENAIRE](glossary.md#term-enaire) | испанский ANSP и официальный AIS publisher |
+| AIP SUP | [AIP SUP](glossary.md#term-aip-sup) | дополнение к AIP |
+| AIC | [AIC](glossary.md#term-aic) | Aeronautical Information Circular |
+| ATC | [ATC clearance](glossary.md#term-atc-clearance) | air traffic control clearance |
+| SEP | [SEP](glossary.md#term-sep) | single-engine piston aeroplane class rating |
