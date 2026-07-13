@@ -1,23 +1,24 @@
-# ULM-first PPL(A) Theory Course Implementation Plan
+# ULM-first LAPL(A)/PPL(A) Theory Course Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Создать и опубликовать проверяемый русскоязычный курс, который последовательно готовит ученика в Испании сначала к ULM/MAF, а затем расширяет те же темы до PPL(A) Part-FCL.
+**Goal:** Создать и опубликовать проверяемый русскоязычный курс, который последовательно готовит ученика сначала к ULM/MAF для полётов в Испании, а затем к выбранному маршруту LAPL(A) или PPL(A) Part-FCL.
 
-**Architecture:** Курс строится как статический сайт MkDocs и одновременно остаётся читаемым прямо на GitHub. Каждая предметная область разбивается на ULM-основу, блок «ULM — особо важно» и PPL-расширение; источники, оригинальные термины, вопросы и SVG проверяются автоматическим валидатором. Исследование нормативных источников выполняется параллельно отдельными агентами, но изменения учебника вносятся последовательно, чтобы не конфликтовали навигация, глоссарий и реестр источников.
+**Architecture:** Курс строится как статический сайт MkDocs и одновременно остаётся читаемым прямо на GitHub. Каждая предметная область разбивается на ULM-основу, блок «ULM — особо важно», общую дельту Part-FCL и, где нужно, отдельные переходы LAPL/PPL; источники, оригинальные термины, вопросы и SVG проверяются автоматическим валидатором. Исследование нормативных источников выполняется параллельно отдельными агентами, но изменения учебника вносятся последовательно, чтобы не конфликтовали навигация, глоссарий и реестр источников.
 
 **Tech Stack:** Markdown, SVG 1.1, Python 3 standard library, MkDocs 1.6.1, Material for MkDocs 9.7.6, GitHub Actions.
 
 ## Global Constraints
 
-- Основной маршрут: ULM/MAF в Испании сначала; PPL(A) — встроенное последующее расширение.
+- Основной маршрут: ULM/MAF для эксплуатации в Испании сначала; затем выбор LAPL(A) или PPL(A). Дополнительно объясняется возможное дальнейшее LAPL(A) → PPL(A), но оно не навязывается как обязательная третья ступень.
 - Нормативная дата: 13 июля 2026 года.
 - Базовые ULM-нормы: Real Decreto 123/2015 в редакции после Real Decreto 182/2026; Real Decreto 765/2022 в редакции, действующей с 1 апреля 2026 года; Real Decreto 141/2025.
-- Базовые PPL-нормы: EASA Easy Access Rules for Aircrew от 24 февраля 2026 года и применимые положения Regulation (EU) No 1178/2011, включая изменения Regulation (EU) 2025/134.
+- Базовые LAPL/PPL-нормы: EASA Easy Access Rules for Aircrew от 24 февраля 2026 года и применимые положения Regulation (EU) No 1178/2011, включая изменения Regulation (EU) 2025/134.
 - Изменяемое правило публикуется только с прямой ссылкой на первичный официальный источник и датой проверки.
 - Объяснения пишутся по-русски; профессиональные термины сохраняются в канонической English или español форме.
 - Первое употребление термина содержит русское объяснение и устойчивый якорь; каждое последующее употребление ссылается на исходное объяснение или глоссарий.
-- Все главы используют метки `[ULM — ОСНОВА]`, `[ULM — ОСОБО ВАЖНО]`, `[ОБА]`, `[PPL — РАСШИРЕНИЕ]`, `[ИСПАНИЯ]`, `[МЕЖДУНАРОДНЫЙ ПОЛЁТ]`, `[БЕЗОПАСНОСТЬ]`, `[ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ]` по назначению.
+- Все главы используют метки `[ULM — ОСНОВА]`, `[ULM — ОСОБО ВАЖНО]`, `[PART-FCL — ОБЩЕЕ]`, `[LAPL — ПЕРЕХОД]`, `[PPL — РАСШИРЕНИЕ]`, `[ИСПАНИЯ]`, `[БЕЗОПАСНОСТЬ]`, `[ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ]` по назначению.
+- Международная эксплуатация на национальной ULM/MAF-лицензии не входит в курс; допускается только ясное предупреждение об отсутствии автоматического признания за пределами Испании.
 - Числовые ограничения конкретного самолёта не обобщаются; AFM/POH конкретного борта имеет приоритет.
 - Закрытые банки вопросов и защищённые изображения не копируются; вопросы и SVG создаются заново.
 - Стороннее изображение допускается только с проверенной лицензией и записью об атрибуции; по умолчанию создаётся оригинальный SVG.
@@ -54,7 +55,7 @@
 - `docs/08-performance-planning/` — W&B, performance, fuel planning, расчётные примеры.
 - `docs/09-operational-procedures/` — SOP, ground operations, circuit, emergencies.
 - `docs/10-flight-preparation/` — briefing, flight plan, документы и полные сценарии.
-- `docs/11-international-ulm/` — модель допуска, Франция, Португалия, международный checklist.
+- `docs/11-transition-to-part-fcl/` — сравнение и маршруты ULM → LAPL(A) / PPL(A), включая факультативный LAPL(A) → PPL(A).
 - `docs/12-exam-preparation/` — тематические тесты и пробные экзамены.
 - `docs/reference/` — glossary, abbreviations, formulas, checklists и templates.
 - `docs/sources/official-sources.json` — машиночитаемый реестр источников.
@@ -63,9 +64,9 @@
 
 ### Research evidence
 
-- `docs/sources/audit-spain-2026.md` — проверка ULM, PPL, SERA, AIP и экзаменационных процедур Испании.
+- `docs/sources/audit-spain-2026.md` — проверка ULM, LAPL/PPL, SERA, AIP и экзаменационных процедур Испании.
 - `docs/sources/audit-technical.md` — карта EASA syllabus и технических официальных пособий.
-- `docs/sources/audit-cross-border.md` — правила Франции и Португалии для иностранного ULM.
+- `docs/sources/audit-lapl-transition.md` — точные условия и ограничения перехода ULM → LAPL(A), сопоставленные с ULM → PPL(A).
 
 ---
 
@@ -74,15 +75,15 @@
 **Files:**
 - Create: `docs/sources/audit-spain-2026.md`
 - Create: `docs/sources/audit-technical.md`
-- Create: `docs/sources/audit-cross-border.md`
+- Create: `docs/sources/audit-lapl-transition.md`
 
 **Interfaces:**
 - Consumes: утверждённая спецификация и Global Constraints этого плана.
 - Produces: проверенные утверждения, прямые URL, дата редакции, дата доступа, границы применимости и список спорных мест для всех последующих задач.
 
-- [ ] **Step 1: Dispatch three independent source auditors in parallel**
+- [ ] **Step 1: Dispatch independent source auditors in parallel**
 
-Первый аудитор проверяет BOE, AESA, ENAIRE/AIP España, AEMET и Part-FCL практику Испании. Второй сопоставляет девять предметов EASA с официальными техническими пособиями FAA/EASA и руководствами производителей. Третий проверяет DGAC/DSAC France и ANAC Portugal для испанского ULM/MAF. Каждый работает только в своём audit-файле и не редактирует учебные главы.
+Первый аудитор проверяет BOE, AESA, ENAIRE/AIP España, AEMET и Part-FCL практику Испании. Второй сопоставляет девять предметов EASA с официальными техническими пособиями FAA/EASA и руководствами производителей. Третий отдельно проверяет LAPL(A), PPL(A), условия зачёта предшествующего PIC-опыта, медицину, экзамены и переходные gate по EASA/EUR-Lex/AESA. Каждый работает только в своём audit-файле и не редактирует учебные главы.
 
 - [ ] **Step 2: Require an evidence row for every rule**
 
@@ -104,8 +105,8 @@
 - `https://www.boe.es/eli/es/rd/2025/02/25/141`;
 - EASA Easy Access Rules for Aircrew от 24 февраля 2026 года;
 - Regulation (EU) 2025/134, применяемый с 18 февраля 2026 года;
-- французскую страницу `Aéronefs étrangers`, обновлённую в 2025 году;
-- португальский Decreto-Lei n.º 283/2007 и действующие страницы ANAC.
+- FCL.100, FCL.105.A, FCL.110.A с AMC/GM, FCL.115, FCL.120, FCL.125, FCL.140.A;
+- FCL.210, FCL.215, FCL.235 и ограничения любого зачёта ULM-опыта.
 
 - [ ] **Step 4: Run evidence checks**
 
@@ -116,12 +117,12 @@ rg -n '^\| [A-Z]{2,}-[A-Z0-9-]+-[0-9]{3} \|' docs/sources/audit-*.md
 rg -n '2026-07-13|2026-03-12|2026-04-01' docs/sources/audit-*.md
 ```
 
-Expected: все три audit-файла содержат evidence rows и даты; отсутствуют правила без официального URL.
+Expected: все три актуальных audit-файла содержат evidence rows и даты; отсутствуют правила без официального URL.
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add docs/sources/audit-spain-2026.md docs/sources/audit-technical.md docs/sources/audit-cross-border.md
+git add docs/sources/audit-spain-2026.md docs/sources/audit-technical.md docs/sources/audit-lapl-transition.md
 git commit -m "docs: audit 2026 aviation sources"
 ```
 
@@ -229,11 +230,11 @@ Expected: FAIL because registries do not exist.
 
 - [ ] **Step 3: Populate the official source registry**
 
-At minimum include EASA Aircrew 2026, EUR-Lex 1178/2011 and 2025/134, BOE RD 123/2015 consolidated, RD 182/2026, RD 765/2022 consolidated, RD 141/2025, AESA ULM procedure, ENAIRE AIP España, AEMET aviation, DGAC foreign aircraft and ANAC Portugal ultraleves. `official-sources.md` renders the same records for a human reader and explains the source hierarchy.
+At minimum include EASA Aircrew 2026, EUR-Lex 1178/2011 and 2025/134, BOE RD 123/2015 consolidated, RD 182/2026, RD 765/2022 consolidated, RD 141/2025, AESA ULM and LAPL/PPL procedures, ENAIRE AIP España and AEMET aviation. `official-sources.md` renders the same records for a human reader and explains the source hierarchy.
 
 - [ ] **Step 4: Populate the initial glossary**
 
-Start with terms required in every module: `ULM`, `MAF`, `PPL(A)`, `Part-FCL`, `SERA`, `AIP`, `NOTAM`, `AFM`, `POH`, `PIC`, `VFR`, `VMC`, `IMC`, `angle of attack`, `stall`, `load factor`, `MTOM`, `centre of gravity`, `METAR`, `TAF`, `QNH`, `flight plan`, `radiofonista (RTC)`. Each detailed definition has `<a id="term-slug"></a>` and English/español distinctions.
+Start with terms required in every module: `ULM`, `MAF`, `LAPL(A)`, `PPL(A)`, `Part-FCL`, `DTO`, `ATO`, `SERA`, `AIP`, `NOTAM`, `AFM`, `POH`, `PIC`, `VFR`, `VMC`, `IMC`, `angle of attack`, `stall`, `load factor`, `MTOM`, `centre of gravity`, `METAR`, `TAF`, `QNH`, `flight plan`, `radiofonista (RTC)`. Each detailed definition has `<a id="term-slug"></a>` and English/español distinctions.
 
 - [ ] **Step 5: Enforce repeated-term links**
 
@@ -254,16 +255,16 @@ git commit -m "feat: add verified sources and terminology"
 
 **Files:**
 - Create: `docs/00-start/01-how-to-study.md`
-- Create: `docs/00-start/02-ulm-to-ppl-roadmap.md`
+- Create: `docs/00-start/02-ulm-to-part-fcl-roadmap.md`
 - Create: `docs/00-start/03-medical-training-exams.md`
 - Create: `docs/01-air-law/01-regulatory-system.md`
 - Create: `docs/01-air-law/02-ulm-licence-maf.md`
 - Create: `docs/01-air-law/03-rules-of-air.md`
 - Create: `docs/01-air-law/04-airspace-spain.md`
 - Create: `docs/01-air-law/05-aip-notam-occurrence-reporting.md`
-- Create: `docs/01-air-law/06-ppl-extension.md`
+- Create: `docs/01-air-law/06-lapl-ppl-transition.md`
 - Create: `docs/assets/diagrams/airspace-structure.svg`
-- Create: `docs/assets/diagrams/ulm-to-ppl-roadmap.svg`
+- Create: `docs/assets/diagrams/ulm-to-lapl-ppl-roadmap.svg`
 - Modify: `docs/reference/glossary.md`
 - Modify: `docs/reference/terms.json`
 - Modify: `mkdocs.yml`
@@ -278,15 +279,15 @@ Tests require all files listed above in `mkdocs.yml`, at least one source ID per
 
 - [ ] **Step 2: Write the ULM-first start modules**
 
-Cover age, medical, school, theory, practical training, solo, skill test, application, MAF privileges, RTC, recency/revalidation rules, logbook and the transition from ULM to PPL. Every number is taken from the 2026 consolidated law and cited next to the statement.
+Cover age, medical, school, theory, practical training, solo, skill test, application, MAF privileges, RTC, recency rules and logbook. Then compare the two independent transitions ULM → LAPL(A) and ULM → PPL(A), plus the optional later LAPL(A) → PPL(A). Every number is taken from a current official source and cited next to the statement; school assessment is never presented as guaranteed credit.
 
 - [ ] **Step 3: Write air-law modules**
 
-Explain ICAO/EU/Spain hierarchy, EASA vs Annex I/national ULM, SERA rules, right-of-way, VFR/VMC, Spanish airspace, controlled/uncontrolled aerodromes, restricted/prohibited/danger areas, AIP/AIP SUP/AIC/NOTAM and occurrence reporting. Put PPL-only depth after the ULM foundation.
+Explain ICAO/EU/Spain hierarchy, EASA vs Annex I/national ULM, SERA rules, right-of-way, VFR/VMC, Spanish airspace, controlled/uncontrolled aerodromes, restricted/prohibited/danger areas, AIP/AIP SUP/AIC/NOTAM and occurrence reporting. Put shared Part-FCL and licence-specific LAPL/PPL depth after the ULM foundation.
 
 - [ ] **Step 4: Draw the two SVGs**
 
-`airspace-structure.svg` shows conceptual classes and vertical elements without pretending to be a current chart. `ulm-to-ppl-roadmap.svg` shows ULM training, licence, experience and later DTO/ATO PPL route. Both have `<title>`, `<desc>`, high-contrast labels and no raster data.
+`airspace-structure.svg` shows conceptual classes and vertical elements without pretending to be a current chart. `ulm-to-lapl-ppl-roadmap.svg` shows ULM training, licence and two later DTO/ATO routes without implying automatic credit. Both have `<title>`, `<desc>`, high-contrast labels and no raster data.
 
 - [ ] **Step 5: Add questions and explained answers**
 
@@ -326,7 +327,7 @@ Require anchors for hypoxia, hyperventilation, carbon monoxide, spatial disorien
 
 - [ ] **Step 2: Write the four modules in ULM-first order**
 
-Explain mechanisms, recognition, prevention and immediate safe action. Highlight ULM exposure to noise, vibration, cold, turbulence and limited passive protection. PPL extensions cover higher-altitude and longer-duration decision contexts without adding IR training.
+Explain mechanisms, recognition, prevention and immediate safe action. Highlight ULM exposure to noise, vibration, cold, turbulence and limited passive protection. Part-FCL extensions cover higher-altitude and longer-duration decision contexts without adding IR training.
 
 - [ ] **Step 3: Add scenarios and diagrams**
 
@@ -341,7 +342,7 @@ git add docs/02-human-performance docs/assets/diagrams docs/reference mkdocs.yml
 git commit -m "feat: add human performance theory"
 ```
 
-### Task 6: Meteorology for light ULM operations and PPL extension
+### Task 6: Meteorology for light ULM operations and Part-FCL extension
 
 **Files:**
 - Create: `docs/03-meteorology/01-atmosphere-pressure-temperature.md`
@@ -452,7 +453,7 @@ Require units and formulas for time-distance-speed, fuel, wind correction, groun
 
 - [ ] **Step 2: Write the seven modules**
 
-Teach visual navigation and dead reckoning first for ULM. Put VOR/DME/ADF depth in `[PPL — РАСШИРЕНИЕ]`. Treat GNSS as monitored navigation, include database/RAIM or integrity limitations at PPL-VFR level, and never imply that a moving map authorizes entry into airspace.
+Teach visual navigation and dead reckoning first for ULM. Put VOR/DME/ADF depth in `[PART-FCL — ОБЩЕЕ]`, because the current AMC uses the PPL(A) theory syllabus for LAPL(A). Treat GNSS as monitored navigation, include database/RAIM or integrity limitations at Part-FCL VFR level, and never imply that a moving map authorizes entry into airspace.
 
 - [ ] **Step 3: Add calculation set and route scenario**
 
@@ -486,12 +487,12 @@ git commit -m "feat: add navigation and flight-log theory"
 - Modify: `mkdocs.yml`
 
 **Interfaces:**
-- Consumes: official PPL syllabus and recognized aerodynamics handbooks.
+- Consumes: official Part-FCL LAPL/PPL syllabus and recognized aerodynamics handbooks.
 - Produces: aerodynamic concepts referenced by performance, procedures and emergencies.
 
 - [ ] **Step 1: Add failing concept-coverage tests**
 
-Require angle of attack, boundary layer at PPL level, lift/drag, induced/parasitic drag, stability around three axes, controls, flap effects, stall, spin awareness, load factor, maneuvering/gust envelope and propeller asymmetric effects.
+Require angle of attack, boundary layer at Part-FCL level, lift/drag, induced/parasitic drag, stability around three axes, controls, flap effects, stall, spin awareness, load factor, maneuvering/gust envelope and propeller asymmetric effects.
 
 - [ ] **Step 2: Write theory without false simplifications**
 
@@ -531,7 +532,7 @@ git commit -m "feat: add principles of flight"
 - Modify: `mkdocs.yml`
 
 **Interfaces:**
-- Consumes: official Rotax operator manuals for named engine families and generic PPL technical syllabus.
+- Consumes: official Rotax operator manuals for named engine families and generic Part-FCL technical syllabus.
 - Produces: system knowledge for preflight, performance and emergency procedures.
 
 - [ ] **Step 1: Add failing safety-boundary tests**
@@ -589,7 +590,7 @@ Cover mass, arm, moment, centre of gravity, envelope, takeoff/landing factors, r
 
 - [ ] **Step 3: Add two complete worked dossiers**
 
-One synthetic ULM and one synthetic SEP PPL example each include loading, CG, takeoff, landing, climb, cruise, fuel, alternate and go/no-go decision. Use deliberately fictional performance tables to prevent operational misuse.
+One synthetic ULM and one synthetic Part-FCL SEP example each include loading, CG, takeoff, landing, climb, cruise, fuel, alternate and go/no-go decision. Use deliberately fictional performance tables to prevent operational misuse.
 
 - [ ] **Step 4: Add 30 questions, verify and commit**
 
@@ -624,7 +625,7 @@ git commit -m "feat: add performance and planning calculations"
 
 **Interfaces:**
 - Consumes: all theory modules and planning outputs.
-- Produces: end-to-end ULM flight workflow and PPL extensions.
+- Produces: end-to-end Spanish ULM flight workflow and Part-FCL extensions.
 
 - [ ] **Step 1: Add failing procedure-boundary tests**
 
@@ -649,44 +650,48 @@ git add docs/09-operational-procedures docs/10-flight-preparation docs/assets/di
 git commit -m "feat: add procedures and flight preparation"
 ```
 
-### Task 13: International ULM operations — France and Portugal
+### Task 13: Transition from ULM to LAPL(A) or PPL(A)
 
 **Files:**
-- Create: `docs/11-international-ulm/01-why-national.md`
-- Create: `docs/11-international-ulm/02-six-layer-check.md`
-- Create: `docs/11-international-ulm/03-france.md`
-- Create: `docs/11-international-ulm/04-portugal.md`
-- Create: `docs/11-international-ulm/05-cross-border-scenario.md`
-- Create: `docs/11-international-ulm/06-authority-request-templates.md`
-- Create: `docs/assets/diagrams/international-ulm-decision-tree.svg`
-- Create: `docs/reference/checklists-international.md`
+- Create: `docs/11-transition-to-part-fcl/01-choose-lapl-or-ppl.md`
+- Create: `docs/11-transition-to-part-fcl/02-ulm-to-lapl.md`
+- Create: `docs/11-transition-to-part-fcl/03-ulm-to-ppl.md`
+- Create: `docs/11-transition-to-part-fcl/04-lapl-to-ppl.md`
+- Create: `docs/11-transition-to-part-fcl/05-medical-exams-skill-test.md`
+- Create: `docs/11-transition-to-part-fcl/06-dto-ato-pre-entry-checklist.md`
+- Create: `docs/assets/diagrams/ulm-to-lapl-ppl-decision-tree.svg`
+- Create: `docs/reference/checklists-transition.md`
 - Modify: `docs/reference/glossary.md`
 - Modify: `docs/reference/terms.json`
 - Modify: `mkdocs.yml`
 
 **Interfaces:**
-- Consumes: cross-border audit, air law, flight preparation, radio and navigation.
-- Produces: dated, country-specific decision process without promising automatic recognition.
+- Consumes: LAPL transition audit, Spanish/Part-FCL law, medical, exams and documented ULM experience.
+- Produces: dated comparison and two executable learning roadmaps without promising automatic credit.
 
-- [ ] **Step 1: Add failing cross-border safety tests**
+- [ ] **Step 1: Add failing transition-integrity tests**
 
-Require each country page to contain the exact checked date, official authority link, aircraft-document check, pilot-privilege check, insurance check, radio check, operational/airspace check, aerodrome check and `[ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ]` warning.
+Require every normative number and credit statement to cite an official current source. Require explicit statements that editorial subject overlap is not legal credit, DTO/ATO pre-entry assessment controls where applicable, mandatory solo elements are not silently credited and ULM does not become Part-FCL through experience alone.
 
-- [ ] **Step 2: Write the legal model and country pages**
+- [ ] **Step 2: Write the comparison and both direct routes**
 
-Explain separately pilot privileges, aircraft status, insurance, radio, national operating rules and aerodrome access. For France apply the official European ULM conditions and French definition check. For Portugal apply the current ANAC/legal conditions, including any current duration or authorization requirements only if confirmed by the audit.
+Compare LAPL(A) and PPL(A): legal status, privileges and aircraft limits, medical, theory, practical training, exams/skill test, passenger requirements, recency and plausible future extensions. Then give separate step-by-step ULM → LAPL(A) and ULM → PPL(A) paths. Distinguish a statutory maximum credit from the smaller amount a DTO/ATO may award after assessment.
 
-- [ ] **Step 3: Add a synthetic Spain–France–Portugal scenario**
+- [ ] **Step 3: Explain optional LAPL(A) → PPL(A) and add a pre-entry case**
 
-Walk through a notional trip without using stale NOTAM or claiming a route is currently open. Include bilingual email templates that ask the authority or aerodrome for written confirmation.
+Explain the optional later LAPL(A) → PPL(A) route only from current official rules. Walk through a synthetic ULM pilot's document pack and DTO/ATO pre-entry assessment, showing a best-case statutory ceiling separately from the organisation's actual decision. Add a question checklist for written school quotations.
 
-- [ ] **Step 4: Verify and commit**
+- [ ] **Step 4: Add the Spain-only boundary**
+
+State concisely that this course's ULM operational scenarios are Spain-only and that a national ULM/MAF licence is not automatic international entitlement. Do not add country procedures or international ULM trip planning.
+
+- [ ] **Step 5: Verify and commit**
 
 Run: `python3 scripts/validate_course.py`
 
 ```bash
-git add docs/11-international-ulm docs/assets/diagrams docs/reference mkdocs.yml tests/test_course.py
-git commit -m "feat: add international ULM operations"
+git add docs/11-transition-to-part-fcl docs/assets/diagrams docs/reference mkdocs.yml tests/test_course.py
+git commit -m "feat: add ULM to Part-FCL transition routes"
 ```
 
 ### Task 14: Exam preparation, question bank and study schedule
@@ -695,8 +700,8 @@ git commit -m "feat: add international ULM operations"
 - Create: `docs/12-exam-preparation/01-study-strategy.md`
 - Create: `docs/12-exam-preparation/02-ulm-mock-1.md`
 - Create: `docs/12-exam-preparation/03-ulm-mock-2.md`
-- Create: `docs/12-exam-preparation/04-ppl-extension-mock-1.md`
-- Create: `docs/12-exam-preparation/05-ppl-extension-mock-2.md`
+- Create: `docs/12-exam-preparation/04-part-fcl-mock-1.md`
+- Create: `docs/12-exam-preparation/05-part-fcl-mock-2.md`
 - Create: `docs/12-exam-preparation/06-answer-key.md`
 - Create: `docs/reference/study-plan-16-weeks.md`
 - Modify: `tests/test_course.py`
@@ -714,13 +719,13 @@ Require globally unique IDs, exactly one marked correct answer, a non-empty expl
 
 Create two balanced ULM/MAF mocks covering Spanish law, human performance, meteorology, communication/RTC, navigation, principles, systems, performance and operations. Each mock has at least 60 original questions.
 
-- [ ] **Step 3: Build PPL extension mocks**
+- [ ] **Step 3: Build Part-FCL transition mocks**
 
-Create two at-least-90-question study sets mapped across the nine EASA subjects. They are learning assessments, not representations of AESA's current delivery format unless the source audit verifies that format.
+Create two at-least-90-question study sets mapped across the applicable LAPL/PPL theory syllabus, with explicit markers where PPL depth differs. They are learning assessments, not representations of AESA's current delivery format unless the source audit verifies that format.
 
 - [ ] **Step 4: Write explanations and traceability**
 
-Every answer includes the reasoning, the main misconception, a section link and sources when the answer is normative. The 16-week plan marks the ULM-ready checkpoint before optional PPL-extension weeks.
+Every answer includes the reasoning, the main misconception, a section link and sources when the answer is normative. The 16-week plan marks the ULM-ready checkpoint before optional LAPL/PPL transition weeks.
 
 - [ ] **Step 5: Verify and commit**
 
@@ -730,7 +735,7 @@ Expected: PASS with no duplicate or unexplained questions.
 
 ```bash
 git add docs/12-exam-preparation docs/reference/study-plan-16-weeks.md tests/test_course.py mkdocs.yml
-git commit -m "feat: add ULM and PPL study assessments"
+git commit -m "feat: add ULM and Part-FCL study assessments"
 ```
 
 ### Task 15: Whole-course editorial, visual and regulatory verification
@@ -760,7 +765,7 @@ Expected: all tests PASS and MkDocs exits 0 with no warnings.
 
 - [ ] **Step 2: Perform syllabus traceability review**
 
-Create `release-audit-2026-07-13.md` with one row for every ULM requirement found in the Spanish audit and every item of the PPL(A) EASA syllabus, linking each to a course section. No uncovered item may be marked complete.
+Create `release-audit-2026-07-13.md` with one row for every ULM requirement found in the Spanish audit, every applicable LAPL(A) transition requirement and every item of the PPL(A) EASA syllabus, linking each to a course section. No uncovered item may be marked complete.
 
 - [ ] **Step 3: Perform terminology and source review**
 
@@ -768,7 +773,7 @@ Check every professional term against `terms.json`, every repeated occurrence li
 
 - [ ] **Step 4: Render and inspect all SVGs and representative pages**
 
-Use an installed SVG renderer or browser screenshots to inspect every diagram at desktop and narrow width. Check title, description, contrast, clipped labels and legibility. Inspect the homepage, one chapter from every part, glossary, formula reference, country pages and mock exams.
+Use an installed SVG renderer or browser screenshots to inspect every diagram at desktop and narrow width. Check title, description, contrast, clipped labels and legibility. Inspect the homepage, one chapter from every part, glossary, formula reference, both transition routes and mock exams.
 
 - [ ] **Step 5: Independently recalculate every worked example**
 
@@ -813,10 +818,10 @@ Expected: remote branch exists. If GitHub authentication or permissions block th
 ## Plan Self-Review Checklist
 
 - Every design criterion maps to at least one task.
-- ULM is the first usable milestone; PPL material never blocks the ULM path.
+- ULM is the first usable milestone; LAPL/PPL material never blocks the ULM path.
 - 2026 Spanish amendments are explicit in the research and air-law tasks.
-- All nine PPL subjects are covered.
-- International flight claims require country-specific source checks.
+- Applicable LAPL(A) requirements and all nine PPL subjects are covered.
+- ULM operational scenarios stay within Spain and no automatic international entitlement is implied.
 - Every technical diagram is original SVG unless separately licensed.
 - Every module has questions and explained answers.
 - The terminology-link rule is machine-checked.
