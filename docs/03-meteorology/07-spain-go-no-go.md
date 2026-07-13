@@ -2,201 +2,215 @@
 
 ## Зачем эта глава {#purpose}
 
-Знание погоды становится безопасностью только через воспроизводимое решение. Worksheet ниже ведёт от определения вылета к явным GO / DELAY / REROUTE / CANCEL и к заранее записанным in-flight triggers.
+Знание погоды становится безопасностью только через воспроизводимое решение. Рабочий лист ниже ведёт от определения конкретного вылета к явному GO, DELAY, REROUTE или CANCEL и к заранее записанным рубежам в полёте.
 
 ## Результаты обучения {#outcomes}
 
 После главы вы сможете:
 
-1. построить briefing от synoptic scale к route и point data;
-2. применить наиболее строгую из law, aircraft, school/aerodrome и personal границ;
-3. учесть terrain, coast/islands, [density altitude][density-altitude] и uncertainty;
-4. записать departure и airborne decision gates;
-5. документировать источник, time, validity и missing data.
+1. построить метеоинструктаж от синоптической картины к маршруту и точечным данным;
+2. применить наиболее строгую из правовой, самолётной, школьной/аэродромной и личной границ;
+3. учесть рельеф, побережье/острова, [высоту по плотности][density-altitude] и неопределённость;
+4. записать решение до вылета и наблюдаемые рубежи в воздухе;
+5. документировать источник, время, период действия и пропуски данных.
 
 ## Карта применимости {#applicability}
 
 | Метка | Как использовать главу |
 |---|---|
-| [ULM — ОСНОВА][ulm] | Итоговый Spanish [ULM][ulm] workflow этого модуля. |
-| [ULM — ОСОБО ВАЖНО][ulm] | GO требует запаса и escape route, не только legal weather. |
-| [PART-FCL — ОБЩЕЕ][part-fcl] | Framework переносится в будущие [LAPL(A)][lapl]/[PPL(A)][ppl]. |
-| [LAPL — ПЕРЕХОД][lapl] | Part-NCO duties остаются future layer. |
-| [PPL — РАСШИРЕНИЕ][ppl] | Та же decision discipline с иной mission complexity. |
-| [ИСПАНИЯ] | [ULM][ulm] scenarios ограничены Испанией; foreign operation не преподаётся. |
-| [БЕЗОПАСНОСТЬ] | DELAY/CANCEL — нормальный outcome, а не failure. |
-| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | Refresh dynamic [AIP][aip]/AEMET/[AMA][ama] непосредственно для time of use. |
+| [ULM — ОСНОВА][ulm] | Итоговый порядок для национальной эксплуатации [ULM][ulm] в Испании. |
+| [ULM — ОСОБО ВАЖНО][ulm] | GO требует запаса и пути отхода, а не только формально законной погоды. |
+| [PART-FCL — ОБЩЕЕ][part-fcl] | Порядок переносится в последующее обучение [LAPL(A)][lapl]/[PPL(A)][ppl]. |
+| [LAPL — ПЕРЕХОД][lapl] | Применимость Part-NCO определяется видом эксплуатации, а не одной лицензией. |
+| [PPL — РАСШИРЕНИЕ][ppl] | Та же дисциплина решения применяется к более сложным заданиям. |
+| [ИСПАНИЯ] | Сценарии ограничены Испанией; иностранные процедуры здесь не преподаются. |
+| [БЕЗОПАСНОСТЬ] | DELAY или CANCEL являются нормальным результатом анализа. |
+| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | Обновить динамические [AIP][aip], AEMET и [AMA][ama] непосредственно к времени использования. |
 
 ## Теория {#theory}
 
 ### Иерархия ограничений {#weather-limit-hierarchy}
 
-Dispatch uses the most restrictive applicable law/[VMC][vmc], current [AFM][afm]/[POH][poh], aerodrome/school limits and pre-agreed [личные минимумы (personal minima)][personal-minima], plus margin for uncertainty/[TREND][trend]. [Личные минимумы (personal minima)][personal-minima] may be stricter, never looser. Нет универсального лимита [ULM][ulm] по ветру, порывам, crosswind, visibility, cloud base, turbulence, icing или thunderstorm distance. Испанская operational boundary: `SRC-BOE-RD-765-2022`; product sources: `SRC-ENAIRE-AIP-GEN-3-5-2026`, `SRC-AEMET-GUIA-MET-2025` (проверено 2026-07-13).
+Для решения применяется наиболее строгое из действующего права/[VMC][vmc], актуального [AFM][afm]/[POH][poh], ограничений аэродрома/школы и заранее согласованных [личных минимумов (personal minima)][personal-minima], плюс запас на неопределённость и изменение. Личные минимумы могут быть строже, но не мягче обязательной границы. Нет универсального лимита [ULM][ulm] по ветру, порывам, боковому ветру, видимости, базе облаков, турбулентности, обледенению или расстоянию от грозы. Источники: испанская граница — `SRC-BOE-RD-765-2022`; смысл продуктов — `SRC-ENAIRE-AIP-GEN-3-5-2026`, `SRC-AEMET-GUIA-MET-2025` (проверено 2026-07-13).
 
-### Девятишаговый worksheet {#weather-worksheet}
+### Девятишаговый рабочий лист погоды {#weather-worksheet}
 
-### Шаг 1 — определить полёт {#weather-step-1}
+Перед заполнением создайте отдельную запись на конкретный вылет и не переносите решение GO на другой день или маршрут. Для каждого шага фиксируйте не только вывод, но и источник с временем.
 
-Запишите departure/destination, route, terrain, planned heights, UTC window, payload, daylight, alternates и точки, где возможна посадка. Без defined flight невозможно понять validity и spatial coverage.
+#### Шаг 1 — определить полёт {#weather-step-1}
 
-### Шаг 2 — выписать hard limits {#weather-step-2}
+Запишите вылет, назначение, маршрут, рельеф, плановые высоты, окно UTC, загрузку, светлое время, разрешённые аэродромы ухода и точки разворота. Без определённого полёта нельзя оценить пространственную и временную применимость продуктов. Источник метода времени/района: `SRC-AEMET-GUIA-MET-2025`, pp. 18–60 (проверено 2026-07-13).
 
-Отдельно выпишите law/[VMC][vmc], [AFM][afm]/[POH][poh], runway/aerodrome и school restrictions. Не держите числа «в голове» и не превращайте recommendation в aircraft limit.
+#### Шаг 2 — выписать жёсткие ограничения {#weather-step-2}
 
-### Шаг 3 — применить [личные минимумы (personal minima)][personal-minima] {#weather-step-3}
+Отдельно выпишите право/[VMC][vmc], [AFM][afm]/[POH][poh], ограничения ВПП/аэродрома и школы. Не держите числа «в голове» и не превращайте рекомендацию в предел воздушного судна. Источник национальной рамки [ULM][ulm]: `SRC-BOE-RD-765-2022` (проверено 2026-07-13); конкретные значения берутся из действующих документов борта и аэродрома.
 
-Добавьте заранее согласованные более строгие границы по wind/gust, crosswind, visibility/cloud, terrain, [недавнему опыту (recency)][recency] and type experience. Не смягчайте их после появления passenger pressure.
+#### Шаг 3 — применить [личные минимумы][personal-minima] {#weather-step-3}
 
-### Шаг 4 — построить synoptic big picture {#weather-step-4}
+Добавьте заранее согласованные более строгие границы по ветру/порывам, боковой составляющей, видимости/облачности, рельефу, [недавнему опыту (recency)][recency] и опыту на типе. Не смягчайте их после появления внешнего давления. Метод предварительного решения: `SRC-EASA-EGAST-GA2` (проверено 2026-07-13).
 
-Определите air mass, fronts, pressure systems, broad wind/moisture and expected movement. Запишите главный uncertainty: timing, location, intensity или model disagreement.
+#### Шаг 4 — построить синоптическую картину {#weather-step-4}
 
-### Шаг 5 — пройти весь route {#weather-step-5}
+Определите воздушную массу, фронты, барические системы, крупномасштабный ветер/влагу и ожидаемое движение. Запишите главную неопределённость: время, положение, интенсивность или расхождение моделей. Физика: `SRC-FAA-AWH-28B-2026`; текущие испанские карты: `SRC-AEMET-GUIA-MET-2025`, pp. 50–57 (проверено 2026-07-13).
 
-Проверьте [GAMET][gamet]/SWL, [AIRMET][airmet]/[SIGMET][sigmet], wind/temperature aloft, terrain/coast/island effects и route escape. [METAR][metar] не описывает весь маршрут.
+#### Шаг 5 — пройти весь маршрут {#weather-step-5}
 
-### Шаг 6 — проверить point products {#weather-step-6}
+Проверьте [GAMET][gamet]/[SWL][swl], [AIRMET][airmet]/[SIGMET][sigmet], ветер/температуру по высотам, влияние рельефа, побережья и островов и путь отхода. [METAR][metar] не описывает весь маршрут. Источники охвата продуктов: `SRC-ENAIRE-AIP-GEN-3-5-2026`, §§3.6, 8, и `SRC-AEMET-GUIA-MET-2025`, pp. 39–57 (проверено 2026-07-13).
 
-Сопоставьте current [METAR][metar]/[SPECI][speci], [TAF][taf]/[TREND][trend], aerodrome warnings and local guía. Отметьте issue/observation time, validity, AMD/COR и missing data.
+#### Шаг 6 — проверить точечные продукты {#weather-step-6}
 
-### Шаг 7 — оценить performance {#weather-step-7}
+Сопоставьте текущие [METAR][metar]/[SPECI][speci], [TAF][taf]/[TREND][trend], аэродромные предупреждения и местное руководство. Отметьте время выпуска/наблюдения, период действия, AMD/COR и пропущенные данные. Источники формата: `SRC-AEMET-CODE-FORMS-2021`, pp. 1–6, и `SRC-AEMET-GUIA-MET-2025`, pp. 18–31 (проверено 2026-07-13).
 
-С текущими pressure/temperature/wind and mass use [AFM][afm]/[POH][poh] for take-off, climb, cruise and landing. Classroom [density altitude][density-altitude] only flags [TREND][trend]; it is not dispatch performance.
+#### Шаг 7 — оценить характеристики {#weather-step-7}
 
-### Шаг 8 — добавить uncertainty и [TREND][trend] {#weather-step-8}
+По текущим давлению, температуре, ветру и массе используйте [AFM][afm]/[POH][poh] для взлёта, набора, маршрута и посадки. Учебная [высота по плотности][density-altitude] только указывает направление риска и не является расчётом характеристик для вылета. Физическая основа: `SRC-FAA-AWH-28B-2026` (проверено 2026-07-13); результат берётся из актуального документа конкретного борта.
 
-Сравните successive observations, forecast confidence, radar/satellite/lightning animation and update cycle. Запас увеличивают при fast development, sparse stations, terrain, coast/islands или missing data.
+#### Шаг 8 — добавить неопределённость и тенденцию {#weather-step-8}
 
-### Шаг 9 — выбрать outcome и triggers {#weather-step-9}
+Сравните последовательные наблюдения, уверенность прогноза, последовательность кадров радара/спутника/молний и цикл обновления. Увеличьте запас при быстром развитии, редкой сети наблюдений, сложном рельефе, побережье/островах или пропусках данных. Неблагоприятная тенденция сама по себе не означает автоматическую отмену: она требует повторной оценки; CANCEL выбирается, когда нарушена применимая граница, данных недостаточно для запаса или исчез безопасный вариант. Источники: `SRC-AEMET-GUIA-MET-2025`, pp. 50–60, и `SRC-ENAIRE-AIP-GEN-3-5-2026` (проверено 2026-07-13).
 
-Запишите одно: **GO**, **DELAY**, **REROUTE** или **CANCEL**. Затем задайте точные наблюдаемые triggers: задержка запуска до нового выпуска; уход на alternate при заданном ухудшении; разворот до terrain-рубежа; посадка на выбранной площадке/аэродроме при потере margin. Trigger должен наступать до потери безопасного варианта.
+#### Шаг 9 — выбрать результат и рубежи {#weather-step-9}
+
+Запишите одно: **GO**, **DELAY**, **REROUTE** или **CANCEL**. Затем задайте заранее согласованный наблюдаемый рубеж до потери безопасной геометрии: например, конкретный ориентир и минимально приемлемая видимость/база, либо предел ветра в очередном выпуске. Если триггер достигнут, выполняйте предусмотренный разворот немедленно, не обсуждая его заново под давлением продолжения. Плановым вариантом указывайте разрешённый аэродром или площадку в применимой рамке; вынужденная посадка вне аэродрома относится к аварийному контексту, а не к заранее разрешённому запасному пункту. Источники метода: `SRC-EASA-EGAST-GA2`; национальная рамка [ULM][ulm]: `SRC-BOE-RD-765-2022` (проверено 2026-07-13).
 
 ### Матрица результата {#decision-matrix}
 
-| Outcome | Когда выбирать |
+| Результат | Когда выбирать |
 |---|---|
-| GO | Все limits соблюдены, margin устойчив к plausible change, escape routes доступны. |
-| DELAY | Ожидается ближайший update/проход явления, а ожидание сохраняет options. |
-| REROUTE | Alternative route materially reduces exposure и остаётся в limits. |
-| CANCEL | Limit violated, data insufficient, [TREND][trend] adverse или safe escape absent. |
+| GO | Все границы соблюдены, запас устойчив к правдоподобному изменению, пути отхода доступны. |
+| DELAY | Ожидается ближайшее обновление или проход явления, а ожидание сохраняет варианты. |
+| REROUTE | Другой маршрут заметно уменьшает воздействие и остаётся в пределах. |
+| CANCEL | Нарушена граница, данных недостаточно для доказательства запаса или отсутствует безопасный путь отхода. |
 
-### Route versus point reports {#route-versus-point}
+Матрица не является автоматическим алгоритмом: неблагоприятное изменение запускает повторную оценку, а не само по себе CANCEL. Метод дисциплины решения: `SRC-EASA-EGAST-GA2`; границы берутся из `SRC-BOE-RD-765-2022` и текущих документов борта/аэродрома (проверено 2026-07-13).
 
-Point report answers «что наблюдалось здесь и сейчас», route product — «что ожидается в районе/слое/периоде». Оба имеют limits. Checkpoint reassessment repeats steps 5–9 with current position and remaining options; original GO does not persist automatically.
+### Маршрут и точечные сводки {#route-versus-point}
 
-### Coast, islands and terrain {#terrain-coast-islands}
+Точечная сводка отвечает, что наблюдалось в конкретном месте и времени; зональный продукт описывает ожидаемые условия в районе, слое и периоде. У обоих есть ограничения. На контрольной точке повторите шаги 5–9 с текущим положением и оставшимися вариантами; исходный GO не сохраняется автоматически. Если заранее согласованный рубеж достигнут, переходите к предусмотренному развороту или уходу, не ожидая потери геометрии. Источники: `SRC-AEMET-GUIA-MET-2025`, pp. 18–60, и `SRC-EASA-EGAST-GA2` (проверено 2026-07-13).
 
-Coastlines can support breeze/convergence/fog; islands add windward/lee contrast; Meseta basins favour inversions; mountain routes add wave/rotor/obscuration. These are prompts to inspect data, not forecasts or universal regional rules. Aerodrome guide remains site-specific. Sources: `SRC-AEMET-AERODROME-GUIDES`, `SRC-AEMET-GUIA-MET-2025` (проверено 2026-07-13).
+### Рельеф, побережье и острова {#terrain-coast-islands}
 
-### Worked decision example {#worked-decision-example}
+Не назначайте региональный эффект без текущих данных. Если наблюдения и прогноз показывают бриз/сходимость, орографический подъём, волну, ротор, туман или инверсию, проверьте механизм на всём маршруте и запишите, каких данных не хватает. Это условная проверка механизма, а не прогноз или универсальное правило региона. Источники текущих продуктов: `SRC-AEMET-GUIA-MET-2025`, `SRC-ENAIRE-AIP-GEN-3-5-2026`; физические механизмы: `SRC-FAA-AWH-28B-2026` (проверено 2026-07-13).
 
-**Flight:** morning local [ULM][ulm] route near rising terrain, return before afternoon breeze.
+### Учебный пример решения {#worked-decision-example}
 
-**Evidence:** valid area forecast suggests later convection; current point reports good; one route segment lacks convenient landing options; temperature raises [density altitude][density-altitude].
+**Полёт:** условный утренний местный маршрут [ULM][ulm] рядом с растущим рельефом.
 
-**Decision:** GO only if updated data remain within hard/personal limits and turn-back trigger is reached before cloud develops over the ridge; otherwise DELAY or REROUTE. The scenario is synthetic and not for flight. Sources of method: `SRC-AEMET-GUIA-MET-2025`, `SRC-EASA-EGAST-GA2` (проверено 2026-07-13).
+**Данные:** действующий зональный прогноз показывает более позднюю конвекцию; текущие точечные сводки благоприятны; один участок имеет мало разрешённых аэродромов ухода; температура увеличивает [высоту по плотности][density-altitude].
+
+**Решение:** GO допустим только пока обновлённые данные остаются в жёстких/личных границах, а рубеж разворота наступает до потери визуального прохода; иначе DELAY или REROUTE. Пример синтетический и не предназначен для полёта. Источники метода: `SRC-AEMET-GUIA-MET-2025`, `SRC-EASA-EGAST-GA2` (проверено 2026-07-13).
 
 ## Применение к [ULM][ulm] {#ulm-application}
 
-This worksheet is written for Spanish national [ULM][ulm] operations. It neither grants international privilege nor teaches foreign procedures. Day [VFR][vfr]/[VMC][vmc] legality remains necessary but not sufficient; current aircraft/manual and pilot margins govern suitability. Source: `SRC-BOE-RD-765-2022` (проверено 2026-07-13).
+Рабочий лист написан для национальной эксплуатации [ULM][ulm] в Испании. Он не создаёт международных прав и не преподаёт иностранные процедуры. Законность дневного [VFR][vfr]/[VMC][vmc] необходима, но недостаточна; пригодность определяют актуальные документы борта и запас пилота. Источник: `SRC-BOE-RD-765-2022` (проверено 2026-07-13).
 
 ## Расширение LAPL/PPL {#part-fcl-extension}
 
-For future [LAPL(A)][lapl]/[PPL(A)][ppl], NCO.OP.160 requires latest available meteorological information for route/destination at expected use and GM supports continual reassessment. This duty belongs to future Part-NCO operation, not automatically to current national [ULM][ulm]. Source: `SRC-EASA-AIR-OPS-2026` Revision 24 (проверено 2026-07-13).
+Для некоммерческой эксплуатации самолёта, подпадающей под Регламент (ЕС) 965/2012, Annex VII, применяется Part-NCO; наличие [LAPL(A)][lapl] или [PPL(A)][ppl] само по себе не определяет применимость. NCO.OP.160 регулирует начало или продолжение с последней доступной погодой маршрута/назначения к ожидаемому времени, GM1 — перепланирование в полёте, GM2 — осторожную оценку. Национальный режим [ULM][ulm] Испании остаётся отдельным. Источники: применимость по виду эксплуатации — Article 5(4), Annex VII и NCO.OP.160/GM1/GM2 в `SRC-EASA-AIR-OPS-2026`; национальная граница испанского [ULM][ulm] — `SRC-BOE-RD-765-2022` (проверено 2026-07-13).
 
 ## Безопасность {#safety}
 
-A forecast improvement does not create an obligation to depart. If missing/contradictory data prevent a margin demonstration, CANCEL is supported by evidence. After take-off, reassess at checkpoints and execute a trigger without renegotiating it under pressure.
+Прогноз улучшения не обязывает вылетать. Если пропущенные или противоречивые данные не позволяют показать запас, CANCEL является обоснованным решением. После взлёта повторяйте оценку на контрольных точках и выполняйте заранее согласованный рубеж без пересмотра под давлением продолжения. Метод: `SRC-EASA-EGAST-GA2`; текущие данные: `SRC-AEMET-GUIA-MET-2025` (проверено 2026-07-13).
 
 ## Типичные ошибки {#common-errors}
 
-1. Проверять only destination point.
-2. Оценивать law after [личные минимумы (personal minima)][personal-minima], not before.
-3. Forget issue/validity/time zone.
-4. Write «turn back if bad» instead of observable trigger.
-5. Treat original GO as permission for the whole flight.
+1. Проверять только точку назначения.
+2. Сначала выбирать личный минимум, а затем искать более строгую обязательную границу.
+3. Забывать время выпуска, период действия или часовой пояс.
+4. Писать «развернуться, если станет плохо» вместо наблюдаемого рубежа.
+5. Считать исходный GO разрешением на весь полёт.
 
 ## Краткий конспект {#summary}
 
-- Define flight before fetching products.
-- Apply most restrictive limit plus uncertainty margin.
-- Combine synoptic, route, point and performance layers.
-- Make outcome and airborne triggers explicit.
+- Сначала определите полёт, затем выбирайте продукты.
+- Примените наиболее строгую границу и запас на неопределённость.
+- Соедините синоптический, маршрутный, точечный и самолётный уровни.
+- Запишите результат и рубежи в воздухе.
 
 ## Контрольные вопросы {#review-questions}
 
-### Q-MET-031 — Какой предел применяется, если personal minimum строже [AFM][afm] и law? {#q-met-031}
+### Q-MET-031 — Какой предел применяется, если личный минимум строже [AFM][afm] и права? {#q-met-031}
 
-A. Строгий personal minimum, поскольку он не расширяет обязательные пределы.<br>
-B. Более мягкий aircraft limit, потому что он опубликован.<br>
-C. Среднее арифметическое трёх значений.<br>
-D. Предел выбирается пассажиром после briefing.
-
-**Правильный ответ:** A.
-
-**Почему:** The most restrictive applicable boundary preserves both mandatory compliance and pre-agreed pilot margin (`SRC-BOE-RD-765-2022`).
-
-**Почему главный отвлекающий вариант неверен:** B ignores the pilot's deliberately stricter рубеж and reduces margin after planning (`SRC-BOE-RD-765-2022`).
-
-### Q-MET-032 — Почему worksheet начинает с определения полёта? {#q-met-032}
-
-A. Route, UTC window, terrain and alternatives determine which products and validity matter.<br>
-B. Weather sources одинаковы для любой точки и времени.<br>
-C. Это позволяет не проверять aircraft performance.<br>
-D. Destination name автоматически задаёт весь route.
+A. Более строгий личный минимум, поскольку он не расширяет обязательные пределы.<br>
+B. Более мягкий предел воздушного судна, поскольку он опубликован изготовителем.<br>
+C. Обязательный предел без личного запаса, если прогноз не содержит TEMPO.<br>
+D. Самый мягкий из пределов, когда маршрут местный и знакомый.
 
 **Правильный ответ:** A.
 
-**Почему:** Without intended space/time/use, a current product may still be irrelevant to the actual segment.
+**Почему:** Наиболее строгая применимая граница сохраняет соблюдение обязательных условий и заранее согласованный запас пилота.
 
-**Почему главный отвлекающий вариант неверен:** D collapses route hazards and alternatives into a single point label.
+**Почему главный отвлекающий вариант неверен:** B игнорирует намеренно более строгий рубеж пилота и уменьшает запас после планирования.
 
-### Q-MET-033 — Когда DELAY является самостоятельным безопасным outcome? {#q-met-033}
+**Источник объяснения:** национальная граница — `SRC-BOE-RD-765-2022`; метод личного рубежа — `SRC-EASA-EGAST-GA2` (проверено 2026-07-13).
 
-A. Когда ожидание нового выпуска или прохода явления сохраняет options и margins.<br>
-B. Только если cancellation legally prohibited.<br>
-C. Когда pilot хочет скрыть limit exceedance.<br>
-D. Когда old screenshot looks better than current data.
+### Q-MET-032 — Почему рабочий лист начинается с определения полёта? {#q-met-032}
 
-**Правильный ответ:** A.
-
-**Почему:** Delay changes estimated-use time and can avoid uncertainty/exposure without forcing a premature GO.
-
-**Почему главный отвлекающий вариант неверен:** D selects obsolete evidence to justify departure and violates source-time discipline (`SRC-AEMET-GUIA-MET-2025`).
-
-### Q-MET-034 — Каким должен быть airborne turn-back trigger? {#q-met-034}
-
-A. Observable, reached before loss of safe turning space or visual margin.<br>
-B. «Когда станет совсем плохо» без location or condition.<br>
-C. Negotiated only after entering narrowing terrain.<br>
-D. Based solely on passenger schedule.
+A. Маршрут, окно UTC, рельеф и варианты определяют нужные продукты и период действия.<br>
+B. Достаточно указать аэродром назначения; маршрутные продукты выбираются одинаково для любого пути.<br>
+C. Определение полёта можно отложить до получения [TAF][taf], а затем подогнать маршрут под период.<br>
+D. Если вылет местный, время использования и запасные варианты не влияют на выбор данных.
 
 **Правильный ответ:** A.
 
-**Почему:** A pre-defined observable trigger makes action earlier than option loss and resists continuation bias.
+**Почему:** Без пространства, времени и предполагаемого использования даже текущий продукт может быть неприменим к фактическому участку.
 
-**Почему главный отвлекающий вариант неверен:** B delays recognition and gives no repeatable decision boundary (`SRC-EASA-EGAST-GA2`).
+**Почему главный отвлекающий вариант неверен:** B сводит опасности маршрута и варианты ухода к одной точке назначения.
 
-### Q-MET-035 — Что делать, если point reports хороши, но route data отсутствуют и terrain leaves no escape? {#q-met-035}
+**Источник объяснения:** `SRC-AEMET-GUIA-MET-2025`, pp. 18–60 (проверено 2026-07-13).
 
-A. DELAY/REROUTE/CANCEL until route uncertainty and escape are acceptable.<br>
-B. Infer route weather from nearest point and depart.<br>
-C. Treat no data as no hazard.<br>
-D. Replace missing evidence with climatology.
+### Q-MET-033 — Когда DELAY является самостоятельным безопасным результатом? {#q-met-033}
+
+A. Когда ожидание нового выпуска или прохода явления сохраняет варианты и запас.<br>
+B. Когда текущая граница уже нарушена, но прогноз обещает улучшение после планового вылета.<br>
+C. Когда ожидается обновление, но его результат заранее считают благоприятным без проверки.<br>
+D. Когда ожидание уменьшает светлое время и закрывает ранее доступный аэродром ухода.
 
 **Правильный ответ:** A.
 
-**Почему:** Sparse evidence plus constrained terrain prevents demonstration of margin; point observations do not cover the route.
+**Почему:** Задержка меняет ожидаемое время использования и может избежать неопределённости или воздействия без преждевременного GO.
 
-**Почему главный отвлекающий вариант неверен:** B extrapolates beyond spatial coverage and ignores the no-escape consequence (`SRC-AEMET-GUIA-MET-2025`).
+**Почему главный отвлекающий вариант неверен:** C превращает ожидание данных в предположение об их содержании.
+
+**Источник объяснения:** `SRC-AEMET-GUIA-MET-2025` и метод решения `SRC-EASA-EGAST-GA2` (проверено 2026-07-13).
+
+### Q-MET-034 — Каким должен быть рубеж разворота в воздухе? {#q-met-034}
+
+A. Наблюдаемым и достигаться до потери безопасного пространства разворота или визуального запаса.<br>
+B. Задаваться только после входа в сужающийся участок, когда виден фактический минимум.<br>
+C. Формулироваться как «когда станет совсем плохо» без места или условия.<br>
+D. Пересматриваться в сторону продолжения после каждого пройденного ориентира.
+
+**Правильный ответ:** A.
+
+**Почему:** Заранее определённый наблюдаемый рубеж запускает действие раньше потери варианта и противостоит склонности продолжать.
+
+**Почему главный отвлекающий вариант неверен:** C не задаёт наблюдаемый рубеж разворота и откладывает распознавание ухудшения.
+
+**Источник объяснения:** `SRC-EASA-EGAST-GA2` и `SRC-EASA-VFR2IMC` (проверено 2026-07-13).
+
+### Q-MET-035 — Что делать, если точечные сводки хороши, но маршрутных данных нет и рельеф не оставляет пути отхода? {#q-met-035}
+
+A. Выбрать DELAY, REROUTE или CANCEL, пока неопределённость маршрута и путь отхода не станут приемлемыми.<br>
+B. Перенести ближайшую точечную сводку на весь маршрут, если время наблюдения свежее часа.<br>
+C. Считать отсутствие маршрутных данных отсутствием явления, если [SIGMET][sigmet] не выпущен.<br>
+D. Заменить недостающие данные климатологией совпадающего сезона.
+
+**Правильный ответ:** A.
+
+**Почему:** Редкие данные вместе с ограниченным рельефом не позволяют показать запас; точечные наблюдения не покрывают маршрут.
+
+**Почему главный отвлекающий вариант неверен:** B выходит за пространственный охват сводки и игнорирует последствия отсутствия пути отхода.
+
+**Источник объяснения:** `SRC-AEMET-GUIA-MET-2025`, pp. 18–60, и `SRC-EASA-EGAST-GA2` (проверено 2026-07-13).
 
 ## Источники {#sources}
 
-- `SRC-BOE-RD-765-2022` — Spanish [ULM][ulm] boundary; checked 2026-07-13.
-- `SRC-AEMET-GUIA-MET-2025`, `SRC-AEMET-AERODROME-GUIDES` — workflow/products and site-specific orientation; checked 2026-07-13.
-- `SRC-ENAIRE-AIP-GEN-3-5-2026` — dynamic Spanish meteorological service; checked 2026-07-13.
-- `SRC-EASA-AIR-OPS-2026` — future Part-NCO route-weather duty; checked 2026-07-13.
-- `SRC-EASA-EGAST-GA2` — decision pedagogy, not legal minima; checked 2026-07-13.
+- `SRC-BOE-RD-765-2022` — национальная эксплуатационная граница [ULM][ulm]; проверено 2026-07-13.
+- `SRC-AEMET-GUIA-MET-2025` — порядок использования продуктов; проверено 2026-07-13.
+- `SRC-ENAIRE-AIP-GEN-3-5-2026` — динамическая испанская метеослужба; проверено 2026-07-13.
+- `SRC-EASA-AIR-OPS-2026` — область Part-NCO, NCO.OP.160 и GM1/GM2; проверено 2026-07-13.
+- `SRC-EASA-EGAST-GA2`, `SRC-EASA-VFR2IMC` — дисциплина решения и раннего выхода, не юридические минимумы; проверено 2026-07-13.
 
 [metar]: ../reference/glossary.md#term-metar
 [taf]: ../reference/glossary.md#term-taf
@@ -219,3 +233,4 @@ D. Replace missing evidence with climatology.
 [recency]: ../reference/glossary.md#term-recency
 [personal-minima]: ../reference/glossary.md#term-personal-minima
 [go-no-go]: ../reference/glossary.md#term-go-no-go
+[swl]: ../reference/glossary.md#term-significant-weather-chart-low-level-swl

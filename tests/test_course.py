@@ -195,6 +195,18 @@ REQUIRED_CANONICAL_TERMS = {
     "density altitude",
     "wind shear",
     "VFR into IMC (VFR2IMC)",
+    "pressure altitude",
+    "transition altitude",
+    "transition level",
+    "anabatic flow",
+    "katabatic flow",
+    "mountain wave",
+    "rotor",
+    "lee downdraft",
+    "headwind component",
+    "crosswind component",
+    "surface wind",
+    "significant weather chart for low-level flights (SWL)",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -875,6 +887,13 @@ ABSURD_DISTRACTOR = re.compile(
     r"если\s+нет\s+ветра|подбросить\s+монет|выбрать\s+наугад|"
     r"(?:брос|кинут|подброс|тянут|вытян)\w*.{0,30}(?:кубик|кост\w*|монет|жреб)|"
     r"(?:наугад|случайн\w*|по\s+жребию)|"
+    r"групп\w*\s+G.{0,30}только\s+(?:к\s+)?температур|"
+    r"G\s+публику\w*.{0,30}после\s+(?:завершения\s+)?пол[её]т|"
+    r"морск\w+\s+бриз.{0,30}только\s+на\s+морск\w+\s+суд|"
+    r"длин\w+\s+строк\w*.{0,20}(?:без\s+пробел|сообщен)|"
+    r"SPECI.{0,35}(?:семь|7)\s+дн|"
+    r"средн\w+\s+арифметическ\w*.{0,35}(?:предел|значен)|"
+    r"предел.{0,35}выбира\w+\s+пассажир|"
     r"цвет.{0,24}назван.{0,24}(?:размер\s+шрифт|шрифт))"
 )
 
@@ -1242,6 +1261,81 @@ def unexplained_hybrid_occurrences(text):
             if _inside_any(match.start(), ignored + explained_spans):
                 continue
             errors.append((clean.count("\n", 0, match.start()) + 1, hybrid))
+    return errors
+
+
+def unexplained_english_phrase_occurrences(text):
+    """Find English learner prose, including short fragments and code spans."""
+    clean = strip_fenced_code(text)
+    product_table_lines = {
+        line_number
+        for line_number, line in enumerate(clean.splitlines(), 1)
+        if re.match(
+            r"^\|\s*(?:\[(?:METAR|TAF|SPECI|AIRMET|GAMET|SWL)\]"
+            r"(?:\[[^\]]+\]|\([^)]*\))|(?:METAR|TAF|SPECI|AIRMET|GAMET|SWL))\s*\|",
+            line,
+        )
+    }
+    errors = []
+    for line_number, line in enumerate(clean.splitlines(), 1):
+        if re.match(r"^\s*\[[^\]]+\]:", line):
+            continue
+        for match in re.finditer(
+            r"\[([^\]\n]+)\](?:\[[^\]\n]*\]|\([^\n)]+\))",
+            line,
+        ):
+            label = match.group(1)
+            if re.search(r"(?<![A-Za-z])[a-z][a-z'-]{3,}(?![A-Za-z])", label) and not re.search(
+                r"[А-Яа-яЁё]", label
+            ):
+                errors.append((line_number, " ".join(label.split())))
+    clean = re.sub(
+        r"\((?:English|EN):[^)\n]+(?:español|ES):[^)\n]+\)",
+        " ",
+        clean,
+        flags=re.IGNORECASE,
+    )
+    clean = re.sub(
+        r"\((?:español|ES):[^)\n]+\)",
+        " ",
+        clean,
+        flags=re.IGNORECASE,
+    )
+    def keep_only_prose_code(match):
+        value = match.group(1)
+        lower_words = {
+            word.casefold()
+            for word in re.findall(r"(?<![A-Za-z])([A-Za-z]+)(?![A-Za-z])", value)
+            if word.islower()
+        }
+        if not lower_words or lower_words.issubset({"cos", "sin"}):
+            return " "
+        return value
+
+    clean = re.sub(r"`([^`\n]+)`", keep_only_prose_code, clean)
+    clean = re.sub(
+        r"!?\[[^\]\n]+\](?:\[[^\]\n]*\]|\([^\n)]+\))",
+        " ",
+        clean,
+    )
+    clean = re.sub(r"https?://\S+|SRC-[A-Z0-9-]+", " ", clean)
+    clean = re.sub(r"<[^>\n]+>", " ", clean)
+    pattern = re.compile(
+        r"(?<![A-Za-z])(?:(?:[A-Za-z][A-Za-z'-]*\s+){2,}"
+        r"[A-Za-z][A-Za-z'-]*|(?:[a-z][a-z'-]{1,}\s+)*[a-z][a-z'-]{3,})"
+        r"(?![A-Za-z])"
+    )
+    for line_number, line in enumerate(clean.splitlines(), 1):
+        if line_number in product_table_lines:
+            continue
+        if re.match(r"^\s*#{1,6}\s+", line):
+            continue
+        if re.match(r"^\s*\[[^\]]+\]:", line):
+            continue
+        if re.match(r"^\s*-\s+\*\*(?:Canonical|English|Español|Русский|Сокращение):\*\*", line):
+            continue
+        for match in pattern.finditer(line):
+            errors.append((line_number, " ".join(match.group(0).split())))
     return errors
 
 
@@ -3163,6 +3257,105 @@ def weather_safety_errors(text):
 
 
 class Task6MeteorologyTests(unittest.TestCase):
+    def test_language_guard_rejects_unlabelled_english_prose(self):
+        probe = "Пилот проверяет данные. This entire operational sentence is English."
+        self.assertEqual(
+            [(1, "This entire operational sentence is English")],
+            unexplained_english_phrase_occurrences(probe),
+        )
+        self.assertEqual(
+            [],
+            unexplained_english_phrase_occurrences(
+                "Пилот проверяет [высоту по плотности][density-altitude] и QNH."
+            ),
+        )
+        self.assertEqual(
+            [(1, "dew point"), (1, "approximate cloud base")],
+            unexplained_english_phrase_occurrences(
+                "Проверьте dew point и `approximate cloud base`."
+            ),
+        )
+        self.assertEqual(
+            [(1, "wind shear")],
+            unexplained_english_phrase_occurrences(
+                "Риск [wind shear][wind-shear] вырос."
+            ),
+        )
+        self.assertEqual(
+            [],
+            unexplained_english_phrase_occurrences(
+                "METAR: `T = Td + 2`; источник `SRC-AEMET-GUIA-MET-2025`."
+            ),
+        )
+
+    def test_task6_ru_first_language_contract_and_first_use_terms(self):
+        violations = []
+        for relative_path in TASK6_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            violations.extend(
+                f"{relative_path}:{line}: {phrase}"
+                for line, phrase in unexplained_english_phrase_occurrences(text)
+            )
+        glossary = GLOSSARY.read_text(encoding="utf-8")
+        sections = glossary_sections(glossary)
+        for anchor in (
+            "term-international-standard-atmosphere-isa", "term-flight-level-fl",
+            "term-qfe", "term-cavok", "term-speci", "term-trend", "term-sigmet",
+            "term-airmet", "term-gamet", "term-aeronautical-meteorological-self-service-ama",
+            "term-density-altitude", "term-wind-shear", "term-vfr-into-imc-vfr2imc",
+            "term-pressure-altitude",
+            "term-transition-altitude", "term-transition-level", "term-anabatic-flow",
+            "term-katabatic-flow", "term-mountain-wave", "term-rotor",
+            "term-lee-downdraft", "term-headwind-component",
+            "term-crosswind-component", "term-surface-wind",
+            "term-significant-weather-chart-low-level-swl",
+        ):
+            violations.extend(
+                f"glossary:{anchor}:{line}: {phrase}"
+                for line, phrase in unexplained_english_phrase_occurrences(sections[anchor])
+            )
+        self.assertEqual([], violations)
+
+        products = (ROOT / TASK6_CHAPTERS[5]).read_text(encoding="utf-8")
+        for abbreviation in ("METAR", "TAF", "SPECI", "AIRMET", "GAMET"):
+            with self.subTest(abbreviation=abbreviation):
+                self.assertRegex(
+                    products,
+                    re.compile(
+                        rf"(?m)^\|\s*(?:\[{abbreviation}\]\[[^\]]+\]|{abbreviation})\s*\|"
+                        r"[^|]*[А-Яа-яЁё][^|]*\|"
+                        r"[^|]*[A-Za-z][^|]*\|[^|]*[A-Za-zÁÉÍÓÚÜÑáéíóúüñ][^|]*\|\s*$"
+                    ),
+                )
+
+        atmosphere = (ROOT / TASK6_CHAPTERS[0]).read_text(encoding="utf-8")
+        wind = (ROOT / TASK6_CHAPTERS[1]).read_text(encoding="utf-8")
+        products_intro = (ROOT / TASK6_CHAPTERS[5]).read_text(
+            encoding="utf-8"
+        ).split("## Результаты обучения", 1)[0]
+        for text, russian, english, spanish, link in (
+            (atmosphere, "барометрическая высота", "pressure altitude", "altitud de presión", "pressure-altitude"),
+            (atmosphere, "абсолютная высота перехода", "transition altitude", "altitud de transición", "transition-altitude"),
+            (atmosphere, "эшелон перехода", "transition level", "nivel de transición", "transition-level"),
+            (wind, "анабатический склоновый поток", "anabatic flow", "flujo anabático", "anabatic-flow"),
+            (wind, "катабатический склоновый поток", "katabatic flow", "flujo catabático", "katabatic-flow"),
+            (wind, "горная волна", "mountain wave", "onda de montaña", "mountain-wave"),
+            (wind, "подветренный нисходящий поток", "lee downdraft", "corriente descendente a sotavento", "lee-downdraft"),
+            (wind, "боковая составляющая ветра", "crosswind component", "componente de viento cruzado", "crosswind-component"),
+            (wind, "приземный ветер", "surface wind", "viento en superficie", "surface-wind"),
+        ):
+            with self.subTest(english=english):
+                self.assertRegex(
+                    text,
+                    re.compile(
+                        rf"\[{re.escape(russian)}[^\]]*English:\s*{re.escape(english)};\s*"
+                        rf"español:\s*{re.escape(spanish)}[^\]]*\]\[{re.escape(link)}\]",
+                        re.IGNORECASE,
+                    ),
+                )
+        for link in ("trend", "sigmet", "swl", "ama"):
+            self.assertRegex(products_intro, rf"\[[^\]]+\]\[{link}\]")
+
     def test_weather_guard_rejects_unsafe_synthetic_probes(self):
         probes = (
             "CAVOK всегда означает безопасное ясное небо.",
@@ -3260,6 +3453,19 @@ class Task6MeteorologyTests(unittest.TestCase):
         plain = _plain_markdown(text)
         self.assertRegex(plain, r"(?is)стандартн\w+\s+градиент.{0,180}не.{0,60}(?:фактическ|уровн\w+\s+замерзан)")
 
+    def test_wind_calculation_uses_one_reference_and_mean_and_gust_cases(self):
+        text = (ROOT / TASK6_CHAPTERS[1]).read_text(encoding="utf-8")
+        match = re.search(
+            r"(?ms)^###\s+Учебный расчёт MET-CALC-04.+?(?=^###\s+|^##\s+)", text
+        )
+        self.assertIsNotNone(match)
+        block = _plain_markdown(match.group(0))
+        self.assertRegex(block, r"(?is)(?:истинн|магнитн).{0,160}(?:един|одн\w+\s+систем)")
+        self.assertRegex(block, r"(?is)(?:слева|справа).{0,100}(?:знак|положительн|отрицательн)")
+        self.assertRegex(block, r"(?is)средн\w+.{0,180}порыв")
+        self.assertRegex(block, r"SRC-[A-Z0-9-]+")
+        self.assertRegex(block, r"проверено\s+2026-07-13")
+
     def test_task6_has_ten_fully_decoded_synthetic_examples(self):
         text = (ROOT / TASK6_CHAPTERS[5]).read_text(encoding="utf-8")
         examples = list(re.finditer(
@@ -3276,12 +3482,22 @@ class Task6MeteorologyTests(unittest.TestCase):
                 self.assertRegex(block, r"(?m)^\*\*Код:\*\*")
                 self.assertRegex(block, r"(?m)^\*\*Разбор:\*\*")
                 self.assertRegex(block, r"(?m)^\*\*Решение пилота:\*\*")
+                self.assertRegex(block, r"SRC-[A-Z0-9-]+")
+                self.assertRegex(block, r"проверено\s+2026-07-13")
         plain = _plain_markdown(text)
         for token in (
             "METAR", "G", "VRB", "CAVOK", "AUTO", "SPECI", "TREND",
             "BECMG", "FM", "TEMPO", "PROB30", "PROB40", "AMD", "COR",
         ):
             self.assertIn(token.casefold(), plain.casefold())
+
+        dec03 = re.search(
+            r"(?ms)^###\s+Синтетический пример MET-DEC-03.+?(?=^###\s+)", text
+        ).group(0)
+        self.assertRegex(dec03, r"(?is)не\s+менее\s+3\s*kt")
+        self.assertRegex(dec03, r"(?is)(?:измен|разброс).{0,80}180°")
+        self.assertRegex(dec03, r"(?is)(?:невозмож|нельзя).{0,80}(?:един|одно).{0,40}направлен")
+        self.assertRegex(dec03, r"SRC-AEMET-GUIA-MET-2025.{0,80}(?:p\.?|стр(?:аница)?\.?)[ ]*18")
 
     def test_task6_has_six_labelled_spanish_scenarios(self):
         text = "\n".join(
@@ -3304,15 +3520,64 @@ class Task6MeteorologyTests(unittest.TestCase):
             self.assertRegex(plain, re.compile(pattern, re.IGNORECASE | re.DOTALL))
         self.assertRegex(plain, r"(?is)климатолог\w+.{0,80}не.{0,40}прогноз")
 
+    def test_spain_scenarios_are_ordered_conditional_and_use_one_template(self):
+        ordered = []
+        for relative_path in TASK6_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            matches = list(re.finditer(
+                r"(?m)^###\s+Сценарий ESP-MET-(\d{2})\s+—.+\{#scenario-esp-met-\1\}\s*$",
+                text,
+            ))
+            for index, match in enumerate(matches):
+                end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+                next_heading = re.search(r"(?m)^##?\s+", text[match.end():end])
+                if next_heading:
+                    end = match.end() + next_heading.start()
+                block = text[match.end():end]
+                ordered.append(match.group(1))
+                for label in (
+                    "Условные учебные данные", "Риск", "Не хватает данных",
+                    "Решение", "Наблюдаемый триггер",
+                ):
+                    self.assertRegex(block, rf"(?m)^\*\*{re.escape(label)}:\*\*")
+                self.assertRegex(block, r"SRC-[A-Z0-9-]+")
+                self.assertRegex(block, r"проверено\s+2026-07-13")
+        self.assertEqual(["01", "02", "03", "04", "05", "06"], ordered)
+
     def test_task6_nine_step_weather_decision_worksheet(self):
         text = (ROOT / TASK6_CHAPTERS[6]).read_text(encoding="utf-8")
-        steps = re.findall(r"(?m)^###\s+Шаг\s+([1-9])\s+—\s+.+\{#weather-step-\1\}\s*$", text)
+        worksheet = re.search(
+            r"(?ms)^###\s+Девятишаговый.+?\{#weather-worksheet\}\s*\n"
+            r"(.+?)(?=^###\s+Матрица)",
+            text,
+        )
+        self.assertIsNotNone(worksheet)
+        self.assertTrue(worksheet.group(1).strip())
+        steps = re.findall(r"(?m)^####\s+Шаг\s+([1-9])\s+—\s+.+\{#weather-step-\1\}\s*$", text)
         self.assertEqual(list("123456789"), steps)
+        step_matches = list(re.finditer(
+            r"(?m)^####\s+Шаг\s+([1-9])\s+—\s+.+\{#weather-step-\1\}\s*$", text
+        ))
+        for index, match in enumerate(step_matches):
+            end = step_matches[index + 1].start() if index + 1 < len(step_matches) else text.index("### Матрица")
+            block = text[match.end():end]
+            self.assertRegex(block, r"SRC-[A-Z0-9-]+")
+            self.assertRegex(block, r"проверено\s+2026-07-13")
         plain = _plain_markdown(text)
         for decision in ("GO", "DELAY", "REROUTE", "CANCEL"):
             self.assertIn(decision, plain)
         for trigger in ("задержк", "уход", "разворот", "посадк"):
             self.assertRegex(plain, re.compile(trigger, re.IGNORECASE))
+        self.assertRegex(plain, r"(?is)неблагоприятн\w+\s+тенденц\w+.{0,100}не.{0,30}автоматическ\w+\s+отмен")
+        self.assertRegex(plain, r"(?is)заранее\s+согласован\w+.{0,120}до\s+потер\w+\s+безопасн\w+\s+геометр")
+        self.assertRegex(plain, r"(?is)триггер.{0,80}достигнут.{0,80}разворот")
+        self.assertRegex(plain, r"(?is)разреш[её]нн\w+\s+аэродром.{0,180}вынужденн\w+\s+посадк")
+
+        matrix_and_checkpoint = re.search(
+            r"(?ms)^###\s+Матрица.+?(?=^###\s+Coast|^###\s+Побереж|^###\s+Рельеф)", text
+        ).group(0)
+        self.assertRegex(matrix_and_checkpoint, r"SRC-[A-Z0-9-]+")
+        self.assertRegex(matrix_and_checkpoint, r"проверено\s+2026-07-13")
 
     def test_task6_has_thirty_five_substantive_unique_questions(self):
         blocks = []
@@ -3331,6 +3596,59 @@ class Task6MeteorologyTests(unittest.TestCase):
         }
         self.assertEqual(35, len(prompts))
         self.assertEqual([], violations)
+        for block in blocks:
+            with self.subTest(question=block["id"]):
+                self.assertRegex(block["body"], r"(?m)^\*\*Источник объяснения:\*\*")
+                self.assertRegex(block["body"], r"SRC-[A-Z0-9-]+")
+                self.assertRegex(block["body"], r"проверено\s+2026-07-13")
+
+    def test_task6_distractors_avoid_reviewed_strawmen(self):
+        text = "\n".join(
+            (ROOT / path).read_text(encoding="utf-8") for path in TASK6_CHAPTERS
+        )
+        for pattern in (
+            r"групп\w*\s+G.{0,30}только\s+(?:к\s+)?температур",
+            r"G\s+публику\w*.{0,30}после\s+(?:завершения\s+)?пол[её]т",
+            r"морск\w+\s+бриз.{0,30}только\s+на\s+морск\w+\s+суд",
+            r"длин\w+\s+строк\w*.{0,20}(?:без\s+пробел|сообщен)",
+            r"SPECI.{0,35}(?:семь|7)\s+дн",
+            r"средн\w+\s+арифметическ\w*.{0,35}(?:предел|значен)",
+            r"предел.{0,35}выбира\w+\s+пассажир",
+        ):
+            self.assertNotRegex(_plain_markdown(text), re.compile(pattern, re.IGNORECASE))
+
+        question_specific = {
+            "Q-MET-001": r"(?i)ISA|стандартн|модел|профил|температур|давлен",
+            "Q-MET-002": r"(?i)QNH|QFE|высотомер|уровн\w+\s+мор|аэродром|1013",
+            "Q-MET-003": r"(?i)переход|AIP|аэродром|давлен|ATIS|ATS|FL",
+            "Q-MET-007": r"(?i)горн|волн|ротор|ветр|устойчив|нисход|облак",
+            "Q-MET-008": r"(?i)боков|составляющ|ветр|порыв|ВПП|AFM|POH|предел",
+            "Q-MET-010": r"(?i)приземн|ветр|профил|сдвиг|сло|высот",
+        }
+        blocks = {
+            block["id"]: block
+            for path in TASK6_CHAPTERS[:2]
+            for block in parsed_question_blocks((ROOT / path).read_text(encoding="utf-8"))
+        }
+        for identifier, required in question_specific.items():
+            block = blocks[identifier]
+            answer = re.search(r"\*\*Правильный ответ:\*\*\s*([A-D])\.", block["body"]).group(1)
+            options = re.findall(r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", block["body"])
+            for letter, value in options:
+                if letter == answer:
+                    continue
+                with self.subTest(question=identifier, option=letter):
+                    self.assertRegex(_plain_markdown(value), required)
+
+    def test_task6_safety_blocks_have_adjacent_sources(self):
+        for relative_path in TASK6_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            block = re.search(
+                r"(?ms)^##\s+Безопасность\b.+?(?=^##\s+)", text
+            ).group(0)
+            with self.subTest(path=relative_path):
+                self.assertRegex(block, r"SRC-[A-Z0-9-]+")
+                self.assertRegex(block, r"проверено\s+2026-07-13")
 
     def test_task6_dynamic_sources_and_code_discrepancy_are_explicit(self):
         text = "\n".join(
@@ -3343,6 +3661,83 @@ class Task6MeteorologyTests(unittest.TestCase):
         self.assertRegex(plain, r"(?is)\bV5\b.{0,60}1000.{0,30}5000\s*м")
         self.assertRegex(plain, r"SRC-ENAIRE-AIP-GEN-3-5-2026")
         self.assertRegex(plain, r"проверено\s+2026-07-13")
+
+    def test_part_nco_scope_is_operation_based_not_licence_triggered(self):
+        text = "\n".join(
+            (ROOT / path).read_text(encoding="utf-8") for path in TASK6_CHAPTERS
+        )
+        plain = _plain_markdown(text)
+        self.assertRegex(
+            plain,
+            r"(?is)некоммерческ\w+\s+эксплуатац\w+\s+самол[её]т\w+.{0,120}"
+            r"Регламент\w*\s*\(ЕС\)\s*965/2012.{0,100}Annex VII.{0,80}Part-NCO",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)наличи\w+\s+(?:лицензи\w+\s+)?(?:LAPL|PPL).{0,100}"
+            r"не.{0,30}определя\w+.{0,80}применимост",
+        )
+        self.assertNotRegex(plain, r"(?is)(?:future|будущ\w+)\s+(?:LAPL|PPL).{0,80}Part-NCO")
+        self.assertNotRegex(plain, r"(?is)Part-NCO.{0,100}continual reassessment")
+
+        sources = {
+            source["id"]: source for source in json.loads(SOURCE_REGISTRY.read_text())
+        }
+        scope = sources["SRC-EASA-AIR-OPS-2026"]["scope"]
+        for required in ("Article 5(4)", "Annex VII", "NCO.OP.160", "GM1", "GM2"):
+            self.assertIn(required, scope)
+        self.assertNotRegex(scope, r"(?i)future\s+LAPL/PPL|continual reassessment")
+        self.assertIn(
+            "одно наличие лицензии не определяет применимость Part-NCO",
+            scope,
+        )
+        self.assertNotRegex(
+            scope,
+            r"(?is)(?:испан\w*|Spanish).{0,80}ULM|ULM.{0,80}(?:испан\w*|Spanish)",
+        )
+
+        for relative_path in (
+            TASK6_CHAPTERS[0], TASK6_CHAPTERS[1], TASK6_CHAPTERS[3],
+            TASK6_CHAPTERS[5], TASK6_CHAPTERS[6],
+        ):
+            chapter = (ROOT / relative_path).read_text(encoding="utf-8")
+            extension = chapter.split("## Расширение LAPL/PPL", 1)[1].split(
+                "## Безопасность", 1
+            )[0]
+            with self.subTest(relative_path=relative_path):
+                self.assertIn("SRC-EASA-AIR-OPS-2026", extension)
+                self.assertIn("SRC-BOE-RD-765-2022", extension)
+                self.assertIn("проверено 2026-07-13", extension)
+
+    def test_task6_scenarios_are_not_presented_as_climatology(self):
+        wind = (ROOT / TASK6_CHAPTERS[1]).read_text(encoding="utf-8")
+        self.assertIn(
+            "Сценарии — условные синтетические проверки механизма, "
+            "а не климатология или прогноз.",
+            wind,
+        )
+        self.assertNotIn("Сценарии дают климатологическую ориентацию", wind)
+
+    def test_task6_visibility_and_icao_source_scopes_are_narrow(self):
+        water = _plain_markdown(
+            (ROOT / TASK6_CHAPTERS[2]).read_text(encoding="utf-8")
+        )
+        self.assertRegex(
+            water,
+            r"(?is)METAR.{0,100}преобладающ\w+\s+горизонтальн\w+\s+видимост\w+"
+            r".{0,180}не.{0,50}подтвержда\w+.{0,100}(?:рельеф|препятств)",
+        )
+        self.assertRegex(
+            water,
+            r"SRC-ENAIRE-AIP-GEN-3-5-2026.{0,100}§§3\.2\.1–3\.2\.2",
+        )
+        sources = {
+            source["id"]: source for source in json.loads(SOURCE_REGISTRY.read_text())
+        }
+        self.assertEqual(
+            "21st Edition, August 2025",
+            sources["SRC-ICAO-ANNEX3-2025"]["edition"],
+        )
 
     def test_task6_rejects_universal_limits_and_refutes_shortcuts(self):
         text = "\n".join(
@@ -3430,6 +3825,57 @@ class Task6MeteorologyTests(unittest.TestCase):
         self.assertIn("не прогноз", fronts)
         self.assertIn("нет универсальной дистанции", storm)
         self.assertIn("не текущая погода", decoder)
+
+    def test_task6_svgs_encode_reviewed_comparisons_and_escape_logic(self):
+        fronts_root = ET.parse(ROOT / TASK6_SVGS[0]).getroot()
+        fronts = {item.attrib.get("id"): item for item in fronts_root.iter()}
+        self.assertIn("warm-front-panel", fronts)
+        self.assertIn("cold-front-panel", fronts)
+        self.assertFalse(
+            bboxes_overlap(
+                element_bbox(fronts["warm-front-panel"]),
+                element_bbox(fronts["cold-front-panel"]),
+            )
+        )
+        wind_text = (ROOT / TASK6_CHAPTERS[1]).read_text(encoding="utf-8")
+        front_text = (ROOT / TASK6_CHAPTERS[3]).read_text(encoding="utf-8")
+        self.assertNotIn("fronts-and-pressure.svg", wind_text)
+        self.assertIn("fronts-and-pressure.svg", front_text)
+
+        storm_root = ET.parse(ROOT / TASK6_SVGS[1]).getroot()
+        storm = {item.attrib.get("id"): item for item in storm_root.iter()}
+        self.assertIn("escape-path", storm)
+        boundary = element_bbox(storm["avoidance-boundary"])
+        escape = element_bbox(storm["escape-path"])
+        self.assertTrue(
+            escape[0] + escape[2] < boundary[0]
+            or escape[0] > boundary[0] + boundary[2]
+        )
+        title = storm["no-distance-title"]
+        self.assertGreaterEqual(len(list(title)), 2)
+        self.assertFalse(
+            bboxes_overlap(
+                element_bbox(storm["updraft-label"]),
+                element_bbox(storm["downdraft-label"]),
+            )
+        )
+
+        decoder_root = ET.parse(ROOT / TASK6_SVGS[2]).getroot()
+        decoder = {item.attrib.get("id"): item for item in decoder_root.iter()}
+        self.assertFalse(
+            bboxes_overlap(
+                element_bbox(decoder["observation"]),
+                element_bbox(decoder["forecast"]),
+            )
+        )
+        parents = {
+            child.attrib.get("id"): parent.attrib.get("id")
+            for parent in decoder_root.iter()
+            for child in parent
+            if child.attrib.get("id")
+        }
+        self.assertEqual("observation", parents["trend"])
+        self.assertEqual("forecast", parents["change-groups"])
 
 
 if __name__ == "__main__":

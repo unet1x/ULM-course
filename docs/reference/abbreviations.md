@@ -59,4 +59,5 @@
 | AIRMET | [AIRMET](glossary.md#term-airmet) | информация о specified low-level phenomena |
 | GAMET | [GAMET](glossary.md#term-gamet) | зональный low-level forecast |
 | AMA | [Aeronautical Meteorological Self-service (AMA)](glossary.md#term-aeronautical-meteorological-self-service-ama) | AEMET aviation weather self-service |
+| SWL | [significant weather chart for low-level flights (SWL)](glossary.md#term-significant-weather-chart-low-level-swl) | карта значимой погоды нижних уровней |
 | VFR2IMC | [VFR into IMC (VFR2IMC)](glossary.md#term-vfr-into-imc-vfr2imc) | развитие VFR-полёта к потере visual conditions |

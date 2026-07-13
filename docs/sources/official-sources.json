@@ -276,7 +276,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?erules-id=ERULES-1963177438-18537",
     "edition": "Revision 24, March 2026, published 27.03.2026",
     "checked": "2026-07-13",
-    "scope": "NCO.OP.160 and AMC1/GM1/GM2, including route/destination information at expected use, TAF/TREND change-group planning and continual reassessment; future LAPL/PPL Part-NCO layer, not automatically the Spanish national ULM rule"
+    "scope": "Article 5(4), Annex VII (Part-NCO), NCO.OP.160, AMC1 и GM1/GM2: область для некоммерческой эксплуатации самолёта, подпадающей под Regulation (EU) No 965/2012 Annex VII; решение о начале/продолжении, текущая погода маршрута/назначения к ожидаемому времени, перепланирование в полёте по GM1 и осторожная оценка по GM2; одно наличие лицензии не определяет применимость Part-NCO"
   },
   {
     "id": "SRC-WMO-CLOUD-ATLAS-2017",
@@ -301,9 +301,9 @@
     "authority": "ICAO",
     "title": "Annex 3 — Meteorological Service for International Air Navigation",
     "url": "https://store.icao.int/en/annex-3-meteorological-service-for-international-air-navigation-1",
-    "edition": "21st Edition, August 2025, Amendments 1–82; Corrigendum 1, 20.10.2025",
+    "edition": "21st Edition, August 2025",
     "checked": "2026-07-13",
-    "scope": "Edition and subject metadata only; full Annex text was not inspected and is not used to infer Spanish implementation, which is taught from current AIP and AEMET sources"
+    "scope": "Только метаданные редакции и предмета; полный текст приложения не проверялся и не используется для вывода об испанской реализации, которая преподаётся по текущим AIP и AEMET"
   },
   {
     "id": "SRC-FAA-AWH-28B-2026",

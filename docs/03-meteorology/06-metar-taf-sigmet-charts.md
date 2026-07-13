@@ -1,71 +1,86 @@
-# [METAR][metar], [TAF][taf], warnings и карты Испании {#metar-taf-sigmet-charts}
+# Аэродромные сводки, прогнозы, предупреждения и карты Испании {#metar-taf-sigmet-charts}
 
 ## Зачем эта глава {#purpose}
 
-Продукт читают через четыре вопроса: кто выпустил, для какого места/района, на какое время и что он не описывает. Декодирование — только начало: пилот связывает point observation, forecast, warnings, area charts и [TREND][trend].
+Умение прочитать код ещё не означает умения применить продукт. Пилот сначала устанавливает источник, место, время, период действия и ограничения, затем декодирует группы и только после этого связывает сообщение с маршрутом, характеристиками воздушного судна и путём отхода.
+
+До результатов обучения зафиксируйте четыре термина: [краткосрочный прогноз тенденции (English: trend forecast, TREND; español: pronóstico de tendencia)][trend], [информация о значимых метеорологических явлениях (English: significant meteorological information, SIGMET; español: información SIGMET sobre fenómenos meteorológicos significativos)][sigmet], [карта значимой погоды нижних уровней (English: significant weather chart for low-level flights, SWL; español: mapa de tiempo significativo para vuelos a baja altura)][swl] и [авиационный метеорологический сервис самообслуживания AEMET (English: Aeronautical Meteorological Self-service, AMA; español: Autoservicio Meteorológico Aeronáutico)][ama]. Полные определения доступны по ссылкам. Источники терминов: `SRC-AEMET-GUIA-MET-2025`, pp. 18–60, и `SRC-ENAIRE-AIP-GEN-3-5-2026` (проверено 2026-07-13).
 
 ## Результаты обучения {#outcomes}
 
 После главы вы сможете:
 
-1. отличить observation от forecast и UTC issue/validity times;
+1. отделить наблюдение от прогноза и предупреждения;
 2. разобрать [METAR][metar], [SPECI][speci], [TREND][trend] и [TAF][taf];
-3. интерпретировать BECMG, FM, TEMPO, PROB30/40, AMD и COR;
-4. назвать роль [SIGMET][sigmet], [AIRMET][airmet], [GAMET][gamet], SWL, radar/satellite/lightning;
-5. собрать данные через [AMA][ama] без превращения архивного примера в live weather.
+3. применить группы BECMG, FM, TEMPO, PROB30/40, AMD и COR;
+4. назвать роль [SIGMET][sigmet], [AIRMET][airmet], [GAMET][gamet], [SWL][swl], радара, спутника и данных о молниях;
+5. собрать многослойную картину для испанского [ULM][ulm], не превращая один код в разрешение на вылет.
 
 ## Карта применимости {#applicability}
 
 | Метка | Как использовать главу |
 |---|---|
-| [ULM — ОСНОВА][ulm] | Основной briefing layer для [ULM][ulm] в Испании. |
-| [ULM — ОСОБО ВАЖНО][ulm] | Point report никогда не заменяет route picture. |
-| [PART-FCL — ОБЩЕЕ][part-fcl] | Codes входят в будущую теорию [LAPL(A)][lapl]/[PPL(A)][ppl]. |
-| [LAPL — ПЕРЕХОД][lapl] | Part-NCO [AMC][amc] treatment показан только как future layer. |
-| [PPL — РАСШИРЕНИЕ][ppl] | Применяется та же discipline source/time/validity. |
-| [ИСПАНИЯ] | Авторитетны current AEMET/[ENAIRE][enaire] products and [AIP][aip]. |
-| [БЕЗОПАСНОСТЬ] | Archived guide/example/screenshot не является текущей погодой. |
-| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | Issue time, validity, amendments, route coverage и next update. |
+| [ULM — ОСНОВА][ulm] | Основной язык текущей погоды и прогноза для полётов в Испании. |
+| [ULM — ОСОБО ВАЖНО][ulm] | Код всегда связывается с местом, временем, маршрутом и путём отхода. |
+| [PART-FCL — ОБЩЕЕ][part-fcl] | Те же продукты входят в теорию [LAPL(A)][lapl]/[PPL(A)][ppl]. |
+| [LAPL — ПЕРЕХОД][lapl] | Применимость Part-NCO определяется видом эксплуатации, а не одной лицензией. |
+| [PPL — РАСШИРЕНИЕ][ppl] | Дополняется эксплуатационная оценка групп изменений и повторное планирование. |
+| [ИСПАНИЯ] | Оперативные источники — текущие AEMET, [AIP][aip] España и [AMA][ama]. |
+| [БЕЗОПАСНОСТЬ] | Архивный пример никогда не является погодой для полёта. |
+| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | Источник, выпуск, наблюдение, период действия, район, поправки и пропуски данных. |
 
 ## Теория {#theory}
 
-### UTC, station, observation и forecast {#source-time-validity}
+### Первое употребление основных продуктов {#product-first-use}
 
-Сначала определите product name, station/FIR/area, issue time в UTC, observation time или validity period, затем age at estimated use. [METAR][metar]/[SPECI][speci] сообщают observed aerodrome conditions; [TAF][taf] прогнозирует аэродром на validity period. [METAR][metar] не описывает весь маршрут. [TAF][taf] не является обещанием: это best forecast with change/probability groups. Источники: `SRC-AEMET-GUIA-MET-2025` pp. 18–31, `SRC-ENAIRE-AIP-GEN-3-5-2026` §§3.1–3.3 (проверено 2026-07-13).
+| Код | Русский эквивалент | English | Español |
+|---|---|---|---|
+| [METAR][metar] | регулярная аэродромная метеорологическая сводка | routine aerodrome meteorological report | informe meteorológico ordinario de aeródromo |
+| [TAF][taf] | аэродромный прогноз | aerodrome forecast | pronóstico de aeródromo |
+| [SPECI][speci] | специальная аэродромная метеорологическая сводка | selected special aerodrome meteorological report | informe meteorológico especial seleccionado de aeródromo |
+| [AIRMET][airmet] | информация о заданных явлениях на малых высотах | airmen's meteorological information for specified lower-level phenomena | información [AIRMET][airmet] para fenómenos especificados a niveles bajos |
+| [GAMET][gamet] | зональный прогноз для полётов на малых высотах | area forecast for low-level flights | pronóstico de área para vuelos a baja altura |
+| [SWL][swl] | карта значимой погоды нижних уровней | significant weather chart for low-level flights | mapa de tiempo significativo para vuelos a baja altura |
+
+Эти определения описывают тип продукта, а не его пригодность для конкретного маршрута. Источники терминов и форматов: `SRC-AEMET-GUIA-MET-2025`, pp. 18–48, и `SRC-AEMET-CODE-FORMS-2021`, pp. 1–14 (проверено 2026-07-13).
+
+### Источник, время, место и применимость {#source-time-place-validity}
+
+Сначала определите название продукта, станцию, FIR или район, время выпуска в UTC, время наблюдения либо период действия, а затем возраст к ожидаемому времени использования. [METAR][metar] и [SPECI][speci] сообщают наблюдавшиеся аэродромные условия; [TAF][taf] прогнозирует условия аэродрома на период действия. [METAR][metar] не описывает весь маршрут. [TAF][taf] не является обещанием: это прогноз с группами изменения и вероятности. Источники: `SRC-AEMET-GUIA-MET-2025`, pp. 18–31, и `SRC-ENAIRE-AIP-GEN-3-5-2026`, §§3.1–3.3 (проверено 2026-07-13).
 
 ### [METAR][metar], [SPECI][speci] и [TREND][trend] {#metar-speci-trend}
 
-[METAR][metar] — routine report, [SPECI][speci] — selected special report after specified significant change, а [TREND][trend] — short landing forecast appended to a report where provided. [SPECI][speci] не является исправлением [TAF][taf]; COR corrects an issued message, whereas [SPECI][speci] reports new observed conditions. AUTO warns that automatic observation and missing/limited elements need attention. Источники: `SRC-AEMET-CODE-FORMS-2021`, `SRC-ENAIRE-AIP-GEN-3-5-2026` (проверено 2026-07-13).
+[METAR][metar] является регулярной сводкой, [SPECI][speci] — специальной сводкой после установленного значимого изменения, а [TREND][trend] — краткосрочным прогнозом тенденции для посадки, присоединяемым к сводке там, где он предоставляется. [SPECI][speci] не является исправлением [TAF][taf]: COR исправляет ошибку уже выпущенного сообщения, а [SPECI][speci] сообщает новые наблюдавшиеся условия. AUTO указывает на автоматическое наблюдение; пропущенные или ограниченные элементы требуют отдельной оценки. Источники: `SRC-AEMET-CODE-FORMS-2021`, pp. 1–4, и `SRC-ENAIRE-AIP-GEN-3-5-2026`, §§3.1–3.2 (проверено 2026-07-13).
 
-### [TAF][taf] и change groups {#taf-change-groups}
+### [TAF][taf] и группы изменений {#taf-change-groups}
 
-- FM starts a new prevailing forecast from the stated time;
-- BECMG describes a transition during a period to new prevailing conditions;
-- TEMPO describes temporary fluctuations under code limits;
-- PROB30/PROB40 expresses probability of specified conditions;
-- AMD is an amendment; COR corrects an error.
+- FM начинает новую преобладающую часть прогноза с указанного момента;
+- BECMG описывает переход к новым преобладающим условиям в указанном интервале;
+- TEMPO описывает временные колебания в пределах правил кода;
+- PROB30/40 выражает вероятность указанных условий;
+- AMD изменяет содержание прогноза, а COR исправляет ошибку выпуска.
 
-TEMPO нельзя игнорировать как «не prevailing». PROB30 нельзя считать пренебрежимо малой: probability and consequence enter the decision. Future Part-NCO [AMC][amc] contains specific planning treatment for certain TEMPO/PROB30/40 groups; it is not a blanket safety permission to ignore them. Sources: `SRC-AEMET-GUIA-MET-2025` pp. 26–31; future-layer [AMC1][amc] NCO.OP.160 in `SRC-EASA-AIR-OPS-2026` (проверено 2026-07-13).
+TEMPO нельзя игнорировать как «не преобладающее». PROB30 нельзя считать пренебрежимо малой: в решение входят время, вероятность, последствия и путь отхода. AMC1 NCO.OP.160 содержит специальную планировочную трактовку некоторых групп TEMPO/PROB30/40, но не разрешает игнорировать их значение для безопасности. Источники: `SRC-AEMET-GUIA-MET-2025`, pp. 26–31; AMC1 NCO.OP.160 в `SRC-EASA-AIR-OPS-2026` (проверено 2026-07-13).
 
-### [SIGMET][sigmet], [AIRMET][airmet], [GAMET][gamet] и SWL {#sigmet-airmet-gamet}
+### [SIGMET][sigmet], [AIRMET][airmet], [GAMET][gamet] и [SWL][swl] {#sigmet-airmet-gamet}
 
-[SIGMET][sigmet] warns of specified en-route phenomena of operational significance; [AIRMET][airmet] addresses specified lower-level phenomena not already included as applicable; [GAMET][gamet] is a low-level area forecast; SWL visualises significant low-level weather. Each has area, validity, criteria and limitations. Отсутствие [SIGMET][sigmet] не означает отсутствие опасности. Источники: `SRC-AEMET-GUIA-MET-2025` pp. 39–57, `SRC-ENAIRE-AIP-GEN-3-5-2026` §§3.6, 8 (проверено 2026-07-13).
+[SIGMET][sigmet] сообщает об установленных значимых явлениях в указанном FIR, его части или другом определённом воздушном пространстве и в заданный период; это не индивидуальный прогноз маршрута. [AIRMET][airmet] относится к установленным явлениям на малых высотах для указанного района и периода. [GAMET][gamet] является зональным прогнозом для полётов на малых высотах, а [SWL][swl] визуализирует значимую погоду нижних уровней. У каждого продукта есть район, период действия, критерии и ограничения. Отсутствие [SIGMET][sigmet] не означает отсутствия опасности. Источники: `SRC-AEMET-GUIA-MET-2025`, pp. 39–57, и `SRC-ENAIRE-AIP-GEN-3-5-2026`, §§3.6, 8 (проверено 2026-07-13).
 
-### V1/V5: применяем текущий [AIP][aip] {#v1-v5-discrepancy}
+### Расхождение V1/V5 {#v1-v5-discrepancy}
 
-Текущий [AIP][aip] España GEN 3.5 §3.6.2 определяет на low-level chart `V1` как видимость ниже 1000 м, а `V5` — как видимость 1000–5000 м. Guía MET p. 52 содержит apparent contrary typo for V1; этот курс её не воспроизводит. Operational priority — current [AIP][aip]: `SRC-ENAIRE-AIP-GEN-3-5-2026` WEF 11.06.2026 (проверено 2026-07-13); discrepancy recorded in source audit.
+Текущий [AIP][aip] España GEN 3.5 §3.6.2 определяет `V1` как видимость ниже 1000 м, а `V5` — 1000–5000 м. На p. 52 Guía MET имеется формулировка, которая, по-видимому, ошибочно меняет смысл `V1`; в курсе применяется текущий [AIP][aip], а расхождение записано в аудите источников. Источник: `SRC-ENAIRE-AIP-GEN-3-5-2026` (проверено 2026-07-13).
 
-### Radar, satellite и lightning {#radar-satellite-lightning}
+### Радар, спутник и молнии {#radar-satellite-lightning}
 
-Radar shows returned energy influenced by precipitation/type/range/blockage; satellite senses radiance in selected bands; lightning network locates discharges with its own detection limits. Overlay times may differ. Use animation and timestamps, never assume coloured pixel equals cloud clearance or turbulence intensity. Spanish access and product context: `SRC-AEMET-GUIA-MET-2025` pp. 50–60 (проверено 2026-07-13).
+Радар показывает отражённую энергию, на которую влияют осадки и режим обработки; спутник измеряет излучение в выбранных диапазонах; сеть молниепеленгации определяет разряды в пределах собственной способности обнаружения. Время слоёв может различаться. Используйте последовательность кадров и отметки времени, но не считайте цветной пиксель прямым значением турбулентности или гарантией просвета. Источники: `SRC-AEMET-GUIA-MET-2025`, pp. 50–60, и `SRC-ENAIRE-AIP-GEN-3-5-2026`, §9.1 (проверено 2026-07-13).
 
-### [AMA][ama] и dynamic operational sources {#ama}
+### [AMA][ama] и динамические источники {#ama}
 
-[AMA][ama], AEMET aviation pages and [AIP][aip] are dynamic operational sources. Before flight record retrieval time, product issue/validity, next update and any missing layer. Архивный снимок не является текущей погодой; a guide illustration is not dispatch data. Область [AMA][ama]: `SRC-AEMET-GUIA-MET-2025` pp. 58–60 and `SRC-ENAIRE-AIP-GEN-3-5-2026` §9.1 (проверено 2026-07-13).
+AEMET, [AIP][aip] и [AMA][ama] являются динамическими оперативными источниками. Перед полётом запишите время получения, время выпуска, период действия, ожидаемое следующее обновление и отсутствующие слои. Архивный снимок не является текущей погодой; иллюстрация из руководства не является данными для вылета. Источники: `SRC-AEMET-GUIA-MET-2025`, pp. 58–60, и `SRC-ENAIRE-AIP-GEN-3-5-2026` (проверено 2026-07-13).
 
-![Синтетический декодер observation, forecast и change groups; не текущая погода](../assets/diagrams/metar-taf-decoder.svg)
+![Параллельная структура наблюдения и прогноза с вложенными группами изменений; не текущая погода](../assets/diagrams/metar-taf-decoder.svg)
 
-## Десять синтетических декодирований {#synthetic-decodes}
+## Десять синтетических разборов {#synthetic-decoding-exercises}
 
 ### Синтетический пример MET-DEC-01 — обычное наблюдение {#met-dec-01}
 
@@ -73,9 +88,11 @@ Radar shows returned energy influenced by precipitation/type/range/blockage; sat
 
 **Код:** `METAR LEZZ 131000Z 24008KT 9999 FEW030 22/12 Q1018 NOSIG=`
 
-**Разбор:** fictional station LEZZ; observation 13-го в 10:00 UTC; wind 240°/8 kt; visibility 10 km or more; few cloud at 3000 ft aerodrome level; T/Td 22/12 °C; [QNH][qnh] 1018 hPa; no significant [TREND][trend] change.
+**Разбор:** вымышленная станция LEZZ; наблюдение 13-го числа в 10:00 UTC; ветер 240°/8 kt; видимость 10 км или более; FEW на 3000 ft над уровнем аэродрома; температура 22 °C, точка росы 12 °C; [QNH][qnh] 1018 hPa; значимого изменения в периоде [TREND][trend] не ожидается.
 
-**Решение пилота:** это point/time observation; дополнить route forecast, warnings, wind aloft and [TREND][trend].
+**Решение пилота:** проверить маршрутные продукты, ветер по высотам и возраст наблюдения к фактическому вылету; NOSIG не описывает весь маршрут.
+
+**Источник:** формат [METAR][metar] и NOSIG — `SRC-AEMET-CODE-FORMS-2021`, pp. 1–4 (проверено 2026-07-13).
 
 ### Синтетический пример MET-DEC-02 — порыв {#met-dec-02}
 
@@ -83,59 +100,71 @@ Radar shows returned energy influenced by precipitation/type/range/blockage; sat
 
 **Код:** `METAR LEZZ 131030Z 29014G26KT 9999 SCT025 24/14 Q1014=`
 
-**Разбор:** mean 14 kt from 290°, gust 26 kt; visibility at least 10 km; SCT at 2500 ft; [QNH][qnh] 1014 hPa.
+**Разбор:** ветер 290° со средней скоростью 14 kt и порывом 26 kt; видимость 10 км или более; SCT на 2500 ft; температура/точка росы 24/14 °C; [QNH][qnh] 1014 hPa.
 
-**Решение пилота:** calculate mean/gust components, check crosswind/runway/terrain and apply the most restrictive limit plus margin.
+**Решение пилота:** рассчитать составляющие отдельно для средней скорости и порыва, затем применить наиболее строгий предел и запас.
 
-### Синтетический пример MET-DEC-03 — variable direction {#met-dec-03}
+**Источник:** группа ветра с G — `SRC-AEMET-GUIA-MET-2025`, p. 18; применение ограничений конкретного борта не выводится из кода (проверено 2026-07-13).
+
+### Синтетический пример MET-DEC-03 — переменное направление {#met-dec-03}
 
 **СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ ПРИМЕР — НЕ ДЛЯ ПОЛЁТА**
 
 **Код:** `METAR LEZZ 131100Z VRB04KT 8000 NSC 20/16 Q1016=`
 
-**Разбор:** direction variable at 4 kt; 8 km visibility; no significant cloud reported under code criteria; T/Td 20/16 °C; [QNH][qnh] 1016 hPa.
+**Разбор:** скорость 4 kt — не менее 3 kt. Поэтому VRB здесь не объясняется правилом для скорости менее 3 kt: он означает общий разброс направления не менее 180° либо невозможность сообщить одно направление. Далее: видимость 8 км; значимой облачности по критериям кода не сообщено; температура/точка росы 20/16 °C; [QNH][qnh] 1016 hPa.
 
-**Решение пилота:** VRB does not guarantee steady flow; inspect runway reports, local circulations and ожидаемое изменение.
+**Решение пилота:** не считать слабую среднюю скорость гарантией постоянного направления; проверить актуальный ветер у ВПП, местную циркуляцию и тенденцию.
 
-### Синтетический пример MET-DEC-04 — [CAVOK][cavok] trap {#met-dec-04}
+**Источник:** правило VRB — `SRC-AEMET-GUIA-MET-2025`, p. 18 (проверено 2026-07-13).
+
+### Синтетический пример MET-DEC-04 — ловушка [CAVOK][cavok] {#met-dec-04}
 
 **СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ ПРИМЕР — НЕ ДЛЯ ПОЛЁТА**
 
 **Код:** `METAR LEZZ 131130Z 08018KT CAVOK 30/09 Q1009=`
 
-**Разбор:** wind 080°/18 kt; [CAVOK][cavok] replaces visibility/weather/cloud groups under code criteria; hot/dry surface; low [QNH][qnh]. It says nothing about route wave, gust exposure, performance or future change.
+**Разбор:** ветер 080°/18 kt; [CAVOK][cavok] заменяет группы видимости, значимых явлений и облачности по кодовым критериям; температура/точка росы 30/09 °C; [QNH][qnh] 1009 hPa. Код ничего не говорит о волне по маршруту, влиянии порывов на характеристики или будущем изменении вне продукта.
 
-**Решение пилота:** do not equate [CAVOK][cavok] with clear/safe; assess wind, terrain, [density altitude][density-altitude] and route products.
+**Решение пилота:** не приравнивать [CAVOK][cavok] к ясному и безопасному небу; проверить ветер, характеристики, рельеф и маршрутные продукты.
 
-### Синтетический пример MET-DEC-05 — low visibility, weather и cloud {#met-dec-05}
+**Источник:** критерии [CAVOK][cavok] — `SRC-AEMET-CODE-FORMS-2021`, pp. 1–2 (проверено 2026-07-13).
+
+### Синтетический пример MET-DEC-05 — низкая видимость, явления и облачность {#met-dec-05}
 
 **СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ ПРИМЕР — НЕ ДЛЯ ПОЛЁТА**
 
 **Код:** `METAR LEZZ 131200Z 02006KT 1800 -RA BR BKN004 OVC009 12/11 Q1021=`
 
-**Разбор:** 1800 m visibility, light rain, mist, BKN 400 ft and OVC 900 ft aerodrome level, near-saturated air.
+**Разбор:** ветер 020°/6 kt; видимость 1800 м; слабый дождь и дымка; BKN 400 ft и OVC 900 ft над уровнем аэродрома; температура/точка росы 12/11 °C; [QNH][qnh] 1021 hPa.
 
-**Решение пилота:** conditions remove visual margin; do not use one aerodrome report to infer a passable route.
+**Решение пилота:** условия убирают визуальный запас; одна аэродромная сводка не доказывает проходимость маршрута.
 
-### Синтетический пример MET-DEC-06 — AUTO и missing data {#met-dec-06}
+**Источник:** группы видимости, явлений и облачности — `SRC-AEMET-CODE-FORMS-2021`, pp. 1–2 (проверено 2026-07-13).
+
+### Синтетический пример MET-DEC-06 — AUTO и отсутствующие данные {#met-dec-06}
 
 **СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ ПРИМЕР — НЕ ДЛЯ ПОЛЁТА**
 
 **Код:** `METAR LEZZ 131230Z AUTO /////KT //// // ////// 18/17 Q////=`
 
-**Разбор:** automatic report; slashes mark unavailable wind, visibility/weather, cloud and pressure elements; temperature/dew point alone remain.
+**Разбор:** AUTO указывает автоматическое наблюдение; косые черты обозначают недоступные элементы ветра, видимости, явлений, облачности и давления; сообщены только температура/точка росы 18/17 °C.
 
-**Решение пилота:** missing is unknown, not favourable; obtain alternative/current official layers or delay/cancel.
+**Решение пилота:** пропуск данных означает неизвестность, а не благоприятные условия; получить другие текущие официальные слои или отложить решение.
 
-### Синтетический пример MET-DEC-07 — special report и [TREND][trend] {#met-dec-07}
+**Источник:** автоматические и отсутствующие группы — `SRC-AEMET-CODE-FORMS-2021`, pp. 3–4 (проверено 2026-07-13).
+
+### Синтетический пример MET-DEC-07 — специальная сводка и [TREND][trend] {#met-dec-07}
 
 **СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ ПРИМЕР — НЕ ДЛЯ ПОЛЁТА**
 
 **Код:** `SPECI LEZZ 131300Z 25020G32KT 3000 TSRA BKN012CB 19/17 Q1008 BECMG AT1330 9999 NSW SCT020=`
 
-**Разбор:** [SPECI][speci] records significant observed deterioration with thunderstorm rain, CB and gust; appended [TREND][trend] forecasts improvement around 13:30 UTC to 10 km or more, no significant weather, SCT 2000 ft.
+**Разбор:** [SPECI][speci] сообщает наблюдавшееся значимое ухудшение: грозовой дождь, CB, порыв 32 kt и видимость 3000 м. Присоединённый [TREND][trend] прогнозирует изменение около 13:30 UTC к видимости 10 км или более, отсутствию значимых явлений и SCT 2000 ft.
 
-**Решение пилота:** [SPECI][speci] is not a [TAF][taf] correction and [TREND][trend] is not certainty; current thunderstorm exposure drives delay.
+**Решение пилота:** [SPECI][speci] не является исправлением [TAF][taf], а [TREND][trend] не гарантирует исход; текущая гроза обосновывает DELAY.
+
+**Источник:** [SPECI][speci] и [TREND][trend] — `SRC-AEMET-GUIA-MET-2025`, pp. 18–25 (проверено 2026-07-13).
 
 ### Синтетический пример MET-DEC-08 — BECMG и FM {#met-dec-08}
 
@@ -143,9 +172,11 @@ Radar shows returned energy influenced by precipitation/type/range/blockage; sat
 
 **Код:** `TAF LEZZ 131100Z 1312/1321 22008KT 9999 SCT030 BECMG 1314/1316 28015G25KT FM131800 32010KT CAVOK=`
 
-**Разбор:** [TAF][taf] valid 12–21 UTC; initial prevailing conditions; gradual transition 14–16 UTC to gusty northwesterly; from 18 UTC a new prevailing group with [CAVOK][cavok].
+**Разбор:** [TAF][taf] действует 12–21 UTC; сначала заданы преобладающие условия; с 14 до 16 UTC происходит переход к порывистому северо-западному ветру; с 18 UTC начинается новая преобладающая группа с [CAVOK][cavok].
 
-**Решение пилота:** plan each estimated-use window and uncertainty through BECMG; do not apply the final group early.
+**Решение пилота:** оценить каждое окно ожидаемого использования и неопределённость внутри BECMG; не применять финальную группу раньше времени.
+
+**Источник:** BECMG и FM — `SRC-AEMET-GUIA-MET-2025`, pp. 26–31 (проверено 2026-07-13).
 
 ### Синтетический пример MET-DEC-09 — TEMPO {#met-dec-09}
 
@@ -153,121 +184,135 @@ Radar shows returned energy influenced by precipitation/type/range/blockage; sat
 
 **Код:** `TAF LEZZ 131100Z 1312/1320 18010KT 9999 SCT025 TEMPO 1314/1318 3000 SHRA BKN012TCU=`
 
-**Разбор:** prevailing reportable conditions are better, but temporary 14–18 UTC deterioration includes 3000 m, showers and BKN TCU at 1200 ft.
+**Разбор:** преобладающие условия лучше, но с 14 до 18 UTC временно прогнозируются видимость 3000 м, ливни и BKN TCU на 1200 ft.
 
-**Решение пилота:** TEMPO cannot be ignored; compare flight/escape timing and consequence, then delay/reroute/cancel if margin is inadequate.
+**Решение пилота:** TEMPO нельзя игнорировать; сопоставить окно полёта, последствия, пути отхода и запас, а при недостаточном запасе выбрать DELAY, REROUTE или CANCEL.
 
-### Синтетический пример MET-DEC-10 — probability, amendment и correction {#met-dec-10}
+**Источник:** TEMPO — `SRC-AEMET-GUIA-MET-2025`, pp. 26–31 (проверено 2026-07-13).
+
+### Синтетический пример MET-DEC-10 — вероятность, изменение и исправление {#met-dec-10}
 
 **СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ ПРИМЕР — НЕ ДЛЯ ПОЛЁТА**
 
-**Код:** `TAF AMD LEZZ 131200Z 1312/1321 09012KT 9999 SCT020 PROB30 TEMPO 1315/1318 2000 TSRA BKN008CB PROB40 1318/1320 4000 SHRA BKN012`; `TAF COR` would identify correction of an issued error.
+**Код:** `TAF AMD LEZZ 131200Z 1312/1321 09012KT 9999 SCT020 PROB30 TEMPO 1315/1318 2000 TSRA BKN008CB PROB40 1318/1320 4000 SHRA BKN012=`; `TAF COR` обозначал бы исправление ошибки выпущенного сообщения.
 
-**Разбор:** AMD replaces/amends forecast content; 30% probability of temporary thunderstorm deterioration in one window; 40% probability of specified later deterioration; COR has a different editorial purpose.
+**Разбор:** AMD изменяет содержание прогноза; PROB30 относится к вероятности временного грозового ухудшения в одном окне, PROB40 — к вероятности указанного ухудшения позднее; COR имеет иную, редакционную цель.
 
-**Решение пилота:** neither PROB30 nor PROB40 is negligible by definition; combine probability, severity, alternatives and later updates.
+**Решение пилота:** PROB30 нельзя считать пренебрежимо малой по определению; оценить время, последствия, запасные варианты и следующий выпуск.
+
+**Источник:** PROB30/40, AMD и COR — `SRC-AEMET-GUIA-MET-2025`, pp. 26–31 (проверено 2026-07-13).
 
 ## Применение к [ULM][ulm] {#ulm-application}
 
-For Spanish [ULM][ulm], build a multi-layer picture: current [METAR][metar]/[SPECI][speci], [TAF][taf]/[TREND][trend], [GAMET][gamet]/SWL, [AIRMET][airmet]/[SIGMET][sigmet], radar/satellite/lightning and aerodrome/local information. No single decoded message establishes a universal go condition. Sources: `SRC-ENAIRE-AIP-GEN-3-5-2026`, `SRC-AEMET-GUIA-MET-2025` (проверено 2026-07-13).
+Для испанского [ULM][ulm] соберите многослойную картину: текущие [METAR][metar]/[SPECI][speci], [TAF][taf]/[TREND][trend], [GAMET][gamet]/[SWL][swl], [AIRMET][airmet]/[SIGMET][sigmet], радар, спутник, данные о молниях и местную аэродромную информацию. Ни одно декодированное сообщение не создаёт универсального условия GO. Источники: `SRC-ENAIRE-AIP-GEN-3-5-2026`, `SRC-AEMET-GUIA-MET-2025` (проверено 2026-07-13).
 
 ## Расширение LAPL/PPL {#part-fcl-extension}
 
-Future [LAPL(A)][lapl]/[PPL(A)][ppl] Part-NCO layer uses latest information for route/destination at expected time and [AMC][amc] treatment of change groups. This is explicitly future-licence material, not automatically the national [ULM][ulm] rule. Source: NCO.OP.160 and [AMC1][amc]/GM1/GM2 in `SRC-EASA-AIR-OPS-2026` (проверено 2026-07-13).
+Для некоммерческой эксплуатации самолёта, подпадающей под Регламент (ЕС) 965/2012, Annex VII, применяется Part-NCO. Одно наличие [LAPL(A)][lapl] или [PPL(A)][ppl] не определяет применимость; национальный режим [ULM][ulm] Испании остаётся отдельным. NCO.OP.160 регулирует решение о начале или продолжении с последней доступной метеоинформацией, GM1 — перепланирование в полёте, GM2 — осторожную оценку, а AMC1 — отдельные группы изменений. Источники: применимость по виду эксплуатации — Article 5(4), Annex VII, NCO.OP.160, AMC1 и GM1/GM2 в `SRC-EASA-AIR-OPS-2026`; национальная граница испанского [ULM][ulm] — `SRC-BOE-RD-765-2022` (проверено 2026-07-13).
 
 ## Безопасность {#safety}
 
-Before every operational use, refresh dynamic [AIP][aip]/AEMET/[AMA][ama], confirm validity and note unavailable data. Static examples above and archived screenshots are invalid for flight.
+Перед каждым оперативным применением заново получите продукт, подтвердите источник/время/район/период действия и отметьте недоступные данные. Синтетические примеры выше и архивные снимки недействительны для полёта. Источники динамических продуктов: `SRC-AEMET-GUIA-MET-2025`, `SRC-ENAIRE-AIP-GEN-3-5-2026` (проверено 2026-07-13).
 
 ## Типичные ошибки {#common-errors}
 
-1. Reading [METAR][metar] as route weather.
-2. Treating [TAF][taf] as a promise.
-3. Ignoring TEMPO/PROB30.
-4. Calling [SPECI][speci] a [TAF][taf] correction.
-5. Treating no-[SIGMET][sigmet] as no hazard.
+1. Читать [METAR][metar] как погоду всего маршрута.
+2. Считать [TAF][taf] обещанием.
+3. Игнорировать TEMPO или PROB30.
+4. Называть [SPECI][speci] исправлением [TAF][taf].
+5. Считать отсутствие [SIGMET][sigmet] отсутствием опасности.
 
 ## Краткий конспект {#summary}
 
-- Observation, forecast and warning answer different questions.
-- Change groups are time-structured uncertainty, not footnotes.
-- Dynamic products must be current for estimated use.
-- A decoded code is not a complete briefing.
+- Наблюдение, прогноз и предупреждение отвечают на разные вопросы.
+- Группы изменений структурируют время и неопределённость.
+- Динамический продукт должен быть актуален к ожидаемому времени использования.
+- Декодированный код не является полным метеоинструктажем.
 
 ## Контрольные вопросы {#review-questions}
 
-### Q-MET-026 — Что первым проверяют перед декодированием weather message? {#q-met-026}
+### Q-MET-026 — Что первым проверяют перед декодированием метеосообщения? {#q-met-026}
 
-A. Source/place, issue or observation time, validity and age at estimated use.<br>
-B. Только последнюю группу pressure.<br>
-C. Совпадает ли message с желаемым планом.<br>
-D. Длину строки без пробелов.
+A. Источник/место, время выпуска или наблюдения, период действия и возраст к ожидаемому использованию.<br>
+B. Сначала расшифровывают только давление, а источник и время проверяют после решения.<br>
+C. Достаточно убедиться, что станция назначения совпадает с планом; район маршрута можно проверить позднее.<br>
+D. Самое новое сообщение всегда применимо, даже если относится к другой станции или FIR.
 
 **Правильный ответ:** A.
 
-**Почему:** Product meaning depends on who/where/when; stale or out-of-area data can be decoded correctly but applied wrongly (`SRC-AEMET-GUIA-MET-2025`).
+**Почему:** Смысл продукта зависит от того, кто, где и когда его выпустил; устаревшие или пространственно неприменимые данные можно расшифровать правильно, но применить ошибочно.
 
-**Почему главный отвлекающий вариант неверен:** B ignores spatial and temporal validity, without which pressure alone cannot support dispatch.
+**Почему главный отвлекающий вариант неверен:** B игнорирует пространственную и временную применимость, без которой одно давление не поддерживает решение о вылете.
+
+**Источник объяснения:** `SRC-AEMET-GUIA-MET-2025`, pp. 18–31 (проверено 2026-07-13).
 
 ### Q-MET-027 — Чем [SPECI][speci] отличается от COR? {#q-met-027}
 
-A. [SPECI][speci] reports selected significant observed change; COR corrects an issued-message error.<br>
-B. [SPECI][speci] always forecasts seven days; COR observes wind.<br>
-C. Они полностью взаимозаменяемы.<br>
-D. COR отменяет все current observations.
+A. [SPECI][speci] сообщает выбранное значимое наблюдавшееся изменение; COR исправляет ошибку выпущенного сообщения.<br>
+B. [SPECI][speci] выпускается только после поправки [TAF][taf], а COR начинает новое наблюдение.<br>
+C. Обозначения взаимозаменяемы, если время выпуска совпадает.<br>
+D. COR всегда заменяет содержание предыдущего наблюдения новым фактическим изменением.
 
 **Правильный ответ:** A.
 
-**Почему:** The code forms separate special observation from editorial correction (`SRC-AEMET-CODE-FORMS-2021`).
+**Почему:** Формы кода разделяют специальное наблюдение и редакционное исправление.
 
-**Почему главный отвлекающий вариант неверен:** C erases the observation/correction distinction and can corrupt chronology (`SRC-AEMET-CODE-FORMS-2021`).
+**Почему главный отвлекающий вариант неверен:** C ошибочно делает [SPECI][speci] и COR взаимозаменяемыми, стирая различие между новым наблюдением и исправлением ошибки.
+
+**Источник объяснения:** `SRC-AEMET-CODE-FORMS-2021`, pp. 1–6 (проверено 2026-07-13).
 
 ### Q-MET-028 — Почему TEMPO нельзя автоматически игнорировать? {#q-met-028}
 
-A. Temporary deterioration may overlap the flight and have high consequence despite not being prevailing.<br>
-B. TEMPO always means permanent improvement.<br>
-C. TEMPO applies only after forecast validity ends.<br>
-D. It is a station identifier without weather meaning.
+A. Временное ухудшение может совпасть с полётом и иметь серьёзные последствия, даже не будучи преобладающим.<br>
+B. Если TEMPO короче всего периода [TAF][taf], его условия не могут попасть в окно использования.<br>
+C. TEMPO учитывают только после того, как фактическое наблюдение уже подтвердило ухудшение.<br>
+D. При наличии запасного аэродрома последствия TEMPO можно не оценивать.
 
 **Правильный ответ:** A.
 
-**Почему:** Planning compares time window, probability treatment, consequence and escape options; future [AMC][amc] nuance is not blanket permission.
+**Почему:** Планирование сопоставляет окно времени, применимую трактовку вероятности, последствия и путь отхода; нюанс [AMC][amc] не является общим разрешением игнорировать группу.
 
-**Почему главный отвлекающий вариант неверен:** B reverses temporary group meaning and removes the stated adverse conditions.
+**Почему главный отвлекающий вариант неверен:** B смешивает долю периода с совпадением конкретного окна полёта и последствиями.
 
-### Q-MET-029 — Что означает `V1` на current Spanish low-level chart? {#q-met-029}
+**Источник объяснения:** `SRC-AEMET-GUIA-MET-2025`, pp. 26–31; AMC1 NCO.OP.160 в `SRC-EASA-AIR-OPS-2026` (проверено 2026-07-13).
 
-A. Visibility below 1000 m.<br>
-B. Visibility above 10 km.<br>
-C. Wind exactly 1 kt.<br>
-D. Cloud base exactly 1000 ft.
+### Q-MET-029 — Что означает `V1` на текущей испанской карте малых высот? {#q-met-029}
 
-**Правильный ответ:** A.
-
-**Почему:** [AIP][aip] España GEN 3.5 §3.6.2 defines `V1 < 1000 m`; its current definition controls over the apparent Guía typo (`SRC-ENAIRE-AIP-GEN-3-5-2026`).
-
-**Почему главный отвлекающий вариант неверен:** D changes a visibility category into a cloud-base value and even changes units.
-
-### Q-MET-030 — Как использовать archived [AMA][ama] screenshot from a lesson? {#q-met-030}
-
-A. Only to learn interface/product structure; retrieve current valid data for flight.<br>
-B. As current weather until colours visibly change.<br>
-C. As route clearance after checking station name.<br>
-D. As replacement for issue and validity time.
+A. Видимость ниже 1000 м.<br>
+B. Видимость от 1000 до 5000 м.<br>
+C. Преобладающую видимость ровно 1000 м.<br>
+D. Базу облаков ниже 1000 ft.
 
 **Правильный ответ:** A.
 
-**Почему:** [AMA][ama] is dynamic; archived imagery has a historical timestamp and no operational currency.
+**Почему:** [AIP][aip] España GEN 3.5 §3.6.2 определяет `V1 < 1000 м`; его текущая формулировка имеет приоритет над видимой опечаткой руководства.
 
-**Почему главный отвлекающий вариант неверен:** B ignores timestamp/validity and could apply obsolete hazards or improvements (`SRC-AEMET-GUIA-MET-2025`).
+**Почему главный отвлекающий вариант неверен:** Диапазон 1000–5000 м обозначается `V5`, тогда как `V1` относится к видимости ниже 1000 м.
+
+**Источник объяснения:** `SRC-ENAIRE-AIP-GEN-3-5-2026`, §3.6.2 (проверено 2026-07-13).
+
+### Q-MET-030 — Как использовать архивный снимок [AMA][ama] из урока? {#q-met-030}
+
+A. Только для изучения интерфейса и структуры; для полёта заново получить текущие действующие данные.<br>
+B. Считать его действующим, если маршрут и время суток похожи на учебный пример.<br>
+C. Обновить только аэродромную сводку, а остальные слои оставить из снимка.<br>
+D. Использовать цветовую картину как замену времени выпуска и периода действия.
+
+**Правильный ответ:** A.
+
+**Почему:** [AMA][ama] является динамическим каналом; историческая отметка времени не даёт снимку оперативной актуальности.
+
+**Почему главный отвлекающий вариант неверен:** B игнорирует время выпуска и период действия и может применить устаревшую опасность или улучшение.
+
+**Источник объяснения:** `SRC-AEMET-GUIA-MET-2025`, pp. 58–60 (проверено 2026-07-13).
 
 ## Источники {#sources}
 
-- `SRC-AEMET-GUIA-MET-2025` — pp. 18–60 product explanations; examples not live; checked 2026-07-13.
-- `SRC-AEMET-CODE-FORMS-2021` — official compact code forms; cross-checked with current [AIP][aip]; checked 2026-07-13.
-- `SRC-ENAIRE-AIP-GEN-3-5-2026` — current Spanish service/product area and V1/V5; dynamic; checked 2026-07-13.
-- `SRC-EASA-AIR-OPS-2026` — NCO.OP.160/[AMC][amc] future layer; checked 2026-07-13.
-- `SRC-ICAO-ANNEX3-2025` — edition metadata only; not used to infer unverified Spanish implementation; checked 2026-07-13.
+- `SRC-AEMET-GUIA-MET-2025` — pp. 18–60: объяснение продуктов; примеры не являются текущей погодой; проверено 2026-07-13.
+- `SRC-AEMET-CODE-FORMS-2021` — официальные формы кода, сверенные с текущим [AIP][aip]; проверено 2026-07-13.
+- `SRC-ENAIRE-AIP-GEN-3-5-2026` — текущие испанские продукты и определения V1/V5; динамический источник; проверено 2026-07-13.
+- `SRC-EASA-AIR-OPS-2026` — Article 5(4), Annex VII, NCO.OP.160, AMC1 и GM1/GM2; проверено 2026-07-13.
+- `SRC-ICAO-ANNEX3-2025` — только метаданные 21st Edition, August 2025; не используется для вывода о непроверенной реализации в Испании; проверено 2026-07-13.
 
 [metar]: ../reference/glossary.md#term-metar
 [taf]: ../reference/glossary.md#term-taf
@@ -279,11 +324,10 @@ D. As replacement for issue and validity time.
 [ama]: ../reference/glossary.md#term-aeronautical-meteorological-self-service-ama
 [cavok]: ../reference/glossary.md#term-cavok
 [qnh]: ../reference/glossary.md#term-qnh
-[density-altitude]: ../reference/glossary.md#term-density-altitude
 [ulm]: ../reference/glossary.md#term-ulm
 [lapl]: ../reference/glossary.md#term-lapl-a
 [ppl]: ../reference/glossary.md#term-ppl-a
 [part-fcl]: ../reference/glossary.md#term-part-fcl
 [aip]: ../reference/glossary.md#term-aip
-[enaire]: ../reference/glossary.md#term-enaire
 [amc]: ../reference/glossary.md#term-amc
+[swl]: ../reference/glossary.md#term-significant-weather-chart-low-level-swl

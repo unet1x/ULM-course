@@ -237,7 +237,7 @@
     "spanish": "informe meteorológico ordinario de aeródromo",
     "russian": "регулярная аэродромная метеорологическая сводка",
     "abbreviation": "METAR",
-    "definition": "METAR описывает наблюдавшиеся аэродромные условия в установленном коде и времени. Одна сводка не является полным weather briefing и не заменяет TAF, warnings, route products и оценку изменений.",
+    "definition": "METAR — регулярная аэродромная метеорологическая сводка о наблюдавшихся условиях в указанном месте и времени. Одна сводка не заменяет полный метеорологический инструктаж, TAF, предупреждения, зональные продукты и оценку изменений.",
     "anchor": "term-metar",
     "defined_in": "docs/reference/glossary.md#term-metar"
   },
@@ -248,7 +248,7 @@
     "spanish": "pronóstico de aeródromo",
     "russian": "аэродромный прогноз",
     "abbreviation": "TAF",
-    "definition": "TAF — прогноз для аэродрома на указанный период с группами изменений и вероятности по применимому формату. Он не описывает весь маршрут и должен читаться вместе с текущими observations, warnings и иной авиационной метеоинформацией.",
+    "definition": "TAF — аэродромный прогноз на указанный период с группами изменений и вероятности по применимому формату. Он не описывает весь маршрут и читается вместе с текущими наблюдениями, предупреждениями и иной авиационной метеоинформацией.",
     "anchor": "term-taf",
     "defined_in": "docs/reference/glossary.md#term-taf"
   },
@@ -787,7 +787,7 @@
     "spanish": "Atmósfera Estándar Internacional (ISA)",
     "russian": "Международная стандартная атмосфера",
     "abbreviation": "ISA",
-    "definition": "International Standard Atmosphere (ISA) — согласованная расчётная модель вертикального распределения атмосферных величин для reference, design and calibration. Она не является наблюдением, прогнозом или фактическим профилем дня.",
+    "definition": "Международная стандартная атмосфера (English: International Standard Atmosphere, ISA; español: Atmósfera Estándar Internacional) — согласованная расчётная модель вертикального распределения атмосферных величин для сопоставления, проектирования и калибровки. Она не является наблюдением, прогнозом или фактическим профилем дня.",
     "anchor": "term-international-standard-atmosphere-isa",
     "defined_in": "docs/reference/glossary.md#term-international-standard-atmosphere-isa"
   },
@@ -798,7 +798,7 @@
     "spanish": "nivel de vuelo (FL)",
     "russian": "эшелон полёта",
     "abbreviation": "FL",
-    "definition": "Flight level (FL) — поверхность постоянного атмосферного давления, отнесённая к стандартной установке 1013,2 hPa и обозначенная в сотнях футов. Это не истинная geometric altitude и не height над землёй.",
+    "definition": "Эшелон полёта (English: flight level, FL; español: nivel de vuelo) — поверхность постоянного атмосферного давления, отнесённая к стандартной установке 1013,2 hPa и обозначенная в сотнях футов. Это не истинная геометрическая высота и не высота над землёй.",
     "anchor": "term-flight-level-fl",
     "defined_in": "docs/reference/glossary.md#term-flight-level-fl"
   },
@@ -809,7 +809,7 @@
     "spanish": "reglaje QFE para indicar altura sobre la referencia seleccionada",
     "russian": "установка давления для индикации высоты над выбранной аэродромной отметкой",
     "abbreviation": "QFE",
-    "definition": "QFE — pressure setting, при котором высотомер на выбранной aerodrome datum приблизительно показывает ноль. Его наличие или применение определяется текущей процедурой; это не универсально обязательная установка для ULM.",
+    "definition": "QFE — установка давления, при которой высотомер на выбранной аэродромной отметке приблизительно показывает ноль. Её наличие или применение определяется текущей процедурой; это не универсально обязательная установка для ULM.",
     "anchor": "term-qfe",
     "defined_in": "docs/reference/glossary.md#term-qfe"
   },
@@ -820,7 +820,7 @@
     "spanish": "visibilidad, tiempo significativo y nubes dentro de los criterios CAVOK",
     "russian": "кодовая свёртка благоприятных критериев видимости, явлений и значимой облачности",
     "abbreviation": "CAVOK",
-    "definition": "CAVOK заменяет определённые группы aerodrome report/forecast только при выполнении кодовых критериев. Это не утверждение clear sky, route safety, отсутствия turbulence или пригодности условий конкретному пилоту.",
+    "definition": "CAVOK — кодовое слово, заменяющее определённые группы аэродромной сводки или прогноза только при выполнении установленных критериев. Оно не означает ясное небо, безопасность маршрута, отсутствие турбулентности или пригодность условий конкретному пилоту.",
     "anchor": "term-cavok",
     "defined_in": "docs/reference/glossary.md#term-cavok"
   },
@@ -831,7 +831,7 @@
     "spanish": "informe meteorológico especial seleccionado de aeródromo",
     "russian": "специальная аэродромная метеорологическая сводка",
     "abbreviation": "SPECI",
-    "definition": "SPECI — специальный report о наблюдавшемся значимом изменении по применимым критериям. Он не является исправлением TAF; correction обозначается COR.",
+    "definition": "SPECI — специальная аэродромная метеорологическая сводка о наблюдавшемся значимом изменении по применимым критериям. Она не является исправлением TAF; исправление выпущенного сообщения обозначается COR.",
     "anchor": "term-speci",
     "defined_in": "docs/reference/glossary.md#term-speci"
   },
@@ -842,7 +842,7 @@
     "spanish": "pronóstico de tendencia",
     "russian": "краткосрочный прогноз тенденции, присоединённый к аэродромной сводке",
     "abbreviation": "TREND",
-    "definition": "TREND — краткий landing forecast, приложенный к METAR/SPECI там, где он предоставляется. Он имеет собственный период и ограничения и не является гарантией результата.",
+    "definition": "TREND — краткосрочный прогноз тенденции для посадки, присоединяемый к METAR или SPECI там, где он предоставляется. Он имеет собственный период и ограничения и не гарантирует результат.",
     "anchor": "term-trend",
     "defined_in": "docs/reference/glossary.md#term-trend"
   },
@@ -851,9 +851,9 @@
     "canonical": "SIGMET",
     "english": "significant meteorological information",
     "spanish": "información SIGMET sobre fenómenos meteorológicos significativos",
-    "russian": "предупреждение о заданных значимых метеорологических явлениях по маршруту",
+    "russian": "информация о заданных значимых метеорологических явлениях в FIR или указанном районе",
     "abbreviation": "SIGMET",
-    "definition": "SIGMET сообщает о specified en-route phenomena operational significance в указанном районе и периоде. Отсутствие SIGMET не доказывает отсутствие любой локальной или ещё не достигшей критериев угрозы.",
+    "definition": "SIGMET — информация об установленных значимых метеорологических явлениях в указанном FIR, его части или другом определённом воздушном пространстве и в заданный период. Сообщение не является индивидуальным прогнозом маршрута; отсутствие SIGMET не доказывает отсутствие локальной или ещё не достигшей критериев угрозы.",
     "anchor": "term-sigmet",
     "defined_in": "docs/reference/glossary.md#term-sigmet"
   },
@@ -864,7 +864,7 @@
     "spanish": "información AIRMET para fenómenos especificados a niveles bajos",
     "russian": "информация о заданных явлениях на малых высотах",
     "abbreviation": "AIRMET",
-    "definition": "AIRMET в испанском product set сообщает о specified lower-level phenomena согласно применимому формату и coverage. Его читают вместе с GAMET/SWL, SIGMET, observations and forecasts.",
+    "definition": "AIRMET — информация об установленных явлениях на малых высотах для указанного района и периода по применимому формату. Её читают вместе с GAMET или SWL, SIGMET, наблюдениями и прогнозами.",
     "anchor": "term-airmet",
     "defined_in": "docs/reference/glossary.md#term-airmet"
   },
@@ -875,7 +875,7 @@
     "spanish": "pronóstico de área GAMET para vuelos a baja altura",
     "russian": "зональный прогноз для полётов на малых высотах",
     "abbreviation": "GAMET",
-    "definition": "GAMET — coded area forecast for low-level flights for a stated area and validity. It complements, but does not replace, point reports, warnings and current route assessment.",
+    "definition": "GAMET — кодированный зональный прогноз для полётов на малых высотах в указанном районе и в установленный период действия. Он дополняет, но не заменяет точечные сводки, предупреждения и текущую оценку маршрута.",
     "anchor": "term-gamet",
     "defined_in": "docs/reference/glossary.md#term-gamet"
   },
@@ -886,7 +886,7 @@
     "spanish": "Autoservicio Meteorológico Aeronáutico (AMA)",
     "russian": "авиационный метеорологический сервис самообслуживания AEMET",
     "abbreviation": "AMA",
-    "definition": "Aeronautical Meteorological Self-service (AMA) — официальный динамический канал доступа AEMET к aviation weather information. Archived screen или tutorial не является current weather; перед полётом проверяют retrieval time, issue and validity.",
+    "definition": "Авиационный метеорологический сервис самообслуживания AEMET (English: Aeronautical Meteorological Self-service, AMA; español: Autoservicio Meteorológico Aeronáutico) — официальный динамический канал доступа к авиационной метеоинформации. Архивный снимок или учебная иллюстрация не являются текущей погодой; перед полётом проверяют время получения, выпуска и период действия.",
     "anchor": "term-aeronautical-meteorological-self-service-ama",
     "defined_in": "docs/reference/glossary.md#term-aeronautical-meteorological-self-service-ama"
   },
@@ -897,7 +897,7 @@
     "spanish": "altitud de densidad",
     "russian": "высота по плотности",
     "abbreviation": null,
-    "definition": "Density altitude — pressure altitude, corrected conceptually for non-standard temperature so that air density can be compared with a standard-atmosphere altitude. Classroom approximations show trend only; aircraft performance comes from current AFM/POH data.",
+    "definition": "Высота по плотности (English: density altitude; español: altitud de densidad) — высота в стандартной атмосфере, которой соответствует фактическая плотность воздуха; её можно приближённо получить из барометрической высоты с поправкой на нестандартную температуру. Учебное приближение показывает только направление изменения, а характеристики воздушного судна определяют по актуальным AFM или POH.",
     "anchor": "term-density-altitude",
     "defined_in": "docs/reference/glossary.md#term-density-altitude"
   },
@@ -908,9 +908,141 @@
     "spanish": "cizalladura del viento",
     "russian": "сдвиг ветра",
     "abbreviation": null,
-    "definition": "Wind shear — изменение wind vector over distance, vertically or horizontally. It can produce rapid airspeed/flight-path changes; report or warning coverage does not eliminate local shear outside the sensor area.",
+    "definition": "Сдвиг ветра (English: wind shear; español: cizalladura del viento) — изменение вектора ветра по расстоянию в вертикальном или горизонтальном направлении. Он способен быстро изменить приборную скорость и траекторию; охват сводки или предупреждения не исключает локальный сдвиг вне зоны датчика.",
     "anchor": "term-wind-shear",
     "defined_in": "docs/reference/glossary.md#term-wind-shear"
+  },
+  {
+    "id": "term-pressure-altitude",
+    "canonical": "pressure altitude",
+    "english": "pressure altitude",
+    "spanish": "altitud de presión",
+    "russian": "барометрическая высота",
+    "abbreviation": null,
+    "definition": "Барометрическая высота (English: pressure altitude; español: altitud de presión) — высота в стандартной атмосфере, соответствующая измеренному давлению при стандартной установке. Учебное приближение не заменяет метод конкретного AFM или POH.",
+    "anchor": "term-pressure-altitude",
+    "defined_in": "docs/reference/glossary.md#term-pressure-altitude"
+  },
+  {
+    "id": "term-transition-altitude",
+    "canonical": "transition altitude",
+    "english": "transition altitude",
+    "spanish": "altitud de transición",
+    "russian": "абсолютная высота перехода",
+    "abbreviation": null,
+    "definition": "Абсолютная высота перехода (English: transition altitude; español: altitud de transición) — опубликованная абсолютная высота, на которой или ниже вертикальное положение выражают в абсолютных высотах по применимой установке давления. Текущее значение проверяют в действующей публикации.",
+    "anchor": "term-transition-altitude",
+    "defined_in": "docs/reference/glossary.md#term-transition-altitude"
+  },
+  {
+    "id": "term-transition-level",
+    "canonical": "transition level",
+    "english": "transition level",
+    "spanish": "nivel de transición",
+    "russian": "эшелон перехода",
+    "abbreviation": null,
+    "definition": "Эшелон перехода (English: transition level; español: nivel de transición) — самый нижний доступный эшелон полёта выше абсолютной высоты перехода. Его значение зависит от давления и сообщается оперативно по применимой процедуре.",
+    "anchor": "term-transition-level",
+    "defined_in": "docs/reference/glossary.md#term-transition-level"
+  },
+  {
+    "id": "term-anabatic-flow",
+    "canonical": "anabatic flow",
+    "english": "anabatic flow",
+    "spanish": "flujo anabático",
+    "russian": "анабатический склоновый поток",
+    "abbreviation": null,
+    "definition": "Анабатический склоновый поток (English: anabatic flow; español: flujo anabático) — местный поток воздуха вверх по нагретому склону. Название механизма не задаёт его силу и не заменяет текущий прогноз и наблюдения.",
+    "anchor": "term-anabatic-flow",
+    "defined_in": "docs/reference/glossary.md#term-anabatic-flow"
+  },
+  {
+    "id": "term-katabatic-flow",
+    "canonical": "katabatic flow",
+    "english": "katabatic flow",
+    "spanish": "flujo catabático",
+    "russian": "катабатический склоновый поток",
+    "abbreviation": null,
+    "definition": "Катабатический склоновый поток (English: katabatic flow; español: flujo catabático) — местный сток более холодного плотного воздуха вниз по склону. Рельеф и фоновые условия могут изменять его направление и скорость.",
+    "anchor": "term-katabatic-flow",
+    "defined_in": "docs/reference/glossary.md#term-katabatic-flow"
+  },
+  {
+    "id": "term-mountain-wave",
+    "canonical": "mountain wave",
+    "english": "mountain wave",
+    "spanish": "onda de montaña",
+    "russian": "горная волна",
+    "abbreviation": null,
+    "definition": "Горная волна (English: mountain wave; español: onda de montaña) — волновое возмущение устойчивого воздушного потока при пересечении рельефа. Она может существовать без видимого линзовидного облака и сопровождаться сильными вертикальными потоками.",
+    "anchor": "term-mountain-wave",
+    "defined_in": "docs/reference/glossary.md#term-mountain-wave"
+  },
+  {
+    "id": "term-rotor",
+    "canonical": "rotor",
+    "english": "rotor",
+    "spanish": "rotor",
+    "russian": "ротор под горной волной",
+    "abbreviation": null,
+    "definition": "Ротор (English: rotor; español: rotor) — вращательное турбулентное движение воздуха, которое может возникать под горной волной с подветренной стороны рельефа. Его положение и интенсивность не выводят только из формы одного облака.",
+    "anchor": "term-rotor",
+    "defined_in": "docs/reference/glossary.md#term-rotor"
+  },
+  {
+    "id": "term-lee-downdraft",
+    "canonical": "lee downdraft",
+    "english": "lee downdraft",
+    "spanish": "corriente descendente a sotavento",
+    "russian": "подветренный нисходящий поток",
+    "abbreviation": null,
+    "definition": "Подветренный нисходящий поток (English: lee downdraft; español: corriente descendente a sotavento) — нисходящее движение воздуха с подветренной стороны рельефа. Оно может превышать доступную скороподъёмность лёгкого самолёта, поэтому план требует запаса и пути отхода.",
+    "anchor": "term-lee-downdraft",
+    "defined_in": "docs/reference/glossary.md#term-lee-downdraft"
+  },
+  {
+    "id": "term-headwind-component",
+    "canonical": "headwind component",
+    "english": "headwind component",
+    "spanish": "componente de viento de cara",
+    "russian": "встречная составляющая ветра",
+    "abbreviation": null,
+    "definition": "Встречная составляющая ветра (English: headwind component; español: componente de viento de cara) — проекция вектора ветра на продольную ось ВПП, направленная навстречу движению. Знак и система направлений должны быть заданы явно.",
+    "anchor": "term-headwind-component",
+    "defined_in": "docs/reference/glossary.md#term-headwind-component"
+  },
+  {
+    "id": "term-crosswind-component",
+    "canonical": "crosswind component",
+    "english": "crosswind component",
+    "spanish": "componente de viento cruzado",
+    "russian": "боковая составляющая ветра",
+    "abbreviation": null,
+    "definition": "Боковая составляющая ветра (English: crosswind component; español: componente de viento cruzado) — проекция вектора ветра поперёк продольной оси ВПП. Расчёт среднего ветра и порыва сравнивают с применимыми ограничениями и запасом, а не используют как самостоятельное разрешение.",
+    "anchor": "term-crosswind-component",
+    "defined_in": "docs/reference/glossary.md#term-crosswind-component"
+  },
+  {
+    "id": "term-surface-wind",
+    "canonical": "surface wind",
+    "english": "surface wind",
+    "spanish": "viento en superficie",
+    "russian": "приземный ветер",
+    "abbreviation": null,
+    "definition": "Приземный ветер (English: surface wind; español: viento en superficie) — ветер, наблюдаемый или прогнозируемый у поверхности по правилам соответствующего продукта. Он не описывает автоматически весь вертикальный профиль или маршрут.",
+    "anchor": "term-surface-wind",
+    "defined_in": "docs/reference/glossary.md#term-surface-wind"
+  },
+  {
+    "id": "term-significant-weather-chart-low-level-swl",
+    "canonical": "significant weather chart for low-level flights (SWL)",
+    "english": "significant weather chart for low-level flights (SWL)",
+    "spanish": "mapa de tiempo significativo para vuelos a baja altura (SWL)",
+    "russian": "карта значимой погоды нижних уровней",
+    "abbreviation": "SWL",
+    "definition": "Карта значимой погоды нижних уровней (English: significant weather chart for low-level flights, SWL; español: mapa de tiempo significativo para vuelos a baja altura) — графическое представление установленных значимых условий для указанного района, уровня и периода. Она дополняет, но не заменяет наблюдения, предупреждения и проверку времени действия.",
+    "anchor": "term-significant-weather-chart-low-level-swl",
+    "defined_in": "docs/reference/glossary.md#term-significant-weather-chart-low-level-swl"
   },
   {
     "id": "term-vfr-into-imc-vfr2imc",
@@ -919,7 +1051,7 @@
     "spanish": "entrada de un vuelo VFR en IMC (VFR2IMC)",
     "russian": "непреднамеренное развитие полёта VFR к входу в IMC",
     "abbreviation": "VFR2IMC",
-    "definition": "VFR into IMC (VFR2IMC) — safety framing for a VFR pilot approaching or entering conditions without the visual references needed for safe continuation. It is a cue for early escape planning, not an instrument privilege or numeric operating rule.",
+    "definition": "Непреднамеренное развитие полёта VFR к входу в IMC (English: VFR into IMC, VFR2IMC; español: entrada de un vuelo VFR en IMC) — опасная ситуация, в которой пилот VFR приближается к условиям или входит в условия без визуальных ориентиров для безопасного продолжения. Термин напоминает о раннем пути отхода, но не создаёт приборных прав или числового эксплуатационного правила.",
     "anchor": "term-vfr-into-imc-vfr2imc",
     "defined_in": "docs/reference/glossary.md#term-vfr-into-imc-vfr2imc"
   }
