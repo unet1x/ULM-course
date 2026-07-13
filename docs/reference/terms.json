@@ -15,9 +15,9 @@
     "canonical": "MAF",
     "english": "fixed-wing multiaxis ULM rating",
     "spanish": "habilitación multiejes de ala fija",
-    "russian": "квалификационная отметка для многокоординатного ULM с неподвижным крылом",
+    "russian": "квалификационная отметка для многоосевого ULM с неподвижным крылом",
     "abbreviation": "MAF",
-    "definition": "MAF — испанская habilitación национальной лицензии ULM для multiejes de ala fija. Она не является LAPL(A), PPL(A), class rating SEP или доказательством автоматического зачёта Part-FCL.",
+    "definition": "MAF — испанская habilitación национальной лицензии ULM для multiejes de ala fija; multiejes здесь указывает на управление по нескольким осям. Она не является LAPL(A), PPL(A), class rating SEP или доказательством автоматического зачёта Part-FCL.",
     "anchor": "term-maf",
     "defined_in": "docs/reference/glossary.md#term-maf"
   },
@@ -204,7 +204,7 @@
     "spanish": "factor de carga",
     "russian": "коэффициент перегрузки",
     "abbreviation": null,
-    "definition": "Load factor — отношение результирующей аэродинамической нагрузки к весу в принятом учебном контексте. Рост load factor в манёвре повышает требуемую lift и связан с ростом stall speed, но эксплуатационные пределы берутся только из применимого AFM или POH.",
+    "definition": "Load factor — безразмерное отношение конкретно названной нагрузки на aircraft к его весу, поэтому определение должно указывать рассматриваемую нагрузку. В разных задачах числителем может быть величина результирующей аэродинамической нагрузки, составляющая тяги или величина реакции земли. Формулу n = L/W используют только в упрощённом установившемся нормальном полёте, где L — lift, а W — weight; это не универсальная формула для любого режима. Рост аэродинамического load factor связан с ростом stall speed, но эксплуатационные пределы берутся только из применимого AFM или POH.",
     "anchor": "term-load-factor",
     "defined_in": "docs/reference/glossary.md#term-load-factor"
   },

@@ -73,7 +73,7 @@ REQUIRED_CANONICAL_TERMS = {
     "radiofonista (RTC)",
 }
 
-FENCED_CODE = re.compile(r"(?ms)^ {0,3}(`{3,}|~{3,})[^\n]*\n.*?^ {0,3}\1\s*$")
+FENCE_OPENER = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
 INLINE_CODE = re.compile(r"(`+)(?:[^`]|`(?!\1))*?\1")
 EXPLICIT_HTML_ANCHOR = re.compile(
     r"<a\b[^>]*\bid\s*=\s*(?:\"([^\"]+)\"|'([^']+)'|([^\s>]+))",
@@ -95,8 +95,52 @@ def markdown_files():
     )
 
 
+def _mask_non_newlines(value):
+    return "".join(
+        character if character in "\r\n" else " " for character in value
+    )
+
+
+def strip_fenced_code(text):
+    output = []
+    fence_character = None
+    fence_length = 0
+
+    for line in text.splitlines(keepends=True):
+        body = line.rstrip("\r\n")
+        if fence_character is None:
+            opener = FENCE_OPENER.match(body)
+            if opener is None:
+                output.append(line)
+                continue
+            fence = opener.group(1)
+            info = opener.group(2)
+            if fence[0] == "`" and "`" in info:
+                output.append(line)
+                continue
+            fence_character = fence[0]
+            fence_length = len(fence)
+            output.append(_mask_non_newlines(line))
+            continue
+
+        output.append(_mask_non_newlines(line))
+        closer = re.fullmatch(
+            rf" {{0,3}}{re.escape(fence_character)}"
+            rf"{{{fence_length},}}[ \t]*",
+            body,
+        )
+        if closer is not None:
+            fence_character = None
+            fence_length = 0
+
+    return "".join(output)
+
+
 def strip_code(text):
-    return INLINE_CODE.sub("", FENCED_CODE.sub("", text))
+    without_fences = strip_fenced_code(text)
+    return INLINE_CODE.sub(
+        lambda match: _mask_non_newlines(match.group(0)), without_fences
+    )
 
 
 def normalise_reference(value):
@@ -408,27 +452,36 @@ def unlinked_term_occurrences(text, term):
         match.span()
         for match in re.finditer(r"<https?://[^>\n]+>", clean_text)
     )
-    offset = 0
     anchor_pattern = re.compile(
-        rf"<a\b[^>]*\bid\s*=\s*(['\"]){re.escape(anchor)}\1[^>]*>",
+        rf"<a\b[^>]*\bid\s*=\s*(?:"
+        rf'"{re.escape(anchor)}"|\'{re.escape(anchor)}\'|'
+        rf"{re.escape(anchor)}(?=[\s>]))[^>]*>"
+        rf"(?:[ \t]*</a[ \t]*>)?",
         re.IGNORECASE,
     )
-    for line in clean_text.splitlines(keepends=True):
-        if anchor_pattern.search(line):
-            ignored.append((offset, offset + len(line)))
-        offset += len(line)
+    definition_pattern = re.compile(
+        _term_pattern(term["canonical"]).pattern + r"(?=\s*(?:—|–|-|:))",
+        re.IGNORECASE,
+    )
+    for anchor_match in anchor_pattern.finditer(clean_text):
+        ignored.append(anchor_match.span())
+        line_end = clean_text.find("\n", anchor_match.end())
+        if line_end == -1:
+            line_end = len(clean_text)
+        definition = definition_pattern.search(
+            clean_text, anchor_match.end(), line_end
+        )
+        if definition is not None:
+            ignored.append(definition.span())
 
-    seen = 0
     violations = []
     for match in _term_pattern(term["canonical"]).finditer(clean_text):
         if _inside_any(match.start(), ignored):
             continue
-        seen += 1
         if _inside_any(match.start(), linked_labels):
             continue
-        if seen > 1:
-            line = clean_text.count("\n", 0, match.start()) + 1
-            violations.append(line)
+        line = clean_text.count("\n", 0, match.start()) + 1
+        violations.append(line)
     return violations
 
 
@@ -483,6 +536,20 @@ def abbreviation_links_from_markdown(text):
     return links
 
 
+def glossary_sections(text):
+    matches = []
+    for match in EXPLICIT_HTML_ANCHOR.finditer(text):
+        anchor = next(group for group in match.groups() if group is not None)
+        if anchor.startswith("term-"):
+            matches.append((anchor, match.start()))
+    return {
+        anchor: text[start : matches[index + 1][1]]
+        if index + 1 < len(matches)
+        else text[start:]
+        for index, (anchor, start) in enumerate(matches)
+    }
+
+
 def _markdown_unescape(value):
     return re.sub(r"\\([\\`*{}\[\]()#+\-.!_> ])", r"\1", value)
 
@@ -535,7 +602,7 @@ def markdown_anchors(text):
         next(group for group in match.groups() if group is not None)
         for match in EXPLICIT_HTML_ANCHOR.finditer(text)
     }
-    lines = FENCED_CODE.sub("", text).splitlines()
+    lines = strip_fenced_code(text).splitlines()
     for index, line in enumerate(lines):
         match = ATX_HEADING.match(line)
         heading = None
@@ -776,8 +843,8 @@ Setext section
 
     def test_repeated_term_links_ignore_code_destinations_and_definitions(self):
         term = {"canonical": "ULM", "anchor": "term-ulm"}
-        text = """ULM вводится один раз.
-Далее используется [ULM][term-ulm].
+        text = """[ULM][term-ulm] используется в прозе.
+Далее снова используется [ULM][term-ulm].
 `ULM ULM` и:
 ```text
 ULM
@@ -787,15 +854,21 @@ ULM
 """
         self.assertEqual([], unlinked_term_occurrences(text, term))
 
-    def test_second_plain_term_use_is_reported(self):
+    def test_every_plain_term_use_after_manifest_definition_is_reported(self):
         term = {"canonical": "ULM", "anchor": "term-ulm"}
         text = "ULM вводится один раз.\nЗатем ULM повторяется без ссылки.\n"
-        self.assertEqual([2], unlinked_term_occurrences(text, term))
+        self.assertEqual([1, 2], unlinked_term_occurrences(text, term))
+
+    def test_first_and_only_wrong_anchor_term_link_is_reported(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = "[ULM](../reference/glossary.md#term-maf)"
+        self.assertEqual([1], unlinked_term_occurrences(text, term))
 
     def test_inline_term_link_to_own_anchor_is_accepted(self):
         term = {"canonical": "angle of attack", "anchor": "term-angle-of-attack"}
         text = (
-            "angle of attack вводится один раз. Затем "
+            "[angle of attack](../reference/glossary.md#term-angle-of-attack) "
+            "вводится ссылкой. Затем "
             "[angle of attack](../reference/glossary.md#term-angle-of-attack)."
         )
         self.assertEqual([], unlinked_term_occurrences(text, term))
@@ -803,7 +876,7 @@ ULM
     def test_term_link_to_wrong_anchor_is_reported(self):
         term = {"canonical": "ULM", "anchor": "term-ulm"}
         text = "ULM вводится. Затем [ULM](../reference/glossary.md#term-maf)."
-        self.assertEqual([1], unlinked_term_occurrences(text, term))
+        self.assertEqual([1, 1], unlinked_term_occurrences(text, term))
 
     def test_term_on_its_explicit_definition_line_is_ignored(self):
         term = {"canonical": "ULM", "anchor": "term-ulm"}
@@ -811,7 +884,25 @@ ULM
             '<a id="term-ulm"></a> ULM — собственное определение.\n'
             "ULM впервые используется в учебном тексте.\n"
         )
-        self.assertEqual([], unlinked_term_occurrences(text, term))
+        self.assertEqual([2], unlinked_term_occurrences(text, term))
+
+    def test_only_one_definition_occurrence_on_anchor_line_is_ignored(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = (
+            '<a id="term-ulm"></a> ULM — собственное определение; '
+            "затем ULM повторяется без ссылки.\n"
+        )
+        self.assertEqual([1], unlinked_term_occurrences(text, term))
+
+    def test_longer_commonmark_closing_fence_is_ignored_and_lines_preserved(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        for character in ("`", "~"):
+            with self.subTest(fence=character):
+                text = (
+                    f"[ULM](#term-ulm)\n{character * 3}text\n"
+                    f"ULM\n{character * 4}\nULM\n"
+                )
+                self.assertEqual([5], unlinked_term_occurrences(text, term))
 
     def test_only_numbered_course_directories_are_learner_chapters(self):
         self.assertTrue(is_learner_chapter(COURSE_DOCS / "01-air-law" / "intro.md"))
@@ -891,6 +982,15 @@ class CourseRegistryTests(unittest.TestCase):
         self.assertRegex(text, r"(?i)AIP.*NOTAM|NOTAM.*AIP")
         self.assertRegex(text, r"(?i)AEMET")
 
+    def test_regulation_2024_2076_uses_official_publication_date(self):
+        sources = {
+            source["id"]: source for source in self.load_json(SOURCE_REGISTRY)
+        }
+        self.assertEqual(
+            "OJ от 25.07.2024; применимые положения с 14.08.2024",
+            sources["SRC-EURLEX-2024-2076"]["edition"],
+        )
+
     def test_every_registered_source_was_distilled_from_audit_evidence(self):
         sources = self.load_json(SOURCE_REGISTRY)
         evidence = "\n".join(
@@ -942,6 +1042,7 @@ class CourseRegistryTests(unittest.TestCase):
         self.assertTrue(ABBREVIATIONS.is_file(), ABBREVIATIONS)
         glossary = GLOSSARY.read_text(encoding="utf-8")
         abbreviations = ABBREVIATIONS.read_text(encoding="utf-8")
+        sections = glossary_sections(glossary)
         explicit_term_anchors = {
             next(group for group in match.groups() if group is not None)
             for match in EXPLICIT_HTML_ANCHOR.finditer(glossary)
@@ -954,7 +1055,9 @@ class CourseRegistryTests(unittest.TestCase):
         )
         for term in terms:
             with self.subTest(term=term["id"]):
-                self.assertIn(f'<a id="{term["anchor"]}"></a>', glossary)
+                self.assertIn(term["anchor"], sections)
+                section = sections[term["anchor"]]
+                self.assertIn(f'<a id="{term["anchor"]}"></a>', section)
                 for field in (
                     "canonical",
                     "english",
@@ -962,7 +1065,7 @@ class CourseRegistryTests(unittest.TestCase):
                     "russian",
                     "definition",
                 ):
-                    self.assertIn(str(term[field]), glossary)
+                    self.assertIn(str(term[field]), section)
                 if term.get("abbreviation"):
                     self.assertIn(str(term["abbreviation"]), abbreviations)
                     self.assertIn(
@@ -976,6 +1079,30 @@ class CourseRegistryTests(unittest.TestCase):
             },
             abbreviation_links_from_markdown(abbreviations),
         )
+
+    def test_maf_russian_term_uses_multi_axis_wording(self):
+        terms = {
+            term["canonical"]: term for term in self.load_json(TERMS_REGISTRY)
+        }
+        self.assertEqual(
+            "квалификационная отметка для многоосевого ULM с неподвижным крылом",
+            terms["MAF"]["russian"],
+        )
+
+    def test_load_factor_definition_states_which_load_is_compared(self):
+        terms = {
+            term["canonical"]: term for term in self.load_json(TERMS_REGISTRY)
+        }
+        definition = terms["load factor"]["definition"]
+        for required in (
+            "аэродинамической нагрузки",
+            "тяги",
+            "реакции земли",
+            "n = L/W",
+            "упрощённом установившемся нормальном полёте",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, definition)
 
     def test_defined_in_paths_and_anchors_are_valid(self):
         terms = self.load_json(TERMS_REGISTRY)
