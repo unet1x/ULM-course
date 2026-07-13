@@ -70,6 +70,21 @@ TASK7_CHAPTERS = (
 )
 TASK7_REFERENCE = "docs/reference/checklists-radio.md"
 TASK7_SVG = "docs/assets/diagrams/radio-message-flow.svg"
+TASK8_CHAPTERS = (
+    "docs/05-navigation/01-earth-time-directions.md",
+    "docs/05-navigation/02-charts-airspace.md",
+    "docs/05-navigation/03-heading-track-wind.md",
+    "docs/05-navigation/04-dead-reckoning-flight-log.md",
+    "docs/05-navigation/05-vor-dme-adf-ppl.md",
+    "docs/05-navigation/06-gnss-and-cross-check.md",
+    "docs/05-navigation/07-lost-diversion-border.md",
+)
+TASK8_REFERENCE = "docs/reference/templates-flight-log.md"
+TASK8_SVGS = (
+    "docs/assets/diagrams/wind-triangle.svg",
+    "docs/assets/diagrams/vor-geometry.svg",
+    "docs/assets/diagrams/sample-route.svg",
+)
 APPLICABILITY_LABELS = (
     "[ULM — ОСНОВА]",
     "[ULM — ОСОБО ВАЖНО]",
@@ -91,6 +106,8 @@ OFFICIAL_SOURCE_DOMAINS = {
     "aip.enaire.es",
     "www.aemet.es",
     "www.faa.gov",
+    "www.aviation.govt.nz",
+    "egnos.gsc-europa.eu",
     "www.cdc.gov",
     "ama.aemet.es",
     "cloudatlas.wmo.int",
@@ -234,6 +251,19 @@ REQUIRED_CANONICAL_TERMS = {
     "communication failure",
     "secondary surveillance radar (SSR)",
     "language proficiency endorsement",
+    "dead reckoning (DR)",
+    "true course (TC)",
+    "magnetic course (MC)",
+    "compass heading (CH)",
+    "wind correction angle (WCA)",
+    "groundspeed (GS)",
+    "estimated time of arrival (ETA)",
+    "global navigation satellite system (GNSS)",
+    "receiver autonomous integrity monitoring (RAIM)",
+    "satellite-based augmentation system (SBAS)",
+    "VHF omnidirectional range (VOR)",
+    "distance measuring equipment (DME)",
+    "automatic direction finder (ADF)",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -886,7 +916,7 @@ def _substantive(value, minimum_words=3, minimum_length=12):
 def parsed_question_blocks(text):
     headings = list(
         re.finditer(
-            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC)-\d{3})\s+—\s+(.+?)"
+            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV)-\d{3})\s+—\s+(.+?)"
             r"(?:\s+\{#([a-z][a-z0-9-]*)\})?\s*$",
             text,
         )
@@ -4638,6 +4668,398 @@ class Task7CommunicationsTests(unittest.TestCase):
         heading_left = float(acknowledgement_spans[0].attrib["x"]) - heading_width / 2
         self.assertGreaterEqual(heading_left, rect_x + 4)
         self.assertLessEqual(heading_left + heading_width, rect_x + rect_width - 4)
+
+
+class Task8NavigationTests(unittest.TestCase):
+    REQUIRED_SOURCE_IDS = {
+        "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01",
+        "SRC-EASA-AIRCREW-2026",
+        "SRC-ENAIRE-AIP-ESPANA",
+        "SRC-ENAIRE-AIP-NAVIGATION-2026",
+        "SRC-ENAIRE-VFR500-2026",
+        "SRC-EASA-SERA-2025",
+        "SRC-EASA-AIR-OPS-2026",
+        "SRC-FAA-PHAK-25C-CH16",
+        "SRC-NZ-CAA-VISUAL-NAV-V1",
+        "SRC-EASA-SIB-2022-02R4",
+        "SRC-EGNOS-SOL-SDD-3-6",
+        "SRC-BOE-RD-765-2022",
+    }
+
+    def _read(self, relative_path):
+        path = ROOT / relative_path
+        self.assertTrue(path.is_file(), relative_path)
+        return path.read_text(encoding="utf-8")
+
+    def _xml(self, relative_path):
+        path = ROOT / relative_path
+        self.assertTrue(path.is_file(), relative_path)
+        return ET.parse(path).getroot()
+
+    def _all_text(self):
+        return "\n".join(self._read(path) for path in TASK8_CHAPTERS)
+
+    def _calculation_blocks(self):
+        text = self._all_text()
+        matches = list(
+            re.finditer(
+                r"(?m)^###\s+(CALC-NAV-(\d{2}))\s+—[^\n]*\{#calc-nav-\2\}\s*$",
+                text,
+            )
+        )
+        blocks = {}
+        for index, match in enumerate(matches):
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            next_h2 = re.search(r"(?m)^##\s+", text[match.end():end])
+            if next_h2:
+                end = match.end() + next_h2.start()
+            blocks[match.group(1)] = text[match.start():end]
+        return blocks
+
+    def test_task8_files_exist_and_are_in_navigation(self):
+        nav_paths = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        for relative_path in (*TASK8_CHAPTERS, TASK8_REFERENCE):
+            with self.subTest(path=relative_path):
+                self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+                self.assertIn(relative_path.removeprefix("docs/"), nav_paths)
+        for relative_path in TASK8_SVGS:
+            self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+
+    def test_task8_template_scope_and_stable_anchors(self):
+        required = {
+            "purpose", "outcomes", "applicability", "theory", "ulm-application",
+            "part-fcl-extension", "safety", "common-errors", "summary",
+            "review-questions", "sources",
+        }
+        for relative_path in TASK8_CHAPTERS:
+            text = self._read(relative_path)
+            with self.subTest(path=relative_path):
+                self.assertEqual([], explicit_atx_heading_errors(text))
+                self.assertTrue(required.issubset(markdown_anchors(text)))
+                for label in APPLICABILITY_LABELS:
+                    self.assertIn(label, applicability_table_labels(text))
+                plain = _plain_markdown(text)
+                self.assertRegex(plain, r"(?is)ULM.{0,180}Испани")
+                self.assertRegex(plain, r"(?is)(?:LAPL|PPL).{0,220}(?:позже|переход|Part-FCL)")
+
+    def test_task8_required_topic_anchors(self):
+        anchors = markdown_anchors(self._all_text())
+        required = {
+            "latitude-longitude", "utc-local-date", "true-magnetic-compass",
+            "chart-scale", "vfr500-workflow", "aip-sup-aic-notam-airac",
+            "airspace-volume", "wind-convention", "wind-triangle", "wca-sign",
+            "time-distance-speed", "eta-updates", "flight-log-workflow",
+            "vor-radial-bearing", "dme-slant-range", "adf-ndb-limitations",
+            "gnss-position-integrity", "database-currency", "jamming-spoofing",
+            "raim-sbas-egnos", "lost-priorities", "one-in-sixty", "diversion",
+            "international-boundary",
+        }
+        self.assertTrue(required.issubset(anchors), required - anchors)
+
+    def test_task8_dynamic_operational_warning_is_on_every_chapter(self):
+        warning = (
+            "Проверено 13.07.2026; перед полётом проверить "
+            "AIP/SUP/AIC/NOTAM и текущий AIRAC"
+        )
+        for relative_path in TASK8_CHAPTERS:
+            text = self._read(relative_path)
+            with self.subTest(path=relative_path):
+                self.assertIn(warning, _plain_markdown(text))
+        charts = self._read(TASK8_CHAPTERS[1])
+        plain = _plain_markdown(charts)
+        self.assertRegex(plain, r"(?is)AIRAC\s+07/26.{0,120}(?:будущ|не.{0,40}действ).{0,120}06\.08\.2026")
+        self.assertRegex(plain, r"(?is)footer|нижн\w+\s+колонтитул.{0,100}не.{0,50}(?:дат|редакц).{0,80}(?:всего|цел).{0,50}AIP")
+
+    def test_vfr500_snapshot_is_heterogeneous_and_has_correction_workflow(self):
+        text = _plain_markdown(self._read(TASK8_CHAPTERS[1]))
+        for value in (
+            "GC 2025", "20.03.2025", "LE1 2025", "02.10.2025",
+            "LE2 2025", "LE3–LE6 2026", "19.03.2026", "VFR500 Changes",
+            "28.05.2026", "InsigniaVFR", "VIGOR",
+        ):
+            self.assertIn(value, text)
+        self.assertRegex(text, r"(?is)семь\s+лист.{0,180}не.{0,60}(?:един|одн).{0,80}2026")
+        for product in ("AIP", "SUP", "AIC", "NOTAM", "AIRAC"):
+            self.assertIn(product, text)
+
+    def test_task8_has_twenty_recomputable_structured_calculations(self):
+        blocks = self._calculation_blocks()
+        self.assertGreaterEqual(len(blocks), 20)
+        self.assertEqual(len(blocks), len(set(blocks)))
+        for identifier, block in blocks.items():
+            with self.subTest(calculation=identifier):
+                for label in ("Дано", "Формула", "Расчёт", "Результат", "Решение пилота"):
+                    self.assertRegex(block, rf"(?m)^\*\*{re.escape(label)}:\*\*")
+                self.assertRegex(block, r"(?:NM|km|kt|km/h|h|min|L|L/h|°|ft)")
+
+        expected = {
+            "CALC-NAV-01": 18.0,
+            "CALC-NAV-02": 22.5,
+            "CALC-NAV-03": 22.0,
+            "CALC-NAV-04": 84.0,
+            "CALC-NAV-05": 120.0,
+            "CALC-NAV-06": 27.0,
+            "CALC-NAV-07": 96.0,
+            "CALC-NAV-08": 30.0,
+            "CALC-NAV-09": 24.0,
+            "CALC-NAV-10": 38.0,
+            "CALC-NAV-11": 7.2,
+            "CALC-NAV-12": 10.0,
+            "CALC-NAV-13": 88.0,
+            "CALC-NAV-14": 90.0,
+            "CALC-NAV-15": 84.0,
+            "CALC-NAV-16": 4.0,
+            "CALC-NAV-17": 12.0,
+            "CALC-NAV-18": 8.0,
+            "CALC-NAV-19": 9.0,
+            "CALC-NAV-20": 2.0,
+            "CALC-NAV-21": 12.0,
+        }
+        self.assertTrue(expected.keys() <= blocks.keys())
+        for identifier, value in expected.items():
+            self.assertIn(f"<!-- recompute-result: {value:.1f} -->", blocks[identifier])
+
+        recomputed = {
+            "CALC-NAV-01": 3.6 * 500_000 / 100_000,
+            "CALC-NAV-02": 15 / 40 * 60,
+            "CALC-NAV-03": 44 / 2,
+            "CALC-NAV-04": 42 / 0.5,
+            "CALC-NAV-05": 60 * 2,
+            "CALC-NAV-06": 90 * 0.3,
+            "CALC-NAV-07": 24 / 0.25,
+            "CALC-NAV-08": 60 * 0.5,
+            "CALC-NAV-09": 12 * 2,
+            "CALC-NAV-10": 19 / 0.5,
+            "CALC-NAV-11": 18 * 0.4,
+            "CALC-NAV-12": 20 / 2,
+            "CALC-NAV-13": 92 - 4,
+            "CALC-NAV-14": 88 + 2,
+            "CALC-NAV-15": 90 - 6,
+            "CALC-NAV-16": 4 / 60 * 60,
+            "CALC-NAV-17": 4 + 8,
+            "CALC-NAV-18": 16 / 2,
+            "CALC-NAV-19": 18 * 0.5,
+            "CALC-NAV-20": 60 * 2 / 60,
+            "CALC-NAV-21": (13**2 - 5**2) ** 0.5,
+        }
+        for identifier, value in recomputed.items():
+            self.assertAlmostEqual(expected[identifier], value, places=1)
+
+    def test_wind_calculations_define_sign_and_independent_plausibility(self):
+        text = _plain_markdown(self._read(TASK8_CHAPTERS[2]))
+        self.assertRegex(text, r"(?is)ветер.{0,80}(?:откуда|приходит).{0,80}не.{0,40}(?:куда|ид[её]т)")
+        self.assertRegex(text, r"(?is)WCA.{0,140}(?:положительн|\+).{0,100}(?:вправо|прав)")
+        self.assertRegex(text, r"(?is)WCA.{0,140}(?:отрицательн|−|-).{0,100}(?:влево|лев)")
+        self.assertRegex(text, r"(?is)(?:независим|груб\w+).{0,80}(?:проверк|оценк).{0,160}(?:GS|путев\w+\s+скорост)")
+
+    def test_complete_synthetic_log_has_all_fields_and_post_leg_update(self):
+        text = self._read(TASK8_REFERENCE)
+        self.assertIn("СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ FLIGHT LOG — НЕ ДЛЯ НАВИГАЦИИ", text)
+        for field in (
+            "Дата источников", "Маршрут", "Контрольные точки", "Рельеф",
+            "Воздушное пространство", "Погода", "TC", "W", "V", "MC",
+            "DEV", "CH", "Дистанция", "TAS", "WCA", "GS", "Время участка",
+            "ETA", "Топливо", "[FREQUENCY]", "Запасной аэродром",
+            "Триггер ухода", "Пересчёт после участка",
+        ):
+            self.assertIn(field, text)
+        self.assertGreaterEqual(text.count("________________"), 20)
+        self.assertRegex(text, r"(?is)не.{0,50}(?:операционн|реальн).{0,40}план")
+
+    def test_synthetic_log_arithmetic_decision_gate_and_ru_first_labels(self):
+        text = self._read(TASK8_REFERENCE)
+        rows = {}
+        for line in text.splitlines():
+            match = re.match(r"^\|\s*([123])\s*\|", line)
+            if match and "________________" not in line:
+                rows[match.group(1)] = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        self.assertEqual({"1", "2", "3"}, rows.keys())
+
+        # Columns: leg, route, TC, wind, variation, TH, MH, deviation, CH,
+        # distance, TAS, WCA, GS, leg time, ETA, fuel, references, trigger.
+        expected = {
+            "1": (-7.7, 89.2, 12.1, 3.6),
+            "2": (-5.4, 98.1, 14.7, 4.4),
+            "3": (3.2, 100.7, 17.9, 5.4),
+        }
+        for leg, (wca, gs, minutes, fuel) in expected.items():
+            cells = rows[leg]
+            numbers = lambda index: float(re.search(r"[−+-]?\d+(?:[.,]\d+)?", cells[index]).group().replace("−", "-").replace(",", "."))
+            self.assertAlmostEqual(wca, numbers(11), places=1)
+            self.assertAlmostEqual(gs, numbers(12), places=1)
+            self.assertAlmostEqual(minutes, numbers(13), places=1)
+            self.assertAlmostEqual(fuel, numbers(15), places=1)
+            self.assertAlmostEqual(numbers(9) / numbers(12) * 60, numbers(13), delta=0.1)
+            self.assertAlmostEqual(numbers(13) / 60 * 18, numbers(15), delta=0.1)
+
+        self.assertIn("`3,6 + 4,4 + 5,4 = 13,4 L`", text)
+        self.assertIn("CP1 опознана в `09:16 UTC`", text)
+        self.assertNotIn("CP1 time `09:19 UTC`", text)
+        for label in ("Участок", "Маршрут/контрольная точка", "Ветер", "Истинный курс носа", "Магнитный курс носа", "Источники/условия"):
+            self.assertIn(label, text)
+
+    def test_coordinate_and_utc_conversions_are_structured_calculations(self):
+        text = self._read(TASK8_CHAPTERS[0])
+        for identifier, required in {
+            "CALC-NAV-26": ("41° 24,5′ N", "41,4083° N", "recompute-result: 41.4083"),
+            "CALC-NAV-27": ("23:35 UTC", "01:35", "13 июля", "recompute-result: 95.0"),
+        }.items():
+            match = re.search(
+                rf"(?ms)^###\s+{identifier}\s+—.*?(?=^###\s+CALC-NAV-|^##\s+)",
+                text,
+            )
+            self.assertIsNotNone(match, identifier)
+            for value in required:
+                self.assertIn(value, match.group(0))
+
+    def test_vor_diagram_separates_azimuth_and_elevation_projections(self):
+        root = ET.fromstring((ROOT / TASK8_SVGS[1]).read_text(encoding="utf-8"))
+        ids = {node.attrib.get("id") for node in root.iter()}
+        self.assertIn("vor-plan-view", ids)
+        self.assertIn("dme-elevation-view", ids)
+        description = " ".join("".join(root.itertext()).split()).casefold()
+        self.assertIn("вид сверху", description)
+        self.assertIn("вид сбоку", description)
+
+    def test_gnss_question_distractors_are_plausible_novice_errors(self):
+        text = self._read(TASK8_CHAPTERS[5])
+        for absurd in (
+            "Jamming всегда улучшает точность",
+            "пилот включил Wi-Fi",
+            "Два одинаковых снимка экрана",
+            "имя пассажира",
+        ):
+            self.assertNotIn(absurd, text)
+
+    def test_task8_boundaries_and_myth_refutations_are_explicit(self):
+        text = _plain_markdown(self._all_text())
+        required_patterns = (
+            r"истинн\w+.{0,30}магнитн\w+.{0,100}не.{0,30}смеш",
+            r"курс.{0,80}не.{0,30}(?:равен|совпад).{0,40}(?:лини[яеи] пути|track)",
+            r"moving map.{0,100}не.{0,30}(?:разреша|авториз|созда).{0,60}(?:вход|простран)",
+            r"стар\w+.{0,30}печатн\w+\s+карт.{0,120}не.{0,30}(?:оста[её]тся|гарантир).{0,40}актуальн",
+            r"GNSS.{0,50}позиц.{0,80}не.{0,30}(?:означа|доказыва).{0,40}целостност",
+            r"планшет.{0,120}не.{0,40}(?:автоматич|обязательно).{0,80}(?:RAIM|SoL)",
+            r"радиал.{0,80}(?:FROM|от).{0,80}не.{0,30}(?:к|TO).{0,30}станци",
+            r"DME.{0,80}не.{0,30}(?:всегда|обязательно).{0,60}горизонт",
+            r"1-in-60.{0,100}не.{0,30}точн.{0,50}(?:кажд|люб).{0,30}угл",
+            r"ETA.{0,80}(?:обнов|пересчит)",
+            r"одн\w+.{0,30}(?:GNSS|радионавигац).{0,120}(?:недостат|перекр[её]стн|cross-check)",
+        )
+        for pattern in required_patterns:
+            self.assertRegex(text, re.compile(pattern, re.IGNORECASE | re.DOTALL))
+
+        border = self._read(TASK8_CHAPTERS[6])
+        plain_border = _plain_markdown(border)
+        self.assertRegex(plain_border, r"(?is)RD\s+765/2022.{0,100}(?:стать|art\.).?\s*4\.2")
+        self.assertRegex(plain_border, r"(?is)закон.{0,80}(?:государств|стран).{0,80}(?:прол[её]т|overflown)")
+        self.assertRegex(plain_border, r"(?is)(?:LAPL|PPL).{0,140}не.{0,50}(?:превраща|дела).{0,80}Part-21")
+        self.assertRegex(plain_border, r"(?is)flight plan|план\s+пол[её]та.{0,120}не.{0,50}(?:разреша|авториз).{0,80}иностран")
+        self.assertRegex(plain_border, r"(?is)(?:маршрут|сценари).{0,120}(?:только|внутри).{0,40}Испани")
+        self.assertRegex(plain_border, r"(?is)Part-NCO.{0,160}(?:операци|воздушн\w+\s+судн).{0,160}не.{0,40}(?:лиценз|налич)")
+
+    def test_part_fcl_radio_navigation_is_separate_and_current_details_are_dynamic(self):
+        chapter = self._read(TASK8_CHAPTERS[4])
+        self.assertIn("[PART-FCL — ОБЩЕЕ]", chapter)
+        plain = _plain_markdown(chapter)
+        self.assertRegex(plain, r"(?is)GU09.{0,140}GPS.{0,160}не.{0,80}(?:подробн|детальн).{0,80}(?:VOR|DME|ADF)")
+        self.assertRegex(plain, r"(?is)LAPL\(A\).{0,120}(?:PPL|общ).{0,80}(?:теоретическ|syllabus)")
+        self.assertRegex(plain, r"(?is)(?:частот|идентификатор).{0,120}(?:ENR\s+4\.1|AD\s+2).{0,120}(?:перед|текущ)")
+        self.assertNotRegex(chapter, r"\b(?:10[89]|11\d|12[0-35])[.,]\d{3}\b")
+
+    def test_gnss_safety_scope_and_current_sib_are_taught(self):
+        text = _plain_markdown(self._read(TASK8_CHAPTERS[5]))
+        for value in ("jamming", "spoofing", "03.07.2026", "2022-02R4", "RAIM", "SBAS", "EGNOS"):
+            self.assertIn(value.casefold(), text.casefold())
+        self.assertRegex(text, r"(?is)SIB.{0,120}(?:рекоменд|advisory).{0,120}не.{0,40}(?:обязательн|универсальн)")
+        self.assertRegex(text, r"(?is)(?:сертифицирован|подходящ).{0,100}(?:при[её]мник|оборудован).{0,120}(?:RAIM|EGNOS)")
+        self.assertRegex(text, r"(?is)(?:потребительск|обычн).{0,50}(?:планшет|EFB).{0,100}не.{0,50}(?:припис|счита).{0,60}(?:RAIM|SoL)")
+
+    def test_task8_has_thirty_five_substantive_unique_questions(self):
+        blocks = []
+        errors = []
+        for relative_path in TASK8_CHAPTERS:
+            text = self._read(relative_path)
+            chapter = parsed_question_blocks(text)
+            self.assertEqual(5, len(chapter), relative_path)
+            blocks.extend(chapter)
+            errors.extend(f"{relative_path}: {error}" for error in question_block_errors(text))
+        self.assertEqual(35, len(blocks))
+        self.assertEqual(35, len({block["id"] for block in blocks}))
+        self.assertEqual(35, len({re.sub(r"\W+", " ", _plain_markdown(block["prompt"]).casefold()).strip() for block in blocks}))
+        self.assertEqual([], errors)
+
+    def test_task8_sources_are_registered_audited_and_pinpointed(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text())}
+        self.assertTrue(self.REQUIRED_SOURCE_IDS.issubset(sources), self.REQUIRED_SOURCE_IDS - sources.keys())
+        combined = " ".join(
+            f"{sources[source]['edition']} {sources[source]['scope']}" for source in self.REQUIRED_SOURCE_IDS
+        )
+        for pinpoint in (
+            "Navegación, pp. 28–32", "§§9.1–9.2", "GEN 3.1", "GEN 3.2",
+            "GEN 2.3", "ENR 2.1", "ENR 5.5", "ENR 6", "ENR 4.1",
+            "ENR 1.10", "28.05.2026", "SERA.2010(b)", "SERA.4001",
+            "NCO.GEN.135", "NCO.OP.135", "16-2–16-8", "16-11–16-18",
+            "pp. 4–10", "pp. 18–22", "pp. 27–28", "03.07.2026",
+            "Appendix B", "p. 60", "art. 4.2",
+        ):
+            self.assertIn(pinpoint, combined)
+        audit = (ROOT / "docs/sources/audit-technical.md").read_text(encoding="utf-8")
+        chapter_text = self._all_text()
+        for source in self.REQUIRED_SOURCE_IDS:
+            self.assertIn(sources[source]["url"], audit)
+            self.assertIn(source, chapter_text)
+
+    def test_task8_terms_are_registered_with_ru_en_es_definitions(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text())}
+        required = {
+            "dead reckoning (DR)", "true course (TC)", "magnetic course (MC)",
+            "compass heading (CH)", "wind correction angle (WCA)",
+            "groundspeed (GS)", "estimated time of arrival (ETA)",
+            "global navigation satellite system (GNSS)", "receiver autonomous integrity monitoring (RAIM)",
+            "satellite-based augmentation system (SBAS)", "VHF omnidirectional range (VOR)",
+            "distance measuring equipment (DME)", "automatic direction finder (ADF)",
+        }
+        self.assertTrue(required.issubset(terms), required - terms.keys())
+        for canonical in required:
+            record = terms[canonical]
+            for field in ("russian", "english", "spanish", "definition"):
+                self.assertTrue(record[field].strip())
+
+    def test_task8_svgs_are_accessible_mobile_and_semantically_geometric(self):
+        required_ids = (
+            {"heading-vector", "track-vector", "wind-vector", "wca-arc", "drift-arc", "arrowhead"},
+            {"vor-station", "radial-from", "bearing-to", "aircraft", "dme-slant", "ground-range"},
+            {"origin", "checkpoint-1", "checkpoint-2", "destination", "airspace", "terrain", "escape-east", "escape-west", "route-line"},
+        )
+        for relative_path, semantic_ids in zip(TASK8_SVGS, required_ids):
+            root = self._xml(relative_path)
+            ns = "{http://www.w3.org/2000/svg}"
+            with self.subTest(path=relative_path):
+                self.assertEqual(f"{ns}svg", root.tag)
+                self.assertEqual("img", root.attrib.get("role"))
+                self.assertTrue(root.attrib.get("aria-labelledby"))
+                self.assertIsNotNone(root.find(f"{ns}title"))
+                self.assertIsNotNone(root.find(f"{ns}desc"))
+                self.assertFalse(list(root.iter(f"{ns}image")))
+                _, _, vw, _ = (float(value) for value in root.attrib["viewBox"].split())
+                self.assertLessEqual(vw, 760)
+                sizes = [float(item.attrib["font-size"].removesuffix("px")) for item in root.iter(f"{ns}text") if "font-size" in item.attrib]
+                self.assertTrue(sizes)
+                self.assertGreaterEqual(min(sizes) * 340 / vw, 12.0)
+                ids = {item.attrib.get("id") for item in root.iter() if item.attrib.get("id")}
+                self.assertTrue(semantic_ids.issubset(ids), semantic_ids - ids)
+                self.assertGreaterEqual(sum(1 for item in root.iter() if item.attrib.get("marker-end", "").startswith("url(#")), 2)
+
+        wind_root = self._xml(TASK8_SVGS[0])
+        wind_words = " ".join(wind_root.itertext()).casefold()
+        for token in ("heading", "track", "wind from", "wca", "drift", "+ вправо", "− влево"):
+            self.assertIn(token, wind_words)
+        vor_words = " ".join(self._xml(TASK8_SVGS[1]).itertext()).casefold()
+        for token in ("radial from", "bearing to", "slant range", "horizontal"):
+            self.assertIn(token, vor_words)
+        route_words = " ".join(self._xml(TASK8_SVGS[2]).itertext())
+        self.assertIn("СИНТЕТИЧЕСКАЯ УЧЕБНАЯ СХЕМА — НЕ ДЛЯ НАВИГАЦИИ", route_words)
 
 
 class GU09MigrationTests(unittest.TestCase):

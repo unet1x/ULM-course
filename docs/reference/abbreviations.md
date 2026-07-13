@@ -65,3 +65,16 @@
 | AFIS | [aerodrome flight information service (AFIS)](glossary.md#term-aerodrome-flight-information-service-afis) | аэродромное полётно-информационное обслуживание |
 | A/A | [air-to-air (A/A)](glossary.md#term-air-to-air-aa) | связь «воздух—воздух» |
 | SSR | [secondary surveillance radar (SSR)](glossary.md#term-secondary-surveillance-radar-ssr) | вторичный обзорный радиолокатор |
+| DR | [dead reckoning (DR)](glossary.md#term-dead-reckoning-dr) | навигация счислением пути |
+| TC | [true course (TC)](glossary.md#term-true-course-tc) | истинная заданная линия пути |
+| MC | [magnetic course (MC)](glossary.md#term-magnetic-course-mc) | магнитная заданная линия пути |
+| CH | [compass heading (CH)](glossary.md#term-compass-heading-ch) | компасный курс носа |
+| WCA | [wind correction angle (WCA)](glossary.md#term-wind-correction-angle-wca) | угол поправки на ветер |
+| GS | [groundspeed (GS)](glossary.md#term-groundspeed-gs) | путевая скорость |
+| ETA | [estimated time of arrival (ETA)](glossary.md#term-estimated-time-arrival-eta) | расчётное время прибытия |
+| GNSS | [global navigation satellite system (GNSS)](glossary.md#term-global-navigation-satellite-system-gnss) | глобальная спутниковая навигационная система |
+| RAIM | [receiver autonomous integrity monitoring (RAIM)](glossary.md#term-receiver-autonomous-integrity-monitoring-raim) | автономный контроль целостности в приёмнике |
+| SBAS | [satellite-based augmentation system (SBAS)](glossary.md#term-satellite-based-augmentation-system-sbas) | спутниковая система функционального дополнения |
+| VOR | [VHF omnidirectional range (VOR)](glossary.md#term-vhf-omnidirectional-range-vor) | всенаправленный VHF-радиомаяк |
+| DME | [distance measuring equipment (DME)](glossary.md#term-distance-measuring-equipment-dme) | дальномерное оборудование |
+| ADF | [automatic direction finder (ADF)](glossary.md#term-automatic-direction-finder-adf) | автоматический радиокомпас |

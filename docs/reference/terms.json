@@ -1208,5 +1208,148 @@
     "definition": "Языковая отметка в лицензии (English: language proficiency endorsement; español: anotación de competencia lingüística) фиксирует уровень языка радиосвязи по FCL.055. Она отлична от предмета Communications и от полномочий радиотелефонии выбранного языка.",
     "anchor": "term-language-proficiency-endorsement",
     "defined_in": "docs/reference/glossary.md#term-language-proficiency-endorsement"
+  },
+  {
+    "id": "term-dead-reckoning-dr",
+    "canonical": "dead reckoning (DR)",
+    "english": "dead reckoning (DR)",
+    "spanish": "navegación a estima",
+    "russian": "навигация счислением пути",
+    "abbreviation": "DR",
+    "definition": "Навигация счислением пути определяет ожидаемое положение по известной исходной точке, курсу, скорости, ветру и времени; наблюдения и независимые источники регулярно исправляют накопившуюся ошибку.",
+    "anchor": "term-dead-reckoning-dr",
+    "defined_in": "docs/reference/glossary.md#term-dead-reckoning-dr"
+  },
+  {
+    "id": "term-true-course-tc",
+    "canonical": "true course (TC)",
+    "english": "true course (TC)",
+    "spanish": "ruta verdadera",
+    "russian": "истинная заданная линия пути",
+    "abbreviation": "TC",
+    "definition": "Истинная заданная линия пути — направление планируемой линии по поверхности Земли относительно истинного севера; до учёта ветра это не heading.",
+    "anchor": "term-true-course-tc",
+    "defined_in": "docs/reference/glossary.md#term-true-course-tc"
+  },
+  {
+    "id": "term-magnetic-course-mc",
+    "canonical": "magnetic course (MC)",
+    "english": "magnetic course (MC)",
+    "spanish": "ruta magnética",
+    "russian": "магнитная заданная линия пути",
+    "abbreviation": "MC",
+    "definition": "Магнитная заданная линия пути — истинная заданная линия пути, преобразованная к магнитному северу с учётом знака magnetic variation.",
+    "anchor": "term-magnetic-course-mc",
+    "defined_in": "docs/reference/glossary.md#term-magnetic-course-mc"
+  },
+  {
+    "id": "term-compass-heading-ch",
+    "canonical": "compass heading (CH)",
+    "english": "compass heading (CH)",
+    "spanish": "rumbo de brújula",
+    "russian": "компасный курс носа",
+    "abbreviation": "CH",
+    "definition": "Компасный курс носа — направление продольной оси относительно показания магнитного компаса после применения deviation к magnetic heading.",
+    "anchor": "term-compass-heading-ch",
+    "defined_in": "docs/reference/glossary.md#term-compass-heading-ch"
+  },
+  {
+    "id": "term-wind-correction-angle-wca",
+    "canonical": "wind correction angle (WCA)",
+    "english": "wind correction angle (WCA)",
+    "spanish": "ángulo de corrección de viento",
+    "russian": "угол поправки на ветер",
+    "abbreviation": "WCA",
+    "definition": "Угол поправки на ветер — signed разность между heading и требуемым track, введённая против бокового сноса; в этом курсе вправо положительно, влево отрицательно.",
+    "anchor": "term-wind-correction-angle-wca",
+    "defined_in": "docs/reference/glossary.md#term-wind-correction-angle-wca"
+  },
+  {
+    "id": "term-groundspeed-gs",
+    "canonical": "groundspeed (GS)",
+    "english": "groundspeed (GS)",
+    "spanish": "velocidad respecto al suelo",
+    "russian": "путевая скорость",
+    "abbreviation": "GS",
+    "definition": "Путевая скорость — модуль скорости воздушного судна относительно земной поверхности, полученный как векторная сумма скорости относительно воздуха и ветра.",
+    "anchor": "term-groundspeed-gs",
+    "defined_in": "docs/reference/glossary.md#term-groundspeed-gs"
+  },
+  {
+    "id": "term-estimated-time-arrival-eta",
+    "canonical": "estimated time of arrival (ETA)",
+    "english": "estimated time of arrival (ETA)",
+    "spanish": "hora estimada de llegada",
+    "russian": "расчётное время прибытия",
+    "abbreviation": "ETA",
+    "definition": "Расчётное время прибытия — прогноз времени достижения точки или назначения, который пересчитывают по фактическому времени, progress и обновлённой GS.",
+    "anchor": "term-estimated-time-arrival-eta",
+    "defined_in": "docs/reference/glossary.md#term-estimated-time-arrival-eta"
+  },
+  {
+    "id": "term-global-navigation-satellite-system-gnss",
+    "canonical": "global navigation satellite system (GNSS)",
+    "english": "global navigation satellite system (GNSS)",
+    "spanish": "sistema mundial de navegación por satélite",
+    "russian": "глобальная спутниковая навигационная система",
+    "abbreviation": "GNSS",
+    "definition": "Глобальная спутниковая навигационная система предоставляет навигационные измерения; показанная позиция не доказывает целостность, актуальность базы или пригодность оборудования для конкретной операции.",
+    "anchor": "term-global-navigation-satellite-system-gnss",
+    "defined_in": "docs/reference/glossary.md#term-global-navigation-satellite-system-gnss"
+  },
+  {
+    "id": "term-receiver-autonomous-integrity-monitoring-raim",
+    "canonical": "receiver autonomous integrity monitoring (RAIM)",
+    "english": "receiver autonomous integrity monitoring (RAIM)",
+    "spanish": "vigilancia autónoma de la integridad en el receptor",
+    "russian": "автономный контроль целостности в приёмнике",
+    "abbreviation": "RAIM",
+    "definition": "Автономный контроль целостности в приёмнике использует избыточные спутниковые измерения для проверки согласованности при наличии соответствующей функции и геометрии; наличие карты на планшете не доказывает RAIM.",
+    "anchor": "term-receiver-autonomous-integrity-monitoring-raim",
+    "defined_in": "docs/reference/glossary.md#term-receiver-autonomous-integrity-monitoring-raim"
+  },
+  {
+    "id": "term-satellite-based-augmentation-system-sbas",
+    "canonical": "satellite-based augmentation system (SBAS)",
+    "english": "satellite-based augmentation system (SBAS)",
+    "spanish": "sistema de aumentación basado en satélites",
+    "russian": "спутниковая система функционального дополнения",
+    "abbreviation": "SBAS",
+    "definition": "Спутниковая система функционального дополнения передаёт поправки и integrity information в своей зоне обслуживания; EGNOS — европейская SBAS, но эксплуатационная возможность зависит от подходящего оборудования и применимой операции.",
+    "anchor": "term-satellite-based-augmentation-system-sbas",
+    "defined_in": "docs/reference/glossary.md#term-satellite-based-augmentation-system-sbas"
+  },
+  {
+    "id": "term-vhf-omnidirectional-range-vor",
+    "canonical": "VHF omnidirectional range (VOR)",
+    "english": "VHF omnidirectional range (VOR)",
+    "spanish": "radiofaro omnidireccional VHF",
+    "russian": "всенаправленный VHF-радиомаяк",
+    "abbreviation": "VOR",
+    "definition": "Всенаправленный VHF-радиомаяк позволяет приёмнику определить magnetic radial FROM станции; идентификация и пригодность сигнала обязательны, а radial не является bearing TO.",
+    "anchor": "term-vhf-omnidirectional-range-vor",
+    "defined_in": "docs/reference/glossary.md#term-vhf-omnidirectional-range-vor"
+  },
+  {
+    "id": "term-distance-measuring-equipment-dme",
+    "canonical": "distance measuring equipment (DME)",
+    "english": "distance measuring equipment (DME)",
+    "spanish": "equipo medidor de distancia",
+    "russian": "дальномерное оборудование",
+    "abbreviation": "DME",
+    "definition": "Дальномерное оборудование измеряет наклонную дальность между воздушным судном и наземным оборудованием; особенно вблизи станции и высоко над ней она отличается от горизонтальной дальности.",
+    "anchor": "term-distance-measuring-equipment-dme",
+    "defined_in": "docs/reference/glossary.md#term-distance-measuring-equipment-dme"
+  },
+  {
+    "id": "term-automatic-direction-finder-adf",
+    "canonical": "automatic direction finder (ADF)",
+    "english": "automatic direction finder (ADF)",
+    "spanish": "radiogoniómetro automático",
+    "russian": "автоматический радиокомпас",
+    "abbreviation": "ADF",
+    "definition": "Автоматический радиокомпас показывает направление на принимаемый NDB относительно выбранной системы индикации; гроза, береговой эффект, ночь, рельеф и другие факторы могут ухудшать точность.",
+    "anchor": "term-automatic-direction-finder-adf",
+    "defined_in": "docs/reference/glossary.md#term-automatic-direction-finder-adf"
   }
 ]

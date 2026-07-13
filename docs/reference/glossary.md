@@ -1184,3 +1184,146 @@ GAMET — кодированный зональный прогноз для по
 - **Сокращение:** нет
 
 Языковая отметка в лицензии (English: language proficiency endorsement; español: anotación de competencia lingüística) фиксирует уровень языка радиосвязи по FCL.055. Она отлична от предмета Communications и от полномочий радиотелефонии выбранного языка.
+
+<a id="term-dead-reckoning-dr"></a>
+## Dead reckoning (DR)
+
+- **Canonical:** dead reckoning (DR)
+- **English:** dead reckoning (DR)
+- **Español:** navegación a estima
+- **Русский:** навигация счислением пути
+- **Сокращение:** DR
+
+Навигация счислением пути определяет ожидаемое положение по известной исходной точке, курсу, скорости, ветру и времени; наблюдения и независимые источники регулярно исправляют накопившуюся ошибку.
+
+<a id="term-true-course-tc"></a>
+## True course (TC)
+
+- **Canonical:** true course (TC)
+- **English:** true course (TC)
+- **Español:** ruta verdadera
+- **Русский:** истинная заданная линия пути
+- **Сокращение:** TC
+
+Истинная заданная линия пути — направление планируемой линии по поверхности Земли относительно истинного севера; до учёта ветра это не heading.
+
+<a id="term-magnetic-course-mc"></a>
+## Magnetic course (MC)
+
+- **Canonical:** magnetic course (MC)
+- **English:** magnetic course (MC)
+- **Español:** ruta magnética
+- **Русский:** магнитная заданная линия пути
+- **Сокращение:** MC
+
+Магнитная заданная линия пути — истинная заданная линия пути, преобразованная к магнитному северу с учётом знака magnetic variation.
+
+<a id="term-compass-heading-ch"></a>
+## Compass heading (CH)
+
+- **Canonical:** compass heading (CH)
+- **English:** compass heading (CH)
+- **Español:** rumbo de brújula
+- **Русский:** компасный курс носа
+- **Сокращение:** CH
+
+Компасный курс носа — направление продольной оси относительно показания магнитного компаса после применения deviation к magnetic heading.
+
+<a id="term-wind-correction-angle-wca"></a>
+## Wind correction angle (WCA)
+
+- **Canonical:** wind correction angle (WCA)
+- **English:** wind correction angle (WCA)
+- **Español:** ángulo de corrección de viento
+- **Русский:** угол поправки на ветер
+- **Сокращение:** WCA
+
+Угол поправки на ветер — signed разность между heading и требуемым track, введённая против бокового сноса; в этом курсе вправо положительно, влево отрицательно.
+
+<a id="term-groundspeed-gs"></a>
+## Groundspeed (GS)
+
+- **Canonical:** groundspeed (GS)
+- **English:** groundspeed (GS)
+- **Español:** velocidad respecto al suelo
+- **Русский:** путевая скорость
+- **Сокращение:** GS
+
+Путевая скорость — модуль скорости воздушного судна относительно земной поверхности, полученный как векторная сумма скорости относительно воздуха и ветра.
+
+<a id="term-estimated-time-arrival-eta"></a>
+## Estimated time of arrival (ETA)
+
+- **Canonical:** estimated time of arrival (ETA)
+- **English:** estimated time of arrival (ETA)
+- **Español:** hora estimada de llegada
+- **Русский:** расчётное время прибытия
+- **Сокращение:** ETA
+
+Расчётное время прибытия — прогноз времени достижения точки или назначения, который пересчитывают по фактическому времени, progress и обновлённой GS.
+
+<a id="term-global-navigation-satellite-system-gnss"></a>
+## Global navigation satellite system (GNSS)
+
+- **Canonical:** global navigation satellite system (GNSS)
+- **English:** global navigation satellite system (GNSS)
+- **Español:** sistema mundial de navegación por satélite
+- **Русский:** глобальная спутниковая навигационная система
+- **Сокращение:** GNSS
+
+Глобальная спутниковая навигационная система предоставляет навигационные измерения; показанная позиция не доказывает целостность, актуальность базы или пригодность оборудования для конкретной операции.
+
+<a id="term-receiver-autonomous-integrity-monitoring-raim"></a>
+## Receiver autonomous integrity monitoring (RAIM)
+
+- **Canonical:** receiver autonomous integrity monitoring (RAIM)
+- **English:** receiver autonomous integrity monitoring (RAIM)
+- **Español:** vigilancia autónoma de la integridad en el receptor
+- **Русский:** автономный контроль целостности в приёмнике
+- **Сокращение:** RAIM
+
+Автономный контроль целостности в приёмнике использует избыточные спутниковые измерения для проверки согласованности при наличии соответствующей функции и геометрии; наличие карты на планшете не доказывает RAIM.
+
+<a id="term-satellite-based-augmentation-system-sbas"></a>
+## Satellite-based augmentation system (SBAS)
+
+- **Canonical:** satellite-based augmentation system (SBAS)
+- **English:** satellite-based augmentation system (SBAS)
+- **Español:** sistema de aumentación basado en satélites
+- **Русский:** спутниковая система функционального дополнения
+- **Сокращение:** SBAS
+
+Спутниковая система функционального дополнения передаёт поправки и integrity information в своей зоне обслуживания; EGNOS — европейская SBAS, но эксплуатационная возможность зависит от подходящего оборудования и применимой операции.
+
+<a id="term-vhf-omnidirectional-range-vor"></a>
+## VHF omnidirectional range (VOR)
+
+- **Canonical:** VHF omnidirectional range (VOR)
+- **English:** VHF omnidirectional range (VOR)
+- **Español:** radiofaro omnidireccional VHF
+- **Русский:** всенаправленный VHF-радиомаяк
+- **Сокращение:** VOR
+
+Всенаправленный VHF-радиомаяк позволяет приёмнику определить magnetic radial FROM станции; идентификация и пригодность сигнала обязательны, а radial не является bearing TO.
+
+<a id="term-distance-measuring-equipment-dme"></a>
+## Distance measuring equipment (DME)
+
+- **Canonical:** distance measuring equipment (DME)
+- **English:** distance measuring equipment (DME)
+- **Español:** equipo medidor de distancia
+- **Русский:** дальномерное оборудование
+- **Сокращение:** DME
+
+Дальномерное оборудование измеряет наклонную дальность между воздушным судном и наземным оборудованием; особенно вблизи станции и высоко над ней она отличается от горизонтальной дальности.
+
+<a id="term-automatic-direction-finder-adf"></a>
+## Automatic direction finder (ADF)
+
+- **Canonical:** automatic direction finder (ADF)
+- **English:** automatic direction finder (ADF)
+- **Español:** radiogoniómetro automático
+- **Русский:** автоматический радиокомпас
+- **Сокращение:** ADF
+
+Автоматический радиокомпас показывает направление на принимаемый NDB относительно выбранной системы индикации; гроза, береговой эффект, ночь, рельеф и другие факторы могут ухудшать точность.

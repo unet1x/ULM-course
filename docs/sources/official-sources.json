@@ -6,7 +6,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew",
     "edition": "онлайн-консолидация от 24.02.2026",
     "checked": "2026-07-13",
-    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency; удобная публикация сверяется с EUR-Lex"
+    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; AMC1 FCL.115/FCL.120 и AMC1 FCL.210/FCL.215 §§9.1–9.2 задают общую LAPL/PPL navigation theory и radio-navigation depth; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency; удобная публикация сверяется с EUR-Lex"
   },
   {
     "id": "SRC-EASA-SERA-2025",
@@ -15,7 +15,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-standardised-european?erules-id=ERULES-1963177438-9807",
     "edition": "онлайн-консолидация, revision August 2025",
     "checked": "2026-07-13",
-    "scope": "SERA.3401 time system; SERA.8015(e) и GM1 SERA.8015(ec) readback/conditional clearance; SERA.8025 position reports после Regulation (EU) 2024/404; SERA.13001/SERA.13005 SSR; SERA.14001, SERA.14015, SERA.14020, SERA.14035, SERA.14040, SERA.14045, SERA.14050, SERA.14055, SERA.14070, SERA.14075, SERA.14083, SERA.14085 и SERA.14095; Appendix 1 Table AP 1-1 light signals; текущие национальные AIP/NOTAM применяются дополнительно"
+    "scope": "SERA.2010(b) pre-flight information; SERA.4001 flight-plan submission including international borders; SERA.3401 time system; SERA.8015(e) и GM1 SERA.8015(ec) readback/conditional clearance; SERA.8025 position reports после Regulation (EU) 2024/404; SERA.13001/SERA.13005 SSR; SERA.14001, SERA.14015, SERA.14020, SERA.14035, SERA.14040, SERA.14045, SERA.14050, SERA.14055, SERA.14070, SERA.14075, SERA.14083, SERA.14085 и SERA.14095; Appendix 1 Table AP 1-1 light signals; текущие национальные AIP/NOTAM применяются дополнительно"
   },
   {
     "id": "SRC-EURLEX-1178-2011",
@@ -78,7 +78,7 @@
     "url": "https://www.boe.es/eli/es/rd/2022/09/20/765/con",
     "edition": "консолидировано 12.03.2026; изменения действуют с 01.04.2026",
     "checked": "2026-07-13",
-    "scope": "Испанские категории и эксплуатация; art. 4.1(d), (f) и 4.2 после RD 182/2026: ULM в controlled airspace требует оборудования и действующей эквивалентной Part-FCL licence; применяется с 01.04.2026"
+    "scope": "Испанские категории и эксплуатация; art. 4.1(d), (f) и art. 4.2 после RD 182/2026: ULM в controlled airspace требует оборудования и действующей эквивалентной Part-FCL licence; за пределами Испании применяются law and specific requirements of overflown state; применяется с 01.04.2026"
   },
   {
     "id": "SRC-BOE-RD-141-2025",
@@ -114,7 +114,7 @@
     "url": "https://www.seguridadaerea.gob.es/sites/default/files/FOR-ULM-P01-ETI01-GU09_Objetivos_de_aprendizaje_ULM.pdf",
     "edition": "FOR-ULM-P01-ETI01-GU09 Ed.01; страница AESA обновлена 29.05.2026; PDF HTTP Last-Modified 29.05.2026; применимость «Desde publicación»",
     "checked": "2026-07-13",
-    "scope": "Текущие цели обучения ULM; это syllabus целей обучения, а не самостоятельный источник стабильной физики или технических механизмов. Документ содержит 66 страниц, все девять предметов на pp. 7–63 и отдельную Habilitación Radiotelefonía на pp. 64–65; аудированная копия SHA-256 52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2. Копия неконтролируемая: перед применением сверять текущую версию на сайте AESA. Аномалии: на p. 66 заголовок GU10 Ed.01, а упомянутого на p. 3 отдельного списка Trazabilidad в доступном 66-страничном PDF нет"
+    "scope": "Текущие цели обучения ULM; это syllabus целей обучения, а не самостоятельный источник стабильной физики или технических механизмов. Документ содержит 66 страниц, все девять предметов на pp. 7–63, в том числе Navegación, pp. 28–32, и отдельную Habilitación Radiotelefonía на pp. 64–65; аудированная копия SHA-256 52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2. Копия неконтролируемая: перед применением сверять текущую версию на сайте AESA. Аномалии: на p. 66 заголовок GU10 Ed.01, а упомянутого на p. 3 отдельного списка Trazabilidad в доступном 66-страничном PDF нет"
   },
   {
     "id": "SRC-AESA-ULM-QUESTION-BANKS",
@@ -294,7 +294,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?erules-id=ERULES-1963177438-18537",
     "edition": "Revision 24, March 2026, published 27.03.2026",
     "checked": "2026-07-13",
-    "scope": "Article 5(4), Annex VII (Part-NCO), NCO.OP.160, AMC1 и GM1/GM2: область для некоммерческой эксплуатации самолёта, подпадающей под Regulation (EU) No 965/2012 Annex VII; решение о начале/продолжении, текущая погода маршрута/назначения к ожидаемому времени, перепланирование в полёте по GM1 и осторожная оценка по GM2; одно наличие лицензии не определяет применимость Part-NCO"
+    "scope": "Article 5(4), Annex VII (Part-NCO), NCO.GEN.135(a)(10)/AMC1 и NCO.OP.135 для документов, карт и предполётной информации применимой операции; NCO.OP.160, AMC1 и GM1/GM2 для начала/продолжения и перепланирования по погоде. Область определяется операцией и воздушным судном; одно наличие лицензии не определяет применимость Part-NCO"
   },
   {
     "id": "SRC-WMO-CLOUD-ATLAS-2017",
@@ -403,5 +403,59 @@
     "edition": "ENR 1.4-5; AIP snapshot 09.07.2026",
     "checked": "2026-07-13",
     "scope": "Spain-specific ATS airspace service and communication summary; current airspace, frequency and procedure remain dynamic and require current AIP/NOTAM"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-NAVIGATION-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España — навигационный набор GEN/ENR",
+    "url": "https://aip.enaire.es/AIP/contenido_AIP/GEN/LE_GEN_3_2_es.html",
+    "edition": "AIP snapshot 09.07.2026: AIRAC 06/26 и AMDT 408/26",
+    "checked": "2026-07-13",
+    "scope": "GEN 3.1 §§3.4, 3.5, 4, 5; GEN 3.2 §§4.2, 4.3, 5, 8; GEN 2.3; GEN 3.3; GEN 3.4 §3.1; ENR 1.10; ENR 2.1; ENR 4.1; ENR 5.5; ENR 6. Это датированный снимок структуры AIS, карт, символов, пространства, ATS и радиосредств, а не текущий briefing"
+  },
+  {
+    "id": "SRC-ENAIRE-VFR500-2026",
+    "authority": "ENAIRE",
+    "title": "VFR500 — updates on editions 2025 and 2026",
+    "url": "https://aip.enaire.es/recursos/descargas/VFR500/VFR500_Changes.pdf",
+    "edition": "VFR500_Changes.pdf, 28.05.2026; directory and sheets checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Seven sheets are heterogeneous: GC 2025 data 20.03.2025; LE1 2025 data 02.10.2025; LE2 2025 data 20.03.2025; LE3–LE6 2026 data 19.03.2026. Corrections and current InsigniaVFR/AIP/SUP/AIC/NOTAM/AIRAC remain necessary"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH16",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 16 Navigation",
+    "url": "https://www.faa.gov/regulationspolicies/handbooksmanuals/aviation/phak/chapter-16-navigation",
+    "edition": "FAA-H-8083-25C (2023), Chapter 16",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 16-2–16-8 and 16-11–16-18: stable coordinate, direction, variation/deviation, wind and elementary planning physics only. U.S. charts, rules, services, minima and procedures are excluded"
+  },
+  {
+    "id": "SRC-NZ-CAA-VISUAL-NAV-V1",
+    "authority": "New Zealand Civil Aviation Authority",
+    "title": "Practical Flying Guide 1 — Visual Navigation",
+    "url": "https://www.aviation.govt.nz/assets/publications/practical-flying-guides/practical-flying-guide-1-visual-navigation-v1.0.pdf",
+    "edition": "Version 1.0",
+    "checked": "2026-07-13",
+    "scope": "Universal pedagogy only: pp. 4–10 planning/log/DR, pp. 18–22 1-in-60 and diversion, pp. 27–28 lost procedure and GNSS cross-check. New Zealand national rules and procedures do not transfer to Spain"
+  },
+  {
+    "id": "SRC-EASA-SIB-2022-02R4",
+    "authority": "EASA",
+    "title": "SIB 2022-02R4 — GNSS Outage and Alterations",
+    "url": "https://ad.easa.europa.eu/blob/EASA_SIB_2022_02R4.pdf/SIB_2022-02R4_1",
+    "edition": "SIB 2022-02R4, issued 03.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Pp. 1–3, 5–6 and 8: current awareness and recommendations for GNSS jamming/spoofing, cross-check and response. Advisory SIB with stated applicability, not a universal mandatory checklist"
+  },
+  {
+    "id": "SRC-EGNOS-SOL-SDD-3-6",
+    "authority": "EUSPA / EGNOS",
+    "title": "EGNOS Safety of Life Service Definition Document",
+    "url": "https://egnos.gsc-europa.eu/sites/default/files/documents/egnos_sol_sdd_in_force.pdf?v=1726657048",
+    "edition": "Issue 3.6, 09.09.2024",
+    "checked": "2026-07-13",
+    "scope": "Appendix B pp. 47–48 PDF and RAIM definition p. 60 PDF explain integrity concepts for suitable certified equipment. They do not establish that a consumer tablet has RAIM, SBAS/EGNOS SoL capability or operational approval"
   }
 ]

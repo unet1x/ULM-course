@@ -53,10 +53,19 @@ nav:
       - Маршрут и прибытие EN/ES: 04-communications/04-enroute-arrival-en-es.md
       - Неконтролируемый аэродром и AFIS: 04-communications/05-uncontrolled-aerodrome.md
       - Срочность, бедствие и отказ связи: 04-communications/06-urgency-distress-radio-failure.md
+  - Навигация:
+      - Земля, время и направления: 05-navigation/01-earth-time-directions.md
+      - Карты и воздушное пространство: 05-navigation/02-charts-airspace.md
+      - Курс, линия пути и ветер: 05-navigation/03-heading-track-wind.md
+      - Счисление пути и flight log: 05-navigation/04-dead-reckoning-flight-log.md
+      - VOR, DME и ADF для Part-FCL: 05-navigation/05-vor-dme-adf-ppl.md
+      - GNSS и перекрёстная проверка: 05-navigation/06-gnss-and-cross-check.md
+      - Потеря ориентировки и diversion: 05-navigation/07-lost-diversion-border.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md
       - Карточки радиосвязи: reference/checklists-radio.md
+      - Шаблон навигационного лога: reference/templates-flight-log.md
   - Исследовательская база:
       - Реестр официальных источников: sources/official-sources.md
       - Испания и нормативная дата: sources/audit-spain-2026.md
