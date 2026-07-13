@@ -38,6 +38,14 @@ nav:
       - Зрение, слух и ориентация: 02-human-performance/02-vision-hearing-orientation.md
       - Стресс, усталость и лекарства: 02-human-performance/03-stress-fatigue-medication.md
       - Решения, TEM и коммуникация: 02-human-performance/04-adm-tem-communication.md
+  - Метеорология:
+      - Атмосфера, давление и температура: 03-meteorology/01-atmosphere-pressure-temperature.md
+      - Ветер, побережье и горы: 03-meteorology/02-wind-turbulence-mountain-coast.md
+      - Вода, облака и видимость: 03-meteorology/03-water-clouds-visibility.md
+      - Воздушные массы и фронты: 03-meteorology/04-air-masses-fronts-systems.md
+      - Грозы, обледенение и VFR2IMC: 03-meteorology/05-hazards-thunderstorm-icing.md
+      - METAR, TAF, warnings и карты: 03-meteorology/06-metar-taf-sigmet-charts.md
+      - Испанское решение go/no-go: 03-meteorology/07-spain-go-no-go.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md

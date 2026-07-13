@@ -49,3 +49,14 @@
 | CRM | [crew resource management (CRM)](glossary.md#term-crew-resource-management-crm) | управление ресурсами экипажа |
 | NTS | [non-technical skills (NTS)](glossary.md#term-non-technical-skills-nts) | нетехнические навыки пилота |
 | GA | [general aviation (GA)](glossary.md#term-general-aviation-ga) | авиация общего назначения |
+| ISA | [International Standard Atmosphere (ISA)](glossary.md#term-international-standard-atmosphere-isa) | Международная стандартная атмосфера |
+| FL | [flight level (FL)](glossary.md#term-flight-level-fl) | эшелон полёта при стандартной установке давления |
+| QFE | [QFE](glossary.md#term-qfe) | установка давления для height над выбранной aerodrome datum |
+| CAVOK | [CAVOK](glossary.md#term-cavok) | кодовая свёртка visibility/weather/significant cloud criteria |
+| SPECI | [SPECI](glossary.md#term-speci) | selected special aerodrome weather report |
+| TREND | [TREND](glossary.md#term-trend) | краткий landing forecast при аэродромной сводке |
+| SIGMET | [SIGMET](glossary.md#term-sigmet) | significant en-route meteorological information |
+| AIRMET | [AIRMET](glossary.md#term-airmet) | информация о specified low-level phenomena |
+| GAMET | [GAMET](glossary.md#term-gamet) | зональный low-level forecast |
+| AMA | [Aeronautical Meteorological Self-service (AMA)](glossary.md#term-aeronautical-meteorological-self-service-ama) | AEMET aviation weather self-service |
+| VFR2IMC | [VFR into IMC (VFR2IMC)](glossary.md#term-vfr-into-imc-vfr2imc) | развитие VFR-полёта к потере visual conditions |

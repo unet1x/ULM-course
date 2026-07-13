@@ -779,5 +779,148 @@
     "definition": "General aviation (GA) — гражданская авиация вне регулярных коммерческих воздушных перевозок и военных операций; конкретная правовая область термина зависит от применимого документа.",
     "anchor": "term-general-aviation-ga",
     "defined_in": "docs/reference/glossary.md#term-general-aviation-ga"
+  },
+  {
+    "id": "term-international-standard-atmosphere-isa",
+    "canonical": "International Standard Atmosphere (ISA)",
+    "english": "International Standard Atmosphere (ISA)",
+    "spanish": "Atmósfera Estándar Internacional (ISA)",
+    "russian": "Международная стандартная атмосфера",
+    "abbreviation": "ISA",
+    "definition": "International Standard Atmosphere (ISA) — согласованная расчётная модель вертикального распределения атмосферных величин для reference, design and calibration. Она не является наблюдением, прогнозом или фактическим профилем дня.",
+    "anchor": "term-international-standard-atmosphere-isa",
+    "defined_in": "docs/reference/glossary.md#term-international-standard-atmosphere-isa"
+  },
+  {
+    "id": "term-flight-level-fl",
+    "canonical": "flight level (FL)",
+    "english": "flight level (FL)",
+    "spanish": "nivel de vuelo (FL)",
+    "russian": "эшелон полёта",
+    "abbreviation": "FL",
+    "definition": "Flight level (FL) — поверхность постоянного атмосферного давления, отнесённая к стандартной установке 1013,2 hPa и обозначенная в сотнях футов. Это не истинная geometric altitude и не height над землёй.",
+    "anchor": "term-flight-level-fl",
+    "defined_in": "docs/reference/glossary.md#term-flight-level-fl"
+  },
+  {
+    "id": "term-qfe",
+    "canonical": "QFE",
+    "english": "aerodrome pressure setting to indicate height above the selected datum",
+    "spanish": "reglaje QFE para indicar altura sobre la referencia seleccionada",
+    "russian": "установка давления для индикации высоты над выбранной аэродромной отметкой",
+    "abbreviation": "QFE",
+    "definition": "QFE — pressure setting, при котором высотомер на выбранной aerodrome datum приблизительно показывает ноль. Его наличие или применение определяется текущей процедурой; это не универсально обязательная установка для ULM.",
+    "anchor": "term-qfe",
+    "defined_in": "docs/reference/glossary.md#term-qfe"
+  },
+  {
+    "id": "term-cavok",
+    "canonical": "CAVOK",
+    "english": "ceiling and visibility OK (code word)",
+    "spanish": "visibilidad, tiempo significativo y nubes dentro de los criterios CAVOK",
+    "russian": "кодовая свёртка благоприятных критериев видимости, явлений и значимой облачности",
+    "abbreviation": "CAVOK",
+    "definition": "CAVOK заменяет определённые группы aerodrome report/forecast только при выполнении кодовых критериев. Это не утверждение clear sky, route safety, отсутствия turbulence или пригодности условий конкретному пилоту.",
+    "anchor": "term-cavok",
+    "defined_in": "docs/reference/glossary.md#term-cavok"
+  },
+  {
+    "id": "term-speci",
+    "canonical": "SPECI",
+    "english": "selected special aerodrome meteorological report",
+    "spanish": "informe meteorológico especial seleccionado de aeródromo",
+    "russian": "специальная аэродромная метеорологическая сводка",
+    "abbreviation": "SPECI",
+    "definition": "SPECI — специальный report о наблюдавшемся значимом изменении по применимым критериям. Он не является исправлением TAF; correction обозначается COR.",
+    "anchor": "term-speci",
+    "defined_in": "docs/reference/glossary.md#term-speci"
+  },
+  {
+    "id": "term-trend",
+    "canonical": "TREND",
+    "english": "trend forecast",
+    "spanish": "pronóstico de tendencia",
+    "russian": "краткосрочный прогноз тенденции, присоединённый к аэродромной сводке",
+    "abbreviation": "TREND",
+    "definition": "TREND — краткий landing forecast, приложенный к METAR/SPECI там, где он предоставляется. Он имеет собственный период и ограничения и не является гарантией результата.",
+    "anchor": "term-trend",
+    "defined_in": "docs/reference/glossary.md#term-trend"
+  },
+  {
+    "id": "term-sigmet",
+    "canonical": "SIGMET",
+    "english": "significant meteorological information",
+    "spanish": "información SIGMET sobre fenómenos meteorológicos significativos",
+    "russian": "предупреждение о заданных значимых метеорологических явлениях по маршруту",
+    "abbreviation": "SIGMET",
+    "definition": "SIGMET сообщает о specified en-route phenomena operational significance в указанном районе и периоде. Отсутствие SIGMET не доказывает отсутствие любой локальной или ещё не достигшей критериев угрозы.",
+    "anchor": "term-sigmet",
+    "defined_in": "docs/reference/glossary.md#term-sigmet"
+  },
+  {
+    "id": "term-airmet",
+    "canonical": "AIRMET",
+    "english": "airmen's meteorological information for specified lower-level phenomena",
+    "spanish": "información AIRMET para fenómenos especificados a niveles bajos",
+    "russian": "информация о заданных явлениях на малых высотах",
+    "abbreviation": "AIRMET",
+    "definition": "AIRMET в испанском product set сообщает о specified lower-level phenomena согласно применимому формату и coverage. Его читают вместе с GAMET/SWL, SIGMET, observations and forecasts.",
+    "anchor": "term-airmet",
+    "defined_in": "docs/reference/glossary.md#term-airmet"
+  },
+  {
+    "id": "term-gamet",
+    "canonical": "GAMET",
+    "english": "area forecast for low-level flights",
+    "spanish": "pronóstico de área GAMET para vuelos a baja altura",
+    "russian": "зональный прогноз для полётов на малых высотах",
+    "abbreviation": "GAMET",
+    "definition": "GAMET — coded area forecast for low-level flights for a stated area and validity. It complements, but does not replace, point reports, warnings and current route assessment.",
+    "anchor": "term-gamet",
+    "defined_in": "docs/reference/glossary.md#term-gamet"
+  },
+  {
+    "id": "term-aeronautical-meteorological-self-service-ama",
+    "canonical": "Aeronautical Meteorological Self-service (AMA)",
+    "english": "Aeronautical Meteorological Self-service (AMA)",
+    "spanish": "Autoservicio Meteorológico Aeronáutico (AMA)",
+    "russian": "авиационный метеорологический сервис самообслуживания AEMET",
+    "abbreviation": "AMA",
+    "definition": "Aeronautical Meteorological Self-service (AMA) — официальный динамический канал доступа AEMET к aviation weather information. Archived screen или tutorial не является current weather; перед полётом проверяют retrieval time, issue and validity.",
+    "anchor": "term-aeronautical-meteorological-self-service-ama",
+    "defined_in": "docs/reference/glossary.md#term-aeronautical-meteorological-self-service-ama"
+  },
+  {
+    "id": "term-density-altitude",
+    "canonical": "density altitude",
+    "english": "density altitude",
+    "spanish": "altitud de densidad",
+    "russian": "высота по плотности",
+    "abbreviation": null,
+    "definition": "Density altitude — pressure altitude, corrected conceptually for non-standard temperature so that air density can be compared with a standard-atmosphere altitude. Classroom approximations show trend only; aircraft performance comes from current AFM/POH data.",
+    "anchor": "term-density-altitude",
+    "defined_in": "docs/reference/glossary.md#term-density-altitude"
+  },
+  {
+    "id": "term-wind-shear",
+    "canonical": "wind shear",
+    "english": "wind shear",
+    "spanish": "cizalladura del viento",
+    "russian": "сдвиг ветра",
+    "abbreviation": null,
+    "definition": "Wind shear — изменение wind vector over distance, vertically or horizontally. It can produce rapid airspeed/flight-path changes; report or warning coverage does not eliminate local shear outside the sensor area.",
+    "anchor": "term-wind-shear",
+    "defined_in": "docs/reference/glossary.md#term-wind-shear"
+  },
+  {
+    "id": "term-vfr-into-imc-vfr2imc",
+    "canonical": "VFR into IMC (VFR2IMC)",
+    "english": "VFR into IMC (VFR2IMC)",
+    "spanish": "entrada de un vuelo VFR en IMC (VFR2IMC)",
+    "russian": "непреднамеренное развитие полёта VFR к входу в IMC",
+    "abbreviation": "VFR2IMC",
+    "definition": "VFR into IMC (VFR2IMC) — safety framing for a VFR pilot approaching or entering conditions without the visual references needed for safe continuation. It is a cue for early escape planning, not an instrument privilege or numeric operating rule.",
+    "anchor": "term-vfr-into-imc-vfr2imc",
+    "defined_in": "docs/reference/glossary.md#term-vfr-into-imc-vfr2imc"
   }
 ]

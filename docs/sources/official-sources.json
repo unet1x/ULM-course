@@ -223,5 +223,104 @@
     "edition": "CDC web guidance, 08.07.2024",
     "checked": "2026-07-13",
     "scope": "Раздел Confirmation of Diagnosis прямо указывает: conventional two-wavelength pulse oximeter неточен при наличии COHgb. В курсе используется только как узкое техническое ограничение прибора; не норма и не источник авиационного права, летной годности, диагноза или лечения для ЕС/Испании"
+  },
+  {
+    "id": "SRC-AEMET-GUIA-MET-2025",
+    "authority": "AEMET",
+    "title": "Guía MET — Información meteorológica aeronáutica",
+    "url": "https://www.aemet.es/documentos/es/conocermas/aeronautica/AU-GUI-0102.pdf",
+    "edition": "AU-GUI-0102, actualizada a 17.10.2025, 69 PDF pages",
+    "checked": "2026-07-13",
+    "scope": "METAR/SPECI pp. 18–23, TAF pp. 26–31, SIGMET pp. 39–41, AIRMET pp. 41–43, GAMET pp. 45–48, charts pp. 50–57, AMA pp. 58–60; explanatory guide, archived examples are not live weather; current availability must be rechecked"
+  },
+  {
+    "id": "SRC-AEMET-CODE-FORMS-2021",
+    "authority": "AEMET",
+    "title": "Fichas de claves de meteorología aeronáutica",
+    "url": "https://www.aemet.es/documentos/es/conocermas/aeronautica/Fichas.pdf",
+    "edition": "14-page official code-form summary, August 2021",
+    "checked": "2026-07-13",
+    "scope": "METAR/SPECI pp. 1–2, AUTO pp. 3–4, TAF pp. 5–6, GAMET pp. 7–8, SWL pp. 9–10, SIGMET pp. 11–12, AIRMET pp. 13–14; dated compact aid cross-checked with 2025 guide and current AIP, not current weather"
+  },
+  {
+    "id": "SRC-AEMET-AERODROME-GUIDES",
+    "authority": "AEMET",
+    "title": "Guías meteorológicas de aeródromo",
+    "url": "https://www.aemet.es/es/conocermas/aeronautica/detalles/Guias_aerodromo",
+    "edition": "official repository; Bilbao and Gran Canaria 2019, Tenerife Norte and Tenerife Sur 2021",
+    "checked": "2026-07-13",
+    "scope": "Site-specific climatological and technical orientation for named aerodromes; not a forecast, regional rule, ULM limit or substitute for current products"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-GEN-3-5-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España GEN 3.5 — Servicios meteorológicos",
+    "url": "https://aip.enaire.es/AIP/contenido_AIP/GEN/LE_GEN_3_5_es.html",
+    "edition": "GEN 3.5 WEF 11.06.2026; dynamic AIP page",
+    "checked": "2026-07-13",
+    "scope": "Spanish observation, METAR/CAVOK/AUTO/SPECI, TAF/TREND, GAMET/SWL, SIGMET/AIRMET and AMA service scope; §3.6.2 defines V1 below 1000 m and V5 1000–5000 m; check current AIP/AMDT before flight"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-ENR-1-7-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España ENR 1.7 — Procedimientos de reglaje de altímetro",
+    "url": "https://aip.enaire.es/AIP/contenido_AIP/ENR/LE_ENR_1_7_es.html",
+    "edition": "AMDT 403/26, WEF 19.02.2026; dynamic AIP page",
+    "checked": "2026-07-13",
+    "scope": "Current Spanish transition-altitude summary, 1013.2 hPa and transition-layer wording, QNH provision and QFE on request; page states that the rule prevails and warns about its own quality, so current AD/AIP/ATIS must be checked"
+  },
+  {
+    "id": "SRC-EASA-AIR-OPS-2026",
+    "authority": "EASA",
+    "title": "Easy Access Rules for Air Operations",
+    "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?erules-id=ERULES-1963177438-18537",
+    "edition": "Revision 24, March 2026, published 27.03.2026",
+    "checked": "2026-07-13",
+    "scope": "NCO.OP.160 and AMC1/GM1/GM2, including route/destination information at expected use, TAF/TREND change-group planning and continual reassessment; future LAPL/PPL Part-NCO layer, not automatically the Spanish national ULM rule"
+  },
+  {
+    "id": "SRC-WMO-CLOUD-ATLAS-2017",
+    "authority": "WMO",
+    "title": "International Cloud Atlas",
+    "url": "https://cloudatlas.wmo.int/en/home.html",
+    "edition": "WMO-No. 407, 2017 Edition, official online edition",
+    "checked": "2026-07-13",
+    "scope": "Cloud classification principles, ten genera, cloud level definitions and fog taxonomy; morphology only, not aviation minima or operational weather; photographs are not reused"
+  },
+  {
+    "id": "SRC-ICAO-DOC-7488",
+    "authority": "ICAO",
+    "title": "Manual of the ICAO Standard Atmosphere",
+    "url": "https://store.icao.int/en/manual-of-the-icao-standard-atmosphere-extended-to-80-kilometres-262500-feet-doc-7488",
+    "edition": "Doc 7488, 3rd edition, 1993",
+    "checked": "2026-07-13",
+    "scope": "Official catalogue scope confirms standard values, constants and equations to 80 km for reference, design and calibration; full content was not inspected, so no page-specific claim is drawn from the paywalled manual and it is never treated as a forecast"
+  },
+  {
+    "id": "SRC-ICAO-ANNEX3-2025",
+    "authority": "ICAO",
+    "title": "Annex 3 — Meteorological Service for International Air Navigation",
+    "url": "https://store.icao.int/en/annex-3-meteorological-service-for-international-air-navigation-1",
+    "edition": "21st Edition, August 2025, Amendments 1–82; Corrigendum 1, 20.10.2025",
+    "checked": "2026-07-13",
+    "scope": "Edition and subject metadata only; full Annex text was not inspected and is not used to infer Spanish implementation, which is taught from current AIP and AEMET sources"
+  },
+  {
+    "id": "SRC-FAA-AWH-28B-2026",
+    "authority": "FAA",
+    "title": "Aviation Weather Handbook",
+    "url": "https://www.faa.gov/sites/faa.gov/files/FAA-H-8083-28B.pdf",
+    "edition": "FAA-H-8083-28B, published 02.04.2026",
+    "checked": "2026-07-13",
+    "scope": "Stable physics only: atmosphere, lapse/inversion, moisture, pressure/density altitude, wind, fronts, clouds, mountains, visibility, turbulence, icing and thunderstorms; no U.S. rule, product, service, minimum or numeric thunderstorm-avoidance recommendation transfers to Spain"
+  },
+  {
+    "id": "SRC-EASA-VFR2IMC",
+    "authority": "EASA",
+    "title": "Coping with weather — VFR into IMC",
+    "url": "https://www.easa.europa.eu/en/domains/general-aviation/flying-safely/coping-weather-vfr2imc",
+    "edition": "live EASA safety-promotion page, no static issue date shown",
+    "checked": "2026-07-13",
+    "scope": "Recognition of weather deterioration, continuation risk and early escape planning; safety-promotion framing only, not operating minima, instrument privilege or a substitute for current weather"
   }
 ]

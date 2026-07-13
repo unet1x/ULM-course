@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fronts-title fronts-desc" viewBox="0 0 500 1100">
+  <title id="fronts-title">Концептуальные модели фронтов и давления</title>
+  <desc id="fronts-desc">Учебная вертикальная схема тёплого и холодного фронта, областей низкого и высокого давления. Схема не является прогнозом.</desc>
+  <defs>
+    <marker id="front-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 12 6 L 0 12 L 3 6 Z" fill="#1E3A5F"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="500" height="1100" fill="#F8FAFC"/>
+  <text x="250" y="42" text-anchor="middle" font-size="25" font-weight="700" fill="#0F172A">FRONTS + PRESSURE</text>
+  <text x="250" y="74" text-anchor="middle" font-size="21" fill="#334155">концептуальная учебная схема</text>
+
+  <g id="conceptual-front">
+    <rect x="20" y="105" width="460" height="380" rx="18" fill="#FFFFFF" stroke="#1E3A5F" stroke-width="3"/>
+    <text x="42" y="145" font-size="24" font-weight="700" fill="#0F172A">FRONT: cross-section</text>
+    <line x1="42" y1="420" x2="458" y2="420" stroke="#475569" stroke-width="4"/>
+    <path d="M 70 410 L 360 220 L 445 410 Z" fill="#FDE68A" stroke="#B45309" stroke-width="3"/>
+    <path d="M 48 410 L 140 300 L 205 410 Z" fill="#BFDBFE" stroke="#1D4ED8" stroke-width="3"/>
+    <line x1="105" y1="340" x2="176" y2="258" stroke="#1E3A5F" stroke-width="4" marker-end="url(#front-arrow)"/>
+    <line x1="275" y1="324" x2="340" y2="282" stroke="#1E3A5F" stroke-width="4" marker-end="url(#front-arrow)"/>
+    <text x="45" y="452" font-size="21" fill="#1E3A5F">cold: steeper lift</text>
+    <text x="250" y="190" font-size="21" fill="#92400E">warm: broad ascent</text>
+  </g>
+
+  <g id="conceptual-low">
+    <rect x="20" y="515" width="220" height="300" rx="18" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="130" y="560" text-anchor="middle" font-size="26" font-weight="700" fill="#1E3A5F">LOW</text>
+    <text x="130" y="602" text-anchor="middle" font-size="22" fill="#0F172A">
+      <tspan x="130" dy="0">convergence</tspan>
+      <tspan x="130" dy="34">ascent favoured</tspan>
+      <tspan x="130" dy="34">cloud possible</tspan>
+    </text>
+    <line x1="52" y1="750" x2="108" y2="690" stroke="#1E3A5F" stroke-width="4" marker-end="url(#front-arrow)"/>
+    <line x1="208" y1="750" x2="152" y2="690" stroke="#1E3A5F" stroke-width="4" marker-end="url(#front-arrow)"/>
+  </g>
+
+  <g id="conceptual-high">
+    <rect x="260" y="515" width="220" height="300" rx="18" fill="#FFF7ED" stroke="#C2410C" stroke-width="3"/>
+    <text x="370" y="560" text-anchor="middle" font-size="26" font-weight="700" fill="#7C2D12">HIGH</text>
+    <text x="370" y="602" text-anchor="middle" font-size="22" fill="#0F172A">
+      <tspan x="370" dy="0">subsidence</tspan>
+      <tspan x="370" dy="34">inversion possible</tspan>
+      <tspan x="370" dy="34">haze may persist</tspan>
+    </text>
+    <line x1="370" y1="680" x2="370" y2="750" stroke="#7C2D12" stroke-width="4" marker-end="url(#front-arrow)"/>
+  </g>
+
+  <g id="forecast-warning">
+    <rect x="20" y="850" width="460" height="220" rx="18" fill="#FEF2F2" stroke="#B91C1C" stroke-width="4"/>
+    <text x="250" y="900" text-anchor="middle" font-size="25" font-weight="700" fill="#991B1B">НЕ ПРОГНОЗ</text>
+    <text x="250" y="944" text-anchor="middle" font-size="21" fill="#0F172A">
+      <tspan x="250" dy="0">Модель объясняет связи.</tspan>
+      <tspan x="250" dy="34">Location, time, intensity:</tspan>
+      <tspan x="250" dy="34">только current products.</tspan>
+    </text>
+  </g>
+</svg>

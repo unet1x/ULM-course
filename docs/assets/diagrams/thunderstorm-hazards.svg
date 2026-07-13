@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="storm-title storm-desc" viewBox="0 0 500 1280">
+  <title id="storm-title">Грозовые опасности и логика избегания</title>
+  <desc id="storm-desc">Концептуальная грозовая ячейка с восходящим и нисходящим потоками, градом, молнией и внешней границей избегания без универсального числового расстояния.</desc>
+  <defs>
+    <marker id="storm-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 12 6 L 0 12 L 3 6 Z" fill="#1E3A5F"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="500" height="1280" fill="#F8FAFC"/>
+  <text x="250" y="45" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">THUNDERSTORM</text>
+  <text x="250" y="78" text-anchor="middle" font-size="21" fill="#334155">hazards extend beyond the core</text>
+
+  <g id="avoidance-boundary">
+    <rect x="22" y="110" width="456" height="780" rx="42" fill="#FFF7ED" stroke="#C2410C" stroke-width="5" stroke-dasharray="14 10"/>
+    <text x="250" y="150" text-anchor="middle" font-size="22" font-weight="700" fill="#9A3412">AVOID / ESCAPE PATH OUTSIDE</text>
+  </g>
+
+  <g id="storm-cloud">
+    <rect x="105" y="215" width="290" height="520" rx="105" fill="#CBD5E1" stroke="#334155" stroke-width="4"/>
+    <text x="250" y="260" text-anchor="middle" font-size="23" font-weight="700" fill="#0F172A">MATURE CELL</text>
+  </g>
+
+  <g id="updraft">
+    <line x1="185" y1="660" x2="185" y2="335" stroke="#B91C1C" stroke-width="9" marker-end="url(#storm-arrow)"/>
+    <text x="175" y="700" text-anchor="middle" font-size="22" fill="#991B1B">UPDRAFT</text>
+  </g>
+  <g id="downdraft">
+    <line x1="315" y1="335" x2="315" y2="660" stroke="#1D4ED8" stroke-width="9" marker-end="url(#storm-arrow)"/>
+    <text x="325" y="700" text-anchor="middle" font-size="22" fill="#1E40AF">DOWNDRAFT</text>
+  </g>
+  <g id="hail">
+    <rect x="215" y="370" width="70" height="75" rx="12" fill="#FFFFFF" stroke="#475569" stroke-width="3"/>
+    <text x="250" y="416" text-anchor="middle" font-size="22" font-weight="700" fill="#0F172A">HAIL</text>
+  </g>
+  <g id="lightning">
+    <path d="M 270 465 L 230 550 L 270 550 L 225 640" fill="none" stroke="#EAB308" stroke-width="9"/>
+    <text x="250" y="775" text-anchor="middle" font-size="22" font-weight="700" fill="#854D0E">LIGHTNING</text>
+  </g>
+  <g id="outflow">
+    <line x1="250" y1="735" x2="65" y2="825" stroke="#1D4ED8" stroke-width="7" marker-end="url(#storm-arrow)"/>
+    <line x1="250" y1="735" x2="435" y2="825" stroke="#1D4ED8" stroke-width="7" marker-end="url(#storm-arrow)"/>
+    <text x="250" y="860" text-anchor="middle" font-size="22" fill="#1E40AF">OUTFLOW + WIND SHEAR</text>
+  </g>
+
+  <g id="no-distance">
+    <rect x="22" y="925" width="456" height="315" rx="22" fill="#FEF2F2" stroke="#B91C1C" stroke-width="4"/>
+    <text x="250" y="975" text-anchor="middle" font-size="24" font-weight="700" fill="#991B1B">НЕТ УНИВЕРСАЛЬНОЙ ДИСТАНЦИИ</text>
+    <text x="250" y="1022" text-anchor="middle" font-size="21" fill="#0F172A">
+      <tspan x="250" dy="0">No ULM penetration option.</tspan>
+      <tspan x="250" dy="34">Use current warnings, movement,</tspan>
+      <tspan x="250" dy="34">manual/school/personal limits,</tspan>
+      <tspan x="250" dy="34">uncertainty margin + escape.</tspan>
+      <tspan x="250" dy="44" font-weight="700">Учебная схема — не live weather.</tspan>
+    </text>
+  </g>
+</svg>
