@@ -4680,7 +4680,12 @@ class GU09MigrationTests(unittest.TestCase):
         self.assertEqual(self.CURRENT_URL, current["url"])
         self.assertEqual(self.HISTORICAL_URL, historical["url"])
         self.assertNotEqual(current["url"], historical["url"])
-        self.assertRegex(current["edition"], r"GU09 Ed\.01.*29\.05\.2026")
+        self.assertRegex(
+            current["edition"],
+            r"GU09 Ed\.01.*страниц\w*.{0,20}обновлен\w* 29\.05\.2026.*"
+            r"HTTP Last-Modified 29\.05\.2026.*Desde publicación",
+        )
+        self.assertNotIn("опубликовано 29.05.2026", current["edition"])
         self.assertIn("66", current["scope"])
         self.assertIn(
             "52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2",
