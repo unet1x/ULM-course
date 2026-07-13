@@ -128,7 +128,7 @@ git commit -m "docs: audit 2026 aviation sources"
 ### Task 2: Site foundation and validation harness
 
 **Files:**
-- Create: `.gitignore`
+- Modify: `.gitignore`
 - Create: `README.md`
 - Create: `LICENSE`
 - Create: `CONTRIBUTING.md`
@@ -145,7 +145,7 @@ git commit -m "docs: audit 2026 aviation sources"
 
 - [ ] **Step 1: Write failing repository-structure tests**
 
-Добавить в `tests/test_course.py` проверки существования `README.md`, `mkdocs.yml`, `docs/index.md`, `docs/reference`, `docs/sources`, отсутствия `TBD`/`TODO`/`FIXME`, корректных локальных Markdown-ссылок и alt-текста у изображений. Использовать только `unittest`, `pathlib`, `re`, `json` и `urllib.parse` standard library.
+Добавить в `tests/test_course.py` проверки существования `README.md`, `mkdocs.yml`, `docs/index.md`, `docs/sources`, отсутствия `TBD`/`TODO`/`FIXME`, корректных локальных Markdown-ссылок и alt-текста у изображений. Каталог `docs/reference` создаётся и начинает проверяться в Task 3. Использовать только `unittest`, `pathlib`, `re`, `json` и `urllib.parse` standard library.
 
 ```python
 class CourseStructureTests(unittest.TestCase):
@@ -174,7 +174,7 @@ mkdocs==1.6.1
 mkdocs-material==9.7.6
 ```
 
-`mkdocs.yml` starts with Russian locale, Material theme, search, navigation sections that already exist, and Markdown extensions `admonition`, `attr_list`, `footnotes`, `md_in_html`, `tables`, `toc` with permalinks. `docs/index.md` states ULM-first order, educational limitations, regulatory date and quick links. `README.md` gives GitHub reading and build commands.
+`mkdocs.yml` starts with Russian locale, Material theme, search, navigation sections that already exist, and Markdown extensions `admonition`, `attr_list`, `footnotes`, `md_in_html`, `tables`, `toc` with permalinks. `docs/index.md` states ULM-first order, educational limitations, regulatory date and quick links. `README.md` gives GitHub reading and build commands. Existing `.worktrees/` remains in `.gitignore`; add `site/`, `__pycache__/`, `*.pyc` and `.venv/`.
 
 - [ ] **Step 4: Implement the validator entry point**
 
@@ -219,7 +219,7 @@ git commit -m "feat: scaffold ULM-first course site"
 
 - [ ] **Step 1: Write failing registry tests**
 
-Tests require each source record to have `id`, `authority`, `title`, `url`, `edition`, `checked`, `scope`; each `checked` value equals `2026-07-13`; each URL uses HTTPS and an official domain. Each term record requires `id`, `canonical`, `english`, `spanish`, `russian`, `definition`, `anchor`, `defined_in`.
+Tests require the new `docs/reference` directory; each source record must have `id`, `authority`, `title`, `url`, `edition`, `checked`, `scope`; each `checked` value equals `2026-07-13`; each URL uses HTTPS and an official domain. Each term record requires `id`, `canonical`, `english`, `spanish`, `russian`, `definition`, `anchor`, `defined_in`.
 
 - [ ] **Step 2: Run the registry tests and confirm failure**
 
