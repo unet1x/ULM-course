@@ -33,6 +33,11 @@ nav:
       - Воздушное пространство Испании: 01-air-law/04-airspace-spain.md
       - AIP, NOTAM и сообщения о событиях: 01-air-law/05-aip-notam-occurrence-reporting.md
       - Переход к LAPL(A) или PPL(A): 01-air-law/06-lapl-ppl-transition.md
+  - Возможности и ограничения человека:
+      - Физиология, гипоксия и CO: 02-human-performance/01-physiology.md
+      - Зрение, слух и ориентация: 02-human-performance/02-vision-hearing-orientation.md
+      - Стресс, усталость и лекарства: 02-human-performance/03-stress-fatigue-medication.md
+      - Решения, TEM и коммуникация: 02-human-performance/04-adm-tem-communication.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md

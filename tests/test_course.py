@@ -36,6 +36,16 @@ TASK4_SVGS = (
     "docs/assets/diagrams/airspace-structure.svg",
     "docs/assets/diagrams/ulm-to-lapl-ppl-roadmap.svg",
 )
+TASK5_CHAPTERS = (
+    "docs/02-human-performance/01-physiology.md",
+    "docs/02-human-performance/02-vision-hearing-orientation.md",
+    "docs/02-human-performance/03-stress-fatigue-medication.md",
+    "docs/02-human-performance/04-adm-tem-communication.md",
+)
+TASK5_SVGS = (
+    "docs/assets/diagrams/hypoxia-response.svg",
+    "docs/assets/diagrams/decision-loop.svg",
+)
 APPLICABILITY_LABELS = (
     "[ULM — ОСНОВА]",
     "[ULM — ОСОБО ВАЖНО]",
@@ -49,6 +59,7 @@ APPLICABILITY_LABELS = (
 
 OFFICIAL_SOURCE_DOMAINS = {
     "www.easa.europa.eu",
+    "ad.easa.europa.eu",
     "eur-lex.europa.eu",
     "www.boe.es",
     "www.seguridadaerea.gob.es",
@@ -71,6 +82,9 @@ REQUIRED_SOURCE_IDS = {
     "SRC-AESA-LAPL-PPL-PROCEDURES",
     "SRC-ENAIRE-AIP-ESPANA",
     "SRC-AEMET-AVIATION",
+    "SRC-EASA-HYPOXIA-2016",
+    "SRC-EASA-SIB-2020-01R1",
+    "SRC-EASA-EGAST-GA2",
 }
 REQUIRED_CANONICAL_TERMS = {
     "ULM",
@@ -123,6 +137,17 @@ REQUIRED_CANONICAL_TERMS = {
     "AMC",
     "LAPL medical certificate",
     "Class 2 medical certificate",
+    "hypoxia",
+    "hyperventilation",
+    "carbon monoxide (CO)",
+    "spatial disorientation",
+    "situational awareness",
+    "threat and error management (TEM)",
+    "aeronautical decision-making (ADM)",
+    "IMSAFE",
+    "PAVE",
+    "personal minima",
+    "external pressure",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -751,7 +776,7 @@ def _substantive(value, minimum_words=3, minimum_length=12):
 def parsed_question_blocks(text):
     headings = list(
         re.finditer(
-            r"(?m)^###\s+(Q-(?:START|LAW)-\d{3})\s+—\s+(.+?)"
+            r"(?m)^###\s+(Q-(?:START|LAW|HP)-\d{3})\s+—\s+(.+?)"
             r"(?:\s+\{#([a-z][a-z0-9-]*)\})?\s*$",
             text,
         )
@@ -943,6 +968,54 @@ def explicit_atx_heading_errors(text):
         identifiers.append(identifier)
     for duplicate in sorted({item for item in identifiers if identifiers.count(item) > 1}):
         errors.append(f"duplicate explicit anchor {duplicate}")
+    return errors
+
+
+def human_performance_safety_errors(text):
+    """Reject unsafe certainty, diagnosis/treatment and invented universal limits."""
+    errors = []
+    for sentence in _sentences(text):
+        plain = _plain_markdown(sentence)
+        unsafe_claims = (
+            r"(?i)ULM.{0,35}летает\s+низко.{0,35}гипокси\w+\s+не\s+важ",
+            r"(?i)ниже\s+10[\s\u00a0]?000\s*(?:ft|фут).{0,30}гипокси\w+\s+невозмож",
+            r"(?i)гипокси\w+.{0,25}легко\s+отличить.{0,25}гипервентиляц",
+            r"(?i)(?:угарн\w+\s+газ|CO).{0,25}(?:полезн\w+|предупреждающ\w+)\s+запах",
+            r"(?i)(?:детектор|пульсоксиметр).{0,30}гарантиру\w+\s+безопас",
+            r"(?i)ощущени\w+.{0,30}над[её]жн\w+.{0,20}(?:без|при\s+потере)\s+горизонт",
+            r"(?i)кофеин.{0,25}(?:лечит|устраняет|вылечивает)\s+усталост",
+            r"(?i)действующ\w+\s+medical.{0,25}означает.{0,20}годен\w+\s+сегодня",
+            r"(?i)(?:OTC|безрецептурн\w+).{0,20}означает.{0,20}безопас",
+            r"(?i)IMSAFE.{0,20}(?:закон|норм\w+\s+EASA)",
+            r"(?i)личн\w+\s+минимум\w+.{0,25}заменя\w+\s+(?:правов\w+|законн\w+)",
+            r"(?i)законн\w+\s+VMC.{0,25}означа\w+.{0,20}подход\w+\s+пилот",
+        )
+        if any(re.search(pattern, plain) for pattern in unsafe_claims):
+            safe_refutation = re.search(
+                r"(?i)(?:\b(?:миф|неверно|ошибка|нельзя\s+(?:считать|утверждать)|"
+                r"не\s+означает)\b|^\s*(?:считать|приписывать)\b|"
+                r"\b(?:нет\s+(?:полезного\s+)?предупреждающего\s+запаха|"
+                r"не\s+гарантирует\s+безопасность|не\s+лечит\s+усталость|"
+                r"не\s+является\s+нормой\s+EASA|не\s+заменяют\s+законные))",
+                plain,
+            )
+            if not safe_refutation:
+                errors.append(sentence)
+        universal_limits = (
+            r"(?i)(?:всегда|каждый\s+пилот).{0,30}(?:спать|сон).{0,12}\d+\s*час",
+            r"(?i)(?:после\s+алкоголя|алкогол\w+).{0,30}(?:ждать|достаточно).{0,12}\d+\s*час",
+            r"(?i)(?:люб\w+|все)\s+(?:ULM|самол[её]т).{0,30}(?:шум|вибрац|холод|низк\w+\s+инерц)",
+        )
+        if any(re.search(pattern, plain) for pattern in universal_limits):
+            universal_refutation = re.search(
+                r"(?i)(?:нельзя\s+утверждать|^\s*(?:считать|приписывать)|"
+                r"\bне\s+(?:каждый|любой|все)\b)",
+                plain,
+            )
+            if not universal_refutation:
+                errors.append(sentence)
+        if re.search(r"(?i)\b(?:диагностируйте|назначьте\s+лечение|примите\s+дозу)\b", plain):
+            errors.append(sentence)
     return errors
 
 
@@ -2316,6 +2389,218 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
         )
         row = next(line for line in audit.splitlines() if "| LTR-ULM-006 |" in line)
         self.assertRegex(row, r"(?is)обладател.*Part-FCL.*прям.*испан.*ULM")
+
+
+class Task5HumanPerformanceTests(unittest.TestCase):
+    def test_task5_files_exist_and_are_in_navigation(self):
+        nav_paths = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        for relative_path in TASK5_CHAPTERS:
+            with self.subTest(path=relative_path):
+                self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+                self.assertIn(relative_path.removeprefix("docs/"), nav_paths)
+        for relative_path in TASK5_SVGS:
+            with self.subTest(path=relative_path):
+                self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+
+    def test_task5_chapter_template_applicability_and_stable_headings(self):
+        required_anchors = {
+            "purpose", "outcomes", "applicability", "theory", "ulm-application",
+            "part-fcl-extension", "safety", "common-errors", "summary",
+            "review-questions", "sources",
+        }
+        for relative_path in TASK5_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            with self.subTest(path=relative_path):
+                self.assertEqual([], explicit_atx_heading_errors(text))
+                self.assertTrue(required_anchors.issubset(markdown_anchors(text)))
+                labels = applicability_table_labels(text)
+                for label in APPLICABILITY_LABELS:
+                    self.assertIn(label, labels)
+
+    def test_task5_required_topics_are_explicitly_anchored(self):
+        text = "\n".join(
+            (ROOT / path).read_text(encoding="utf-8") for path in TASK5_CHAPTERS
+        )
+        required = {
+            "hypoxia", "hyperventilation", "carbon-monoxide", "spatial-disorientation",
+            "fatigue", "medication", "alcohol", "stress", "imsafe",
+            "situational-awareness", "tem", "external-pressure",
+        }
+        self.assertTrue(required.issubset(markdown_anchors(text)), required - markdown_anchors(text))
+
+    def test_task5_has_twenty_four_substantive_unique_questions(self):
+        blocks = []
+        violations = []
+        for relative_path in TASK5_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            chapter = parsed_question_blocks(text)
+            self.assertEqual(6, len(chapter), relative_path)
+            blocks.extend(chapter)
+            violations.extend(f"{relative_path}: {item}" for item in question_block_errors(text))
+        self.assertEqual(24, len(blocks))
+        self.assertEqual(24, len({block["id"] for block in blocks}))
+        prompts = {
+            re.sub(r"\W+", " ", _plain_markdown(block["prompt"]).casefold()).strip()
+            for block in blocks
+        }
+        self.assertEqual(24, len(prompts))
+        self.assertEqual([], violations)
+
+    def test_task5_has_at_least_eight_labelled_decision_scenarios(self):
+        text = "\n".join(
+            (ROOT / path).read_text(encoding="utf-8") for path in TASK5_CHAPTERS
+        )
+        scenarios = re.findall(
+            r"(?m)^###\s+Сценарий\s+HP-\d{2}\s+—\s+.+?\{#scenario-hp-\d{2}\}\s*$",
+            text,
+        )
+        self.assertGreaterEqual(len(scenarios), 8)
+        self.assertRegex(text, r"(?i)go/no-go")
+        self.assertRegex(text, r"(?i)continue/divert")
+
+    def test_task5_normative_and_medical_safety_claims_are_cited(self):
+        registered = {
+            source["id"] for source in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        violations = []
+        for relative_path in TASK5_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            violations.extend(
+                f"{relative_path}: {error}" for error in normative_claim_errors(text, registered)
+            )
+            citations = set(re.findall(r"SRC-[A-Z0-9-]+", text))
+            self.assertTrue(citations.issubset(registered), citations - registered)
+            self.assertGreaterEqual(len(citations), 2, relative_path)
+        self.assertEqual([], violations)
+
+    def test_task5_refutes_myths_without_unsafe_medical_advice(self):
+        violations = []
+        text = "\n".join(
+            (ROOT / path).read_text(encoding="utf-8") for path in TASK5_CHAPTERS
+        )
+        for relative_path in TASK5_CHAPTERS:
+            chapter = (ROOT / relative_path).read_text(encoding="utf-8")
+            violations.extend(
+                f"{relative_path}: {error}" for error in human_performance_safety_errors(chapter)
+            )
+        self.assertEqual([], violations)
+        for phrase in (
+            "ULM летает низко", "ниже 10 000 ft", "легко отличить от гипервентиляции",
+            "предупреждающего запаха", "не гарантирует безопасность", "кофеин не лечит",
+            "medical не означает", "OTC не означает", "IMSAFE не является нормой EASA",
+            "личные минимумы не заменяют", "законные VMC не означают",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase.casefold(), _plain_markdown(text).casefold())
+
+    def test_human_performance_guard_rejects_unsafe_synthetic_probes(self):
+        probes = (
+            "ULM всегда летает низко, поэтому гипоксия не важна.",
+            "Ниже 10 000 ft гипоксия невозможна.",
+            "Гипоксию легко отличить от гипервентиляции.",
+            "Угарный газ имеет полезный предупреждающий запах.",
+            "Пульсоксиметр гарантирует безопасность.",
+            "Каждый пилот должен всегда спать 8 часов.",
+            "После алкоголя достаточно ждать 8 часов.",
+            "Диагностируйте гипоксию и назначьте лечение.",
+        )
+        for probe in probes:
+            with self.subTest(probe=probe):
+                self.assertTrue(human_performance_safety_errors(probe))
+        self.assertEqual(
+            [],
+            human_performance_safety_errors(
+                "Миф: ниже 10 000 ft гипоксия невозможна; индивидуальная восприимчивость различается."
+            ),
+        )
+
+    def test_task5_sources_and_terms_are_registered(self):
+        sources = {source["id"] for source in json.loads(SOURCE_REGISTRY.read_text())}
+        self.assertTrue(
+            {
+                "SRC-EASA-HYPOXIA-2016", "SRC-EASA-SIB-2020-01R1",
+                "SRC-EASA-EGAST-GA2",
+            }.issubset(sources)
+        )
+        canonical = {term["canonical"] for term in json.loads(TERMS_REGISTRY.read_text())}
+        for term in (
+            "hypoxia", "hyperventilation", "carbon monoxide (CO)",
+            "spatial disorientation", "situational awareness",
+            "threat and error management (TEM)", "aeronautical decision-making (ADM)",
+            "IMSAFE", "PAVE", "personal minima", "external pressure",
+        ):
+            self.assertIn(term, canonical)
+
+    def test_task5_svgs_are_accessible_and_use_real_geometry(self):
+        namespace = "{http://www.w3.org/2000/svg}"
+        for relative_path in TASK5_SVGS:
+            root = ET.parse(ROOT / relative_path).getroot()
+            with self.subTest(path=relative_path):
+                self.assertEqual(f"{namespace}svg", root.tag)
+                self.assertEqual("img", root.attrib.get("role"))
+                self.assertTrue(root.attrib.get("aria-labelledby"))
+                self.assertIsNotNone(root.find(f"{namespace}title"))
+                self.assertIsNotNone(root.find(f"{namespace}desc"))
+                self.assertFalse(list(root.iter(f"{namespace}image")))
+                viewbox = tuple(float(value) for value in root.attrib["viewBox"].split())
+                self.assertEqual(4, len(viewbox))
+                vx, vy, vw, vh = viewbox
+                for element in root.iter():
+                    bbox = element_bbox(element)
+                    if bbox is None:
+                        continue
+                    x, y, width, height = bbox
+                    self.assertGreaterEqual(x, vx)
+                    self.assertGreaterEqual(y, vy)
+                    self.assertLessEqual(x + width, vx + vw)
+                    self.assertLessEqual(y + height, vy + vh)
+                for group in root.iter(f"{namespace}g"):
+                    panel = next(
+                        (child for child in group if child.tag == f"{namespace}rect"),
+                        None,
+                    )
+                    if panel is None:
+                        continue
+                    panel_box = element_bbox(panel)
+                    px, py, pw, ph = panel_box
+                    for label in (
+                        child for child in group if child.tag == f"{namespace}text"
+                    ):
+                        label_box = element_bbox(label)
+                        if label_box is None:
+                            continue
+                        tx, ty, tw, th = label_box
+                        self.assertGreaterEqual(tx, px, group.attrib.get("id"))
+                        self.assertGreaterEqual(ty, py, group.attrib.get("id"))
+                        self.assertLessEqual(tx + tw, px + pw, group.attrib.get("id"))
+                        self.assertLessEqual(ty + th, py + ph, group.attrib.get("id"))
+
+    def test_hypoxia_diagram_separates_hypoxia_and_co_and_disclaims_treatment(self):
+        root = ET.parse(ROOT / TASK5_SVGS[0]).getroot()
+        by_id = {element.attrib["id"]: element for element in root.iter() if "id" in element.attrib}
+        for identifier in (
+            "hypoxia-path", "co-path", "aviate-control", "oxygen-checklist",
+            "descend-land", "medical-maintenance", "safety-disclaimer",
+        ):
+            self.assertIn(identifier, by_id)
+        words = " ".join(root.itertext()).casefold()
+        self.assertIn("не медицинское лечение", words)
+        self.assertIn("не чек-лист воздушного судна", words)
+        self.assertFalse(bboxes_overlap(element_bbox(by_id["hypoxia-path"]), element_bbox(by_id["co-path"])))
+
+    def test_decision_loop_has_complete_loop_and_preflight_inputs(self):
+        root = ET.parse(ROOT / TASK5_SVGS[1]).getroot()
+        ids = {element.attrib["id"] for element in root.iter() if "id" in element.attrib}
+        self.assertTrue(
+            {
+                "facts-threats", "understand-risk", "options-escape", "decision",
+                "action", "monitor-repeat", "preflight-inputs", "tem-boundary",
+            }.issubset(ids)
+        )
+        words = " ".join(root.itertext())
+        self.assertIn("IMSAFE", words)
+        self.assertIn("личные минимумы", words.casefold())
+        self.assertIn("TEM", words)
 
 
 if __name__ == "__main__":

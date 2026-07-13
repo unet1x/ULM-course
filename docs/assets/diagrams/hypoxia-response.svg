@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="hypoxia-title hypoxia-desc">
+  <title id="hypoxia-title">Безопасная эксплуатационная реакция при неспецифичных физиологических признаках</title>
+  <desc id="hypoxia-desc">Оригинальная концептуальная схема с отдельными путями гипоксии и воздействия угарного газа: сначала управление, затем одобренное оборудование и чек-лист, прекращение воздействия, посадка, медицинская и техническая оценка.</desc>
+  <rect x="0" y="0" width="1200" height="760" fill="#f7fafc"/>
+  <text x="600" y="42" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#102a43">Неспецифичные признаки: действуйте, не ставьте диагноз</text>
+
+  <g id="hypoxia-path">
+    <rect x="30" y="75" width="540" height="180" rx="18" fill="#e6f6ff" stroke="#0b5c8e" stroke-width="4"/>
+    <text x="55" y="112" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#063b5c">Путь A — гипоксия / гипервентиляция</text>
+    <text x="55" y="150" font-family="Arial, sans-serif" font-size="19" fill="#102a43">
+      <tspan x="55" y="150">Головная боль, сонливость, изменение поведения,</tspan>
+      <tspan x="55" y="181">учащённое дыхание, ухудшение зрения и суждения.</tspan>
+      <tspan x="55" y="220" font-weight="700">Признаки перекрываются и различаются у людей.</tspan>
+    </text>
+  </g>
+
+  <g id="co-path">
+    <rect x="630" y="75" width="540" height="180" rx="18" fill="#fff4e6" stroke="#9c4221" stroke-width="4"/>
+    <text x="655" y="112" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#6b2a16">Путь B — подозрение на CO</text>
+    <text x="655" y="150" font-family="Arial, sans-serif" font-size="18" fill="#102a43">
+      <tspan x="655" y="150">Сигнал детектора, головная боль, тошнота,</tspan>
+      <tspan x="655" y="181">сонливость или спутанность. CO без цвета и запаха.</tspan>
+      <tspan x="655" y="220" font-weight="700">Не ждите подтверждения вторым признаком.</tspan>
+    </text>
+  </g>
+
+  <line x1="300" y1="255" x2="300" y2="295" stroke="#334e68" stroke-width="5"/>
+  <line x1="900" y1="255" x2="900" y2="295" stroke="#334e68" stroke-width="5"/>
+  <line x1="300" y1="295" x2="900" y2="295" stroke="#334e68" stroke-width="5"/>
+  <line x1="600" y1="295" x2="600" y2="325" stroke="#334e68" stroke-width="5"/>
+
+  <g id="aviate-control">
+    <rect x="315" y="325" width="570" height="72" rx="14" fill="#102a43"/>
+    <text x="600" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#ffffff">1. AVIATE — управление и безопасная траектория</text>
+  </g>
+  <line x1="600" y1="397" x2="600" y2="425" stroke="#334e68" stroke-width="5"/>
+
+  <g id="oxygen-checklist">
+    <rect x="245" y="425" width="710" height="86" rx="14" fill="#d9e2ec" stroke="#334e68" stroke-width="3"/>
+    <text x="600" y="459" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#102a43">2. Одобренные кислород / оборудование / чек-лист</text>
+    <text x="600" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#243b53">Только если установлены, применимы и предусмотрены для этого борта</text>
+  </g>
+  <line x1="600" y1="511" x2="600" y2="538" stroke="#334e68" stroke-width="5"/>
+
+  <g id="descend-land">
+    <rect x="180" y="538" width="840" height="84" rx="14" fill="#c6f6d5" stroke="#276749" stroke-width="3"/>
+    <text x="600" y="573" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#174d34">3. Прекратить воздействие: снижение / прекращение маршрута / посадка</text>
+    <text x="600" y="604" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#174d34">Для CO вентиляция и обогрев — только по применимому чек-листу</text>
+  </g>
+  <line x1="600" y1="622" x2="600" y2="645" stroke="#334e68" stroke-width="5"/>
+
+  <g id="medical-maintenance">
+    <rect x="180" y="645" width="840" height="62" rx="14" fill="#fff5f5" stroke="#9b2c2c" stroke-width="3"/>
+    <text x="600" y="684" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#742a2a">4. Медицинская оценка; при CO — также проверка воздушного судна</text>
+  </g>
+
+  <g id="safety-disclaimer">
+    <rect x="75" y="718" width="1050" height="34" rx="8" fill="#742a2a"/>
+    <text x="600" y="741" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#ffffff">КОНЦЕПТУАЛЬНО: не медицинское лечение и не чек-лист воздушного судна</text>
+  </g>
+</svg>

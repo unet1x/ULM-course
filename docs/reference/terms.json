@@ -548,5 +548,126 @@
     "definition": "Class 2 medical certificate — медицинское свидетельство по Part-MED, требуемое как минимум для реализации полномочий PPL и также охватывающее медицинские полномочия LAPL, пока документ действителен и соблюдаются его ограничения.",
     "anchor": "term-class-2-medical-certificate",
     "defined_in": "docs/reference/glossary.md#term-class-2-medical-certificate"
+  },
+  {
+    "id": "term-hypoxia",
+    "canonical": "hypoxia",
+    "english": "hypoxia",
+    "spanish": "hipoxia",
+    "russian": "гипоксия — недостаточное снабжение тканей кислородом",
+    "abbreviation": null,
+    "definition": "Hypoxia — состояние недостаточного снабжения тканей кислородом, способное незаметно ухудшать зрение, суждение и координацию. Признаки неспецифичны и индивидуальны; учебное распознавание не является диагнозом.",
+    "anchor": "term-hypoxia",
+    "defined_in": "docs/reference/glossary.md#term-hypoxia"
+  },
+  {
+    "id": "term-hyperventilation",
+    "canonical": "hyperventilation",
+    "english": "hyperventilation",
+    "spanish": "hiperventilación",
+    "russian": "гипервентиляция — вентиляция лёгких сверх метаболической потребности",
+    "abbreviation": null,
+    "definition": "Hyperventilation — чрезмерная относительно потребности вентиляция лёгких, снижающая содержание углекислого газа в крови. Её признаки могут перекрываться с гипоксией, поэтому пилот не ставит себе диагноз по ощущениям.",
+    "anchor": "term-hyperventilation",
+    "defined_in": "docs/reference/glossary.md#term-hyperventilation"
+  },
+  {
+    "id": "term-carbon-monoxide-co",
+    "canonical": "carbon monoxide (CO)",
+    "english": "carbon monoxide (CO)",
+    "spanish": "monóxido de carbono (CO)",
+    "russian": "угарный газ (CO)",
+    "abbreviation": "CO",
+    "definition": "Carbon monoxide (CO) — бесцветный газ без запаха, образующийся при неполном сгорании и мешающий переносу кислорода кровью. Симптомы неспецифичны; сигнал детектора или сочетание признаков требует эксплуатационной реакции по применимому чек-листу, а не самостоятельной диагностики.",
+    "anchor": "term-carbon-monoxide-co",
+    "defined_in": "docs/reference/glossary.md#term-carbon-monoxide-co"
+  },
+  {
+    "id": "term-spatial-disorientation",
+    "canonical": "spatial disorientation",
+    "english": "spatial disorientation",
+    "spanish": "desorientación espacial",
+    "russian": "пространственная дезориентация",
+    "abbreviation": null,
+    "definition": "Spatial disorientation — ошибочное восприятие положения, движения или ориентации воздушного судна относительно Земли. Визуальная, вестибулярная и проприоцептивная информация может конфликтовать; ощущения без надёжных внешних ориентиров не являются достоверным индикатором крена или тангажа.",
+    "anchor": "term-spatial-disorientation",
+    "defined_in": "docs/reference/glossary.md#term-spatial-disorientation"
+  },
+  {
+    "id": "term-situational-awareness",
+    "canonical": "situational awareness",
+    "english": "situational awareness",
+    "spanish": "conciencia situacional",
+    "russian": "ситуационная осведомлённость",
+    "abbreviation": "SA",
+    "definition": "Situational awareness — восприятие значимых элементов обстановки, понимание их смысла и прогноз ближайшего развития. Это изменяемое состояние внимания, а не постоянное качество пилота.",
+    "anchor": "term-situational-awareness",
+    "defined_in": "docs/reference/glossary.md#term-situational-awareness"
+  },
+  {
+    "id": "term-threat-and-error-management-tem",
+    "canonical": "threat and error management (TEM)",
+    "english": "threat and error management (TEM)",
+    "spanish": "gestión de amenazas y errores (TEM)",
+    "russian": "управление угрозами и ошибками",
+    "abbreviation": "TEM",
+    "definition": "Threat and error management (TEM) — модель, в которой пилот заранее выявляет угрозы, перехватывает ошибки и не допускает развития нежелательного состояния воздушного судна. TEM организует мышление, но не заменяет нормы, чек-листы или обучение.",
+    "anchor": "term-threat-and-error-management-tem",
+    "defined_in": "docs/reference/glossary.md#term-threat-and-error-management-tem"
+  },
+  {
+    "id": "term-aeronautical-decision-making-adm",
+    "canonical": "aeronautical decision-making (ADM)",
+    "english": "aeronautical decision-making (ADM)",
+    "spanish": "toma de decisiones aeronáuticas (ADM)",
+    "russian": "принятие авиационных решений",
+    "abbreviation": "ADM",
+    "definition": "Aeronautical decision-making (ADM) — систематический процесс выбора безопасного действия на основе фактов, риска, вариантов, пути отхода и контроля результата. Это учебная модель, а не разрешение принять риск выше применимых ограничений.",
+    "anchor": "term-aeronautical-decision-making-adm",
+    "defined_in": "docs/reference/glossary.md#term-aeronautical-decision-making-adm"
+  },
+  {
+    "id": "term-imsafe",
+    "canonical": "IMSAFE",
+    "english": "Illness, Medication, Stress, Alcohol, Fatigue, Emotion/Eating self-check",
+    "spanish": "lista personal Enfermedad, Medicación, Estrés, Alcohol, Fatiga, Emoción/Alimentación",
+    "russian": "мнемоническая самопроверка состояния пилота",
+    "abbreviation": "IMSAFE",
+    "definition": "IMSAFE — американская учебная мнемоника личной предполётной самопроверки: illness, medication, stress, alcohol, fatigue, emotion/eating. Она полезна как консервативный фильтр, но не является нормой EASA, медицинским диагнозом или разрешением лететь.",
+    "anchor": "term-imsafe",
+    "defined_in": "docs/reference/glossary.md#term-imsafe"
+  },
+  {
+    "id": "term-pave",
+    "canonical": "PAVE",
+    "english": "Pilot, Aircraft, enVironment, External pressures risk checklist",
+    "spanish": "lista Piloto, Aeronave, Entorno y Presiones externas",
+    "russian": "мнемоническая проверка риска: пилот, самолёт, среда, внешнее давление",
+    "abbreviation": "PAVE",
+    "definition": "PAVE — американская учебная мнемоника группировки угроз по пилоту, воздушному судну, среде и внешнему давлению. Она не является нормой EASA и применяется только внутри более широкой проверки законодательства, документации и текущей обстановки.",
+    "anchor": "term-pave",
+    "defined_in": "docs/reference/glossary.md#term-pave"
+  },
+  {
+    "id": "term-personal-minima",
+    "canonical": "personal minima",
+    "english": "personal minima",
+    "spanish": "mínimos personales",
+    "russian": "личные эксплуатационные минимумы пилота",
+    "abbreviation": null,
+    "definition": "Personal minima — заранее установленные пилотом более строгие границы для собственного решения go/no-go или continue/divert. Они могут быть только консервативнее применимого права, AFM/POH, ограничений инструктора, школы и аэродрома и никогда их не заменяют.",
+    "anchor": "term-personal-minima",
+    "defined_in": "docs/reference/glossary.md#term-personal-minima"
+  },
+  {
+    "id": "term-external-pressure",
+    "canonical": "external pressure",
+    "english": "external pressure",
+    "spanish": "presión externa",
+    "russian": "внешнее давление на решение пилота",
+    "abbreviation": null,
+    "definition": "External pressure — неавиационная мотивация завершить вылет или продолжить полёт: встреча, пассажир, расходы, репутация или желание вернуться домой. Она повышает риск предвзятого продолжения и должна быть названа до принятия решения.",
+    "anchor": "term-external-pressure",
+    "defined_in": "docs/reference/glossary.md#term-external-pressure"
   }
 ]

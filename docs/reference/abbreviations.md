@@ -37,3 +37,9 @@
 | SEP | [SEP](glossary.md#term-sep) | single-engine piston aeroplane class rating |
 | TMG | [TMG](glossary.md#term-tmg) | туристический мотопланёр |
 | AMC | [AMC](glossary.md#term-amc) | приемлемые способы подтверждения соответствия EASA |
+| CO | [carbon monoxide (CO)](glossary.md#term-carbon-monoxide-co) | угарный газ |
+| SA | [situational awareness](glossary.md#term-situational-awareness) | ситуационная осведомлённость |
+| TEM | [threat and error management (TEM)](glossary.md#term-threat-and-error-management-tem) | управление угрозами и ошибками |
+| ADM | [aeronautical decision-making (ADM)](glossary.md#term-aeronautical-decision-making-adm) | принятие авиационных решений |
+| IMSAFE | [IMSAFE](glossary.md#term-imsafe) | личная предполётная самопроверка состояния |
+| PAVE | [PAVE](glossary.md#term-pave) | группировка риска: pilot, aircraft, environment, external pressures |

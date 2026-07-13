@@ -142,5 +142,32 @@
     "edition": "динамический авиационный сервис, проверен 13.07.2026",
     "checked": "2026-07-13",
     "scope": "Официальный доступ к наблюдениям, прогнозам, предупреждениям и авиационным продуктам; архивные примеры и дата реестра не являются текущей погодой для вылета"
+  },
+  {
+    "id": "SRC-EASA-HYPOXIA-2016",
+    "authority": "EASA",
+    "title": "General Aviation Safety Briefing: Preventing hypoxia",
+    "url": "https://www.easa.europa.eu/en/document-library/general-publications/general-aviation-safety-briefing-preventing-hypoxia",
+    "edition": "General Aviation Leaflet, publication date 01.08.2016",
+    "checked": "2026-07-13",
+    "scope": "Неспецифичные и индивидуальные признаки гипоксии, ухудшение зрения и суждения, предполётная оценка и эксплуатационная реакция; safety-promotion leaflet, не медицинская диагностика и не самостоятельная норма права"
+  },
+  {
+    "id": "SRC-EASA-SIB-2020-01R1",
+    "authority": "EASA",
+    "title": "Safety Information Bulletin 2020-01R1 — Carbon Monoxide Risk in Small Aeroplanes and Helicopters",
+    "url": "https://ad.easa.europa.eu/ad/2020-01R1/print",
+    "edition": "SIB 2020-01R1, issued 19.10.2021",
+    "checked": "2026-07-13",
+    "scope": "CO как бесцветный газ без запаха, пути проникновения и рекомендации по обнаружению, реакции и технической проверке для применимых малых самолётов и вертолётов; информационные рекомендации не обязательны и применимость к конкретному ULM проверяется отдельно"
+  },
+  {
+    "id": "SRC-EASA-EGAST-GA2",
+    "authority": "EASA",
+    "title": "EGAST Leaflet GA 2 Decision Making",
+    "url": "https://www.easa.europa.eu/en/document-library/general-publications/egast-leaflet-ga-2-decision-making",
+    "edition": "EGAST GA 2, publication date 01.04.2011",
+    "checked": "2026-07-13",
+    "scope": "Safety-promotion материал о go/no-go, ситуационной осведомлённости, раннем распознавании необходимости решения и влиянии давления; не юридическая норма и не замена текущим ограничениям"
   }
 ]
