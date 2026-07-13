@@ -657,53 +657,54 @@ def _tight_negation_before(value, position):
 
 
 def automatic_recognition_claims(text):
-    patterns = (
-        re.compile(
-            r"(?i)часы\s+ULM[^.!?\n]{0,45}?"
-            r"(?P<verb>полностью\s+засчитываются|засчитываются\s+полностью)"
-            r"[^.!?\n]{0,45}?PPL"
-        ),
-        re.compile(
-            r"(?i)ULM[^.!?\n]{0,30}?автоматически[^.!?\n]{0,20}?"
-            r"(?P<verb>превращается|становится|призна[её]тся)"
-            r"(?:\s+как)?[^.!?\n]{0,30}?(?:LAPL|PPL)"
-        ),
-        re.compile(
-            r"(?i)ULM[^.!?\n]{0,20}?(?P<verb>конвертируется)"
-            r"[^.!?\n]{0,30}?(?:LAPL|PPL)\s+без\s+(?:оценки|проверки)"
-        ),
-    )
     errors = []
-    for sentence in _sentences(text):
-        for pattern in patterns:
-            match = pattern.search(sentence)
-            if match and not _tight_negation_before(sentence, match.start("verb")):
-                errors.append(sentence)
-                break
+    learner_text = re.sub(
+        r"(?ms)^###\s+Красные флаги\b.*?(?=^##\s+|\Z)", "", text
+    )
+    for sentence in _sentences(learner_text):
+        entity = re.search(r"(?i)\b(?:ULM|MAF)\b", sentence)
+        target = re.search(r"(?i)\b(?:LAPL|PPL|Part-FCL)\b", sentence)
+        marker = re.search(
+            r"(?i)(?:автоматическ\w*|полностью|"
+            r"без\s+(?:оценк\w*|обучен\w*|экзамен\w*|проверк\w*))",
+            sentence,
+        )
+        predicate = re.search(
+            r"(?i)\b(?:засчитыва\w*|призна\w*|конверт\w*|конверси\w*|"
+            r"станов\w*|превраща\w*)\b",
+            sentence,
+        )
+        if not all((entity, target, marker, predicate)):
+            continue
+        prefix = sentence[max(0, predicate.start() - 48) : predicate.start()]
+        nominal_conversion = re.match(
+            r"(?i)конверси", predicate.group(0)
+        ) is not None
+        explicitly_negated = _tight_negation_before(
+            sentence, predicate.start()
+        ) or (
+            nominal_conversion
+            and re.search(
+                r"(?i)\b(?:нет|без)(?:\s+[а-яa-z-]+){0,2}\s+$", prefix
+            )
+        )
+        if not explicitly_negated:
+            errors.append(sentence)
     return errors
 
 
 FOREIGN_COUNTRY = re.compile(
     r"(?i)\b(?:France|Portugal|Italy|Germany|Austria|Switzerland|Belgium|"
-    r"Netherlands|Ireland|Poland|Czechia|Croatia|Greece|France|Italie|Italia|"
-    r"Portugal|Франци[яию]|Португали[яию]|Итали[яию]|Германи[яию]|Австри[яию]|"
-    r"Швейцари[яию]|Бельги[яию]|Нидерланд(?:ы|ах)|Ирланди[яию]|Польш[аеиу]|"
-    r"Чехи[яию]|Хорвати[яию]|Греци[яию])\b"
+    r"Netherlands|Ireland|Poland|Czechia|Croatia|Greece|Morocco|Andorra|"
+    r"Франц\w*|Португал\w*|Итал\w*|Герман\w*|Австр\w*|Швейцар\w*|"
+    r"Бельг\w*|Нидерланд\w*|Ирланд\w*|Польш\w*|Чех\w*|Хорват\w*|"
+    r"Грец\w*|Марокк\w*|Андорр\w*)\b"
 )
 FOREIGN_OPERATION = re.compile(
     r"(?i)(?:процедур|правил|разрешен|разрешён|permit|permission|authori[sz]ation|"
     r"маршрут|пересеч|вл[её]т|пол[её]т|airspace|AIP|NOTAM|радио|план\s+пол[её]та)"
 )
 
-DESTINATION_NAME = (
-    r"(?!(?:Испани(?:я|и|ю|е|ей)|Spain)\b)"
-    r"[A-ZА-ЯЁ][A-Za-zА-Яа-яЁё-]+"
-)
-NAMED_FOREIGN_DESTINATION = re.compile(
-    rf"(?:пол[её]т\w*|вылет\w*|маршрут\w*|вл[её]т\w*)\s+"
-    rf"(?:в|во|через|до)\s+{DESTINATION_NAME}|"
-    rf"границ\w+\s+(?:с\s+)?{DESTINATION_NAME}"
-)
 GENERIC_FOREIGN_SCOPE = re.compile(
     r"(?i)(?:вне\s+(?:Испани\w*|испанск\w+\s+воздушн\w+\s+пространств\w*)|"
     r"иностранн\w+|друг\w+\s+государств\w+|международн\w+|"
@@ -724,11 +725,12 @@ def cross_border_procedure_errors(text):
     for sentence in _sentences(learner_text):
         if SPAIN_ONLY_DISCLAIMER.search(sentence):
             continue
-        destination = FOREIGN_COUNTRY.search(sentence) or NAMED_FOREIGN_DESTINATION.search(
-            sentence
-        )
+        destination = FOREIGN_COUNTRY.search(sentence)
+        from_spain = re.search(r"(?i)\bиз\s+Испани\w*\b", sentence)
         if FOREIGN_OPERATION.search(sentence) and (
-            destination or GENERIC_FOREIGN_SCOPE.search(sentence)
+            destination
+            or GENERIC_FOREIGN_SCOPE.search(sentence)
+            or (from_spain and destination)
         ):
             errors.append(sentence)
     return errors
@@ -775,6 +777,8 @@ ABSURD_DISTRACTOR = re.compile(
     r"(?i)(?:купить.{0,20}книж|рекламн(?:ый|ая|ое)\s+сайт|"
     r"автор\s+этого\s+курса|количеств[оа]\s+букв|цвет\s+приложения|"
     r"если\s+нет\s+ветра|подбросить\s+монет|выбрать\s+наугад|"
+    r"(?:брос|кинут|подброс|тянут|вытян)\w*.{0,30}(?:кубик|кост\w*|монет|жреб)|"
+    r"(?:наугад|случайн\w*|по\s+жребию)|"
     r"цвет.{0,24}назван.{0,24}(?:размер\s+шрифт|шрифт))"
 )
 
@@ -791,8 +795,9 @@ def explanation_is_tautological(value):
         return True
     filler = re.compile(
         r"(?i)^(?:этот|эта|это|ответ|вариант|правильн\w*|верн\w*|"
-        r"невер\w*|потому|явля\w*|поэтому|услови\w*|вопрос\w*|"
-        r"подход\w*|выбран\w*)$"
+        r"невер\w*|потому|поскольку|явля\w*|поэтому|услови\w*|вопрос\w*|"
+        r"подход\w*|выб\w*|след\w*|именно|лучш\w*|хуж\w*|остальн\w*|"
+        r"отверг\w*)$"
     )
     concepts = {
         token.casefold()
@@ -800,6 +805,51 @@ def explanation_is_tautological(value):
         if len(token) >= 4 and not filler.match(token)
     }
     return len(concepts) < 2
+
+
+EXPLANATION_SOURCE_OR_RULE = re.compile(
+    r"(?i)(?:SRC-[A-Z0-9-]+|\b(?:AESA|EASA|ICAO|AIP|NOTAM|AIS|AIRAC|SERA|VMC)\b|"
+    r"\b(?:FCL|SERA|MED)\.[A-Z0-9.()]+|\bRD\s*\d+|"
+    r"официальн\w*\s+(?:источник|разъяснен)\w*|\bнорм\w*\b)"
+)
+EXPLANATION_DOMAIN_CONCEPT = re.compile(
+    r"(?i)\b(?:правов\w*|контекст\w*|универсальн\w*|предел\w*|"
+    r"знан\w*|модел\w*|математ\w*|максим\w*|индивидуальн\w*|"
+    r"решен\w*|зач[её]т\w*|последств\w*|сходств\w*|перекрыт\w*|"
+    r"международн\w*|национальн\w*|администр\w*|исключен\w*|"
+    r"правил\w*|документ\w*|статус\w*|публикац\w*|компетенц\w*|"
+    r"юридическ\w*|актуальн\w*|обязательн\w*|услов\w*|трениров\w*|"
+    r"инструктор\w*|требован\w*|полномоч\w*|неконтрол\w*|"
+    r"нерегулир\w*|форм\w*|высот\w*|актив\w*|маршрут\w*|"
+    r"механизм\w*|восстанов\w*|нал[её]т\w*|обучен\w*|"
+    r"срок\w*|дат\w*|полн\w*)\b"
+)
+
+
+def _question_concepts(value):
+    stop = re.compile(
+        r"(?i)^(?:како\w*|котор\w*|след\w*|нуж\w*|мож\w*|эт\w*|"
+        r"ответ\w*|вариант\w*|правильн\w*|невер\w*|почему|потому|"
+        r"поскольку|именно|подход\w*|выб\w*|лучш\w*|хуж\w*|"
+        r"остальн\w*|перед|после|только|один|одна|одно|одни|"
+        r"для|при|или|без|всег\w*|тако\w*)$"
+    )
+    concepts = set()
+    for token in re.findall(r"[A-Za-zА-Яа-яЁё0-9.-]+", _plain_markdown(value)):
+        folded = token.casefold().strip(".-")
+        if len(folded) < 4 or stop.match(folded):
+            continue
+        concepts.add(folded if any(character.isdigit() for character in folded) else folded[:4])
+    return concepts
+
+
+def explanation_is_grounded(explanation, context):
+    plain = _plain_markdown(explanation)
+    if EXPLANATION_SOURCE_OR_RULE.search(plain):
+        return True
+    if _question_concepts(explanation) & _question_concepts(context):
+        return True
+    return bool(EXPLANATION_DOMAIN_CONCEPT.search(plain))
 
 
 def question_block_errors(text):
@@ -846,10 +896,33 @@ def question_block_errors(text):
             errors.append(f"{identifier}: explanation is not substantive")
         elif explanation_is_tautological(why.group(1)):
             errors.append(f"{identifier}: explanation is tautological")
+        if why is not None and answer is not None:
+            option_by_letter = dict(options)
+            correct_context = f"{prompt} {option_by_letter.get(answer.group(1), '')}"
+            if not explanation_is_grounded(why.group(1), correct_context):
+                errors.append(f"{identifier}: explanation lacks question-specific concepts")
         if distractor is None or not _substantive(distractor.group(1), 5, 28):
             errors.append(f"{identifier}: distractor explanation is not substantive")
         elif explanation_is_tautological(distractor.group(1)):
             errors.append(f"{identifier}: distractor explanation is tautological")
+        if distractor is not None:
+            option_by_letter = dict(options)
+            distractor_letter = re.match(
+                r"\s*([A-D])\b", _plain_markdown(distractor.group(1))
+            )
+            if distractor_letter:
+                distractor_options = option_by_letter.get(distractor_letter.group(1), "")
+            elif answer is not None:
+                distractor_options = " ".join(
+                    value for letter, value in options if letter != answer.group(1)
+                )
+            else:
+                distractor_options = " ".join(value for _, value in options)
+            distractor_context = f"{prompt} {distractor_options}"
+            if not explanation_is_grounded(distractor.group(1), distractor_context):
+                errors.append(
+                    f"{identifier}: distractor explanation lacks question-specific concepts"
+                )
     return errors
 
 
@@ -1712,10 +1785,14 @@ class Task4ValidatorRegressionTests(unittest.TestCase):
             "ULM автоматически превращается в LAPL.",
             "ULM автоматически становится PPL.",
             "ULM автоматически признаётся как LAPL.",
+            "ULM признаётся автоматически как LAPL.",
             "ULM конвертируется в PPL без оценки.",
             "ULM конвертируется в LAPL без оценки.",
+            "ULM без оценки конвертируется в LAPL.",
+            "MAF без обучения конвертируется в Part-FCL.",
             "Это не относится к погоде. Часы ULM полностью засчитываются при выдаче PPL.",
             "Это не очевидно: ULM автоматически становится PPL.",
+            "Это не очевидно: ULM признаётся автоматически как LAPL.",
         )
         for value in positives:
             with self.subTest(value=value):
@@ -1725,8 +1802,12 @@ class Task4ValidatorRegressionTests(unittest.TestCase):
             "ULM автоматически не превращается в LAPL.",
             "ULM автоматически не становится PPL.",
             "ULM автоматически не признаётся как LAPL.",
+            "ULM не признаётся автоматически как LAPL.",
             "ULM не конвертируется в PPL без оценки.",
             "ULM не конвертируется в LAPL без оценки.",
+            "ULM без оценки не конвертируется в LAPL.",
+            "ULM не является автоматической конверсией в LAPL.",
+            "Нет автоматической конверсии ULM в LAPL.",
         )
         for value in allowed:
             with self.subTest(value=value):
@@ -1748,6 +1829,18 @@ class Task4ValidatorRegressionTests(unittest.TestCase):
                 "Курс рассматривает ULM только в Испании и не обучает иностранным процедурам."
             ),
         )
+        self.assertEqual(
+            [],
+            cross_border_procedure_errors(
+                "Для полёта в Мадрид запросите диспетчерское разрешение."
+            ),
+        )
+        self.assertTrue(
+            cross_border_procedure_errors(
+                "Перед полётом из Испании по опубликованному маршруту в Марокко "
+                "запросите местное разрешение."
+            )
+        )
 
     def test_question_parser_rejects_whimsical_and_tautological_content(self):
         invalid = """### Q-LAW-903 — Как определить применимые границы зоны перед вылетом? {#q-law-903}
@@ -1768,6 +1861,26 @@ D. Сверить только координату геометрическог
         self.assertIn("option C is an absurd distractor", errors)
         self.assertIn("explanation is tautological", errors)
         self.assertIn("distractor explanation is tautological", errors)
+
+    def test_question_explanations_must_use_question_specific_concepts(self):
+        invalid = """### Q-LAW-904 — Как проверить активность ограниченной зоны перед вылетом? {#q-law-904}
+
+A. Бросить игральный кубик перед выбором маршрута.<br>
+B. Проверить текущие AIP и NOTAM для времени маршрута.<br>
+C. Спросить пассажира после запуска двигателя.<br>
+D. Использовать старый снимок экрана без даты.
+
+**Правильный ответ:** B.
+
+**Почему:** Следует выбрать этот ответ, поскольку именно он подходит лучше остальных.
+
+**Почему главный отвлекающий вариант неверен:** Следует отвергнуть этот вариант, поскольку он хуже остальных.
+"""
+        errors = "\n".join(question_block_errors(invalid))
+        self.assertIn("option A is an absurd distractor", errors)
+        self.assertIn("explanation is tautological", errors)
+        self.assertIn("explanation lacks question-specific concepts", errors)
+        self.assertIn("distractor explanation lacks question-specific concepts", errors)
 
     def test_svg_geometry_ignores_stale_hand_authored_metadata(self):
         root = ET.fromstring(
