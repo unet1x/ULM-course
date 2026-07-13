@@ -269,8 +269,8 @@
     "english": "ATS flight plan",
     "spanish": "plan de vuelo ATS",
     "russian": "план полёта, переданный органам обслуживания воздушного движения",
-    "abbreviation": null,
-    "definition": "Flight plan в данном контексте — установленный набор сведений о планируемом полёте, передаваемый ATS. Он отличается от личного navigation log и operational planning package и не заменяет проверку AIP, NOTAM, weather, fuel и aircraft limitations.",
+    "abbreviation": "FPL",
+    "definition": "План полёта в данном контексте — установленный набор сведений о планируемом полёте, передаваемый обслуживанию воздушного движения. Он отличается от личного навигационного лога и полного эксплуатационного планирования и не заменяет проверку аэронавигационных публикаций, погоды, топлива и ограничений воздушного судна.",
     "anchor": "term-flight-plan",
     "defined_in": "docs/reference/glossary.md#term-flight-plan"
   },
@@ -1224,10 +1224,10 @@
     "id": "term-true-course-tc",
     "canonical": "true course (TC)",
     "english": "true course (TC)",
-    "spanish": "ruta verdadera",
+    "spanish": "derrota verdadera",
     "russian": "истинная заданная линия пути",
     "abbreviation": "TC",
-    "definition": "Истинная заданная линия пути — направление планируемой линии по поверхности Земли относительно истинного севера; до учёта ветра это не heading.",
+    "definition": "Истинная заданная линия пути — направление планируемой линии движения над Землёй относительно истинного севера; до учёта ветра это не курс носа.",
     "anchor": "term-true-course-tc",
     "defined_in": "docs/reference/glossary.md#term-true-course-tc"
   },
@@ -1235,12 +1235,56 @@
     "id": "term-magnetic-course-mc",
     "canonical": "magnetic course (MC)",
     "english": "magnetic course (MC)",
-    "spanish": "ruta magnética",
+    "spanish": "derrota magnética",
     "russian": "магнитная заданная линия пути",
     "abbreviation": "MC",
-    "definition": "Магнитная заданная линия пути — истинная заданная линия пути, преобразованная к магнитному северу с учётом знака magnetic variation.",
+    "definition": "Магнитная заданная линия пути — истинная заданная линия пути, преобразованная к магнитному северу с учётом знака магнитного склонения.",
     "anchor": "term-magnetic-course-mc",
     "defined_in": "docs/reference/glossary.md#term-magnetic-course-mc"
+  },
+  {
+    "id": "term-true-heading-th",
+    "canonical": "true heading (TH)",
+    "english": "true heading (TH)",
+    "spanish": "rumbo verdadero",
+    "russian": "истинный курс носа",
+    "abbreviation": "TH",
+    "definition": "Истинный курс носа — направление продольной оси воздушного судна относительно истинного севера; при ветре оно может отличаться от истинной заданной линии пути на угол поправки на ветер.",
+    "anchor": "term-true-heading-th",
+    "defined_in": "docs/reference/glossary.md#term-true-heading-th"
+  },
+  {
+    "id": "term-magnetic-heading-mh",
+    "canonical": "magnetic heading (MH)",
+    "english": "magnetic heading (MH)",
+    "spanish": "rumbo magnético",
+    "russian": "магнитный курс носа",
+    "abbreviation": "MH",
+    "definition": "Магнитный курс носа — направление продольной оси воздушного судна относительно магнитного севера, полученное из истинного курса носа после учёта магнитного склонения.",
+    "anchor": "term-magnetic-heading-mh",
+    "defined_in": "docs/reference/glossary.md#term-magnetic-heading-mh"
+  },
+  {
+    "id": "term-true-airspeed-tas",
+    "canonical": "true airspeed (TAS)",
+    "english": "true airspeed (TAS)",
+    "spanish": "velocidad verdadera",
+    "russian": "истинная воздушная скорость",
+    "abbreviation": "TAS",
+    "definition": "Истинная воздушная скорость — скорость воздушного судна относительно окружающей воздушной массы; вместе с вектором ветра она определяет движение относительно земной поверхности.",
+    "anchor": "term-true-airspeed-tas",
+    "defined_in": "docs/reference/glossary.md#term-true-airspeed-tas"
+  },
+  {
+    "id": "term-compass-deviation-dev",
+    "canonical": "compass deviation (DEV)",
+    "english": "compass deviation (DEV)",
+    "spanish": "desvío de la brújula",
+    "russian": "девиация компаса",
+    "abbreviation": "DEV",
+    "definition": "Девиация компаса — угловая ошибка установленного магнитного компаса, вызванная магнитными влияниями воздушного судна и зависящая от курса носа; применяют таблицу конкретной установки.",
+    "anchor": "term-compass-deviation-dev",
+    "defined_in": "docs/reference/glossary.md#term-compass-deviation-dev"
   },
   {
     "id": "term-compass-heading-ch",
@@ -1249,7 +1293,7 @@
     "spanish": "rumbo de brújula",
     "russian": "компасный курс носа",
     "abbreviation": "CH",
-    "definition": "Компасный курс носа — направление продольной оси относительно показания магнитного компаса после применения deviation к magnetic heading.",
+    "definition": "Компасный курс носа — направление продольной оси по показанию магнитного компаса после учёта девиации для соответствующего магнитного курса носа.",
     "anchor": "term-compass-heading-ch",
     "defined_in": "docs/reference/glossary.md#term-compass-heading-ch"
   },
@@ -1260,7 +1304,7 @@
     "spanish": "ángulo de corrección de viento",
     "russian": "угол поправки на ветер",
     "abbreviation": "WCA",
-    "definition": "Угол поправки на ветер — signed разность между heading и требуемым track, введённая против бокового сноса; в этом курсе вправо положительно, влево отрицательно.",
+    "definition": "Угол поправки на ветер — угловая разность со знаком между курсом носа и требуемой линией пути, введённая против бокового сноса; в этом курсе вправо положительно, влево отрицательно.",
     "anchor": "term-wind-correction-angle-wca",
     "defined_in": "docs/reference/glossary.md#term-wind-correction-angle-wca"
   },
@@ -1282,7 +1326,7 @@
     "spanish": "hora estimada de llegada",
     "russian": "расчётное время прибытия",
     "abbreviation": "ETA",
-    "definition": "Расчётное время прибытия — прогноз времени достижения точки или назначения, который пересчитывают по фактическому времени, progress и обновлённой GS.",
+    "definition": "Расчётное время прибытия — прогноз времени достижения точки или назначения, который пересчитывают по фактическому прохождению маршрута и обновлённой путевой скорости.",
     "anchor": "term-estimated-time-arrival-eta",
     "defined_in": "docs/reference/glossary.md#term-estimated-time-arrival-eta"
   },
@@ -1315,9 +1359,20 @@
     "spanish": "sistema de aumentación basado en satélites",
     "russian": "спутниковая система функционального дополнения",
     "abbreviation": "SBAS",
-    "definition": "Спутниковая система функционального дополнения передаёт поправки и integrity information в своей зоне обслуживания; EGNOS — европейская SBAS, но эксплуатационная возможность зависит от подходящего оборудования и применимой операции.",
+    "definition": "Спутниковая система функционального дополнения передаёт поправки и сведения о целостности в своей зоне обслуживания; эксплуатационная возможность зависит от подходящего оборудования и применимой операции.",
     "anchor": "term-satellite-based-augmentation-system-sbas",
     "defined_in": "docs/reference/glossary.md#term-satellite-based-augmentation-system-sbas"
+  },
+  {
+    "id": "term-european-geostationary-navigation-overlay-service-egnos",
+    "canonical": "European Geostationary Navigation Overlay Service (EGNOS)",
+    "english": "European Geostationary Navigation Overlay Service (EGNOS)",
+    "spanish": "Servicio Europeo de Navegación por Complemento Geoestacionario",
+    "russian": "Европейская геостационарная служба навигационного покрытия",
+    "abbreviation": "EGNOS",
+    "definition": "Европейская геостационарная служба навигационного покрытия — европейская спутниковая система функционального дополнения; возможность использовать конкретную услугу определяется документацией оборудования, установки, зоной и текущим статусом обслуживания.",
+    "anchor": "term-european-geostationary-navigation-overlay-service-egnos",
+    "defined_in": "docs/reference/glossary.md#term-european-geostationary-navigation-overlay-service-egnos"
   },
   {
     "id": "term-vhf-omnidirectional-range-vor",
@@ -1326,7 +1381,7 @@
     "spanish": "radiofaro omnidireccional VHF",
     "russian": "всенаправленный VHF-радиомаяк",
     "abbreviation": "VOR",
-    "definition": "Всенаправленный VHF-радиомаяк позволяет приёмнику определить magnetic radial FROM станции; идентификация и пригодность сигнала обязательны, а radial не является bearing TO.",
+    "definition": "Всенаправленный VHF-радиомаяк позволяет приёмнику определить магнитный радиал, направленный от станции; сигнал необходимо идентифицировать и проверить, а радиал не является пеленгом на станцию.",
     "anchor": "term-vhf-omnidirectional-range-vor",
     "defined_in": "docs/reference/glossary.md#term-vhf-omnidirectional-range-vor"
   },
@@ -1348,8 +1403,52 @@
     "spanish": "radiogoniómetro automático",
     "russian": "автоматический радиокомпас",
     "abbreviation": "ADF",
-    "definition": "Автоматический радиокомпас показывает направление на принимаемый NDB относительно выбранной системы индикации; гроза, береговой эффект, ночь, рельеф и другие факторы могут ухудшать точность.",
+    "definition": "Автоматический радиокомпас показывает направление на принимаемый ненаправленный радиомаяк относительно выбранной системы индикации; гроза, береговой эффект, ночь, рельеф и другие факторы могут ухудшать точность.",
     "anchor": "term-automatic-direction-finder-adf",
     "defined_in": "docs/reference/glossary.md#term-automatic-direction-finder-adf"
+  },
+  {
+    "id": "term-non-directional-beacon-ndb",
+    "canonical": "non-directional beacon (NDB)",
+    "english": "non-directional beacon (NDB)",
+    "spanish": "radiofaro no direccional",
+    "russian": "ненаправленный радиомаяк",
+    "abbreviation": "NDB",
+    "definition": "Ненаправленный радиомаяк — наземная радиостанция, сигнал которой совместимый автоматический радиокомпас использует для указания направления; идентификация, статус, зона действия и ошибки распространения проверяются до применения.",
+    "anchor": "term-non-directional-beacon-ndb",
+    "defined_in": "docs/reference/glossary.md#term-non-directional-beacon-ndb"
+  },
+  {
+    "id": "term-coordinated-universal-time-utc",
+    "canonical": "Coordinated Universal Time (UTC)",
+    "english": "Coordinated Universal Time (UTC)",
+    "spanish": "tiempo universal coordinado",
+    "russian": "координированное всемирное время",
+    "abbreviation": "UTC",
+    "definition": "Координированное всемирное время — единая шкала времени, используемая для аэронавигационных сообщений и планирования; при переводе в местное время применяют действующее смещение и отдельно учитывают изменение календарной даты.",
+    "anchor": "term-coordinated-universal-time-utc",
+    "defined_in": "docs/reference/glossary.md#term-coordinated-universal-time-utc"
+  },
+  {
+    "id": "term-air-traffic-services-ats",
+    "canonical": "air traffic services (ATS)",
+    "english": "air traffic services (ATS)",
+    "spanish": "servicios de tránsito aéreo",
+    "russian": "обслуживание воздушного движения",
+    "abbreviation": "ATS",
+    "definition": "Обслуживание воздушного движения — общий термин для полётно-информационного обслуживания, аварийного оповещения, консультативного обслуживания и диспетчерского обслуживания в применимом сочетании.",
+    "anchor": "term-air-traffic-services-ats",
+    "defined_in": "docs/reference/glossary.md#term-air-traffic-services-ats"
+  },
+  {
+    "id": "term-aeronautical-information-regulation-control-airac",
+    "canonical": "Aeronautical Information Regulation and Control (AIRAC)",
+    "english": "Aeronautical Information Regulation and Control (AIRAC)",
+    "spanish": "reglamentación y control de la información aeronáutica",
+    "russian": "регламентирование и контролирование аэронавигационной информации",
+    "abbreviation": "AIRAC",
+    "definition": "Регламентирование и контролирование аэронавигационной информации — система заблаговременного распространения сведений о существенных изменениях по единым установленным датам вступления в силу; дата публикации и дата действия не тождественны.",
+    "anchor": "term-aeronautical-information-regulation-control-airac",
+    "defined_in": "docs/reference/glossary.md#term-aeronautical-information-regulation-control-airac"
   }
 ]

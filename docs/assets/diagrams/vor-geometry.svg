@@ -1,57 +1,61 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 700" role="img" aria-labelledby="vor-title vor-desc">
-  <title id="vor-title">VOR в плане и дальность DME в вертикальном разрезе</title>
-  <desc id="vor-desc">Две раздельные проекции: вид сверху показывает азимутальные radial FROM и bearing TO, а вид сбоку показывает DME slant range, горизонтальную дальность и высоту. Реальная станция и частота не изображены.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 860" role="img" aria-labelledby="vor-title vor-desc">
+  <title id="vor-title">Геометрия VOR в плане и дальность DME в вертикальном разрезе</title>
+  <desc id="vor-desc">Две раздельные проекции: вид сверху показывает радиал от станции и пеленг на станцию, а вид сбоку показывает наклонную дальность DME, горизонтальную дальность и высоту. Реальная станция и частота не изображены.</desc>
   <defs>
     <marker id="vor-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"/>
     </marker>
   </defs>
-  <rect x="8" y="8" width="664" height="684" rx="18" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
-  <text x="340" y="44" text-anchor="middle" font-size="28" font-weight="700" fill="#0f172a">VOR / DME: не смешивать проекции</text>
+  <rect x="8" y="8" width="664" height="844" rx="18" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+  <text x="340" y="44" text-anchor="middle" font-size="30" font-weight="700" fill="#0f172a">VOR / DME: две проекции</text>
 
   <g id="vor-plan-view">
-    <rect x="36" y="68" width="608" height="274" rx="14" fill="#ecfdf5" stroke="#047857" stroke-width="3"/>
-    <text x="58" y="102" font-size="25" font-weight="700" fill="#065f46">Вид сверху: азимут VOR</text>
+    <rect x="36" y="68" width="608" height="312" rx="14" fill="#ecfdf5" stroke="#047857" stroke-width="3"/>
+    <text x="58" y="105" font-size="28" font-weight="700" fill="#065f46">Вид сверху: азимут VOR</text>
     <g id="vor-station">
-      <circle cx="170" cy="246" r="23" fill="#f59e0b" stroke="#78350f" stroke-width="4"/>
-      <path d="M 170 207 L 151 246 L 189 246 Z" fill="none" stroke="#78350f" stroke-width="4"/>
-      <text x="170" y="302" text-anchor="middle" font-size="24" font-weight="700" fill="#78350f">VOR station</text>
+      <circle cx="150" cy="258" r="23" fill="#f59e0b" stroke="#78350f" stroke-width="4"/>
+      <path d="M 150 219 L 131 258 L 169 258 Z" fill="none" stroke="#78350f" stroke-width="4"/>
+      <text x="150" y="345" text-anchor="middle" font-size="28" font-weight="700" fill="#78350f">станция VOR</text>
     </g>
     <g id="aircraft">
-      <path d="M 507 125 l 16 30 40 11 -40 11 -16 30 -9 -30 -37 -11 37 -11 z" fill="#2563eb" stroke="#1e3a8a" stroke-width="3"/>
-      <text x="507" y="226" text-anchor="middle" font-size="24" font-weight="700" fill="#1e3a8a">aircraft</text>
+      <path d="M 530 130 l 16 30 40 11 -40 11 -16 30 -9 -30 -37 -11 37 -11 z" fill="#2563eb" stroke="#1e3a8a" stroke-width="3"/>
+      <text x="530" y="236" text-anchor="middle" font-size="28" font-weight="700" fill="#1e3a8a">ВС / aircraft</text>
     </g>
     <g id="radial-from">
-      <line x1="190" y1="236" x2="485" y2="174" stroke="#047857" stroke-width="7" marker-end="url(#vor-arrow)"/>
-      <text x="335" y="183" text-anchor="middle" font-size="24" font-weight="700" fill="#047857">radial FROM</text>
+      <line x1="171" y1="249" x2="507" y2="177" stroke="#047857" stroke-width="7" marker-end="url(#vor-arrow)"/>
+      <rect x="218" y="118" width="282" height="42" rx="9" fill="#ecfdf5" fill-opacity="0.95"/>
+      <text x="359" y="147" text-anchor="middle" font-size="28" font-weight="700" fill="#047857">радиал от / radial FROM</text>
     </g>
     <g id="bearing-to">
-      <line x1="481" y1="190" x2="194" y2="251" stroke="#be123c" stroke-width="5" stroke-dasharray="12 9" marker-end="url(#vor-arrow)"/>
-      <text x="350" y="278" text-anchor="middle" font-size="24" font-weight="700" fill="#be123c">bearing TO</text>
+      <line x1="508" y1="198" x2="174" y2="267" stroke="#be123c" stroke-width="5" stroke-dasharray="12 9" marker-end="url(#vor-arrow)"/>
+      <rect x="228" y="288" width="278" height="42" rx="9" fill="#ecfdf5" fill-opacity="0.95"/>
+      <text x="367" y="317" text-anchor="middle" font-size="28" font-weight="700" fill="#be123c">пеленг на / bearing TO</text>
     </g>
   </g>
 
   <g id="dme-elevation-view">
-    <rect x="36" y="362" width="608" height="294" rx="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3"/>
-    <text x="58" y="398" font-size="25" font-weight="700" fill="#5b21b6">Вид сбоку: геометрия DME</text>
-    <line x1="70" y1="594" x2="612" y2="594" stroke="#64748b" stroke-width="5"/>
+    <rect x="36" y="404" width="608" height="372" rx="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3"/>
+    <text x="58" y="441" font-size="28" font-weight="700" fill="#5b21b6">Вид сбоку: геометрия DME</text>
+    <line x1="70" y1="688" x2="612" y2="688" stroke="#64748b" stroke-width="5"/>
     <g id="dme-station">
-      <circle cx="166" cy="594" r="22" fill="#f59e0b" stroke="#78350f" stroke-width="4"/>
-      <text x="166" y="636" text-anchor="middle" font-size="24" font-weight="700" fill="#78350f">DME</text>
+      <circle cx="142" cy="688" r="22" fill="#f59e0b" stroke="#78350f" stroke-width="4"/>
+      <text x="142" y="650" text-anchor="middle" font-size="28" font-weight="700" fill="#78350f">станция DME</text>
     </g>
     <g id="dme-aircraft">
-      <path d="M 518 424 l 16 28 39 10 -39 11 -16 29 -9 -29 -36 -11 36 -10 z" fill="#2563eb" stroke="#1e3a8a" stroke-width="3"/>
+      <path d="M 520 475 l 16 28 39 10 -39 11 -16 29 -9 -29 -36 -11 36 -10 z" fill="#2563eb" stroke="#1e3a8a" stroke-width="3"/>
+      <text x="520" y="468" text-anchor="middle" font-size="28" font-weight="700" fill="#1e3a8a">ВС / aircraft</text>
     </g>
     <g id="dme-slant">
-      <line x1="184" y1="580" x2="506" y2="470" stroke="#7c3aed" stroke-width="6" marker-end="url(#vor-arrow)"/>
-      <text x="338" y="500" text-anchor="middle" font-size="24" font-weight="700" fill="#6d28d9">DME slant range</text>
+      <line x1="164" y1="676" x2="507" y2="526" stroke="#7c3aed" stroke-width="6" marker-end="url(#vor-arrow)"/>
+      <rect x="192" y="532" width="356" height="42" rx="9" fill="#f5f3ff" fill-opacity="0.95"/>
+      <text x="370" y="561" text-anchor="middle" font-size="28" font-weight="700" fill="#6d28d9">наклонная дальность / slant range</text>
     </g>
     <g id="ground-range">
-      <line x1="190" y1="582" x2="516" y2="582" stroke="#0f172a" stroke-width="4" marker-end="url(#vor-arrow)"/>
-      <text x="352" y="628" text-anchor="middle" font-size="24" fill="#0f172a">horizontal ground range</text>
+      <line x1="170" y1="675" x2="510" y2="675" stroke="#0f172a" stroke-width="4" marker-end="url(#vor-arrow)"/>
+      <text x="340" y="735" text-anchor="middle" font-size="28" fill="#0f172a">горизонтальная дальность / horizontal</text>
     </g>
-    <line x1="518" y1="574" x2="518" y2="496" stroke="#64748b" stroke-width="3" stroke-dasharray="7 7"/>
-    <text x="538" y="548" font-size="24" fill="#334155">height</text>
+    <line x1="520" y1="671" x2="520" y2="548" stroke="#64748b" stroke-width="3" stroke-dasharray="7 7"/>
+    <text x="620" y="625" text-anchor="end" font-size="28" fill="#334155">высота / height</text>
   </g>
-  <text x="340" y="680" text-anchor="middle" font-size="24" font-weight="700" fill="#881337">VOR — план; DME slant range — разрез</text>
+  <text x="340" y="823" text-anchor="middle" font-size="28" font-weight="700" fill="#881337">VOR — план; DME — вертикальный разрез</text>
 </svg>

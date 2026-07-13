@@ -84,6 +84,7 @@ TASK8_SVGS = (
     "docs/assets/diagrams/wind-triangle.svg",
     "docs/assets/diagrams/vor-geometry.svg",
     "docs/assets/diagrams/sample-route.svg",
+    "docs/assets/diagrams/chart-symbols-gen23.svg",
 )
 APPLICABILITY_LABELS = (
     "[ULM — ОСНОВА]",
@@ -254,6 +255,10 @@ REQUIRED_CANONICAL_TERMS = {
     "dead reckoning (DR)",
     "true course (TC)",
     "magnetic course (MC)",
+    "true heading (TH)",
+    "magnetic heading (MH)",
+    "true airspeed (TAS)",
+    "compass deviation (DEV)",
     "compass heading (CH)",
     "wind correction angle (WCA)",
     "groundspeed (GS)",
@@ -264,6 +269,11 @@ REQUIRED_CANONICAL_TERMS = {
     "VHF omnidirectional range (VOR)",
     "distance measuring equipment (DME)",
     "automatic direction finder (ADF)",
+    "non-directional beacon (NDB)",
+    "European Geostationary Navigation Overlay Service (EGNOS)",
+    "Coordinated Universal Time (UTC)",
+    "air traffic services (ATS)",
+    "Aeronautical Information Regulation and Control (AIRAC)",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -4756,15 +4766,157 @@ class Task8NavigationTests(unittest.TestCase):
         }
         self.assertTrue(required.issubset(anchors), required - anchors)
 
-    def test_task8_dynamic_operational_warning_is_on_every_chapter(self):
-        warning = (
-            "Проверено 13.07.2026; перед полётом проверить "
-            "AIP/SUP/AIC/NOTAM и текущий AIRAC"
+    def test_gu09_navigation_scope_and_current_ulm_day_night_gate_are_complete(self):
+        text = _plain_markdown(self._all_text())
+        anchors = markdown_anchors(self._all_text())
+        required_anchors = {
+            "civil-twilight", "distance-units", "terrestrial-magnetism",
+            "route-projections", "pilotage-map-orientation", "top-of-descent",
+        }
+        self.assertTrue(required_anchors.issubset(anchors), required_anchors - anchors)
+
+        for pattern in (
+            r"(?is)гражданск\w+\s+сумерк.{0,220}(?:6|шест)\s*(?:°|градус).{0,160}горизонт",
+            r"(?is)начал\w+\s+утренн\w+\s+гражданск\w+\s+сумер.{0,220}конц\w+\s+вечерн\w+\s+гражданск\w+\s+сумер",
+            r"(?is)RD\s*765/2022.{0,160}(?:art\.|стать).?\s*4\.1\(e\).{0,220}01\.04\.2026.{0,220}дневн\w+.{0,80}VFR.{0,80}VMC",
+            r"(?is)ULM.{0,80}MAF.{0,160}(?:сам[аио]|без).{0,100}не.{0,80}(?:достаточ|разреш)",
+            r"(?is)сухопутн\w+\s+миля.{0,100}1[,.]609344\s*(?:km|километр)",
+            r"(?is)морск\w+\s+миля.{0,100}1[,.]852\s*(?:km|километр)",
+            r"(?is)1\s*NM.{0,80}1[,.]15078\s*SM",
+            r"(?is)магнитн\w+\s+пол.{0,180}(?:географическ|истинн).{0,180}магнитн\w+\s+полюс",
+            r"(?is)изогон.{0,180}(?:годов|ежегодн).{0,100}(?:измен|вариац)",
+            r"(?is)цилиндрическ\w+\s+проекц.{0,240}(?:Ламберт|коническ)",
+            r"(?is)ортодром.{0,180}локсодром.{0,180}(?:постоянн\w+\s+курс|румб)",
+            r"(?is)ориентир\w+\s+карт.{0,180}(?:местност|рельеф|линейн).{0,180}(?:двум|независим|подтверж)",
+            r"(?is)(?:точк|начал).{0,80}снижен.{0,180}(?:разност|потер).{0,100}высот.{0,160}(?:вертикальн|скорост).{0,100}(?:GS|путев)",
+        ):
+            with self.subTest(pattern=pattern):
+                self.assertRegex(text, re.compile(pattern))
+
+        sunrise_boundary_pattern = re.compile(
+            r"(?is)(?:фактическ\w+\s+)?(?:восход|заход)"
+            r"(?:(?![.!?]).){0,220}не(?:(?![.!?]).){0,80}совпад"
+            r"(?:(?![.!?]).){0,100}правов\w+\s+границ"
         )
+        earth = _plain_markdown(self._read(TASK8_CHAPTERS[0]))
+        self.assertRegex(earth, sunrise_boundary_pattern)
+        self.assertIsNone(
+            sunrise_boundary_pattern.search(
+                "Фактический восход не совпадает с заходом."
+            )
+        )
+
+        night_gate_patterns = (
+            re.compile(r"(?is)до\s+начала\s+утренн\w+\s+гражданск\w+\s+сумер"),
+            re.compile(r"(?is)после\s+конца\s+вечерн\w+\s+гражданск\w+\s+сумер"),
+            re.compile(
+                r"(?is)(?:оборудован|оснащен).{0,260}"
+                r"(?:эквивалентн\w+\s+лиценз|Part-FCL).{0,220}"
+                r"ночн\w+\s+(?:полномоч|прав)"
+            ),
+        )
+
+        def has_complete_night_gate(value):
+            return all(pattern.search(value) for pattern in night_gate_patterns)
+
+        self.assertTrue(has_complete_night_gate(earth))
+        for mutation in (
+            "Фактический восход не совпадает с заходом; самолёт оборудован, "
+            "есть Part-FCL с ночными полномочиями.",
+            "До начала вечерних гражданских сумерек самолёт оборудован; "
+            "Part-FCL с ночными полномочиями достаточно.",
+        ):
+            with self.subTest(mutation=mutation):
+                self.assertFalse(has_complete_night_gate(mutation))
+
+    def test_gu09_coordinate_formats_time_zones_and_vfr_symbol_families_are_complete(self):
+        earth = _plain_markdown(self._read(TASK8_CHAPTERS[0]))
+        for pattern in (
+            r"(?is)(?:градус.+минут.+секунд|DMS).{0,180}(?:градус.+десятичн\w+\s+минут|DDM).{0,180}(?:десятичн\w+\s+градус|DD)",
+            r"(?is)(?:северн|N).{0,100}(?:восточн|E).{0,100}положительн",
+            r"(?is)(?:южн|S).{0,100}(?:западн|W).{0,100}отрицательн",
+            r"(?is)360\s*°?.{0,80}24.{0,80}15\s*°.{0,120}(?:часов\w+\s+пояс|долгот)",
+            r"(?is)(?:восток|восточн).{0,100}(?:позже|прибав).{0,140}(?:запад|западн).{0,100}(?:раньше|вычит)",
+        ):
+            with self.subTest(pattern=pattern):
+                self.assertRegex(earth, re.compile(pattern))
+        self.assertRegex(
+            earth,
+            re.compile(r"(?is)Δt\s*=\s*Δλ\s*/\s*15\s*°?.{0,100}(?:h|час)"),
+        )
+
+        charts = _plain_markdown(self._read(TASK8_CHAPTERS[1]))
+        for pattern in (
+            r"(?is)(?:ICAO|OACI).{0,100}(?:условн\w+\s+знак|символ)",
+            r"(?is)аэродром",
+            r"(?is)препятств",
+            r"(?is)(?:P/R/D|запретн\w+.{0,40}ограниченн\w+.{0,40}опасн)",
+            r"(?is)(?:ЛЭП|лини[яи]\s+электропередач)",
+            r"(?is)инфраструктур",
+            r"(?is)(?:наземн\w+\s+ориентир|географическ\w+\s+объект)",
+        ):
+            with self.subTest(pattern=pattern):
+                self.assertRegex(charts, re.compile(pattern))
+
+        svg_path = ROOT / TASK8_SVGS[3]
+        self.assertTrue(svg_path.is_file(), TASK8_SVGS[3])
+        self.assertIn(
+            "../assets/diagrams/chart-symbols-gen23.svg",
+            self._read(TASK8_CHAPTERS[1]),
+        )
+        self.assertIn(
+            "https://aip.enaire.es/AIP/contenido_AIP/GEN/LE_GEN_2_3_es.html",
+            self._read(TASK8_CHAPTERS[1]),
+        )
+        symbols = ET.fromstring(svg_path.read_text(encoding="utf-8"))
+        ns = "{http://www.w3.org/2000/svg}"
+        self.assertFalse(list(symbols.iter(f"{ns}image")))
+        by_id = {
+            node.attrib["id"]: node
+            for node in symbols.iter()
+            if node.attrib.get("id")
+        }
+        required_geometry = {
+            "symbol-civil-aerodrome": {"circle", "line"},
+            "symbol-obstacle-group": {"polyline", "circle"},
+            "symbol-prd-zone": {"rect", "path"},
+            "symbol-powerline": {"line", "polyline"},
+            "symbol-motorway": {"line"},
+            "symbol-railway": {"line", "rect"},
+            "symbol-landmark": {"path", "rect"},
+        }
+        for identifier, required_tags in required_geometry.items():
+            with self.subTest(symbol=identifier):
+                self.assertIn(identifier, by_id)
+                actual_tags = {
+                    node.tag.removeprefix(ns) for node in by_id[identifier].iter()
+                }
+                self.assertTrue(required_tags.issubset(actual_tags), required_tags - actual_tags)
+
+    def test_reviewed_wind_and_eta_calculations_expose_all_assumptions(self):
+        wind = self._calculation_blocks()["CALC-NAV-22"]
+        for value in ("WCA = −12°", "TH = 078°", "GS = 98 kt"):
+            self.assertIn(value, wind)
+
+        eta = self._calculation_blocks()["CALC-NAV-24"]
+        eta_plain = _plain_markdown(eta)
+        for value in ("исходная ETA", "09:40 UTC", "09:44 UTC"):
+            self.assertIn(value, eta_plain)
+        self.assertRegex(eta_plain, r"(?is)(?:допущен|предполож).{0,120}(?:GS|скорост)")
+
+    def test_task8_dynamic_operational_warning_is_on_every_chapter(self):
         for relative_path in TASK8_CHAPTERS:
             text = self._read(relative_path)
             with self.subTest(path=relative_path):
-                self.assertIn(warning, _plain_markdown(text))
+                self.assertRegex(
+                    _plain_markdown(text),
+                    r"Проверено 13\.07\.2026; перед полётом проверить "
+                    r"AIP/SUP/AIC/NOTAM и текущ(?:ий|ее).{0,240}\bAIRAC\b",
+                )
+                self.assertIn(
+                    "../reference/glossary.md#term-aeronautical-information-regulation-control-airac",
+                    text,
+                )
         charts = self._read(TASK8_CHAPTERS[1])
         plain = _plain_markdown(charts)
         self.assertRegex(plain, r"(?is)AIRAC\s+07/26.{0,120}(?:будущ|не.{0,40}действ).{0,120}06\.08\.2026")
@@ -4854,7 +5006,7 @@ class Task8NavigationTests(unittest.TestCase):
 
     def test_complete_synthetic_log_has_all_fields_and_post_leg_update(self):
         text = self._read(TASK8_REFERENCE)
-        self.assertIn("СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ FLIGHT LOG — НЕ ДЛЯ НАВИГАЦИИ", text)
+        self.assertIn("СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ НАВИГАЦИОННЫЙ ЛОГ (FLIGHT LOG) — НЕ ДЛЯ НАВИГАЦИИ", text)
         for field in (
             "Дата источников", "Маршрут", "Контрольные точки", "Рельеф",
             "Воздушное пространство", "Погода", "TC", "W", "V", "MC",
@@ -4875,7 +5027,7 @@ class Task8NavigationTests(unittest.TestCase):
                 rows[match.group(1)] = [cell.strip() for cell in line.strip().strip("|").split("|")]
         self.assertEqual({"1", "2", "3"}, rows.keys())
 
-        # Columns: leg, route, TC, wind, variation, TH, MH, deviation, CH,
+        # Columns: leg, route, TC, wind, variation, MC, TH, MH, deviation, CH,
         # distance, TAS, WCA, GS, leg time, ETA, fuel, references, trigger.
         expected = {
             "1": (-7.7, 89.2, 12.1, 3.6),
@@ -4885,18 +5037,51 @@ class Task8NavigationTests(unittest.TestCase):
         for leg, (wca, gs, minutes, fuel) in expected.items():
             cells = rows[leg]
             numbers = lambda index: float(re.search(r"[−+-]?\d+(?:[.,]\d+)?", cells[index]).group().replace("−", "-").replace(",", "."))
-            self.assertAlmostEqual(wca, numbers(11), places=1)
-            self.assertAlmostEqual(gs, numbers(12), places=1)
-            self.assertAlmostEqual(minutes, numbers(13), places=1)
-            self.assertAlmostEqual(fuel, numbers(15), places=1)
-            self.assertAlmostEqual(numbers(9) / numbers(12) * 60, numbers(13), delta=0.1)
-            self.assertAlmostEqual(numbers(13) / 60 * 18, numbers(15), delta=0.1)
+            self.assertAlmostEqual(wca, numbers(12), places=1)
+            self.assertAlmostEqual(gs, numbers(13), places=1)
+            self.assertAlmostEqual(minutes, numbers(14), places=1)
+            self.assertAlmostEqual(fuel, numbers(16), places=1)
+            self.assertAlmostEqual(numbers(10) / numbers(13) * 60, numbers(14), delta=0.1)
+            self.assertAlmostEqual(numbers(14) / 60 * 18, numbers(16), delta=0.1)
 
         self.assertIn("`3,6 + 4,4 + 5,4 = 13,4 L`", text)
-        self.assertIn("CP1 опознана в `09:16 UTC`", text)
+        self.assertIn("CP1 опознана в 09:16 UTC", _plain_markdown(text))
         self.assertNotIn("CP1 time `09:19 UTC`", text)
         for label in ("Участок", "Маршрут/контрольная точка", "Ветер", "Истинный курс носа", "Магнитный курс носа", "Источники/условия"):
             self.assertIn(label, text)
+
+    def test_flight_log_has_magnetic_course_in_both_tables_and_recomputes_it(self):
+        text = self._read(TASK8_REFERENCE)
+        table_headers = [
+            line for line in text.splitlines()
+            if line.startswith("| Участок | Маршрут/контрольная точка |")
+        ]
+        self.assertEqual(2, len(table_headers))
+        for header in table_headers:
+            self.assertRegex(header, r"\|\s*(?:Магнитная заданная линия пути\s+)?MC\s*\|")
+
+        rows = {}
+        for line in text.splitlines():
+            match = re.match(r"^\|\s*([123])\s*\|", line)
+            if match and "________________" not in line:
+                rows[match.group(1)] = [
+                    cell.strip() for cell in line.strip().strip("|").split("|")
+                ]
+        for leg, cells in rows.items():
+            def degrees(index):
+                return float(
+                    re.search(r"\d+(?:[.,]\d+)?", cells[index])
+                    .group()
+                    .replace(",", ".")
+                )
+
+            tc = degrees(2)
+            variation = degrees(4)
+            if "W" in cells[4].upper():
+                variation *= -1
+            self.assertRegex(cells[4], r"(?i)[EW]")
+            mc = degrees(5)
+            self.assertAlmostEqual((tc - variation) % 360, mc, places=1, msg=leg)
 
     def test_coordinate_and_utc_conversions_are_structured_calculations(self):
         text = self._read(TASK8_CHAPTERS[0])
@@ -4962,10 +5147,24 @@ class Task8NavigationTests(unittest.TestCase):
         chapter = self._read(TASK8_CHAPTERS[4])
         self.assertIn("[PART-FCL — ОБЩЕЕ]", chapter)
         plain = _plain_markdown(chapter)
-        self.assertRegex(plain, r"(?is)GU09.{0,140}GPS.{0,160}не.{0,80}(?:подробн|детальн).{0,80}(?:VOR|DME|ADF)")
+        self.assertRegex(plain, r"(?is)GU09.{0,140}(?:GPS|GNSS).{0,160}не.{0,80}(?:подробн|детальн).{0,80}(?:VOR|DME|ADF)")
         self.assertRegex(plain, r"(?is)LAPL\(A\).{0,120}(?:PPL|общ).{0,80}(?:теоретическ|syllabus)")
         self.assertRegex(plain, r"(?is)(?:частот|идентификатор).{0,120}(?:ENR\s+4\.1|AD\s+2).{0,120}(?:перед|текущ)")
         self.assertNotRegex(chapter, r"\b(?:10[89]|11\d|12[0-35])[.,]\d{3}\b")
+
+    def test_common_part_fcl_navigation_is_labelled_lapl_and_ppl_without_fake_delta(self):
+        for relative_path in TASK8_CHAPTERS:
+            text = _plain_markdown(self._read(relative_path))
+            with self.subTest(path=relative_path):
+                self.assertRegex(text, r"(?is)PART-FCL\s+—\s+ОБЩЕЕ.{0,280}LAPL.{0,100}PPL")
+                self.assertNotRegex(
+                    text,
+                    r"(?is)PPL\s+—\s+РАСШИРЕНИЕ.{0,180}(?:добавля|более\s+сложн|более\s+полн|углуб).{0,120}(?:теори|задач|модел|радионавигац)",
+                )
+
+        text = _plain_markdown(self._all_text())
+        self.assertRegex(text, r"(?is)LAPL.{0,100}PPL.{0,160}(?:одинаков|общ).{0,160}(?:программ|syllabus)")
+        self.assertRegex(text, r"(?is)Part-NCO.{0,180}(?:операци|воздушн\w+\s+судн).{0,180}не.{0,60}(?:лиценз|налич)")
 
     def test_gnss_safety_scope_and_current_sib_are_taught(self):
         text = _plain_markdown(self._read(TASK8_CHAPTERS[5]))
@@ -5019,12 +5218,212 @@ class Task8NavigationTests(unittest.TestCase):
             "global navigation satellite system (GNSS)", "receiver autonomous integrity monitoring (RAIM)",
             "satellite-based augmentation system (SBAS)", "VHF omnidirectional range (VOR)",
             "distance measuring equipment (DME)", "automatic direction finder (ADF)",
+            "true heading (TH)", "magnetic heading (MH)", "true airspeed (TAS)",
+            "compass deviation (DEV)", "non-directional beacon (NDB)",
+            "European Geostationary Navigation Overlay Service (EGNOS)",
+            "Coordinated Universal Time (UTC)", "air traffic services (ATS)",
+            "Aeronautical Information Regulation and Control (AIRAC)",
         }
         self.assertTrue(required.issubset(terms), required - terms.keys())
         for canonical in required:
             record = terms[canonical]
             for field in ("russian", "english", "spanish", "definition"):
                 self.assertTrue(record[field].strip())
+
+        self.assertEqual("derrota verdadera", terms["true course (TC)"]["spanish"])
+        self.assertEqual("derrota magnética", terms["magnetic course (MC)"]["spanish"])
+        self.assertEqual("FPL", terms["flight plan"]["abbreviation"])
+        forbidden_definition_anglicisms = re.compile(
+            r"(?i)\b(?:heading|magnetic variation|deviation|signed|progress|integrity information|radial|bearing)\b"
+        )
+        for canonical, record in terms.items():
+            if canonical in required:
+                with self.subTest(term=canonical):
+                    self.assertIsNone(forbidden_definition_anglicisms.search(record["definition"]))
+
+    def test_navigation_chapters_and_nav_labels_are_russian_first(self):
+        chapter3 = self._read(TASK8_CHAPTERS[2])
+        self.assertIn("угол поправки на ветер", chapter3.split("## Теория", 1)[0])
+        self.assertIn("путевую скорость", chapter3.split("## Теория", 1)[0])
+
+        chapter5 = self._read(TASK8_CHAPTERS[4])
+        self.assertTrue(chapter5.startswith("# Радионавигация"))
+        self.assertRegex(
+            chapter5,
+            r"(?is)ненаправленн\w+\s+радиомаяк.{0,160}English:\s*non-directional beacon,\s*NDB.{0,120}español:",
+        )
+
+        nav = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+        self.assertIn("Счисление пути и навигационный лог", nav)
+        self.assertIn("Потеря ориентировки и уход с маршрута", nav)
+        self.assertNotIn("flight log:", nav)
+        self.assertNotIn("diversion:", nav)
+
+    def test_navigation_first_use_terms_and_alt_texts_are_russian_first(self):
+        earth = self._read(TASK8_CHAPTERS[0])
+        purpose = earth.split("## Результаты обучения", 1)[0]
+        self.assertRegex(
+            purpose,
+            r"(?is)координированн\w+\s+всемирн\w+\s+врем.{0,100}English:\s*Coordinated Universal Time,\s*UTC.{0,100}español:",
+        )
+
+        log = self._read(TASK8_CHAPTERS[3])
+        before_outcomes = log.split("## Результаты обучения", 1)[0]
+        self.assertRegex(
+            before_outcomes,
+            r"(?is)расч[её]тн\w+\s+врем\w+\s+прибыт.{0,100}English:\s*estimated time of arrival,\s*ETA.{0,100}español:",
+        )
+
+        lost = self._read(TASK8_CHAPTERS[6])
+        before_outcomes = lost.split("## Результаты обучения", 1)[0]
+        for pattern in (
+            r"(?is)обслуживан\w+\s+воздушн\w+\s+движен.{0,100}English:\s*air traffic services,\s*ATS.{0,100}español:",
+            r"(?is)план\w*\s+пол[её]та.{0,100}English:\s*flight plan,\s*FPL.{0,100}español:",
+        ):
+            self.assertRegex(before_outcomes, pattern)
+
+        for relative_path in TASK8_CHAPTERS:
+            text = self._read(relative_path)
+            for is_image, label, _ in markdown_references(text):
+                if is_image:
+                    first_letter = re.search(r"[A-Za-zА-Яа-яЁё]", label)
+                    self.assertIsNotNone(first_letter, relative_path)
+                    self.assertRegex(first_letter.group(), r"[А-Яа-яЁё]", relative_path)
+
+    def test_navigation_abbreviations_follow_course_order_and_link_after_definition(self):
+        combined = "\n".join(self._read(path) for path in TASK8_CHAPTERS)
+        introductions = {
+            "UTC": r"(?is)координированн\w+\s+всемирн\w+\s+врем.{0,100}English:\s*Coordinated Universal Time,\s*UTC.{0,100}español:\s*tiempo universal coordinado",
+            "AIRAC": r"(?is)регламентирован\w+\s+и\s+контролирован\w+\s+аэронавигационн\w+\s+информац.{0,120}English:\s*Aeronautical Information Regulation and Control,\s*AIRAC.{0,120}español:\s*reglamentación y control de la información aeronáutica",
+            "ATS": r"(?is)обслуживан\w+\s+воздушн\w+\s+движен.{0,100}English:\s*air traffic services,\s*ATS.{0,100}español:\s*servicios de tránsito aéreo",
+            "ETA": r"(?is)расч[её]тн\w+\s+врем\w+\s+прибыт.{0,100}English:\s*estimated time of arrival,\s*ETA.{0,100}español:\s*hora estimada de llegada",
+            "VOR": r"(?is)всенаправленн\w+\s+VHF-радиомаяк.{0,100}English:\s*VHF omnidirectional range,\s*VOR.{0,100}español:\s*radiofaro omnidireccional VHF",
+            "FPL": r"(?is)план\w*\s+пол[её]та.{0,140}English:\s*(?:ATS\s+)?flight plan,\s*FPL.{0,120}español:\s*plan de vuelo(?:\s+ATS)?",
+        }
+        for abbreviation, pattern in introductions.items():
+            match = re.search(pattern, combined)
+            self.assertIsNotNone(match, abbreviation)
+            first = re.search(rf"\b{re.escape(abbreviation)}\b", combined)
+            self.assertIsNotNone(first, abbreviation)
+            self.assertLessEqual(match.start(), first.start(), abbreviation)
+            self.assertGreater(match.end(), first.start(), abbreviation)
+
+        def mask(value):
+            value = strip_code(value)
+            value = re.sub(
+                r"(?m)^\[[^]\n]+\]:[^\n]*(?:\n|$)",
+                lambda item: _mask_non_newlines(item.group(0)),
+                value,
+            )
+            return re.sub(
+                r"!?\[[^]\n]+\](?:\[[^]\n]*\]|\([^\n)]*\))",
+                lambda item: _mask_non_newlines(item.group(0)),
+                value,
+            )
+
+        for relative_path in (*TASK8_CHAPTERS, TASK8_REFERENCE):
+            unlinked = mask(self._read(relative_path))
+            for abbreviation in introductions:
+                matches = list(re.finditer(rf"\b{re.escape(abbreviation)}\b", unlinked))
+                with self.subTest(path=relative_path, abbreviation=abbreviation):
+                    self.assertEqual(
+                        [],
+                        [unlinked.count("\n", 0, item.start()) + 1 for item in matches],
+                    )
+
+    def test_navigation_distractors_stay_in_the_question_domain(self):
+        blocks = {
+            block["id"]: block
+            for relative_path in TASK8_CHAPTERS
+            for block in parsed_question_blocks(self._read(relative_path))
+        }
+        domain_patterns = {
+            "Q-NAV-001": r"(?i)(?:координат|широт|долгот|градус|минут|полушари|[NSEW])",
+            "Q-NAV-002": r"(?i)(?:UTC|местн\w+\s+врем|смещен|дат|час)",
+            "Q-NAV-003": r"(?i)(?:магнитн\w+\s+склон|истинн|магнитн|[MT]\s*=)",
+            "Q-NAV-004": r"(?i)(?:девиац|компас|магнитн\w+\s+склон|курс\w*\s+носа|карт)",
+            "Q-NAV-005": r"(?i)(?:мнемоник|знак|истинн|магнитн|компасн|T/M/C|склон|девиац)",
+            "Q-NAV-006": r"(?i)(?:масштаб|сантиметр|километр|морск\w+\s+мил|проекц|расстоя)",
+            "Q-NAV-007": r"(?i)(?:AIRAC|дат|публик|вступлен|действ|VFR|IFR|NOTAM)",
+            "Q-NAV-008": r"(?i)(?:колонтитул|страниц|AIP|редакц|поправ|NOTAM|AIRAC)",
+            "Q-NAV-009": r"(?i)(?:пространств|границ|предел|класс|актив|высот|карт)",
+            "Q-NAV-010": r"(?i)(?:VFR500|лист|редакц|дат|исправ|Changes|InsigniaVFR|AIS|AIP|NOTAM|карт)",
+            "Q-NAV-011": r"(?i)(?:ветр|воздушн\w+\s+масс|север|юг|направлен|перенос)",
+            "Q-NAV-012": r"(?i)(?:WCA|курс\w*\s+носа|лини[яи]\s+пути|GS|TAS|склон|девиац)",
+            "Q-NAV-013": r"(?i)(?:ветр|снос|курс\w*\s+носа|лини[яи]\s+пути|WCA|TAS|GS|девиац)",
+            "Q-NAV-014": r"(?i)(?:GS|TAS|встречн\w+\s+ветр|WCA|путев\w+\s+скорост)",
+            "Q-NAV-015": r"(?i)(?:контрольн\w+\s+точк|GS|ETA|топлив|врем|навигационн\w+\s+лог)",
+            "Q-NAV-016": r"(?i)(?:минут|час|узл|NM|врем|18|60|0[.,]3)",
+            "Q-NAV-017": r"(?i)(?:контрольн\w+\s+точк|DR|лог|врем|решен|GNSS|визуальн)",
+            "Q-NAV-018": r"(?i)(?:ETA|GS|задерж|врем|топлив|дистанц)",
+            "Q-NAV-019": r"(?i)(?:топлив|резерв|AFM|POH|ULM|вместим|остат|расход)",
+            "Q-NAV-020": r"(?i)(?:навигационн\w+\s+лог|ETA|GS|топлив|фактическ\w+\s+врем|положен)",
+            "Q-NAV-021": r"(?i)(?:VOR|радиал|станц|пеленг|курс\w*\s+носа|NM)",
+            "Q-NAV-022": r"(?i)(?:VOR|станц|идентификатор|флаг|статус|геометр|сигнал|стрелк)",
+            "Q-NAV-023": r"(?i)(?:DME|наклонн\w+\s+дальност|горизонтальн\w+\s+расстоя|высот|станц)",
+            "Q-NAV-024": r"(?i)(?:ADF|NDB|ноч|гроз|статик|берег|рельеф|пеленг|помех|VOR)",
+            "Q-NAV-025": r"(?i)(?:VOR|DME|ENR|AD\s*2|NOTAM|станц|частот|идентификатор|статус)",
+            "Q-NAV-026": r"(?i)(?:GNSS|позици|целостност|баз|spoofing|EGNOS|SoL|символ|предупрежден)",
+            "Q-NAV-027": r"(?i)(?:GNSS|маршрут|баз|точк|лини[яи]\s+пути|расстоя|AIS|карт|участок)",
+            "Q-NAV-028": r"(?i)(?:spoofing|jamming|сигнал|при[её]м|позици|спутник|предупрежден)",
+            "Q-NAV-029": r"(?i)(?:RAIM|при[её]мник|документац|3D|приложен|EGNOS|целостност)",
+            "Q-NAV-030": r"(?i)(?:GNSS|приложен|датчик|рельеф|врем|курс\w*\s+носа|DR|карт|положен)",
+            "Q-NAV-031": r"(?i)(?:положен|AVIATE|управлен|VMC|рельеф|препятств|пространств|ETA|курс|приложен)",
+            "Q-NAV-032": r"(?i)(?:1-in-60|угл|расстоя|боков\w+\s+отклон|пройденн\w+\s+путь)",
+            "Q-NAV-033": r"(?i)(?:угл|расхожден|возврат|лини[яи]\s+пути|снос|курс|ветр|склон)",
+            "Q-NAV-034": r"(?i)(?:план\w*\s+пол[её]та|FPL|ATS|ULM|признан|разрешен|Part-21|государств\w+\s+прол[её]т)",
+            "Q-NAV-035": r"(?i)(?:Part-NCO|воздушн\w+\s+судн|вид\w*\s+эксплуатац|операц|Annex\s+VII|Air Ops|лиценз|регистрац|FPL)",
+        }
+        self.assertEqual(set(blocks), set(domain_patterns))
+        for identifier, pattern in domain_patterns.items():
+            options = re.findall(
+                r"(?m)^[A-D]\.\s+(.+?)(?:<br>)?\s*$", blocks[identifier]["body"]
+            )
+            self.assertEqual(4, len(options), identifier)
+            for index, option in enumerate(options, 1):
+                with self.subTest(question=identifier, option=index):
+                    self.assertRegex(_plain_markdown(option), pattern)
+
+        off_domain = re.compile(
+            r"(?i)(?:поворачива\w+\s+карт|относительно\s+UTC|"
+            r"\bштил|цвет\w*\s+(?:маршрут|лини)|внешн\w+\s+вид\w*\s+таблиц|"
+            r"через\s+пять\s+минут|электронн\w+\s+карт\w+.{0,50}разреш)"
+        )
+        for block in blocks.values():
+            for option in re.findall(r"(?m)^[A-D]\.\s+(.+?)(?:<br>)?\s*$", block["body"]):
+                self.assertIsNone(off_domain.search(_plain_markdown(option)), block["id"])
+
+    def test_q_nav_017_agrees_with_feminine_control_point_noun(self):
+        text = self._read(TASK8_CHAPTERS[3])
+        block = re.search(r"(?ms)^### Q-NAV-017\b.*?(?=^### Q-NAV-|^## )", text)
+        self.assertIsNotNone(block)
+        options = re.findall(r"(?m)^[A-D]\.\s+(.+?)(?:<br>)?\s*$", block.group(0))
+        self.assertEqual(4, len(options))
+        self.assertTrue(options[0].startswith("Она заметна, однозначна"))
+        self.assertTrue(options[1].startswith("Она "))
+        self.assertTrue(options[2].startswith("Она "))
+        self.assertTrue(options[3].startswith("Её "))
+        self.assertNotRegex(" ".join(options), r"\b(?:Он|Его)\b")
+
+    def test_sample_route_names_and_escape_arrow_match_the_route_dossier(self):
+        svg_text = self._read(TASK8_SVGS[2])
+        route_chapter = self._read(TASK8_CHAPTERS[6])
+        flight_log = self._read(TASK8_REFERENCE)
+        for name in ("ES-ORIGIN", "ES-DESTINATION"):
+            self.assertIn(name, svg_text)
+            self.assertIn(name, route_chapter)
+            self.assertIn(name, flight_log)
+        self.assertNotRegex(svg_text, r"ES-(?:START|FINISH)")
+        self.assertRegex(svg_text, r"(?is)уход\s+на\s+восток.{0,100}(?:СТОП|stop).{0,80}(?:провер|check).{0,80}AREA-A")
+
+        root = ET.fromstring(svg_text)
+        ns = "{http://www.w3.org/2000/svg}"
+        escape = next(node for node in root.iter() if node.attrib.get("id") == "escape-east")
+        self.assertEqual(1, len(list(escape.iter(f"{ns}line"))))
+        self.assertFalse(list(escape.iter(f"{ns}rect")))
+        self.assertFalse(list(escape.iter(f"{ns}text")))
+        top_level_ids = [node.attrib.get("id") for node in list(root)]
+        self.assertEqual("escape-east", top_level_ids[-1])
 
     def test_task8_svgs_are_accessible_mobile_and_semantically_geometric(self):
         required_ids = (
@@ -5046,20 +5445,31 @@ class Task8NavigationTests(unittest.TestCase):
                 self.assertLessEqual(vw, 760)
                 sizes = [float(item.attrib["font-size"].removesuffix("px")) for item in root.iter(f"{ns}text") if "font-size" in item.attrib]
                 self.assertTrue(sizes)
-                self.assertGreaterEqual(min(sizes) * 340 / vw, 12.0)
+                self.assertGreaterEqual(min(sizes) * 340 / vw, 14.0)
                 ids = {item.attrib.get("id") for item in root.iter() if item.attrib.get("id")}
                 self.assertTrue(semantic_ids.issubset(ids), semantic_ids - ids)
                 self.assertGreaterEqual(sum(1 for item in root.iter() if item.attrib.get("marker-end", "").startswith("url(#")), 2)
 
         wind_root = self._xml(TASK8_SVGS[0])
         wind_words = " ".join(wind_root.itertext()).casefold()
-        for token in ("heading", "track", "wind from", "wca", "drift", "+ вправо", "− влево"):
+        for token in ("курс носа / heading", "линия пути / track", "ветер от / wind from", "wca", "снос / drift", "+ вправо", "− влево"):
             self.assertIn(token, wind_words)
         vor_words = " ".join(self._xml(TASK8_SVGS[1]).itertext()).casefold()
-        for token in ("radial from", "bearing to", "slant range", "horizontal"):
+        for token in ("радиал от / radial from", "пеленг на / bearing to", "наклонная дальность / slant range", "горизонтальная дальность / horizontal"):
             self.assertIn(token, vor_words)
         route_words = " ".join(self._xml(TASK8_SVGS[2]).itertext())
         self.assertIn("СИНТЕТИЧЕСКАЯ УЧЕБНАЯ СХЕМА — НЕ ДЛЯ НАВИГАЦИИ", route_words)
+        for token in ("Условный рельеф", "границы/статус: ПРОВЕРИТЬ", "уход на запад", "только Испания"):
+            self.assertIn(token, route_words)
+
+        for relative_path in TASK8_SVGS:
+            root = self._xml(relative_path)
+            title = root.find("{http://www.w3.org/2000/svg}title")
+            desc = root.find("{http://www.w3.org/2000/svg}desc")
+            with self.subTest(path=relative_path):
+                self.assertRegex(title.text or "", r"[А-Яа-яЁё]")
+                self.assertRegex(desc.text or "", r"[А-Яа-яЁё]")
+                self.assertFalse((title.text or "").strip().startswith(("Wind", "Synthetic")))
 
 
 class GU09MigrationTests(unittest.TestCase):

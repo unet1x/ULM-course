@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 660" role="img" aria-labelledby="route-title route-desc">
-  <title id="route-title">Synthetic Spain-only visual navigation route</title>
-  <desc id="route-desc">СИНТЕТИЧЕСКАЯ УЧЕБНАЯ СХЕМА — НЕ ДЛЯ НАВИГАЦИИ. Original fictional route with checkpoints, airspace, terrain and escape decisions; no real coordinates or frequencies.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 940" role="img" aria-labelledby="route-title route-desc">
+  <title id="route-title">Синтетический учебный маршрут визуальной навигации только внутри Испании</title>
+  <desc id="route-desc">СИНТЕТИЧЕСКАЯ УЧЕБНАЯ СХЕМА — НЕ ДЛЯ НАВИГАЦИИ. Оригинальный вымышленный маршрут ES-ORIGIN — ES-DESTINATION с контрольными точками, воздушным пространством, рельефом и решениями об уходе; границы/статус: ПРОВЕРИТЬ; уход на восток: СТОП и проверка AREA-A; реальных координат и частот нет.</desc>
   <defs>
     <marker id="route-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"/>
@@ -9,48 +9,58 @@
       <line x1="0" y1="0" x2="0" y2="18" stroke="#92400e" stroke-width="5" opacity="0.3"/>
     </pattern>
   </defs>
-  <rect x="8" y="8" width="724" height="644" rx="18" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+  <rect x="8" y="8" width="724" height="924" rx="18" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
   <rect x="30" y="25" width="680" height="70" rx="12" fill="#fee2e2" stroke="#b91c1c" stroke-width="3"/>
-  <text x="370" y="55" text-anchor="middle" font-size="27" font-weight="700" fill="#991b1b">СИНТЕТИЧЕСКАЯ УЧЕБНАЯ СХЕМА</text>
-  <text x="370" y="84" text-anchor="middle" font-size="27" font-weight="700" fill="#991b1b">НЕ ДЛЯ НАВИГАЦИИ</text>
+  <text x="370" y="55" text-anchor="middle" font-size="32" font-weight="700" fill="#991b1b">СИНТЕТИЧЕСКАЯ УЧЕБНАЯ СХЕМА</text>
+  <text x="370" y="88" text-anchor="middle" font-size="32" font-weight="700" fill="#991b1b">НЕ ДЛЯ НАВИГАЦИИ</text>
+
+  <rect x="30" y="110" width="680" height="82" rx="12" fill="#ecfdf5" stroke="#047857" stroke-width="2"/>
+  <text x="48" y="143" font-size="32" fill="#065f46">Вымышленный маршрут: только Испания</text>
+  <text x="48" y="178" font-size="32" fill="#065f46">Точка → время / рельеф / пространство</text>
+
+  <rect x="30" y="207" width="330" height="72" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="195" y="235" text-anchor="middle" font-size="32" font-weight="700" fill="#6d28d9">уход на запад</text>
+  <text x="195" y="268" text-anchor="middle" font-size="32" fill="#6d28d9">escape west</text>
+  <rect x="380" y="207" width="330" height="72" rx="12" fill="#ffe4e6" stroke="#be123c" stroke-width="2"/>
+  <text x="545" y="235" text-anchor="middle" font-size="32" font-weight="700" fill="#9f1239">уход на восток: СТОП</text>
+  <text x="545" y="268" text-anchor="middle" font-size="32" fill="#9f1239">проверка AREA-A / check</text>
+
   <g id="terrain">
-    <path d="M 20 500 C 150 410, 230 460, 320 390 C 420 310, 520 380, 720 260 L 720 650 L 20 650 Z" fill="url(#terrain-pattern)" stroke="#92400e" stroke-width="3"/>
-    <text x="700" y="548" text-anchor="end" font-size="27" font-weight="700" fill="#78350f">synthetic terrain</text>
+    <path d="M 20 755 C 150 655, 250 715, 350 630 C 470 530, 560 615, 720 490 L 720 930 L 20 930 Z" fill="url(#terrain-pattern)" stroke="#92400e" stroke-width="3"/>
+    <text x="700" y="895" text-anchor="end" font-size="32" font-weight="700" fill="#78350f">Условный рельеф / synthetic terrain</text>
   </g>
+
   <g id="airspace">
-    <path d="M 410 120 L 690 120 L 650 390 L 440 350 Z" fill="#bfdbfe" fill-opacity="0.65" stroke="#1d4ed8" stroke-width="5" stroke-dasharray="14 9"/>
-    <text x="555" y="165" text-anchor="middle" font-size="27" font-weight="700" fill="#1e3a8a">AREA-A</text>
-    <text x="555" y="196" text-anchor="middle" font-size="27" fill="#1e3a8a">limits/status: CHECK</text>
+    <path d="M 430 300 L 690 300 L 655 615 L 470 580 Z" fill="#bfdbfe" fill-opacity="0.65" stroke="#1d4ed8" stroke-width="5" stroke-dasharray="14 9"/>
+    <text x="555" y="345" text-anchor="middle" font-size="32" font-weight="700" fill="#1e3a8a">AREA-A</text>
+    <text x="555" y="385" text-anchor="middle" font-size="32" fill="#1e3a8a">границы/статус:</text>
+    <text x="555" y="422" text-anchor="middle" font-size="32" font-weight="700" fill="#1e3a8a">ПРОВЕРИТЬ</text>
   </g>
+
   <g id="route-line" fill="none" stroke="#047857" stroke-width="9">
-    <path d="M 92 520 L 238 402 L 390 315 L 606 430" marker-end="url(#route-arrow)"/>
+    <path d="M 92 785 L 238 650 L 390 540 L 606 695" marker-end="url(#route-arrow)"/>
   </g>
   <g id="origin">
-    <circle cx="92" cy="520" r="18" fill="#059669" stroke="#064e3b" stroke-width="4"/>
-    <text x="74" y="565" font-size="27" font-weight="700" fill="#064e3b">ES-ORIGIN</text>
+    <circle cx="92" cy="785" r="18" fill="#059669" stroke="#064e3b" stroke-width="4"/>
+    <text x="42" y="837" font-size="32" font-weight="700" fill="#064e3b">ES-ORIGIN</text>
   </g>
   <g id="checkpoint-1">
-    <rect x="218" y="382" width="40" height="40" transform="rotate(45 238 402)" fill="#facc15" stroke="#713f12" stroke-width="4"/>
-    <text x="194" y="365" font-size="27" font-weight="700" fill="#713f12">CP1</text>
+    <rect x="218" y="630" width="40" height="40" transform="rotate(45 238 650)" fill="#facc15" stroke="#713f12" stroke-width="4"/>
+    <text x="188" y="605" font-size="32" font-weight="700" fill="#713f12">CP1</text>
   </g>
   <g id="checkpoint-2">
-    <rect x="370" y="295" width="40" height="40" transform="rotate(45 390 315)" fill="#facc15" stroke="#713f12" stroke-width="4"/>
-    <text x="350" y="277" font-size="27" font-weight="700" fill="#713f12">CP2</text>
+    <rect x="370" y="520" width="40" height="40" transform="rotate(45 390 540)" fill="#facc15" stroke="#713f12" stroke-width="4"/>
+    <text x="346" y="505" font-size="32" font-weight="700" fill="#713f12">CP2</text>
   </g>
   <g id="destination">
-    <circle cx="606" cy="430" r="18" fill="#059669" stroke="#064e3b" stroke-width="4"/>
-    <text x="700" y="475" text-anchor="end" font-size="27" font-weight="700" fill="#064e3b">ES-DESTINATION</text>
+    <circle cx="606" cy="695" r="18" fill="#059669" stroke="#064e3b" stroke-width="4"/>
+    <text x="700" y="747" text-anchor="end" font-size="32" font-weight="700" fill="#064e3b">ES-DESTINATION</text>
   </g>
+
   <g id="escape-west">
-    <line x1="238" y1="402" x2="82" y2="260" stroke="#7c3aed" stroke-width="6" stroke-dasharray="10 8" marker-end="url(#route-arrow)"/>
-    <text x="52" y="235" font-size="27" font-weight="700" fill="#6d28d9">escape west</text>
+    <line x1="238" y1="650" x2="82" y2="450" stroke="#7c3aed" stroke-width="6" stroke-dasharray="10 8" marker-end="url(#route-arrow)"/>
   </g>
   <g id="escape-east">
-    <line x1="390" y1="315" x2="620" y2="225" stroke="#be123c" stroke-width="6" stroke-dasharray="10 8" marker-end="url(#route-arrow)"/>
-    <text x="448" y="232" font-size="27" font-weight="700" fill="#9f1239">escape east?</text>
-    <text x="438" y="260" font-size="27" fill="#9f1239">AREA-A → stop/check</text>
+    <line x1="390" y1="540" x2="650" y2="450" stroke="#be123c" stroke-width="6" stroke-dasharray="10 8" marker-end="url(#route-arrow)"/>
   </g>
-  <rect x="30" y="105" width="315" height="80" rx="12" fill="#ecfdf5" stroke="#047857" stroke-width="2"/>
-  <text x="48" y="137" font-size="27" fill="#065f46">Spain-only fictional route</text>
-  <text x="48" y="168" font-size="27" fill="#065f46">CP → time / terrain / airspace</text>
 </svg>

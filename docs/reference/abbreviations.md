@@ -26,6 +26,8 @@
 | METAR | [METAR](glossary.md#term-metar) | регулярная аэродромная метеосводка |
 | TAF | [TAF](glossary.md#term-taf) | аэродромный прогноз |
 | QNH | [QNH](glossary.md#term-qnh) | altimeter pressure setting для altitude AMSL |
+| UTC | [Coordinated Universal Time (UTC)](glossary.md#term-coordinated-universal-time-utc) | координированное всемирное время |
+| FPL | [flight plan](glossary.md#term-flight-plan) | план полёта, передаваемый обслуживанию воздушного движения |
 | RTC | [radiofonista (RTC)](glossary.md#term-radiofonista-rtc) | национальная habilitación радиотелефониста ULM |
 | AESA | [AESA](glossary.md#term-aesa) | испанский компетентный орган авиационной безопасности |
 | EASA | [EASA](glossary.md#term-easa) | European Union Aviation Safety Agency |
@@ -33,6 +35,7 @@
 | ENAIRE | [ENAIRE](glossary.md#term-enaire) | испанский ANSP и официальный AIS publisher |
 | AIP SUP | [AIP SUP](glossary.md#term-aip-sup) | дополнение к AIP |
 | AIC | [AIC](glossary.md#term-aic) | Aeronautical Information Circular |
+| AIRAC | [Aeronautical Information Regulation and Control (AIRAC)](glossary.md#term-aeronautical-information-regulation-control-airac) | регламентирование и контролирование аэронавигационной информации |
 | SEP | [SEP](glossary.md#term-sep) | single-engine piston aeroplane class rating |
 | TMG | [TMG](glossary.md#term-tmg) | туристический мотопланёр |
 | AMC | [AMC](glossary.md#term-amc) | приемлемые способы подтверждения соответствия EASA |
@@ -62,12 +65,17 @@
 | VFR2IMC | [VFR into IMC (VFR2IMC)](glossary.md#term-vfr-into-imc-vfr2imc) | развитие VFR-полёта к потере visual conditions |
 | R/T | [radiotelephony (R/T)](glossary.md#term-radiotelephony-rt) | авиационная радиотелефонная связь |
 | ATC | [air traffic control (ATC)](glossary.md#term-air-traffic-control-atc) | диспетчерское обслуживание воздушного движения |
+| ATS | [air traffic services (ATS)](glossary.md#term-air-traffic-services-ats) | обслуживание воздушного движения |
 | AFIS | [aerodrome flight information service (AFIS)](glossary.md#term-aerodrome-flight-information-service-afis) | аэродромное полётно-информационное обслуживание |
 | A/A | [air-to-air (A/A)](glossary.md#term-air-to-air-aa) | связь «воздух—воздух» |
 | SSR | [secondary surveillance radar (SSR)](glossary.md#term-secondary-surveillance-radar-ssr) | вторичный обзорный радиолокатор |
 | DR | [dead reckoning (DR)](glossary.md#term-dead-reckoning-dr) | навигация счислением пути |
 | TC | [true course (TC)](glossary.md#term-true-course-tc) | истинная заданная линия пути |
 | MC | [magnetic course (MC)](glossary.md#term-magnetic-course-mc) | магнитная заданная линия пути |
+| TH | [true heading (TH)](glossary.md#term-true-heading-th) | истинный курс носа |
+| MH | [magnetic heading (MH)](glossary.md#term-magnetic-heading-mh) | магнитный курс носа |
+| TAS | [true airspeed (TAS)](glossary.md#term-true-airspeed-tas) | истинная воздушная скорость |
+| DEV | [compass deviation (DEV)](glossary.md#term-compass-deviation-dev) | девиация компаса |
 | CH | [compass heading (CH)](glossary.md#term-compass-heading-ch) | компасный курс носа |
 | WCA | [wind correction angle (WCA)](glossary.md#term-wind-correction-angle-wca) | угол поправки на ветер |
 | GS | [groundspeed (GS)](glossary.md#term-groundspeed-gs) | путевая скорость |
@@ -75,6 +83,8 @@
 | GNSS | [global navigation satellite system (GNSS)](glossary.md#term-global-navigation-satellite-system-gnss) | глобальная спутниковая навигационная система |
 | RAIM | [receiver autonomous integrity monitoring (RAIM)](glossary.md#term-receiver-autonomous-integrity-monitoring-raim) | автономный контроль целостности в приёмнике |
 | SBAS | [satellite-based augmentation system (SBAS)](glossary.md#term-satellite-based-augmentation-system-sbas) | спутниковая система функционального дополнения |
+| EGNOS | [European Geostationary Navigation Overlay Service (EGNOS)](glossary.md#term-european-geostationary-navigation-overlay-service-egnos) | Европейская геостационарная служба навигационного покрытия |
 | VOR | [VHF omnidirectional range (VOR)](glossary.md#term-vhf-omnidirectional-range-vor) | всенаправленный VHF-радиомаяк |
 | DME | [distance measuring equipment (DME)](glossary.md#term-distance-measuring-equipment-dme) | дальномерное оборудование |
 | ADF | [automatic direction finder (ADF)](glossary.md#term-automatic-direction-finder-adf) | автоматический радиокомпас |
+| NDB | [non-directional beacon (NDB)](glossary.md#term-non-directional-beacon-ndb) | ненаправленный радиомаяк |
