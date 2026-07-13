@@ -276,7 +276,8 @@ def local_path(source, target):
 
 def _heading_slug(value):
     value = re.sub(r"<[^>]+>", "", value)
-    value = re.sub(r"[`*_~]", "", value)
+    value = re.sub(r"[`*~]", "", value)
+    value = re.sub(r"(?<!\w)_(?=\S)|(?<=\S)_(?!\w)", "", value)
     value = unicodedata.normalize("NFKD", value)
     value = value.encode("ascii", "ignore").decode("ascii")
     value = re.sub(r"[^\w\s-]", "", value).strip().lower()
@@ -470,6 +471,12 @@ Setext section
             "ulmmaf-lapla-ppla",
             _heading_slug("ULM/MAF → LAPL(A) или PPL(A)"),
         )
+
+    def test_heading_slug_preserves_literal_intraword_underscore(self):
+        self.assertEqual("foo_bar", _heading_slug("foo_bar"))
+
+    def test_heading_slug_removes_actual_underscore_emphasis_delimiters(self):
+        self.assertEqual("emphasised", _heading_slug("_emphasised_"))
 
     def test_present_anchor_is_accepted(self):
         fragment_exists = globals().get(
