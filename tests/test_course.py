@@ -1,5 +1,6 @@
 import json
 import re
+import unicodedata
 import unittest
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -276,9 +277,21 @@ def local_path(source, target):
 def _heading_slug(value):
     value = re.sub(r"<[^>]+>", "", value)
     value = re.sub(r"[`*_~]", "", value)
-    value = re.sub(r"[^\w\s-]", "", value, flags=re.UNICODE)
-    value = re.sub(r"[-\s]+", "-", value.strip().casefold())
-    return value
+    value = unicodedata.normalize("NFKD", value)
+    value = value.encode("ascii", "ignore").decode("ascii")
+    value = re.sub(r"[^\w\s-]", "", value).strip().lower()
+    return re.sub(r"[-\s]+", "-", value)
+
+
+def _unique_anchor(identifier, used_ids):
+    while identifier in used_ids or not identifier:
+        counted = re.match(r"^(.*)_([0-9]+)$", identifier)
+        if counted:
+            identifier = f"{counted.group(1)}_{int(counted.group(2)) + 1}"
+        else:
+            identifier = f"{identifier}_1"
+    used_ids.add(identifier)
+    return identifier
 
 
 def markdown_anchors(text):
@@ -286,7 +299,6 @@ def markdown_anchors(text):
         next(group for group in match.groups() if group is not None)
         for match in EXPLICIT_HTML_ANCHOR.finditer(text)
     }
-    heading_counts = {}
     lines = FENCED_CODE.sub("", text).splitlines()
     for index, line in enumerate(lines):
         match = ATX_HEADING.match(line)
@@ -307,11 +319,7 @@ def markdown_anchors(text):
             anchors.add(attribute.group(1))
             continue
         slug = _heading_slug(heading)
-        if not slug:
-            continue
-        duplicate_index = heading_counts.get(slug, 0)
-        heading_counts[slug] = duplicate_index + 1
-        anchors.add(slug if duplicate_index == 0 else f"{slug}_{duplicate_index}")
+        _unique_anchor(slug, anchors)
     return anchors
 
 
@@ -447,12 +455,20 @@ Setext section
         self.assertTrue(
             {
                 "flight-planning",
-                "повтор",
-                "повтор_1",
+                "_1",
+                "_2",
                 "setext-section",
                 "custom-id",
                 "manual-anchor",
             }.issubset(anchors)
+        )
+
+    def test_heading_slug_matches_pinned_python_markdown_default(self):
+        self.assertEqual("", _heading_slug("Порядок обучения"))
+        self.assertEqual("ulmmaf-maf", _heading_slug("ULM/MAF и MAF"))
+        self.assertEqual(
+            "ulmmaf-lapla-ppla",
+            _heading_slug("ULM/MAF → LAPL(A) или PPL(A)"),
         )
 
     def test_present_anchor_is_accepted(self):
@@ -467,13 +483,14 @@ Setext section
         )
         self.assertFalse(fragment_exists("# Present anchor", "missing-anchor"))
 
-    def test_same_page_present_and_missing_anchor_targets_are_validated(self):
+    def test_current_index_uses_python_markdown_empty_slug_anchor(self):
         source = ROOT / "docs/index.md"
         reference_error = globals().get(
             "local_reference_error",
             lambda source, target, is_image=False: None,
         )
-        self.assertIsNone(
+        self.assertIsNone(reference_error(source, "#_1", is_image=False))
+        self.assertIsNotNone(
             reference_error(source, "#порядок-обучения", is_image=False)
         )
         self.assertIsNotNone(
@@ -487,6 +504,13 @@ Setext section
             lambda source, target, is_image=False: None,
         )
         self.assertIsNone(
+            reference_error(
+                source,
+                "sources/audit-spain-2026.md#_1",
+                is_image=False,
+            )
+        )
+        self.assertIsNotNone(
             reference_error(
                 source,
                 "sources/audit-spain-2026.md#метод-и-иерархия",
