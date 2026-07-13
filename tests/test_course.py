@@ -1332,7 +1332,7 @@ def unexplained_english_phrase_occurrences(text):
             for word in re.findall(r"(?<![A-Za-z])([A-Za-z]+)(?![A-Za-z])", value)
             if word.islower()
         }
-        if not lower_words or lower_words.issubset({"cos", "sin"}):
+        if not lower_words or lower_words.issubset({"cos", "sin", "ft"}):
             return " "
         return value
 
@@ -3954,6 +3954,16 @@ class Task7CommunicationsTests(unittest.TestCase):
             (ROOT / path).read_text(encoding="utf-8") for path in TASK7_CHAPTERS
         )
 
+    def _scenario(self, number):
+        text = self._all_text()
+        match = re.search(
+            rf"(?ms)^###\s+Сценарий RTC-{number:02d}\b.*?"
+            rf"(?=^###\s+Сценарий RTC-|^##\s|\Z)",
+            text,
+        )
+        self.assertIsNotNone(match, f"RTC-{number:02d}")
+        return match.group(0)
+
     def test_radio_guard_rejects_clause_local_unsafe_probes(self):
         probes = (
             "ROGER является полным readback.",
@@ -4030,10 +4040,376 @@ class Task7CommunicationsTests(unittest.TestCase):
             r"TAKE-OFF.{0,160}(?:только|исключительн).{0,120}(?:разрешен|разрешён|отмен)",
             r"STANDBY.{0,100}не.{0,35}(?:одобр|разреш)",
             r"121[.,]500.{0,130}(?:необходим|целесообраз)",
-            r"7000.{0,130}не.{0,45}универсальн\w+.{0,30}VFR",
+            r"7000.{0,130}не.{0,45}универсальн\w+.{0,30}(?:VFR|ПВП)",
             r"IDENT.{0,100}только.{0,40}(?:указан|команд|инструкц)",
         ):
             self.assertRegex(plain, re.compile(pattern, re.IGNORECASE | re.DOTALL))
+
+    def test_reviewed_controlled_exchanges_use_exact_current_forms(self):
+        rtc01 = self._scenario(1)
+        self.assertIn(
+            "[CALLSIGN], [STATION], READABILITY FOUR",
+            rtc01,
+        )
+        self.assertIn("SERA.14070", _plain_markdown(rtc01))
+
+        rtc03 = self._scenario(3)
+        self.assertIn("[STATION], [FULL CALLSIGN]", rtc03)
+        self.assertIn("[FULL CALLSIGN], [STATION]", rtc03)
+        english_line = next(
+            line for line in rtc03.splitlines() if line.startswith("**English:**")
+        )
+        self.assertNotIn("PASS YOUR MESSAGE", english_line)
+        self.assertIn("SERA.14055", _plain_markdown(rtc03))
+
+        rtc04 = self._scenario(4)
+        self.assertIn("HOLD SHORT OF RUNWAY [RUNWAY]", rtc04)
+        self.assertIn("HOLDING SHORT OF RUNWAY [RUNWAY], [CALLSIGN]", rtc04)
+        self.assertIn("MANTENGA FUERA DE PISTA [RUNWAY]", rtc04)
+        self.assertIn("MANTENGO FUERA DE PISTA [RUNWAY], [CALLSIGN]", rtc04)
+        self.assertIn("Annex V 1.4.9(d–f)", rtc04)
+        self.assertIn("SERA.8015(e)", _plain_markdown(rtc04))
+
+        rtc06 = self._scenario(6)
+        for phrase in (
+            "(CONDITION), LINE UP, (BRIEF REITERATION)",
+            "(CONDITION), LINING UP, (BRIEF REITERATION)",
+            "(CONDICIÓN), ALINEE (O ENTRE) Y MANTENGA, (BREVE REITERACIÓN)",
+            "(CONDICIÓN), ALINEANDO (O ENTRANDO) Y MANTENIENDO, (BREVE REITERACIÓN)",
+            "Annex V 1.4.11(i–j)",
+        ):
+            self.assertIn(phrase, rtc06)
+        self.assertIn("GM1 SERA.8015(ec)", _plain_markdown(rtc06))
+
+        rtc07 = self._scenario(7)
+        self.assertIn("LINE UP [AND WAIT]", rtc07)
+        self.assertIn("ALINEE (O ENTRE) [Y MANTENGA]", rtc07)
+        self.assertIn("Annex V 1.4.11(f–g)", rtc07)
+        self.assertRegex(
+            _plain_markdown(rtc07),
+            r"(?is)PISTA\s+\[RUNWAY\].{0,180}(?:нескольк|неоднознач|спут)",
+        )
+
+        rtc08 = self._scenario(8)
+        protected_lines = "\n".join(
+            line for line in rtc08.splitlines()
+            if line.startswith(("**English:**", "**Español:**"))
+        )
+        self.assertNotIn("[WIND]", protected_lines)
+
+        rtc13 = self._scenario(13)
+        self.assertIn("ENTRE (O INGRESE) EN", rtc13)
+        self.assertNotIn("INCORPÓRESE", rtc13)
+
+    def test_position_report_matches_amended_sera_8025(self):
+        chapter = (ROOT / TASK7_CHAPTERS[3]).read_text(encoding="utf-8")
+        position_section = re.search(
+            r"(?ms)^###\s+[^\n]*\{#position-report\}.*?(?=^###\s|^##\s|\Z)",
+            chapter,
+        ).group(0)
+        plain = _plain_markdown(position_section)
+        for pattern in (
+            r"идентификац\w+\s+воздушн\w+\s+судн",
+            r"позиц",
+            r"врем",
+            r"скорост\w+.{0,90}(?:назнач|задан)",
+            r"друг\w+\s+сведен\w+.{0,90}(?:указал|указан|потребован)",
+            r"обязательн\w+\s+пункт.{0,120}врем.{0,120}(?:уров|высот)",
+            r"следующ\w+\s+пункт.{0,180}(?:только|лишь).{0,100}(?:процедур|указан|инструкц)",
+        ):
+            self.assertRegex(plain, re.compile(pattern, re.IGNORECASE | re.DOTALL))
+        self.assertIn("SERA.8025", _plain_markdown(position_section))
+
+        rtc10 = self._scenario(10)
+        for field in (
+            "[CALLSIGN]", "[POSITION]", "[TIME]", "[LEVEL]",
+            "[ASSIGNED SPEED]", "[OTHER INSTRUCTED INFORMATION]",
+        ):
+            self.assertIn(field, rtc10)
+        self.assertRegex(
+            _plain_markdown(rtc10),
+            r"(?is)\[NEXT POINT\].{0,200}(?:только|если).{0,120}(?:процедур|указан|инструкц)",
+        )
+
+    def test_blind_transmission_is_repeated_verbatim_and_receiver_failure_is_distinct(self):
+        chapter = (ROOT / TASK7_CHAPTERS[5]).read_text(encoding="utf-8")
+        rtc20 = self._scenario(20)
+        self.assertNotIn("THIS MESSAGE TWICE", chapter)
+        self.assertNotIn("MENSAJE REPETIDO", chapter)
+        complete_message = (
+            "TRANSMITTING BLIND, [STATION], [CALLSIGN], RADIO FAILURE, "
+            "[POSITION], [ALTITUDE], LANDING AT [SUITABLE AERODROME]"
+        )
+        self.assertGreaterEqual(rtc20.count(complete_message), 2)
+        self.assertIn("TRANSMITTING BLIND DUE TO RECEIVER FAILURE", chapter)
+        failure_text = _plain_markdown(chapter)
+        self.assertRegex(
+            failure_text,
+            r"(?is)receiver failure.{0,420}(?:врем\w+\s+следующ\w+\s+.*передач|"
+            r"time of (?:the )?next transmission)",
+        )
+        self.assertRegex(
+            failure_text,
+            r"(?is)receiver failure.{0,520}(?:намерен|intended action)",
+        )
+        self.assertIn("SERA.14085(b)", failure_text)
+
+    def test_digits_and_operational_number_groups_are_taught_step_by_step(self):
+        chapter = (ROOT / TASK7_CHAPTERS[0]).read_text(encoding="utf-8")
+        number_section = re.search(
+            r"(?ms)^###\s+[^\n]*\{#alphabet-numbers-time\}.*?(?=^###\s|^##\s|\Z)",
+            chapter,
+        ).group(0)
+        for digit, spoken in enumerate(
+            ("ZE-RO", "WUN", "TOO", "TREE", "FOW-er", "FIFE", "SIX", "SEV-en", "AIT", "NIN-er")
+        ):
+            self.assertRegex(number_section, rf"(?m)^\|\s*{digit}\s*\|\s*{re.escape(spoken)}\s*\|")
+        for example in (
+            "118.005 → ONE ONE EIGHT DECIMAL ZERO ZERO FIVE",
+            "080° → HEADING ZERO EIGHT ZERO",
+            "3 400 ft → THREE THOUSAND FOUR HUNDRED FEET",
+            "QNH 1009 → QNH ONE ZERO ZERO NINE",
+            "0920 UTC → ZERO NINE TWO ZERO",
+        ):
+            self.assertIn(example, number_section)
+        plain_number_section = _plain_markdown(number_section)
+        for pinpoint in (
+            "SERA.14020", "SERA.14035", "SERA.14040", "SERA.14045",
+            "RCA 10.5.2.1.3.1.1",
+        ):
+            self.assertIn(pinpoint, plain_number_section)
+        self.assertNotIn("SERA.14015", plain_number_section)
+
+    def test_task7_source_scopes_and_adjacent_pinpoints_are_precise(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text())}
+        sera_scope = sources["SRC-EASA-SERA-2025"]["scope"]
+        for pinpoint in (
+            "SERA.8025", "SERA.14055", "SERA.14070", "SERA.14085",
+            "SERA.14095",
+        ):
+            self.assertIn(pinpoint, sera_scope)
+        rd_scope = sources["SRC-BOE-RD-1180-2018"]["scope"]
+        for pinpoint in (
+            "RCA 10.5.2.1.3.1.1", "RCA 10.5.3",
+            "RCA 4.7.1.5.1.3", "Annex V 1.4.9", "Annex V 1.4.11",
+            "Annex V 1.4.14–1.4.18",
+        ):
+            self.assertIn(pinpoint, rd_scope)
+        self.assertIn("SRC-FAA-AIM-RADIO-2026", sources)
+
+        adjacency = {
+            (0, "vhf-limitations"): ("SRC-FAA-AIM-RADIO-2026", "AIM 4-2-1"),
+            (0, "frequency-discipline"): ("SRC-EASA-SERA-2025", "SERA.14045"),
+            (0, "callsigns"): ("SRC-EASA-SERA-2025", "SERA.14050", "SERA.14055"),
+            (1, "plain-language"): ("SRC-EASA-SERA-2025", "SERA.14001", "SERA.14075"),
+            (4, "air-to-air"): ("SRC-ENAIRE-AIP-GEN-3-4-2026", "SRC-FAA-AIM-RADIO-2026"),
+        }
+        for (chapter_index, anchor), expected in adjacency.items():
+            chapter = (ROOT / TASK7_CHAPTERS[chapter_index]).read_text(encoding="utf-8")
+            section = re.search(
+                rf"(?ms)^###\s+[^\n]*\{{#{re.escape(anchor)}\}}.*?(?=^###\s|^##\s|\Z)",
+                chapter,
+            )
+            self.assertIsNotNone(section, anchor)
+            for token in expected:
+                self.assertIn(token, _plain_markdown(section.group(0)), f"{anchor}: {token}")
+
+    def test_ssr_meaning_and_abbreviations_are_unambiguous(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text())}
+        clearance = terms["ATC clearance"]
+        self.assertIsNone(clearance["abbreviation"])
+        ssr = terms["secondary surveillance radar (SSR)"]
+        self.assertNotRegex(ssr["russian"].casefold(), r"ответчик|транспондер")
+
+        rows = []
+        for line in ABBREVIATIONS.read_text(encoding="utf-8").splitlines():
+            match = re.match(r"^\|\s*([^|]+?)\s*\|", line)
+            if match and match.group(1).strip() not in {"Сокращение", "---"}:
+                rows.append(match.group(1).strip())
+        self.assertEqual(1, rows.count("ATC"))
+        self.assertEqual(1, rows.count("SSR"))
+        ssr_line = next(line for line in ABBREVIATIONS.read_text(encoding="utf-8").splitlines() if line.startswith("| SSR |"))
+        self.assertNotRegex(ssr_line.casefold(), r"ответчик|транспондер")
+
+    def test_scenarios_and_question_rationales_are_russian_first(self):
+        def unexplained_latin(value):
+            value = re.sub(r"`[^`\n]*`", " ", value)
+            value = re.sub(r"\[[^\]\n]+\](?:\[[^\]\n]*\]|\([^\n)]+\))", " ", value)
+            value = re.sub(r"\[[A-Z0-9_ /-]+\]", " ", value)
+            value = re.sub(r"<[^>]+>|SRC-[A-Z0-9-]+", " ", value)
+            return re.findall(r"(?<![A-Za-z])[a-z][a-z'-]{2,}(?![A-Za-z])", value)
+
+        errors = []
+        for number in range(1, 21):
+            block = self._scenario(number)
+            heading = block.splitlines()[0].split("—", 1)[-1]
+            if not re.search(r"[А-Яа-яЁё]", heading):
+                errors.append(f"RTC-{number:02d} heading: {heading}")
+            for label in (
+                "Тип обслуживания", "Контекст", "Пояснение",
+                "[Readback][readback]/[acknowledgement][acknowledgement]",
+                "Решение при сомнении",
+            ):
+                match = re.search(rf"(?m)^\*\*{re.escape(label)}:\*\*\s*(.+)$", block)
+                self.assertIsNotNone(match, f"RTC-{number:02d}: {label}")
+                latin = unexplained_latin(match.group(1))
+                if latin:
+                    errors.append(f"RTC-{number:02d} {label}: {' '.join(latin)}")
+
+        for relative_path in TASK7_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            for label in ("Почему", "Почему главный отвлекающий вариант неверен"):
+                for match in re.finditer(rf"(?m)^\*\*{label}:\*\*\s*(.+)$", text):
+                    latin = unexplained_latin(match.group(1))
+                    if latin:
+                        line = text.count("\n", 0, match.start()) + 1
+                        errors.append(f"{relative_path}:{line} {label}: {' '.join(latin)}")
+        self.assertEqual([], errors)
+
+    def test_all_task7_learner_prose_is_russian_first_outside_labelled_transmissions(self):
+        errors = []
+        for relative_path in TASK7_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            text = re.sub(r"(?m)^\*\*(?:English|Español):\*\*.*$", "", text)
+            # A linked canonical term is the course's required cross-reference to
+            # its Russian/English/Spanish glossary explanation, not unexplained
+            # English learner prose.  Mask both inline and reference-style
+            # glossary links while leaving unlinked hybrids detectable.
+            glossary_reference_keys = {
+                match.group(1)
+                for match in re.finditer(
+                    r"(?m)^\[([^\]]+)\]:\s+[^\n]*glossary\.md#term-", text
+                )
+            }
+            text = re.sub(
+                r"\[[^\]\n]+\]\([^\n)]*glossary\.md#term-[^\n)]+\)",
+                "термин",
+                text,
+            )
+            if glossary_reference_keys:
+                keys = "|".join(
+                    re.escape(key)
+                    for key in sorted(glossary_reference_keys, key=len, reverse=True)
+                )
+                text = re.sub(rf"\[[^\]\n]+\]\[(?:{keys})\]", "термин", text)
+            chapter_errors = unexplained_english_phrase_occurrences(text)
+            errors.extend(
+                f"{relative_path}:{line} {phrase}"
+                for line, phrase in chapter_errors
+            )
+        self.assertEqual([], errors)
+
+    def test_aa_templates_are_explicitly_local_non_normative_field_sets(self):
+        chapter = (ROOT / TASK7_CHAPTERS[4]).read_text(encoding="utf-8")
+        aa_section = re.search(
+            r"(?ms)^###\s+[^\n]*\{#air-to-air\}.*?(?=^###\s|^##\s|\Z)", chapter
+        ).group(0)
+        plain = _plain_markdown(aa_section)
+        self.assertRegex(
+            plain,
+            r"(?is)(?:не\s+явля\w+|ненормативн\w+).{0,100}(?:универсальн\w+\s+фразеолог|скрипт)",
+        )
+        self.assertRegex(plain, r"(?is)набор\w*\s+полей.{0,180}(?:AIP|местн\w+\s+форм)")
+        self.assertRegex(plain, r"(?is)SALIDA.{0,160}SALIENDO")
+
+    def test_emergency_station_responses_and_placeholder_legend_are_concrete(self):
+        chapter = (ROOT / TASK7_CHAPTERS[5]).read_text(encoding="utf-8")
+        for generic in ("[ASSISTANCE/QUESTION]", "[INSTRUCTION/INFORMATION]"):
+            self.assertNotIn(generic, chapter)
+        for number in (18, 19):
+            block = self._scenario(number)
+            self.assertRegex(block, r"(?is)station:.{0,300}(?:REPORT|ROGER).{0,120}(?:RUNWAY|PERSONS|ENDURANCE|WIND)")
+            self.assertRegex(block, r"(?is)estación:.{0,300}(?:NOTIFIQUE|RECIBIDO).{0,120}(?:PISTA|PERSONAS|AUTONOMÍA|VIENTO)")
+        self.assertRegex(
+            _plain_markdown(chapter),
+            r"(?is)обозначени\w+\s+переменн.{0,220}(?:английск|испанск).{0,220}не\s+произнос",
+        )
+
+    def test_mayday_threshold_preserves_serious_and_or_imminent_condition(self):
+        chapter = (ROOT / TASK7_CHAPTERS[5]).read_text(encoding="utf-8")
+        blocks = {
+            "urgency upgrade": re.search(
+                r"(?ms)^###\s+PAN PAN:.*?\{#urgency\}.*?(?=^###\s|^##\s|\Z)",
+                chapter,
+            ).group(0),
+            "RTC-19 decision": self._scenario(19),
+            "summary": re.search(
+                r"(?ms)^##\s+Конспект.*?\{#summary\}.*?(?=^##\s|\Z)",
+                chapter,
+            ).group(0),
+            "Q-RTC-026": re.search(
+                r"(?ms)^###\s+Q-RTC-026\b.*?(?=^###\s|^##\s|\Z)",
+                chapter,
+            ).group(0),
+        }
+        for name, block in blocks.items():
+            plain = _plain_markdown(block)
+            with self.subTest(block=name):
+                self.assertRegex(
+                    plain,
+                    r"(?is)серь[её]зн\w+\s+и/или\s+непосредственн\w+"
+                    r".{0,120}(?:немедленн\w+\s+помощ|"
+                    r"необходимост\w+\s+немедленн\w+\s+помощ)",
+                )
+                self.assertNotRegex(
+                    plain,
+                    r"(?is)серь[её]зн\w+\s+и\s+непосредственн\w+",
+                )
+
+    def test_lebg_intersection_departure_scope_is_not_generalised(self):
+        chapter = (ROOT / TASK7_CHAPTERS[4]).read_text(encoding="utf-8")
+        aa_section = re.search(
+            r"(?ms)^###\s+[^\n]*\{#air-to-air\}.*?(?=^###\s|^##\s|\Z)",
+            chapter,
+        ).group(0)
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text())}
+        evidence = (
+            aa_section,
+            sources["SRC-ENAIRE-AIP-LEBG-2026"]["scope"],
+            (ROOT / "docs/sources/official-sources.md").read_text(encoding="utf-8"),
+            (ROOT / "docs/sources/audit-technical.md").read_text(encoding="utf-8"),
+        )
+        for value in evidence:
+            self.assertRegex(
+                _plain_markdown(value),
+                r"(?is)AD\s*2\.20.{0,220}(?:вылет\w*\s+с\s+пересеч|"
+                r"intersection\s+departure)",
+            )
+
+    def test_rtc07_runway_designator_readback_remains_conditional(self):
+        rtc07 = self._scenario(7)
+        readback = re.search(
+            r"(?m)^\*\*\[Readback\]\[readback\]/"
+            r"\[acknowledgement\]\[acknowledgement\]:\*\*\s*(.+)$",
+            rtc07,
+        ).group(1)
+        self.assertRegex(
+            _plain_markdown(readback),
+            r"(?is)обозначени\w*\s+ВПП.{0,120}(?:если|когда).{0,120}"
+            r"(?:включ[её]н|требу|неоднознач|нескольк)",
+        )
+
+    def test_reviewed_question_distractors_are_plausible_novice_errors(self):
+        weak = {
+            6: ("D", "Сообщение о предполагаемом времени вылета"),
+            8: ("C", "Нужно немедленно выполнить ожидаемое действие"),
+            14: ("D", "Потому что слово используется только в météo reports"),
+            15: ("D", "Только если изменена частота"),
+            16: ("D", "Переключиться на emergency frequency"),
+            18: ("D", "Go-around запрещён"),
+            19: ("D", "До пересечения holding point при вылете"),
+            20: ("D", "Ждать, пока другой pilot даст совет"),
+            21: ("D", "Отмену published circuit"),
+            22: ("D", "Runway закрыта для всех остальных"),
+        }
+        for number, (letter, old) in weak.items():
+            block = re.search(
+                rf"(?ms)^### Q-RTC-{number:03d}\b.*?(?=^### Q-RTC-|^##\s|\Z)",
+                self._all_text(),
+            ).group(0)
+            option = re.search(rf"(?m)^{letter}\.\s+(.+)$", block).group(1)
+            self.assertNotIn(old, option)
+            self.assertGreaterEqual(len(re.findall(r"[А-Яа-яЁёA-Za-z]+", _plain_markdown(option))), 5)
 
     def test_task7_ulm_rtc_and_part_fcl_gates_are_separate(self):
         text = self._all_text()
@@ -4041,7 +4417,7 @@ class Task7CommunicationsTests(unittest.TestCase):
         for pattern in (
             r"ULM.{0,90}MAF.{0,90}RTC.{0,160}недостаточн.{0,120}контролируем",
             r"1\s+апрел\w+\s+2026.{0,220}Part-FCL.{0,180}эквивалентн",
-            r"Communications.{0,120}экзамен.{0,180}не.{0,80}FCL\.055",
+            r"(?:Communications|Связь).{0,120}экзамен.{0,180}не.{0,80}FCL\.055",
             r"национальн\w+\s+RTC.{0,160}не.{0,70}автоматическ.{0,100}(?:зач[её]т|Part-FCL)",
             r"FCL\.055.{0,180}(?:Level\s*4|уровн\w+\s*4)",
         ):
@@ -4077,10 +4453,15 @@ class Task7CommunicationsTests(unittest.TestCase):
 
     def test_scenarios_cover_services_and_required_exchanges(self):
         plain = _plain_markdown(self._all_text())
-        for service in ("controlled ATS", "AFIS", "non-controlled A/A", "emergency"):
-            self.assertIn(service.casefold(), plain.casefold())
+        for service in (
+            r"контролируем\w*\s+ATS",
+            r"AFIS",
+            r"неконтролируем\w*\s+A/A",
+            r"(?:аварийн|бедств|срочност)",
+        ):
+            self.assertRegex(plain, re.compile(service, re.IGNORECASE))
         for token in (
-            "RADIO CHECK", "FREQUENCY CHANGE", "TAXI", "BEHIND", "LINE UP",
+            "RADIO CHECK", "CONTACT [NEXT STATION] [FREQUENCY]", "TAXI", "BEHIND", "LINE UP",
             "CLEARED FOR TAKE-OFF", "POSITION", "REQUEST ENTRY", "TRAFFIC",
             "REPORT BASE", "CLEARED TO LAND", "GO AROUND", "RUNWAY VACATED",
             "MAYDAY", "PAN PAN", "7600",
@@ -4093,12 +4474,18 @@ class Task7CommunicationsTests(unittest.TestCase):
         text = self._all_text()
         for match in re.finditer(r"\b\d{3}[.,]\d{3}\b", text):
             with self.subTest(frequency=match.group()):
-                self.assertIn(match.group(), ("121.500", "121,500"))
                 context = text[max(0, match.start() - 180):match.end() + 180]
+                if match.group() == "118.005":
+                    self.assertIn(
+                        "СИНТЕТИЧЕСКИЙ ПРИМЕР ПРОИЗНОШЕНИЯ — НЕ ЧАСТОТА ДЛЯ ПОЛЁТА",
+                        context,
+                    )
+                    continue
+                self.assertIn(match.group(), ("121.500", "121,500"))
                 self.assertRegex(
                     context,
                     re.compile(
-                        r"(?:emergency|бедств|срочност|MAYDAY|PAN\s+PAN)",
+                        r"(?:emergency|аварийн|бедств|срочност|MAYDAY|PAN\s+PAN)",
                         re.IGNORECASE,
                     ),
                 )
@@ -4208,6 +4595,46 @@ class Task7CommunicationsTests(unittest.TestCase):
         words = " ".join(root.itertext()).casefold()
         for phrase in ("разрешение", "информация", "намерение", "say again", "не выполнять"):
             self.assertIn(phrase, words)
+
+    def test_task7_svg_return_path_has_a_clear_gutter_and_acknowledgement_fits(self):
+        root = ET.parse(ROOT / TASK7_SVG).getroot()
+        ns = "{http://www.w3.org/2000/svg}"
+        _, _, vw, _ = (float(value) for value in root.attrib["viewBox"].split())
+        ids = {item.attrib.get("id"): item for item in root.iter() if item.attrib.get("id")}
+
+        right_edge = max(
+            element_bbox(ids[group_id].find(f"{ns}rect"))[0]
+            + element_bbox(ids[group_id].find(f"{ns}rect"))[2]
+            for group_id in ("intention", "intention-check", "act-monitor")
+        )
+        path_numbers = [
+            float(value)
+            for value in re.findall(
+                r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)",
+                ids["return-path"].attrib["d"],
+            )
+        ]
+        path_points = list(zip(path_numbers[0::2], path_numbers[1::2]))
+        vertical_gutters = [
+            first[0]
+            for first, second in zip(path_points, path_points[1:])
+            if first[0] == second[0] and abs(first[1] - second[1]) > 200
+        ]
+        self.assertTrue(vertical_gutters)
+        self.assertGreaterEqual(max(vertical_gutters) - right_edge, 10)
+
+        acknowledgement_text = ids["acknowledgement"].find(f"{ns}text")
+        acknowledgement_spans = list(acknowledgement_text.iter(f"{ns}tspan"))
+        self.assertEqual("ПОДТВЕРДИТЬ", "".join(acknowledgement_spans[0].itertext()))
+        font_size = float(acknowledgement_text.attrib["font-size"])
+        self.assertGreaterEqual(font_size * 340 / vw, 14.0)
+        rect_x, _, rect_width, _ = element_bbox(
+            ids["acknowledgement"].find(f"{ns}rect")
+        )
+        heading_width = len("ПОДТВЕРДИТЬ") * font_size * 0.56
+        heading_left = float(acknowledgement_spans[0].attrib["x"]) - heading_width / 2
+        self.assertGreaterEqual(heading_left, rect_x + 4)
+        self.assertLessEqual(heading_left + heading_width, rect_x + rect_width - 4)
 
 
 if __name__ == "__main__":

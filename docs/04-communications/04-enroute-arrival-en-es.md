@@ -1,215 +1,215 @@
-# Маршрут и прибытие: English и español {#enroute-arrival-en-es}
+# Маршрут и прибытие: английская и испанская фразеология {#enroute-arrival-en-es}
 
 ## Назначение {#purpose}
 
-Глава связывает position report, traffic information, request to enter [controlled airspace](../reference/glossary.md#term-controlled-airspace), joining, circuit, landing, go-around и runway vacation. Для [ULM](../reference/glossary.md#term-ulm) в Испании первичный маршрут остаётся вне [controlled airspace](../reference/glossary.md#term-controlled-airspace); controlled material готовит к последующему [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a).
+Глава связывает доклад о местоположении, информацию о движении, запрос входа в [контролируемое воздушное пространство](../reference/glossary.md#term-controlled-airspace), вход в круг, полёт по кругу, посадку, уход на второй круг и освобождение ВПП. Для [ULM](../reference/glossary.md#term-ulm) в Испании первичный маршрут остаётся вне контролируемого пространства; контролируемый материал готовит к последующему [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a).
 
 ## Результаты обучения {#outcomes}
 
-Вы сможете дать релевантный position report, запросить entry без самовольного входа, отличить traffic information от clearance, прочитать joining/landing instruction и немедленно выполнить go-around instruction либо безопасное собственное решение.
+Вы сможете дать уместный доклад о местоположении, запросить вход без самовольного пересечения границы, отличить информацию о движении от разрешения, понять указание на вход в круг или посадку и немедленно выполнить указание об уходе на второй круг либо собственное безопасное решение.
 
 ## Карта применимости {#applicability}
 
 | Метка | Как использовать главу |
 |---|---|
-| [ULM — ОСНОВА][ulm] | Position/traffic awareness вне [controlled airspace](../reference/glossary.md#term-controlled-airspace). |
-| [ULM — ОСОБО ВАЖНО][ulm] | Request не равен clearance и не расширяет privilege. |
-| [PART-FCL — ОБЩЕЕ][part-fcl] | Controlled entry/arrival для будущей лицензии. |
-| [LAPL — ПЕРЕХОД] | Отработать joining и missed approach calls. |
-| [PPL — РАСШИРЕНИЕ] | Добавить более сложные routes и services. |
-| [ИСПАНИЯ] | Reporting points и circuit только из current AD/[AIP](../reference/glossary.md#term-aip). |
-| [БЕЗОПАСНОСТЬ] | Traffic call не заменяет lookout. |
-| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | Airspace class/status, reporting points, runway, [NOTAM](../reference/glossary.md#term-notam). |
+| [ULM — ОСНОВА][ulm] | Осведомлённость о местоположении и движении вне [контролируемого пространства](../reference/glossary.md#term-controlled-airspace). |
+| [ULM — ОСОБО ВАЖНО][ulm] | Запрос не равен разрешению и не расширяет права пилота. |
+| [PART-FCL — ОБЩЕЕ][part-fcl] | Контролируемые вход и прибытие для будущей лицензии. |
+| [LAPL — ПЕРЕХОД] | Отработать вызовы при входе в круг и уходе на второй круг. |
+| [PPL — РАСШИРЕНИЕ] | Добавить более сложные маршруты и виды обслуживания. |
+| [ИСПАНИЯ] | Точки доклада и круг брать только из действующих AD/[AIP](../reference/glossary.md#term-aip). |
+| [БЕЗОПАСНОСТЬ] | Радиодоклад о движении не заменяет визуальный поиск. |
+| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | Класс и статус пространства, точки доклада, ВПП, [NOTAM](../reference/glossary.md#term-notam). |
 
 ## Теория {#theory}
 
-### Position report {#position-report}
+### Доклад о местоположении {#position-report}
 
-Содержание зависит от требуемой процедуры и stage: позывной, position, time if required, level/altitude, next point/estimate и relevant information. Не добавляйте фиктивную точность. Если position uncertain, скажите это ясной речью и дайте проверяемые данные.
+После изменения Regulation (EU) 2024/404 доклад по [SERA](../reference/glossary.md#term-sera).8025(b) содержит: идентификацию воздушного судна; позицию; время; скорость, если она назначена ATC; и другие сведения, если их указал ATC. Для прохождения каждого обозначенного обязательного пункта [SERA](../reference/glossary.md#term-sera).8025(a) отдельно требует как можно скорее сообщить время и уровень вместе с прочими требуемыми сведениями. Следующий пункт и расчётное время его пролёта не входят автоматически в современный минимальный набор: их передают только тогда, когда это требует опубликованная процедура или указание ATS. Не добавляйте фиктивную точность. Если позиция неизвестна точно, скажите об этом ясной речью и дайте проверяемые данные. Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).8025(a–c), Regulation (EU) 2024/404 (проверено 2026-07-13).
 
-### Запрос входа и граница clearance {#controlled-entry}
+### Запрос входа и граница разрешения {#controlled-entry}
 
-`REQUEST ENTRY / SOLICITO ENTRADA` — только request. Входить в пространство, где требуется [ATC clearance](../reference/glossary.md#term-atc-clearance), можно после однозначного clearance и правильного повтора. `STANDBY` не разрешает вход. При невозможности получить clearance оставайтесь outside и выполняйте заранее подготовленный safe route.
+`REQUEST ENTRY / SOLICITO ENTRADA` — только запрос. Входить в пространство, где требуется [разрешение ATC](../reference/glossary.md#term-atc-clearance), можно после однозначного разрешения и правильного повтора. `STANDBY` не разрешает вход. При невозможности получить разрешение оставайтесь снаружи и выполняйте заранее подготовленный безопасный маршрут.
 
-Для испанского [ULM](../reference/glossary.md#term-ulm) есть ещё более раннее лицензионное условие: с 01.04.2026 нужны оборудование и действующая [Part-FCL](../reference/glossary.md#term-part-fcl) licence эквивалентной категории/класса. Даже совершенная радиосвязь не устраняет это условие. Источники: `SRC-BOE-RD-765-2022` art. 4.1(d), `SRC-BOE-RD-182-2026`, `SRC-ENAIRE-AIP-ENR-1-4-2026` (проверено 2026-07-13).
+Для испанского [ULM](../reference/glossary.md#term-ulm) есть ещё более раннее лицензионное условие: с 01.04.2026 нужны оборудование и действующая лицензия [Part-FCL](../reference/glossary.md#term-part-fcl) эквивалентной категории/класса. Даже совершенная радиосвязь не устраняет это условие. Источники: `SRC-BOE-RD-765-2022`, статья 4.1(d); `SRC-BOE-RD-182-2026`; `SRC-ENAIRE-AIP-ENR-1-4-2026` (проверено 2026-07-13).
 
-### Traffic information {#traffic-information}
+### Информация о движении {#traffic-information}
 
-Traffic information описывает известное движение и помогает visual acquisition/avoidance; она не является [ATC clearance](../reference/glossary.md#term-atc-clearance). Ответ `LOOKING / BUSCANDO`, затем `TRAFFIC IN SIGHT / TRÁFICO A LA VISTA` либо `NEGATIVE CONTACT / TRÁFICO NO A LA VISTA` сообщает status, но не передаёт ответственность за collision avoidance. Радиовызов не создаёт право пути.
+Информация о движении описывает известное движение и помогает визуально обнаружить его и избежать сближения; она не является [разрешением ATC](../reference/glossary.md#term-atc-clearance). Ответ `LOOKING / BUSCANDO`, затем `TRAFFIC IN SIGHT / TRÁFICO A LA VISTA` либо `NEGATIVE CONTACT / TRÁFICO NO A LA VISTA` сообщает состояние визуального контакта, но не передаёт ответственность за предотвращение столкновения. Радиовызов не создаёт право пути.
 
-### Controlled arrival {#controlled-arrival}
+### Контролируемое прибытие {#controlled-arrival}
 
-Joining instruction может включать circuit side, position и runway. `REPORT BASE/FINAL/LONG FINAL` — reporting instruction, не landing clearance. Официальные пары включают `NOTIFIQUE EN BASE/FINAL/LARGA FINAL / REPORT BASE/FINAL/LONG FINAL`, `PISTA [RUNWAY] AUTORIZADO PARA ATERRIZAR / RUNWAY [RUNWAY] CLEARED TO LAND`, `MOTOR Y AL AIRE / GO AROUND`, pilot `MOTOR Y AL AIRE / GOING AROUND`, `PISTA LIBRE / RUNWAY VACATED`. Источник: `SRC-BOE-RD-1180-2018` Annex V (проверено 2026-07-13).
+Указание на вход в круг может включать сторону круга, позицию и ВПП. `REPORT BASE/FINAL/LONG FINAL` — указание доложить, а не разрешение на посадку. Официальные пары включают `NOTIFIQUE EN BASE/FINAL/LARGA FINAL / REPORT BASE/FINAL/LONG FINAL`, `PISTA [RUNWAY] AUTORIZADO PARA ATERRIZAR / RUNWAY [RUNWAY] CLEARED TO LAND`, `MOTOR Y AL AIRE / GO AROUND`, ответ пилота `MOTOR Y AL AIRE / GOING AROUND`, `PISTA LIBRE / RUNWAY VACATED`. Источник: `SRC-BOE-RD-1180-2018`, Annex V 1.4.14–1.4.18 (проверено 2026-07-13).
 
 ## Применение для [ULM](../reference/glossary.md#term-ulm) {#ulm-application}
 
-[ULM](../reference/glossary.md#term-ulm)/[MAF](../reference/glossary.md#term-maf)/RTC pilot uses route/arrival awareness for permitted Spanish operations, but does not practise controlled entry as an independent privilege. Local circuit, reporting points and radio service are dynamic; current [AIP](../reference/glossary.md#term-aip), [NOTAM](../reference/glossary.md#term-notam), chart, aerodrome instructions and ATS direction prevail.
+Пилот [ULM](../reference/glossary.md#term-ulm)/[MAF](../reference/glossary.md#term-maf) с RTC использует знания маршрута и прибытия в разрешённых испанских операциях, но не получает самостоятельного права на контролируемый вход. Местный круг, точки доклада и радиослужба динамичны; действующие [AIP](../reference/glossary.md#term-aip), [NOTAM](../reference/glossary.md#term-notam), схема, аэродромные инструкции и указания ATS имеют приоритет.
 
 ## Расширение [Part-FCL](../reference/glossary.md#term-part-fcl) {#part-fcl-extension}
 
-После перехода на [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a) controlled-сценарии становятся эксплуатационными лишь при одновременно применимых licence, class privileges, R/T annotation, FCL.055 language и оборудовании самолёта. Национальная RTC даёт базовый навык, но не автоматический зачёт [Part-FCL](../reference/glossary.md#term-part-fcl). `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` (проверено 2026-07-13).
+После перехода на [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a) контролируемые сценарии становятся эксплуатационными лишь при одновременно применимых лицензии, правах класса, отметке R/T, языке FCL.055 и оборудовании самолёта. Национальная RTC даёт базовый навык, но не автоматический зачёт [Part-FCL](../reference/glossary.md#term-part-fcl). Источники: `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` (проверено 2026-07-13).
 
 ## Учебные сценарии {#training-scenarios}
 
-### Сценарий RTC-10 — Position report {#scenario-rtc-10}
+### Сценарий RTC-10 — Доклад о местоположении {#scenario-rtc-10}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** controlled ATS flight information context.<br>
-**Контекст:** station requests report at published `[POINT]`.<br>
-**English:** Station: `[CALLSIGN], REPORT [POINT]`; pilot: `[CALLSIGN], [POINT], [ALTITUDE], ESTIMATING [NEXT POINT] [TIME]`; station: `[CALLSIGN], ROGER`.<br>
-**Español:** Estación: `[CALLSIGN], NOTIFIQUE [POINT]`; piloto: `[CALLSIGN], [POINT], [ALTITUDE], ESTIMO [NEXT POINT] [TIME]`; estación: `[CALLSIGN], RECIBIDO`.<br>
-**Пояснение:** report locates aircraft and next estimate; fields follow actual requirement.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** `ROGER/RECIBIDO` acknowledges the report; no clearance item was issued.<br>
-**Решение при сомнении:** if position uncertain, state `POSITION UNCERTAIN / POSICIÓN INCIERTA`, maintain safe flight and provide reliable last/heading/time data.<br>
+**Тип обслуживания:** контролируемое ATS в контексте полётной информации.<br>
+**Контекст:** станция запрашивает доклад в опубликованной точке `[POINT]`; ниже отдельно показаны общий доклад и доклад в обязательной точке.<br>
+**English:** General report under [SERA](../reference/glossary.md#term-sera).8025(b): station `[CALLSIGN], REPORT [POINT]`; pilot `[CALLSIGN], [POSITION], [TIME], [ASSIGNED SPEED], [OTHER INSTRUCTED INFORMATION]`; station `[CALLSIGN], ROGER`. At a designated compulsory reporting point under [SERA](../reference/glossary.md#term-sera).8025(a): pilot `[CALLSIGN], [POSITION], [TIME], [LEVEL], [OTHER REQUIRED INFORMATION]`.<br>
+**Español:** Informe general según [SERA](../reference/glossary.md#term-sera).8025(b): estación `[CALLSIGN], NOTIFIQUE [POINT]`; piloto `[CALLSIGN], [POSITION], [TIME], [ASSIGNED SPEED], [OTHER INSTRUCTED INFORMATION]`; estación `[CALLSIGN], RECIBIDO`. En un punto obligatorio según [SERA](../reference/glossary.md#term-sera).8025(a): piloto `[CALLSIGN], [POSITION], [TIME], [LEVEL], [OTHER REQUIRED INFORMATION]`.<br>
+**Пояснение:** в общем докладе обязательны идентификация, позиция и время; скорость включают только если её назначил ATC, а прочие сведения — только по указанию. Уровень обязательно добавляют при прохождении обозначенного обязательного пункта. `[NEXT POINT]` и расчётное время следующего пункта добавляют только если этого требует процедура или инструкция ATS.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** `ROGER/RECIBIDO` подтверждает получение доклада; элемент разрешения не выдавался.<br>
+**Решение при сомнении:** если позиция неизвестна точно, сообщите `POSITION UNCERTAIN / POSICIÓN INCIERTA`, сохраняйте безопасный полёт и передайте достоверные последние данные о позиции, курсе и времени.<br>
 Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).8025, `SRC-ENAIRE-AIP-GEN-3-4-2026` (проверено 2026-07-13).
 
-### Сценарий RTC-11 — Request entry {#scenario-rtc-11}
+### Сценарий RTC-11 — Запрос входа {#scenario-rtc-11}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** controlled ATS; later [Part-FCL](../reference/glossary.md#term-part-fcl) scenario.<br>
-**Контекст:** appropriately licensed/equipped aircraft remains outside boundary at `[POINT]`.<br>
+**Тип обслуживания:** контролируемое ATS; сценарий для последующего этапа [Part-FCL](../reference/glossary.md#term-part-fcl).<br>
+**Контекст:** воздушное судно с подходящими лицензией и оборудованием остаётся снаружи границы в точке `[POINT]`.<br>
 **English:** Pilot: `[STATION], [CALLSIGN], [POINT], [ALTITUDE], REQUEST ENTRY VIA [ROUTE]`; station: `[CALLSIGN], REMAIN OUTSIDE CONTROLLED AIRSPACE, STANDBY`; pilot: `REMAIN OUTSIDE CONTROLLED AIRSPACE, [CALLSIGN]`.<br>
 **Español:** Piloto: `[STATION], [CALLSIGN], [POINT], [ALTITUDE], SOLICITO ENTRADA VÍA [ROUTE]`; estación: `[CALLSIGN], MANTÉNGASE FUERA DEL ESPACIO AÉREO CONTROLADO, ESPERE`; piloto: `ME MANTENGO FUERA DEL ESPACIO AÉREO CONTROLADO, [CALLSIGN]`.<br>
-**Пояснение:** request was not approved; explicit restriction confirms boundary.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** repeat remain-outside instruction and [callsign](../reference/glossary.md#term-callsign).<br>
-**Решение при сомнении:** follow preplanned outside route; do not orbit into boundary while waiting and request clarification if position/boundary uncertain.<br>
+**Пояснение:** запрос не одобрен; явное ограничение подтверждает границу.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** повторите указание оставаться снаружи и [позывной](../reference/glossary.md#term-callsign).<br>
+**Решение при сомнении:** следуйте заранее подготовленному внешнему маршруту; не заходите за границу на орбите ожидания и запросите уточнение, если позиция или граница неясны.<br>
 Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).8015, `SRC-ENAIRE-AIP-ENR-1-4-2026` (проверено 2026-07-13).
 
-### Сценарий RTC-12 — Traffic information {#scenario-rtc-12}
+### Сценарий RTC-12 — Информация о движении {#scenario-rtc-12}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** controlled ATS traffic-information exchange.<br>
-**Контекст:** station reports converging traffic relative to aircraft.<br>
+**Тип обслуживания:** контролируемое ATS, обмен информацией о движении.<br>
+**Контекст:** станция сообщает о сходящемся движении относительно воздушного судна.<br>
 **English:** Station: `[CALLSIGN], TRAFFIC [CLOCK POSITION], [DISTANCE], [TYPE], [RELATIVE MOTION]`; pilot: `LOOKING, [CALLSIGN]`; later: `TRAFFIC IN SIGHT, [CALLSIGN]` or `NEGATIVE CONTACT, [CALLSIGN]`.<br>
 **Español:** Estación: `[CALLSIGN], TRÁFICO [CLOCK POSITION], [DISTANCE], [TYPE], [RELATIVE MOTION]`; piloto: `BUSCANDO, [CALLSIGN]`; después: `TRÁFICO A LA VISTA, [CALLSIGN]` o `TRÁFICO NO A LA VISTA, [CALLSIGN]`.<br>
-**Пояснение:** information supports lookout; it neither clears a manoeuvre nor grants priority.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** acknowledge visual status; repeat any separate heading/level instruction exactly.<br>
-**Решение при сомнении:** continue visual scan, state negative contact and comply only with explicit instructions; manoeuvre for collision avoidance as safety requires.<br>
+**Пояснение:** информация помогает визуальному поиску; она не разрешает манёвр и не даёт приоритета.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** сообщите состояние визуального контакта; любое отдельное указание по курсу или уровню повторите точно.<br>
+**Решение при сомнении:** продолжайте визуальный поиск, сообщите об отсутствии контакта и исполняйте только явно выданные указания; для предотвращения столкновения маневрируйте, как требует безопасность.<br>
 Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).7002/[SERA](../reference/glossary.md#term-sera).9005 (проверено 2026-07-13).
 
-### Сценарий RTC-13 — Join and report circuit {#scenario-rtc-13}
+### Сценарий RTC-13 — Вход в круг и доклад {#scenario-rtc-13}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** controlled ATS.<br>
-**Контекст:** aircraft has entry clearance and receives joining instruction.<br>
+**Тип обслуживания:** контролируемое ATS.<br>
+**Контекст:** воздушное судно имеет разрешение на вход и получает указание войти в круг.<br>
 **English:** Station: `[CALLSIGN], JOIN LEFT DOWNWIND RUNWAY [RUNWAY], REPORT BASE`; pilot: `JOIN LEFT DOWNWIND RUNWAY [RUNWAY], REPORT BASE, [CALLSIGN]`; later: `[CALLSIGN], BASE RUNWAY [RUNWAY]`.<br>
-**Español:** Estación: `[CALLSIGN], INCORPÓRESE A VIENTO EN COLA IZQUIERDA PISTA [RUNWAY], NOTIFIQUE EN BASE`; piloto: `VIENTO EN COLA IZQUIERDA PISTA [RUNWAY], NOTIFICARÉ EN BASE, [CALLSIGN]`; después: `[CALLSIGN], BASE PISTA [RUNWAY]`.<br>
-**Пояснение:** join/report defines circuit position, not landing authority.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** repeat circuit side, runway and reporting point.<br>
-**Решение при сомнении:** if unable to identify runway/circuit or traffic, remain in a safe known position and request revised instructions; do not invent a join.<br>
-Источник: `SRC-BOE-RD-1180-2018` Annex V (проверено 2026-07-13).
+**Español:** Estación: `[CALLSIGN], ENTRE (O INGRESE) EN VIENTO EN COLA IZQUIERDA PISTA [RUNWAY], NOTIFIQUE EN BASE`; piloto: `ENTRO EN VIENTO EN COLA IZQUIERDA PISTA [RUNWAY], NOTIFICARÉ EN BASE, [CALLSIGN]`; después: `[CALLSIGN], BASE PISTA [RUNWAY]`.<br>
+**Пояснение:** вход и доклад определяют позицию в круге, но не разрешают посадку.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** повторите сторону круга, ВПП и точку доклада.<br>
+**Решение при сомнении:** если не удаётся опознать ВПП, круг или движение, оставайтесь в безопасной известной позиции и запросите новое указание; не придумывайте схему входа.<br>
+Источник: `SRC-BOE-RD-1180-2018`, Annex V 1.4.14(b),(e) и 1.4.16(c) (проверено 2026-07-13).
 
-### Сценарий RTC-14 — Landing, go-around and runway vacated {#scenario-rtc-14}
+### Сценарий RTC-14 — Посадка, уход и освобождение ВПП {#scenario-rtc-14}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** controlled ATS.<br>
-**Контекст:** three alternative moments of one training sequence; only one branch occurs live.<br>
+**Тип обслуживания:** контролируемое ATS.<br>
+**Контекст:** три альтернативных момента одной учебной последовательности; в реальном обмене возникает только одна ветвь.<br>
 **English:** Landing branch: station `[CALLSIGN], RUNWAY [RUNWAY] CLEARED TO LAND`; pilot `RUNWAY [RUNWAY] CLEARED TO LAND, [CALLSIGN]`. Go-around branch: station `[CALLSIGN], GO AROUND`; pilot `GOING AROUND, [CALLSIGN]`. After landing and fully clear: pilot `[CALLSIGN], RUNWAY VACATED`.<br>
 **Español:** Rama aterrizaje: estación `[CALLSIGN], PISTA [RUNWAY] AUTORIZADO PARA ATERRIZAR`; piloto `PISTA [RUNWAY] AUTORIZADO PARA ATERRIZAR, [CALLSIGN]`. Rama motor y al aire: estación `[CALLSIGN], MOTOR Y AL AIRE`; piloto `MOTOR Y AL AIRE, [CALLSIGN]`. Tras liberar: piloto `[CALLSIGN], PISTA LIBRE`.<br>
-**Пояснение:** landing clearance is distinct from report final; go-around may be ATC instruction or pilot safety decision.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** landing clearance includes runway; go-around is acknowledged promptly without delaying flight-path control.<br>
-**Решение при сомнении:** if clearance is unreadable or approach unstable, go around, fly the aircraft, transmit when workload permits and await clear revised instructions.<br>
-Источник: `SRC-BOE-RD-1180-2018` Annex V exact pairs, `SRC-EASA-SERA-2025` (проверено 2026-07-13).
+**Пояснение:** разрешение на посадку отличается от доклада на прямой; уход на второй круг может быть указанием ATC или решением пилота по безопасности.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** разрешение на посадку включает ВПП; уход подтверждают быстро, не задерживая управление траекторией.<br>
+**Решение при сомнении:** если разрешение неразборчиво или заход не стабилизирован, уходите на второй круг, управляйте самолётом, передайте сообщение при допустимой нагрузке и ждите ясного нового указания.<br>
+Источник: `SRC-BOE-RD-1180-2018`, точные пары из приложения V; `SRC-EASA-SERA-2025` (проверено 2026-07-13).
 
 ## Безопасность {#safety}
 
-Landing clearance never removes the pilot's duty to go around for unstable approach, occupied runway or other hazard. A report `FINAL` is not clearance. Silence on frequency is not absence of traffic. Local procedure may differ from these synthetic placeholders.
+Разрешение на посадку не снимает обязанности пилота уйти на второй круг при нестабилизированном заходе, занятой ВПП или другой опасности. Доклад `FINAL` не является разрешением. Тишина на частоте не означает отсутствия движения. Местная процедура может отличаться от этих синтетических переменных.
 
 ## Типичные ошибки {#common-errors}
 
-1. Entering [controlled airspace](../reference/glossary.md#term-controlled-airspace) after `STANDBY`.
-2. Treating traffic information as manoeuvre clearance.
-3. Reporting `FINAL` as though landing is authorised.
-4. Continuing unstable approach because clearance exists.
-5. Using an archived reporting point or frequency.
+1. Входить в [контролируемое пространство](../reference/glossary.md#term-controlled-airspace) после `STANDBY`.
+2. Считать информацию о движении разрешением на манёвр.
+3. Считать доклад `FINAL` разрешением на посадку.
+4. Продолжать нестабилизированный заход из-за наличия разрешения.
+5. Использовать архивную точку доклада или частоту.
 
 ## Конспект {#summary}
 
-- Request entry is not clearance.
-- Position report fields depend on procedure and purpose.
-- Traffic information supports but does not replace lookout.
-- Joining/reporting instruction is separate from landing clearance.
-- Go-around is a normal safety action and gets a concise call.
+- Запрос входа не является разрешением.
+- Поля доклада о местоположении зависят от процедуры и цели.
+- Информация о движении помогает, но не заменяет визуальный поиск.
+- Указание войти в круг или доложить отделено от разрешения на посадку.
+- Уход на второй круг — нормальное действие по безопасности, о котором сообщают кратко.
 
 ## Контрольные вопросы {#review-questions}
 
-### Q-RTC-016 — Что разрешает ответ `STANDBY` на request entry? {#q-rtc-016}
+### Q-RTC-016 — Что разрешает ответ `STANDBY` на запрос входа? {#q-rtc-016}
 
 A. Войти на минимальной высоте.<br>
-B. Ничего operational: ждать, оставаясь outside до ясного clearance.<br>
-C. Следовать за другим aircraft.<br>
-D. Переключиться на emergency frequency.
+B. Никакого действия: ждать, оставаясь снаружи до ясного разрешения.<br>
+C. Следовать за другим воздушным судном.<br>
+D. Начать вход, если диспетчер не ответил повторно в течение минуты.
 
 **Правильный ответ:** B.
 
-**Почему:** `STANDBY` управляет связью и не выдаёт entry clearance; boundary remains controlling.
+**Почему:** `STANDBY` управляет связью и не выдаёт разрешения на вход; граница продолжает действовать.
 
 **Почему главный отвлекающий вариант неверен:** A добавляет высоту и разрешение, которых в ответе нет.
 
-### Q-RTC-017 — Как понимать traffic information от ATS? {#q-rtc-017}
+### Q-RTC-017 — Как понимать информацию о движении от ATS? {#q-rtc-017}
 
-A. Как clearance выполнить указанный манёвр.<br>
-B. Как информацию для поиска/avoidance; отдельные instructions выполняются отдельно.<br>
-C. Как гарантию отсутствия другого traffic.<br>
-D. Как передачу [PIC](../reference/glossary.md#term-pic) responsibility controller.
-
-**Правильный ответ:** B.
-
-**Почему:** Traffic information повышает awareness, но не содержит само по себе разрешения или right-of-way.
-
-**Почему главный отвлекающий вариант неверен:** A превращает description traffic в невыданное manoeuvre instruction.
-
-### Q-RTC-018 — Что означает instruction `REPORT FINAL`? {#q-rtc-018}
-
-A. Landing clearance уже выдано.<br>
-B. Нужно доложить на final; landing clearance ожидается отдельно.<br>
-C. Runway всегда свободна.<br>
-D. Go-around запрещён.
+A. Как разрешение выполнить указанный манёвр.<br>
+B. Как информацию для визуального поиска и предотвращения сближения; отдельные указания выполняются отдельно.<br>
+C. Как гарантию отсутствия другого движения.<br>
+D. Как передачу ответственности [командира](../reference/glossary.md#term-pic) диспетчеру.
 
 **Правильный ответ:** B.
 
-**Почему:** Reporting point manages sequence; protected landing pair has different wording and runway element.
+**Почему:** Информация о движении повышает осведомлённость, но сама по себе не содержит разрешения и не даёт права пути.
 
-**Почему главный отвлекающий вариант неверен:** A смешивает report instruction с authorisation to land.
+**Почему главный отвлекающий вариант неверен:** A превращает описание движения в невыданное указание на манёвр.
+
+### Q-RTC-018 — Что означает указание `REPORT FINAL`? {#q-rtc-018}
+
+A. Разрешение на посадку уже выдано.<br>
+B. Нужно доложить на прямой; разрешение на посадку ожидается отдельно.<br>
+C. ВПП всегда свободна.<br>
+D. Можно продолжать посадку, если вышка больше не отвечает.
+
+**Правильный ответ:** B.
+
+**Почему:** Точка доклада помогает организовать последовательность; защищённая пара разрешения на посадку имеет другую формулировку и включает ВПП.
+
+**Почему главный отвлекающий вариант неверен:** A смешивает указание доложить с разрешением на посадку.
 
 ### Q-RTC-019 — Когда пилот сообщает `RUNWAY VACATED / PISTA LIBRE`? {#q-rtc-019}
 
-A. Сразу после touchdown.<br>
-B. После полного освобождения ВПП в соответствии с local procedure.<br>
-C. На short final перед landing clearance.<br>
-D. До пересечения holding point при вылете.
+A. Сразу после касания.<br>
+B. После полного освобождения ВПП в соответствии с местной процедурой.<br>
+C. На короткой прямой перед разрешением на посадку.<br>
+D. Когда нос самолёта уже находится за краем ВПП.
 
 **Правильный ответ:** B.
 
-**Почему:** Runway-vacated report describes actual clear status, not intention while still occupying runway.
+**Почему:** Доклад об освобождении ВПП описывает фактическое полное освобождение, а не намерение ещё занимающего ВПП самолёта.
 
-**Почему главный отвлекающий вариант неверен:** A может falsely report runway clear while aircraft remains on runway.
+**Почему главный отвлекающий вариант неверен:** A может ложно сообщить об освобождении, пока самолёт ещё находится на ВПП.
 
-### Q-RTC-020 — Что делать при неустойчивом заходе после landing clearance? {#q-rtc-020}
+### Q-RTC-020 — Что делать при неустойчивом заходе после разрешения на посадку? {#q-rtc-020}
 
-A. Продолжать, потому что clearance обязательно к исполнению.<br>
-B. Выполнить go-around, управлять самолётом и сообщить, когда workload позволяет.<br>
-C. Выключить radio и продолжать.<br>
-D. Ждать, пока другой pilot даст совет.
+A. Продолжать, потому что разрешение обязательно к исполнению.<br>
+B. Уйти на второй круг, управлять самолётом и сообщить, когда позволяет нагрузка.<br>
+C. Выключить радио и продолжать.<br>
+D. Продолжить заход до высоты выравнивания и решить там.
 
 **Правильный ответ:** B.
 
-**Почему:** Safety state aircraft and approach governs the [PIC](../reference/glossary.md#term-pic) decision; go-around remains available despite clearance.
+**Почему:** Фактическая безопасность самолёта и захода определяет решение [командира](../reference/glossary.md#term-pic); уход остаётся доступным несмотря на разрешение.
 
-**Почему главный отвлекающий вариант неверен:** A ошибочно делает [ATC clearance](../reference/glossary.md#term-atc-clearance) гарантией безопасной стабилизированной посадки.
+**Почему главный отвлекающий вариант неверен:** A ошибочно делает [разрешение ATC](../reference/glossary.md#term-atc-clearance) гарантией безопасной стабилизированной посадки.
 
 ## Источники {#sources}
 
 - `SRC-EASA-SERA-2025` — [SERA](../reference/glossary.md#term-sera).7002, 8015, 8025, 9005.
-- `SRC-BOE-RD-1180-2018` — Annex V arrival phrase pairs.
-- `SRC-ENAIRE-AIP-GEN-3-4-2026`, `SRC-ENAIRE-AIP-ENR-1-4-2026` — dynamic Spain context.
+- `SRC-BOE-RD-1180-2018` — пары фраз прибытия из приложения V.
+- `SRC-ENAIRE-AIP-GEN-3-4-2026`, `SRC-ENAIRE-AIP-ENR-1-4-2026` — динамичный испанский контекст.
 - `SRC-BOE-RD-765-2022`, `SRC-BOE-RD-182-2026` — лицензионное условие для [ULM](../reference/glossary.md#term-ulm).
-- `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` — [Part-FCL](../reference/glossary.md#term-part-fcl) radio/language.
+- `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` — требования [Part-FCL](../reference/glossary.md#term-part-fcl) к радио и языку.
 
 [atc]: ../reference/glossary.md#term-air-traffic-control-atc
 [readback]: ../reference/glossary.md#term-readback

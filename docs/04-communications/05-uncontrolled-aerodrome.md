@@ -2,188 +2,194 @@
 
 ## Назначение {#purpose}
 
-Глава показывает основной для [ULM](../reference/glossary.md#term-ulm) в Испании контекст: published non-controlled aerodrome procedures, обмен information/intentions и visual collision avoidance. Отдельно проводится граница AFIS. Позже этот навык сохраняется для [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a), но не переносит ATC wording туда, где ATC нет.
+Глава показывает основной для [ULM](../reference/glossary.md#term-ulm) в Испании контекст: опубликованные процедуры неконтролируемого аэродрома, обмен информацией и намерениями и визуальное предотвращение столкновений. Отдельно проводится граница AFIS. Позже этот навык сохраняется для [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a), но не переносит формулировки ATC туда, где ATC нет.
 
 ## Результаты обучения {#outcomes}
 
-Вы сможете определить service type по current [AIP](../reference/glossary.md#term-aip), сделать краткий A/A departure/arrival call, интерпретировать AFIS information, не выдавать себе runway clearance и уйти на второй круг при неопределённом конфликте.
+Вы сможете определить тип обслуживания по текущему [AIP](../reference/glossary.md#term-aip), сделать краткий вызов A/A при вылете или прибытии, понять информацию AFIS, не выдавать себе разрешение на ВПП и уйти на второй круг при неопределённом конфликте.
 
 ## Карта применимости {#applicability}
 
 | Метка | Как использовать главу |
 |---|---|
-| [ULM — ОСНОВА][ulm] | Primary Spanish [ULM](../reference/glossary.md#term-ulm) radio environment. |
-| [ULM — ОСОБО ВАЖНО][ulm] | Silence и радиовызов не создают separation. |
-| [PART-FCL — ОБЩЕЕ][part-fcl] | Same lookout discipline later. |
-| [LAPL — ПЕРЕХОД] | Не переносить controlled phraseology на A/A. |
-| [PPL — РАСШИРЕНИЕ] | Уверенно переключаться между service types. |
-| [ИСПАНИЯ] | Published circuit/reporting points have priority. |
-| [БЕЗОПАСНОСТЬ] | Go-around/hold-off при конфликте или неясности. |
-| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | [AIP](../reference/glossary.md#term-aip) AD, [NOTAM](../reference/glossary.md#term-notam), service hours, frequency, circuit. |
+| [ULM — ОСНОВА][ulm] | Основная радиосреда испанского [ULM](../reference/glossary.md#term-ulm). |
+| [ULM — ОСОБО ВАЖНО][ulm] | Тишина и радиовызов не создают эшелонирования. |
+| [PART-FCL — ОБЩЕЕ][part-fcl] | Та же дисциплина визуального поиска нужна позже. |
+| [LAPL — ПЕРЕХОД] | Не переносить контролируемую фразеологию на A/A. |
+| [PPL — РАСШИРЕНИЕ] | Уверенно различать типы обслуживания. |
+| [ИСПАНИЯ] | Опубликованные круг и точки доклада имеют приоритет. |
+| [БЕЗОПАСНОСТЬ] | Уход или ожидание в стороне при конфликте либо неясности. |
+| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | AD в [AIP](../reference/glossary.md#term-aip), [NOTAM](../reference/glossary.md#term-notam), часы обслуживания, частоту, круг. |
 
 ## Теория {#theory}
 
 ### A/A: информация и намерения {#air-to-air}
 
-На non-controlled aerodrome published [A/A][air-to-air] channel allows aircraft to transmit position, altitude where useful, circuit/runway context and intention. Это не ATC. Фраза самолёта сообщает решение пилота, но не выдаёт clearance и не создаёт право пути. `TAKE-OFF` reserved wording не используют как self-clearance; сообщают `DEPARTING / SALIENDO` в соответствии с опубликованной местной процедурой.
+На неконтролируемом аэродроме опубликованный канал [A/A][air-to-air] позволяет воздушным судам передавать позицию, при необходимости высоту, контекст круга или ВПП и намерение. Это не ATC. Фраза самолёта сообщает решение пилота, но не выдаёт разрешения и не создаёт права пути.
 
-Неконтролируемый не означает «без правил». [SERA](../reference/glossary.md#term-sera) right-of-way, operation in vicinity of aerodrome, published circuit, runway safety and lookout continue to apply. Источники: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).3210/[SERA](../reference/glossary.md#term-sera).3225, `SRC-ENAIRE-AIP-ESPANA` (проверено 2026-07-13).
+Порядок полей ниже — **ненормативный учебный набор полей**, а не универсальная фразеология или скрипт. Его полностью заменяет форма, опубликованная в текущих AD/[AIP](../reference/glossary.md#term-aip), VAC, [NOTAM](../reference/glossary.md#term-notam) и местной процедуре. Формы `SALIDA` и `SALIENDO` сами по себе не установлены как универсальный испанский шаблон A/A; в учебном примере ниже для единообразия используется `SALIENDO`, но перед полётом его заменяют фактически опубликованной местной формой.
+
+Текущий официальный пример такой локальности даёт LEBG: AD 2.18 указывает использование частоты для связи между пилотами вне часов ATS; AD 2.20 для вылета с пересечения без AFIS требует сообщать намерения и позицию; AD 2.22 шире требует передавать развитие фаз полёта без ожидания ответа. Эти пункты не устанавливают универсальный порядок слов. Источники: `SRC-ENAIRE-AIP-LEBG-2026`, LEBG AD 2.18, AD 2.20 `DESPEGUES DESDE LA INTERSECCIÓN`, AD 2.22 `PROCEDIMIENTOS DE VUELO`; `SRC-ENAIRE-AIP-GEN-3-4-2026` (проверено 2026-07-13).
+
+Отсутствие слышимого ответа не доказывает отсутствия движения: дальность VHF, радиотень, неверная настройка и одновременные передачи могут скрыть вызов. Технический источник: `SRC-FAA-AIM-RADIO-2026`, AIM 4-2-1 (не источник испанской фразеологии; проверено 2026-07-13).
+
+Неконтролируемый не означает «без правил». Продолжают действовать правила [SERA](../reference/glossary.md#term-sera) о праве пути и полёте вблизи аэродрома, опубликованный круг, безопасность ВПП и визуальный поиск. Источники: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).3210 и [SERA](../reference/glossary.md#term-sera).3225; `SRC-ENAIRE-AIP-ESPANA` (проверено 2026-07-13).
 
 ### Визуальная картина движения {#lookout-collision-avoidance}
 
-Other traffic silence is not absence. Aircraft may be non-radio, mis-tuned, shielded, transmitting simultaneously or have equipment failure. Build the picture from outside scan, runway/windsock/signals where applicable, calls and published procedure. A radio call never displaces an aircraft with applicable right of way.
+Тишина другого движения не означает его отсутствия. Воздушное судно может не иметь радио, слушать другую частоту, находиться в радиотени, передавать одновременно с другим или иметь отказ оборудования. Стройте картину по внешнему осмотру, ВПП, ветроуказателю и сигналам, где они применимы, услышанным вызовам и опубликованной процедуре. Радиовызов никогда не лишает другое воздушное судно применимого права пути. Технические причины отсутствия слышимого ответа подтверждаются `SRC-FAA-AIM-RADIO-2026`, AIM 4-2-1; действующий канал и местная процедура — `SRC-ENAIRE-AIP-GEN-3-4-2026` (проверено 2026-07-13).
 
 ### Граница AFIS {#afis-boundary}
 
-[AFIS][afis] gives flight information and alerting service; AFIS is not ATC and does not issue ATC clearances. The AFIS unit may report runway, weather, known traffic and aerodrome information using the published national procedure. Pilot remains responsible for decisions and separation under applicable rules. Controlled pairs `CLEARED FOR TAKE-OFF/AUTORIZADO A DESPEGAR` and `CLEARED TO LAND/AUTORIZADO PARA ATERRIZAR` are anti-examples here: they must not be invented in AFIS/A/A exchange. Источники: `SRC-BOE-RD-1180-2018` arts. 42–43, RCA 4.7.1.5.1.3, `SRC-ENAIRE-AIP-GEN-3-4-2026` (проверено 2026-07-13).
+[AFIS][afis] предоставляет полётную информацию и аварийное оповещение; AFIS не является ATC и не выдаёт разрешения ATC. Орган AFIS может сообщить ВПП, погоду, известное движение и аэродромную информацию по опубликованной национальной процедуре. Пилот сохраняет ответственность за решения и разделение по применимым правилам. Контролируемые пары `CLEARED FOR TAKE-OFF/AUTORIZADO A DESPEGAR` и `CLEARED TO LAND/AUTORIZADO PARA ATERRIZAR` здесь являются антипримерами: их нельзя придумывать в обмене AFIS/A/A. Источники: `SRC-BOE-RD-1180-2018`, статьи 42–43 и RCA 4.7.1.5.1.3; `SRC-ENAIRE-AIP-GEN-3-4-2026` (проверено 2026-07-13).
 
-### Решение hold-off/go-around {#go-around-hold-off}
+### Решение ожидать в стороне или уйти {#go-around-hold-off}
 
-Если конфликт runway/circuit не разрешён, не продолжайте только ради совпадения с уже переданной фразой. Оставайтесь в стороне; удлиняйте схему, покидайте её или входите повторно лишь в соответствии с текущей процедурой и traffic, либо заранее уходите на второй круг. Сообщите намерение, когда позволяет нагрузка; сначала управляйте самолётом и избегайте столкновения.
+Если конфликт на ВПП или в круге не разрешён, не продолжайте только ради совпадения с уже переданной фразой. Оставайтесь в стороне; удлиняйте схему, покидайте её или входите повторно лишь в соответствии с текущей процедурой и движением либо заранее уходите на второй круг. Сообщите намерение, когда позволяет нагрузка; сначала управляйте самолётом и избегайте столкновения.
 
 ## Применение для [ULM](../reference/glossary.md#term-ulm) {#ulm-application}
 
-Область применения маршрута/курса [ULM](../reference/glossary.md#term-ulm) — Испания. Перед каждым полётом проверяйте статус аэродрома, часы работы/обслуживания, опубликованный канал, язык, направление circuit, reporting points, PPR/operational restrictions и [NOTAM](../reference/glossary.md#term-notam). Сохранённая частота не доказывает текущий статус. Национальная RTC разрешает применимую связь в авиационной полосе, но не делает аэродром контролируемым и не отменяет местные правила.
+Область применения маршрута и курса [ULM](../reference/glossary.md#term-ulm) — Испания. Перед каждым полётом проверяйте статус аэродрома, часы работы и обслуживания, опубликованный канал, язык, направление круга, точки доклада, PPR, эксплуатационные ограничения и [NOTAM](../reference/glossary.md#term-notam). Сохранённая частота не доказывает текущий статус. Национальная RTC разрешает применимую связь в авиационной полосе, но не делает аэродром контролируемым и не отменяет местные правила.
 
 ## Расширение [Part-FCL](../reference/glossary.md#term-part-fcl) {#part-fcl-extension}
 
-For later [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a), retain the service-identification habit. [Part-FCL](../reference/glossary.md#term-part-fcl) licensing may enable different operations, but an aerodrome without ATC remains without ATC: the pilot does not import tower clearances into A/A or AFIS. `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` (проверено 2026-07-13).
+Для будущих [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a) сохраните привычку определять тип обслуживания. Лицензирование [Part-FCL](../reference/glossary.md#term-part-fcl) может разрешить другие операции, но аэродром без ATC остаётся без ATC: пилот не переносит разрешения вышки в A/A или AFIS. Источники: `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` (проверено 2026-07-13).
 
 ## Учебные сценарии {#training-scenarios}
 
-### Сценарий RTC-15 — Non-controlled departure {#scenario-rtc-15}
+### Сценарий RTC-15 — Вылет без диспетчерского обслуживания {#scenario-rtc-15}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** non-controlled A/A, NO ATS.<br>
-**Контекст:** published local procedure supports A/A calls; aircraft is holding clear and visual scan completed.<br>
-**English:** Pilot: `[AERODROME] TRAFFIC, [CALLSIGN], HOLDING SHORT RUNWAY [RUNWAY], DEPARTING [DIRECTION], [AERODROME]`; other aircraft: `[CALLSIGN OTHER], FINAL RUNWAY [RUNWAY]`; pilot: `[CALLSIGN], HOLDING SHORT, TRAFFIC IN SIGHT`.<br>
-**Español:** Piloto: `TRÁFICO [AERODROME], [CALLSIGN], EN PUNTO DE ESPERA PISTA [RUNWAY], SALIDA [DIRECTION], [AERODROME]`; otra aeronave: `[CALLSIGN OTHER], FINAL PISTA [RUNWAY]`; piloto: `[CALLSIGN], MANTENGO FUERA, TRÁFICO A LA VISTA`.<br>
-**Пояснение:** pilot announces intention and yields/holds based on actual conflict; no station gives clearance.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** there is no ATC mandatory repeat; subsequent call updates actual intention/status.<br>
-**Решение при сомнении:** stay clear, continue lookout and wait; do not self-announce `CLEARED FOR TAKE-OFF`.<br>
-Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).3210/[SERA](../reference/glossary.md#term-sera).3225, `SRC-ENAIRE-AIP-ESPANA` (проверено 2026-07-13).
+**Тип обслуживания:** неконтролируемое A/A, ATS отсутствует.<br>
+**Контекст:** опубликованная местная процедура предусматривает вызовы A/A; воздушное судно остаётся вне ВПП, визуальный осмотр выполнен. Порядок полей синтетический и перед полётом заменяется местной формой.<br>
+**English:** Pilot: `[AERODROME] TRAFFIC, [CALLSIGN], HOLDING SHORT OF RUNWAY [RUNWAY], DEPARTING [DIRECTION], [AERODROME]`; other aircraft: `[CALLSIGN OTHER], FINAL RUNWAY [RUNWAY]`; pilot: `[CALLSIGN], HOLDING SHORT, TRAFFIC IN SIGHT`.<br>
+**Español:** Piloto: `TRÁFICO [AERODROME], [CALLSIGN], EN PUNTO DE ESPERA PISTA [RUNWAY], SALIENDO [DIRECTION], [AERODROME]`; otra aeronave: `[CALLSIGN OTHER], FINAL PISTA [RUNWAY]`; piloto: `[CALLSIGN], MANTENGO FUERA, TRÁFICO A LA VISTA`.<br>
+**Пояснение:** пилот сообщает намерение и уступает или ждёт по фактическому конфликту; станция не выдаёт разрешения.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** обязательного повтора ATC нет; следующий вызов обновляет фактическое намерение или состояние.<br>
+**Решение при сомнении:** оставайтесь вне ВПП, продолжайте визуальный поиск и ждите; не объявляйте себе `CLEARED FOR TAKE-OFF`.<br>
+Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).3210/[SERA](../reference/glossary.md#term-sera).3225; `SRC-ENAIRE-AIP-LEBG-2026`, LEBG AD 2.18/2.20/2.22 как местный пример без универсального порядка слов (проверено 2026-07-13).
 
-### Сценарий RTC-16 — Non-controlled arrival {#scenario-rtc-16}
+### Сценарий RTC-16 — Прибытие без диспетчерского обслуживания {#scenario-rtc-16}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** non-controlled A/A, NO ATS.<br>
-**Контекст:** arrival follows current published joining procedure and reporting point `[POINT]`.<br>
+**Тип обслуживания:** неконтролируемое A/A, ATS отсутствует.<br>
+**Контекст:** прибытие следует действующей опубликованной схеме входа и точке доклада `[POINT]`; порядок полей синтетический и не является универсальной фразой.<br>
 **English:** Pilot: `[AERODROME] TRAFFIC, [CALLSIGN], [POINT], [ALTITUDE], JOINING [CIRCUIT LEG] RUNWAY [RUNWAY], [AERODROME]`; other aircraft: `[CALLSIGN OTHER], DOWNWIND RUNWAY [RUNWAY]`; pilot: `[CALLSIGN], TRAFFIC IN SIGHT, WILL JOIN BEHIND`.<br>
 **Español:** Piloto: `TRÁFICO [AERODROME], [CALLSIGN], [POINT], [ALTITUDE], INCORPORACIÓN [CIRCUIT LEG] PISTA [RUNWAY], [AERODROME]`; otra aeronave: `[CALLSIGN OTHER], VIENTO EN COLA PISTA [RUNWAY]`; piloto: `[CALLSIGN], TRÁFICO A LA VISTA, ME INCORPORO DETRÁS`.<br>
-**Пояснение:** calls improve shared picture; visual geometry and right-of-way govern actual join.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** no clearance is read back; announce only actual position/intention.<br>
-**Решение при сомнении:** do not force the join; remain clear or go around/leave and re-assess under published procedure.<br>
-Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).3225, `SRC-ENAIRE-AIP-ESPANA` (проверено 2026-07-13).
+**Пояснение:** вызовы улучшают общую картину; фактический вход определяют визуальная геометрия и право пути.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** разрешение не повторяется; сообщайте только фактическую позицию и намерение.<br>
+**Решение при сомнении:** не форсируйте вход; оставайтесь в стороне либо уйдите на второй круг или покиньте схему и заново оцените ситуацию по опубликованной процедуре.<br>
+Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).3225; `SRC-ENAIRE-AIP-LEBG-2026`, LEBG AD 2.18/2.20/2.22 как местный пример (проверено 2026-07-13).
 
-### Сценарий RTC-17 — AFIS information, pilot decision {#scenario-rtc-17}
+### Сценарий RTC-17 — Информация AFIS и решение пилота {#scenario-rtc-17}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** AFIS, not controlled ATS.<br>
-**Контекст:** AFIS is active per current [AIP](../reference/glossary.md#term-aip); wording varies with Spanish published procedure.<br>
+**Тип обслуживания:** AFIS, не контролируемое ATS.<br>
+**Контекст:** AFIS работает по текущему [AIP](../reference/glossary.md#term-aip); формулировка определяется опубликованной испанской процедурой.<br>
 **English:** Pilot: `[AERODROME] INFORMATION, [CALLSIGN], [POSITION], [ALTITUDE], REQUEST AERODROME INFORMATION`; AFIS: `[CALLSIGN], RUNWAY [RUNWAY], WIND [WIND], TRAFFIC [TRAFFIC]`; pilot: `[CALLSIGN], RUNWAY [RUNWAY], TRAFFIC COPIED, WILL REPORT [POINT]`.<br>
 **Español:** Piloto: `INFORMACIÓN [AERODROME], [CALLSIGN], [POSITION], [ALTITUDE], SOLICITO INFORMACIÓN DE AERÓDROMO`; AFIS: `[CALLSIGN], PISTA [RUNWAY], VIENTO [WIND], TRÁFICO [TRAFFIC]`; piloto: `[CALLSIGN], PISTA [RUNWAY], TRÁFICO RECIBIDO, NOTIFICARÉ [POINT]`.<br>
-**Пояснение:** AFIS provides information; pilot decides and reports within applicable procedure.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** acknowledge safety-relevant information as required; do not transform it into [ATC clearance](../reference/glossary.md#term-atc-clearance) wording.<br>
-**Решение при сомнении:** ask for repetition, remain clear and visually assess; if conditions/conflict are not acceptable, hold off or go around.<br>
-Источник: `SRC-BOE-RD-1180-2018` arts. 42–43/RCA 4.7.1.5.1.3, `SRC-ENAIRE-AIP-GEN-3-4-2026` (проверено 2026-07-13).
+**Пояснение:** AFIS предоставляет информацию; пилот принимает решение и докладывает в пределах применимой процедуры.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** подтвердите связанную с безопасностью информацию, когда требуется; не превращайте её в формулировку [разрешения ATC](../reference/glossary.md#term-atc-clearance).<br>
+**Решение при сомнении:** запросите повтор, оставайтесь в стороне и оцените обстановку визуально; если условия или конфликт неприемлемы, ждите в стороне либо уходите на второй круг.<br>
+Источник: `SRC-BOE-RD-1180-2018`, статьи 42–43 и RCA 4.7.1.5.1.3; `SRC-ENAIRE-AIP-GEN-3-4-2026` (проверено 2026-07-13).
 
 ## Безопасность {#safety}
 
-AFIS does not issue [ATC clearance](../reference/glossary.md#term-atc-clearance). A/A traffic information is not clearance. Silence does not mean no traffic. A radio call does not create right of way. Uncontrolled means no ATC service, not absence of rules.
+AFIS не выдаёт [разрешений ATC](../reference/glossary.md#term-atc-clearance). Информация A/A о движении не является разрешением. Тишина не означает отсутствия движения. Радиовызов не создаёт права пути. Неконтролируемый означает отсутствие обслуживания ATC, а не отсутствие правил.
 
 ## Типичные ошибки {#common-errors}
 
-1. Announcing controlled `CLEARED` wording to oneself.
-2. Assuming every aircraft is transmitting.
-3. Joining from an unpublished direction for convenience.
-4. Treating AFIS wind/runway information as landing clearance.
-5. Continuing because the planned sequence was already broadcast.
+1. Самостоятельно объявлять себе контролируемую формулу `CLEARED`.
+2. Предполагать, что каждое воздушное судно передаёт сообщения.
+3. Для удобства входить с неопубликованного направления.
+4. Считать информацию AFIS о ветре и ВПП разрешением на посадку.
+5. Продолжать только потому, что запланированная последовательность уже передана.
 
 ## Конспект {#summary}
 
-- A/A exchanges information and intentions, not clearances.
-- AFIS is information service, not ATC.
-- Lookout/right-of-way remain primary.
-- Published circuit and local procedure govern.
-- Hold off/go around whenever conflict remains unresolved.
+- A/A обменивается информацией и намерениями, а не разрешениями.
+- AFIS — информационное обслуживание, а не ATC.
+- Визуальный поиск и право пути остаются основой.
+- Опубликованный круг и местная процедура имеют приоритет.
+- При неразрешённом конфликте ждите в стороне или уходите на второй круг.
 
 ## Контрольные вопросы {#review-questions}
 
 ### Q-RTC-021 — Что создаёт A/A сообщение о намерении взлетать? {#q-rtc-021}
 
-A. [ATC clearance](../reference/glossary.md#term-atc-clearance) и приоритет.<br>
-B. Shared traffic information, но не clearance или right of way.<br>
+A. [Разрешение ATC](../reference/glossary.md#term-atc-clearance) и приоритет.<br>
+B. Общую информацию о движении, но не разрешение или право пути.<br>
 C. Гарантию свободной ВПП.<br>
-D. Отмену published circuit.
+D. Право начать разбег, если после вызова никто не ответил.
 
 **Правильный ответ:** B.
 
-**Почему:** A/A call informs other traffic; actual runway conflict and applicable rules still control action.
+**Почему:** Вызов A/A информирует другое движение; фактический конфликт на ВПП и применимые правила продолжают определять действие.
 
-**Почему главный отвлекающий вариант неверен:** A приписывает pilot transmission полномочие controller, которого в NO ATS context нет.
+**Почему главный отвлекающий вариант неверен:** A приписывает передаче пилота полномочие диспетчера, которого в контексте без ATS нет.
 
-### Q-RTC-022 — Как интерпретировать тишину после non-controlled arrival call? {#q-rtc-022}
+### Q-RTC-022 — Как интерпретировать тишину после вызова при неконтролируемом прибытии? {#q-rtc-022}
 
-A. Circuit пуст и можно сразу садиться.<br>
-B. Ответ не слышен; продолжать lookout и published procedure без предположения об отсутствии traffic.<br>
-C. AFIS автоматически принял call.<br>
-D. Runway закрыта для всех остальных.
+A. Круг пуст и можно сразу садиться.<br>
+B. Ответ не слышен; продолжать визуальный поиск и опубликованную процедуру без предположения об отсутствии движения.<br>
+C. AFIS автоматически принял вызов.<br>
+D. Можно сократить схему, потому что конфликт не подтвердили по радио.
 
 **Правильный ответ:** B.
 
-**Почему:** Radio silence has several causes and cannot establish negative traffic picture.
+**Почему:** Радиомолчание имеет несколько причин и не может доказать отсутствие движения.
 
-**Почему главный отвлекающий вариант неверен:** A подменяет visual lookout недоказанным выводом, будто тишина после non-controlled arrival call означает пустой circuit.
+**Почему главный отвлекающий вариант неверен:** A подменяет визуальный поиск недоказанным выводом, будто тишина после вызова означает пустой круг.
 
 ### Q-RTC-023 — Какую роль выполняет AFIS? {#q-rtc-023}
 
-A. Выдаёт take-off и landing clearances как tower.<br>
-B. Предоставляет aerodrome flight information/alerting, а решения остаются у пилота.<br>
-C. Отменяет [SERA](../reference/glossary.md#term-sera) right-of-way.<br>
-D. Гарантирует separation между всеми aircraft.
+A. Выдаёт разрешения на взлёт и посадку как вышка.<br>
+B. Предоставляет аэродромную полётную информацию и аварийное оповещение, а решения остаются у пилота.<br>
+C. Отменяет правила [SERA](../reference/glossary.md#term-sera) о праве пути.<br>
+D. Гарантирует эшелонирование между всеми воздушными судами.
 
 **Правильный ответ:** B.
 
-**Почему:** AFIS boundary in Spanish rules is information, not air traffic control service.
+**Почему:** По испанским правилам граница AFIS — информация, а не диспетчерское обслуживание.
 
-**Почему главный отвлекающий вариант неверен:** A копирует controlled phraseology в service без clearance authority.
+**Почему главный отвлекающий вариант неверен:** A копирует контролируемую фразеологию в службу без полномочий выдавать разрешения.
 
-### Q-RTC-024 — Что делать при unresolved circuit conflict на final? {#q-rtc-024}
+### Q-RTC-024 — Что делать при неразрешённом конфликте в круге на прямой? {#q-rtc-024}
 
-A. Продолжать, поскольку arrival call уже сделан.<br>
-B. Go around/hold off early, fly safely and update intention when workload permits.<br>
-C. Требовать у другого aircraft уступить по радио.<br>
-D. Выключить radio, чтобы избежать distraction.
+A. Продолжать, поскольку вызов о прибытии уже сделан.<br>
+B. Заранее уйти на второй круг или остаться в стороне, безопасно управлять и обновить намерение, когда позволяет нагрузка.<br>
+C. Требовать у другого воздушного судна уступить по радио.<br>
+D. Выключить радио, чтобы не отвлекаться.
 
 **Правильный ответ:** B.
 
-**Почему:** Safe spacing and stable approach matter more than completing a previously announced plan.
+**Почему:** Безопасный интервал и стабилизированный заход важнее выполнения ранее объявленного плана.
 
-**Почему главный отвлекающий вариант неверен:** A превращает собственный call в обязательство продолжать unsafe geometry.
+**Почему главный отвлекающий вариант неверен:** A превращает собственный вызов в обязательство продолжать небезопасную геометрию.
 
-### Q-RTC-025 — Как выбрать circuit и reporting points на испанском аэродроме? {#q-rtc-025}
+### Q-RTC-025 — Как выбрать круг и точки доклада на испанском аэродроме? {#q-rtc-025}
 
 A. По наиболее удобной стороне самолёта.<br>
-B. По текущим [AIP](../reference/glossary.md#term-aip)/AD, [NOTAM](../reference/glossary.md#term-notam) и aerodrome instructions с визуальной проверкой conditions.<br>
+B. По текущим [AIP](../reference/glossary.md#term-aip)/AD, [NOTAM](../reference/glossary.md#term-notam) и аэродромным инструкциям с визуальной проверкой условий.<br>
 C. По записи в старом личном блокноте.<br>
-D. По последнему услышанному aircraft без сверки публикации.
+D. По последнему услышанному воздушному судну без сверки публикации.
 
 **Правильный ответ:** B.
 
-**Почему:** Circuit/reporting data are local and dynamic; official current publication defines the planned procedure.
+**Почему:** Данные круга и докладов местные и динамичные; официальная текущая публикация определяет планируемую процедуру.
 
-**Почему главный отвлекающий вариант неверен:** C не показывает актуальный amendment [AIP](../reference/glossary.md#term-aip)/AD, validity [NOTAM](../reference/glossary.md#term-notam) или temporary restriction для circuit и reporting points.
+**Почему главный отвлекающий вариант неверен:** C не показывает актуальную поправку [AIP](../reference/glossary.md#term-aip)/AD, срок действия [NOTAM](../reference/glossary.md#term-notam) или временное ограничение для круга и точек доклада.
 
 ## Источники {#sources}
 
-- `SRC-EASA-SERA-2025` — [SERA](../reference/glossary.md#term-sera).3210, [SERA](../reference/glossary.md#term-sera).3225 and communication principles.
-- `SRC-BOE-RD-1180-2018` — arts. 42–43, RCA 4.7.1.5.1.3, AFIS boundary.
-- `SRC-ENAIRE-AIP-GEN-3-4-2026`, `SRC-ENAIRE-AIP-ESPANA` — dynamic Spanish implementation.
-- `SRC-AESA-ULM-RTC-PROGRAM` — [ULM](../reference/glossary.md#term-ulm) RTC training context.
-- `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` — future [Part-FCL](../reference/glossary.md#term-part-fcl) path.
+- `SRC-EASA-SERA-2025` — [SERA](../reference/glossary.md#term-sera).3210, [SERA](../reference/glossary.md#term-sera).3225 и принципы связи.
+- `SRC-BOE-RD-1180-2018` — статьи 42–43, RCA 4.7.1.5.1.3 и граница полномочий AFIS.
+- `SRC-ENAIRE-AIP-GEN-3-4-2026`, `SRC-ENAIRE-AIP-ESPANA` — динамичная испанская реализация.
+- `SRC-AESA-ULM-RTC-PROGRAM` — контекст подготовки RTC для [ULM](../reference/glossary.md#term-ulm).
+- `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` — будущий переход к [Part-FCL](../reference/glossary.md#term-part-fcl).
 
 [air-to-air]: ../reference/glossary.md#term-air-to-air-aa
 [afis]: ../reference/glossary.md#term-aerodrome-flight-information-service-afis

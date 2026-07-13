@@ -335,7 +335,7 @@ AIC передаёт разъясняющую, административную 
 - **English:** air traffic control clearance
 - **Español:** autorización de control de tránsito aéreo
 - **Русский:** разрешение органа управления воздушным движением
-- **Сокращение:** ATC
+- **Сокращение:** нет
 
 ATC clearance — разрешение aircraft действовать в условиях, установленных органом ATC. Оно не подтверждает автоматически licence privileges, airworthiness или weather suitability; пилот должен понять clearance, выполнить обязательный readback и запросить clarification при сомнении.
 
@@ -1169,7 +1169,7 @@ GAMET — кодированный зональный прогноз для по
 - **Canonical:** secondary surveillance radar (SSR)
 - **English:** secondary surveillance radar (SSR)
 - **Español:** radar secundario de vigilancia (SSR)
-- **Русский:** вторичный обзорный радиолокатор и ответчик
+- **Русский:** вторичный обзорный радиолокатор
 - **Сокращение:** SSR
 
 Вторичный обзорный радиолокатор (English: secondary surveillance radar, SSR; español: radar secundario de vigilancia, SSR) взаимодействует с бортовым ответчиком. Код и IDENT выбираются только по применимому правилу или указанию ATS.

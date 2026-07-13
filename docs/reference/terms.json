@@ -357,7 +357,7 @@
     "english": "air traffic control clearance",
     "spanish": "autorización de control de tránsito aéreo",
     "russian": "разрешение органа управления воздушным движением",
-    "abbreviation": "ATC",
+    "abbreviation": null,
     "definition": "ATC clearance — разрешение aircraft действовать в условиях, установленных органом ATC. Оно не подтверждает автоматически licence privileges, airworthiness или weather suitability; пилот должен понять clearance, выполнить обязательный readback и запросить clarification при сомнении.",
     "anchor": "term-atc-clearance",
     "defined_in": "docs/reference/glossary.md#term-atc-clearance"
@@ -1192,7 +1192,7 @@
     "canonical": "secondary surveillance radar (SSR)",
     "english": "secondary surveillance radar (SSR)",
     "spanish": "radar secundario de vigilancia (SSR)",
-    "russian": "вторичный обзорный радиолокатор и ответчик",
+    "russian": "вторичный обзорный радиолокатор",
     "abbreviation": "SSR",
     "definition": "Вторичный обзорный радиолокатор (English: secondary surveillance radar, SSR; español: radar secundario de vigilancia, SSR) взаимодействует с бортовым ответчиком. Код и IDENT выбираются только по применимому правилу или указанию ATS.",
     "anchor": "term-secondary-surveillance-radar-ssr",

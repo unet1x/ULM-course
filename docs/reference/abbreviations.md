@@ -33,7 +33,6 @@
 | ENAIRE | [ENAIRE](glossary.md#term-enaire) | испанский ANSP и официальный AIS publisher |
 | AIP SUP | [AIP SUP](glossary.md#term-aip-sup) | дополнение к AIP |
 | AIC | [AIC](glossary.md#term-aic) | Aeronautical Information Circular |
-| ATC | [ATC clearance](glossary.md#term-atc-clearance) | air traffic control clearance |
 | SEP | [SEP](glossary.md#term-sep) | single-engine piston aeroplane class rating |
 | TMG | [TMG](glossary.md#term-tmg) | туристический мотопланёр |
 | AMC | [AMC](glossary.md#term-amc) | приемлемые способы подтверждения соответствия EASA |
@@ -65,4 +64,4 @@
 | ATC | [air traffic control (ATC)](glossary.md#term-air-traffic-control-atc) | диспетчерское обслуживание воздушного движения |
 | AFIS | [aerodrome flight information service (AFIS)](glossary.md#term-aerodrome-flight-information-service-afis) | аэродромное полётно-информационное обслуживание |
 | A/A | [air-to-air (A/A)](glossary.md#term-air-to-air-aa) | связь «воздух—воздух» |
-| SSR | [secondary surveillance radar (SSR)](glossary.md#term-secondary-surveillance-radar-ssr) | вторичный обзорный радиолокатор и ответчик |
+| SSR | [secondary surveillance radar (SSR)](glossary.md#term-secondary-surveillance-radar-ssr) | вторичный обзорный радиолокатор |

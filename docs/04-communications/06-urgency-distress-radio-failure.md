@@ -2,221 +2,242 @@
 
 ## Назначение {#purpose}
 
-Глава даёт [ULM](../reference/glossary.md#term-ulm)-пилоту в Испании законную структуру MAYDAY/PAN PAN, отказа связи, SSR codes и light signals без переноса IFR lost-communications procedures в day-[VFR](../reference/glossary.md#term-vfr) [ULM](../reference/glossary.md#term-ulm). Эти же основы сохраняются при последующем [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a).
+Глава учит пилота [ULM](../reference/glossary.md#term-ulm) в Испании различать бедствие и срочность, строить вызовы MAYDAY и PAN PAN, действовать при отказе связи, выбирать код вторичного обзорного радиолокатора и понимать световые сигналы аэродрома. Здесь рассматривается дневной полёт по [ПВП](../reference/glossary.md#term-vfr); правила полёта по приборам в него не переносятся. Эти основы сохраняются при последующем переходе к [LAPL(A)](../reference/glossary.md#term-lapl-a) или [PPL(A)](../reference/glossary.md#term-ppl-a).
 
 ## Результаты обучения {#outcomes}
 
-Вы сможете выбрать MAYDAY или PAN PAN по состоянию, передать доступные message elements, использовать emergency frequency по назначению, выполнить проверенную последовательность loss of communications, выбрать 7600/7700 по смыслу и распознать основные aerodrome light signals.
+После главы вы сможете:
+
+1. Выбрать MAYDAY или PAN PAN по фактической опасности, а не по желаемому приоритету.
+2. Передать доступные элементы аварийного сообщения, не откладывая управление самолётом.
+3. Правильно использовать аварийную частоту 121,500 МГц.
+4. Выполнить последовательность действий при отказе двусторонней связи и отличить её от отказа только приёмника.
+5. Объяснить назначение кодов 7500, 7600, 7700 и условность использования 7000.
+6. Распознать основные световые сигналы для самолёта в воздухе и на земле.
 
 ## Карта применимости {#applicability}
 
 | Метка | Как использовать главу |
 |---|---|
-| [ULM — ОСНОВА][ulm] | Emergency communication для day-[VFR](../reference/glossary.md#term-vfr) Spain. |
-| [ULM — ОСОБО ВАЖНО][ulm] | Fly aircraft first; не переносить IFR procedure. |
-| [PART-FCL — ОБЩЕЕ][part-fcl] | [SERA](../reference/glossary.md#term-sera) [distress](../reference/glossary.md#term-distress)/[urgency](../reference/glossary.md#term-urgency)/failure applies by context. |
-| [LAPL — ПЕРЕХОД] | Practice with instructor and aircraft checklist. |
-| [PPL — РАСШИРЕНИЕ] | Later add applicable IFR knowledge separately. |
-| [ИСПАНИЯ] | Current [AIP](../reference/glossary.md#term-aip) and aerodrome signals/procedure prevail. |
-| [БЕЗОПАСНОСТЬ] | Emergency call never delays aircraft control. |
-| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | Radio/transponder tests, alternates, light-signal knowledge. |
+| [ULM — ОСНОВА][ulm] | Аварийная связь при дневном полёте по [ПВП](../reference/glossary.md#term-vfr) в Испании. |
+| [ULM — ОСОБО ВАЖНО][ulm] | Сначала управляйте самолётом; не переносите сюда процедуры полёта по приборам. |
+| [PART-FCL — ОБЩЕЕ][part-fcl] | Правила [SERA](../reference/glossary.md#term-sera) о бедствии, срочности и отказе связи применяются по ситуации. |
+| [LAPL — ПЕРЕХОД] | Отработайте действия с инструктором и по контрольной карте конкретного самолёта. |
+| [PPL — РАСШИРЕНИЕ] | Позже отдельно добавьте знания для допускаемых видов полёта по приборам. |
+| [ИСПАНИЯ] | Применяйте действующие [AIP](../reference/glossary.md#term-aip) и местные процедуры аэродрома. |
+| [БЕЗОПАСНОСТЬ] | Аварийный вызов никогда не должен задерживать управление самолётом. |
+| [ПРОВЕРИТЬ ПЕРЕД ПОЛЁТОМ] | Проверьте радиостанцию, ответчик, запасные аэродромы и знание световых сигналов. |
 
 ## Теория {#theory}
 
 ### MAYDAY: бедствие {#distress}
 
-[Бедствие (English: distress; español: socorro)][distress-term] — serious and/or imminent danger requiring immediate assistance. First transmission starts with `MAYDAY`, preferably three times. Use the air-ground frequency in use and transmit as many available elements as possible, distinctly, preferably: station addressed if time permits; aircraft identification; nature; intention; present position, level and heading. Control aircraft first; omitted data can follow. [Distress](../reference/glossary.md#term-distress) has absolute communications priority. Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).14095(a),(b) (проверено 2026-07-13).
+[Бедствие (English: distress; español: socorro)][distress-term] — состояние серьёзной и/или непосредственной опасности, при котором требуется немедленная помощь. Первую передачу начинают словом `MAYDAY`, предпочтительно произнесённым три раза. На используемой частоте «воздух — земля» отчётливо передают столько доступных элементов, сколько позволяют обстоятельства, предпочтительно в следующем порядке:
+
+1. адресуемая станция, если позволяет время;
+2. опознавательный индекс воздушного судна;
+3. характер бедствия;
+4. намерение командира;
+5. текущая позиция, уровень и курс.
+
+Сначала сохраняют управление самолётом; недостающие сведения можно передать позже. Сообщения о бедствии имеют безусловный приоритет перед всеми другими сообщениями. Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).14095(a),(b) (проверено 2026-07-13).
 
 ### PAN PAN: срочность {#urgency}
 
-[Срочность (English: urgency; español: urgencia)][urgency-term] concerns safety of aircraft/vehicle/person but does not require immediate assistance. First transmission starts `PAN PAN`, preferably three times, then station, identification, nature, intention, position/level/heading and useful information as required. [Urgency](../reference/glossary.md#term-urgency) has priority over all except [distress](../reference/glossary.md#term-distress). MAYDAY and PAN PAN are not interchangeable: choose condition, and upgrade if danger becomes serious/imminent. Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).14095(a),(c) (проверено 2026-07-13).
+[Срочность (English: urgency; español: urgencia)][urgency-term] — состояние, относящееся к безопасности воздушного судна, другого транспортного средства или человека, но не требующее немедленной помощи. Первую передачу начинают сигналом `PAN PAN`, предпочтительно произнесённым три раза. Затем передают адресуемую станцию, опознавательный индекс, характер состояния, намерение, позицию, уровень, курс и иные полезные сведения по обстоятельствам.
 
-### Emergency frequency {#emergency-frequency}
+Сообщения о срочности имеют приоритет перед всеми сообщениями, кроме сообщений о бедствии. MAYDAY и PAN PAN не взаимозаменяемы: выбирайте сигнал по состоянию и переходите на MAYDAY, если опасность стала серьёзной и/или непосредственной и требуется немедленная помощь. Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).14095(a),(c) (проверено 2026-07-13).
 
-121.500 MHz предназначена для genuine emergency purposes из [SERA](../reference/glossary.md#term-sera).14095(d), а не для routine radio checks. Для [distress](../reference/glossary.md#term-distress)/[urgency](../reference/glossary.md#term-urgency) обычно начинают на рабочей частоте. Сообщение о бедствии можно передать на 121.500 или другой частоте aeronautical mobile service, когда это необходимо или целесообразно; не каждая авиационная станция непрерывно её слушает. Безусловное правило «сначала переключиться» неверно. Источник: `SRC-EASA-SERA-2025` Article 4a, [SERA](../reference/glossary.md#term-sera).14095(d), GM1 [SERA](../reference/glossary.md#term-sera).14095(b)(1) (проверено 2026-07-13).
+### Аварийная частота {#emergency-frequency}
 
-### Loss of two-way communications {#communication-failure}
+Аварийная частота 121,500 МГц предназначена для настоящих аварийных обстоятельств, а не для обычной проверки радио. При бедствии или срочности вызов обычно начинают на уже используемой частоте. На аварийную частоту 121,500 МГц либо другую частоту авиационной подвижной службы переходят, когда это необходимо или целесообразно. Не следует считать, что каждая авиационная станция непрерывно прослушивает аварийную частоту 121,500 МГц; безусловное правило «сначала переключиться» неверно. Источник: `SRC-EASA-SERA-2025`, Article 4a, [SERA](../reference/glossary.md#term-sera).14095(d), GM1 [SERA](../reference/glossary.md#term-sera).14095(b)(1) (проверено 2026-07-13).
 
-[Отказ двусторонней связи (English: communication failure; español: fallo de comunicaciones)][communication-failure] is handled by the verified [SERA](../reference/glossary.md#term-sera).14083 sequence, not a home-made mnemonic claimed as law:
+### Отказ двусторонней связи {#communication-failure}
 
-1. Try the previous channel; then another channel appropriate to the route.
-2. If unsuccessful, attempt the appropriate ATS unit, other ATS units or other aircraft using available means.
-3. If contact still fails, apply the failure procedure: select Mode A 7600 where equipped/applicable and set ADS-B loss indication where available.
-4. A [VFR](../reference/glossary.md#term-vfr) flight continues in [VMC](../reference/glossary.md#term-vmc), lands at the nearest suitable aerodrome and reports arrival to appropriate ATS by the most expeditious means.
-5. At a controlled aerodrome, watch for visual signals.
-6. If transmitting blind after all contact attempts, use the [SERA](../reference/glossary.md#term-sera).14085 form and transmit message twice; receiver-failure reports include intended action and repetition.
+[Отказ двусторонней связи (English: communication failure; español: fallo de comunicaciones)][communication-failure] обрабатывают по проверенной последовательности [SERA](../reference/glossary.md#term-sera).14083, а не по самодельной памятке, выдаваемой за норму:
 
-This is a [VFR](../reference/glossary.md#term-vfr) outcome. The detailed IFR timing/route procedure is not a [ULM](../reference/glossary.md#term-ulm) day-[VFR](../reference/glossary.md#term-vfr) technique and is not imported here. `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).14083/[SERA](../reference/glossary.md#term-sera).14085 (проверено 2026-07-13).
+1. Попробуйте предыдущий канал, затем другой канал, подходящий для маршрута.
+2. Если это не помогло, попытайтесь связаться с соответствующим органом обслуживания воздушного движения, другими такими органами или другим воздушным судном всеми доступными средствами.
+3. Если связь не восстановлена, примените процедуру отказа: при наличии и применимости оборудования установите код режима A 7600 и включите указание потери связи ADS-B, если оно доступно.
+4. При полёте по [ПВП](../reference/glossary.md#term-vfr) продолжайте в [ВМУ](../reference/glossary.md#term-vmc), выполните посадку на ближайшем подходящем аэродроме и наиболее быстрым способом сообщите соответствующему органу обслуживания воздушного движения о прибытии.
+5. На контролируемом аэродроме наблюдайте за визуальными сигналами.
+6. Если после всех попыток связи передаёте вслепую, предварите сообщение словами `TRANSMITTING BLIND` и полностью передайте его два раза подряд. Нельзя заменять вторую передачу словами «сообщение повторено».
 
-### SSR codes and IDENT {#ssr-codes}
+При отказе приёмника (English: receiver failure; español: fallo de receptor) применяется отдельная форма [SERA](../reference/glossary.md#term-sera).14085(b): `TRANSMITTING BLIND DUE TO RECEIVER FAILURE`. Пилот передаёт намеченное сообщение, сразу полностью повторяет его, сообщает время следующей намеченной передачи и, если обращается к органу обслуживания воздушного движения, сообщает намерение командира относительно продолжения полёта.
 
-[Вторичный обзорный радиолокатор (English: secondary surveillance radar, SSR; español: radar secundario de vigilancia)][ssr] uses transponder codes:
+Это результат для полёта по [ПВП](../reference/glossary.md#term-vfr). Подробная схема времени и маршрута при полёте по приборам не является приёмом для дневного полёта [ULM](../reference/glossary.md#term-ulm) по [ПВП](../reference/glossary.md#term-vfr) и здесь не применяется. Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).14083, [SERA](../reference/glossary.md#term-sera).14085(a),(b) (проверено 2026-07-13).
 
-- `7700` — emergency, unless assigned code is retained as required; pilot may select 7700 when specifically best;
-- `7600` — radio-[communication failure](../reference/glossary.md#term-communication-failure);
-- `7500` — unlawful interference;
-- `7000` — when not receiving ATS, to improve detection, unless otherwise prescribed by competent authority. Поэтому 7000 — не универсальный [VFR](../reference/glossary.md#term-vfr)-код вне текущего национального предписания или инструкции ATS.
+### Коды SSR и команда IDENT {#ssr-codes}
 
-Назначенный код сохраняют по инструкции. IDENT используют только по указанию; это не общая кнопка «сделайте меня видимым». Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).13001/[SERA](../reference/glossary.md#term-sera).13005 and [AMC](../reference/glossary.md#term-amc)/GM (проверено 2026-07-13).
+[Вторичный обзорный радиолокатор (English: secondary surveillance radar, SSR; español: radar secundario de vigilancia)][ssr] получает данные от бортового ответчика. Основные коды:
 
-### Aerodrome light signals {#light-signals}
+- `7700` — аварийное состояние; назначенный код сохраняют, если этого требуют обстоятельства или указание, но пилот может выбрать 7700, когда это определённо целесообразно;
+- `7600` — отказ радиосвязи;
+- `7500` — незаконное вмешательство;
+- `7000` — код для улучшения обнаружения при отсутствии обслуживания воздушного движения, если компетентный орган не предписал иное. Поэтому 7000 не является универсальным кодом [ПВП](../reference/glossary.md#term-vfr) вне действующего национального предписания или указания органа обслуживания воздушного движения.
 
-[SERA](../reference/glossary.md#term-sera) Appendix 1 Table AP 1-1 distinguishes in-flight and on-ground meanings:
+Назначенный код сохраняют согласно указанию. Команду `IDENT` выполняют только по указанию: это не общая кнопка «сделайте меня видимым». Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).13001, [SERA](../reference/glossary.md#term-sera).13005 и связанные [AMC](../reference/glossary.md#term-amc)/GM (проверено 2026-07-13).
 
-| Light from aerodrome control | Aircraft in flight | Aircraft on ground |
+### Световые сигналы аэродрома {#light-signals}
+
+Таблица AP 1-1 приложения 1 к [SERA](../reference/glossary.md#term-sera) различает значения для самолёта в воздухе и на земле:
+
+| Сигнал диспетчерской вышки | Самолёт в воздухе | Самолёт на земле |
 |---|---|---|
-| steady green | cleared to land | cleared for take-off |
-| steady red | give way, continue circling | stop |
-| green flashes | return for landing | cleared to taxi |
-| red flashes | aerodrome unsafe, do not land | taxi clear of landing area |
-| white flashes | land and proceed to apron | return to starting point |
-| red pyrotechnic | do not land for the time being | — |
+| Постоянный зелёный | Посадка разрешена | Взлёт разрешён |
+| Постоянный красный | Уступите дорогу и продолжайте полёт по кругу | Остановитесь |
+| Зелёные вспышки | Возвращайтесь для посадки | Руление разрешено |
+| Красные вспышки | Аэродром опасен, не садитесь | Освободите посадочную площадь |
+| Белые вспышки | Выполните посадку и следуйте на перрон | Вернитесь в исходную точку на аэродроме |
+| Красная пиротехническая ракета | Пока не садитесь | — |
 
-Daytime airborne [acknowledgement](../reference/glossary.md#term-acknowledgement) is rocking wings, except on base/final; on ground move ailerons or rudder. Night acknowledgements use lights as specified. Light signals are operational instructions, not optional decoration. Source: `SRC-EASA-SERA-2025` Appendix 1 Table AP 1-1 (проверено 2026-07-13).
+Днём самолёт в воздухе подтверждает получение сигнала покачиванием с крыла на крыло, кроме участков основного разворота и конечного этапа захода; на земле перемещают элероны или руль направления. Ночью применяют предусмотренные подтверждения огнями. Световой сигнал является эксплуатационным указанием, а не необязательной подсказкой. Источник: `SRC-EASA-SERA-2025`, Appendix 1 Table AP 1-1 (проверено 2026-07-13).
 
 ## Применение для [ULM](../reference/glossary.md#term-ulm) {#ulm-application}
 
-For [ULM](../reference/glossary.md#term-ulm) in Spain, emergency authority does not erase aircraft limitations, but immediate safety takes priority. Use aircraft [AFM](../reference/glossary.md#term-afm)/[POH](../reference/glossary.md#term-poh)/emergency checklist, [aviate–navigate–communicate](../reference/glossary.md#term-aviate-navigate-communicate) and applicable [SERA](../reference/glossary.md#term-sera). National RTC training includes [distress](../reference/glossary.md#term-distress), [urgency](../reference/glossary.md#term-urgency) and failure; it still is not [Part-FCL](../reference/glossary.md#term-part-fcl) licence or controlled-airspace privilege. `SRC-AESA-ULM-RTC-PROGRAM`, `SRC-BOE-RD-765-2022` (проверено 2026-07-13).
+В Испании аварийная необходимость не отменяет ограничений воздушного судна, но немедленная безопасность имеет приоритет. Используйте РЛЭ или руководство пилота конкретного самолёта, его аварийную контрольную карту, принцип [«управляй — ориентируйся — связывайся»](../reference/glossary.md#term-aviate-navigate-communicate) и применимые нормы [SERA](../reference/glossary.md#term-sera). Национальная программа RTC включает бедствие, срочность и отказ связи, но сама по себе не является лицензией [Part-FCL](../reference/glossary.md#term-part-fcl) и не даёт права входить в контролируемое воздушное пространство. Источники: `SRC-AESA-ULM-RTC-PROGRAM`, `SRC-BOE-RD-765-2022` (проверено 2026-07-13).
 
 ## Расширение [Part-FCL](../reference/glossary.md#term-part-fcl) {#part-fcl-extension}
 
-[LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a) candidates retain the [VFR](../reference/glossary.md#term-vfr) rule and add only procedures applicable to their future operation/training. Communications theory, R/T annotation and FCL.055 remain separate gates. `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` (проверено 2026-07-13).
+При переходе к [LAPL(A)](../reference/glossary.md#term-lapl-a) или [PPL(A)](../reference/glossary.md#term-ppl-a) сохраняется правило для [ПВП](../reference/glossary.md#term-vfr), а дополнительные процедуры изучаются только в пределах будущего вида эксплуатации и подготовки. Теоретический предмет «Связь», отметка о радиотелефонии и подтверждение языковой компетенции FCL.055 остаются отдельными требованиями. Источники: `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` (проверено 2026-07-13).
 
 ## Учебные сценарии {#training-scenarios}
 
-### Сценарий RTC-18 — MAYDAY engine power loss {#scenario-rtc-18}
+Обозначения переменных в квадратных скобках в английской и испанской строках заменяют фактическими данными; сами скобки и названия переменных не произносятся. Например, `[CALLSIGN]` в английской строке соответствует `[DISTINTIVO]` в испанской. Ответы станции ниже специально составлены для тренировки продолжения обмена и не объявляются дословными нормативными парами [SERA](../reference/glossary.md#term-sera).
+
+### Сценарий RTC-18 — Потеря мощности двигателя: MAYDAY {#scenario-rtc-18}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** emergency on frequency in use; controlled ATS receiver.<br>
-**Контекст:** aircraft stable at best-achievable flight path after power loss; placeholders replace live position/frequency.<br>
-**English:** Pilot: `MAYDAY MAYDAY MAYDAY, [STATION], [CALLSIGN], ENGINE POWER LOSS, FORCED LANDING [INTENTION], [POSITION], [ALTITUDE], [HEADING]`; station: `[CALLSIGN], MAYDAY ROGER, [ASSISTANCE/QUESTION]`.<br>
-**Español:** Piloto: `MAYDAY MAYDAY MAYDAY, [STATION], [CALLSIGN], PÉRDIDA DE POTENCIA, ATERRIZAJE FORZOSO [INTENTION], [POSITION], [ALTITUDE], [HEADING]`; estación: `[CALLSIGN], MAYDAY RECIBIDO, [ASSISTANCE/QUESTION]`.<br>
-**Пояснение:** call sends nature, intention and location without delaying control/checklist.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** station acknowledges; pilot answers only useful questions workload permits and corrects wrong position immediately.<br>
-**Решение при сомнении:** сначала управляйте самолётом; передайте доступную часть сообщения, включите подходящие emergency means и дополните данные, когда сможете.<br>
-Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).14095(b) (проверено 2026-07-13).
+**Тип обслуживания:** аварийный обмен на используемой частоте; ответ принимает орган обслуживания воздушного движения.<br>
+**Контекст:** после потери мощности самолёт стабилизирован на наилучшей достижимой траектории; переменные заменяют текущие данные.<br>
+**English:** Pilot: `MAYDAY MAYDAY MAYDAY, [STATION], [CALLSIGN], ENGINE POWER LOSS, FORCED LANDING [INTENTION], [POSITION], [ALTITUDE], [HEADING]`; station: `[CALLSIGN], ROGER MAYDAY, SAY PERSONS ON BOARD`.<br>
+**Español:** Piloto: `MAYDAY MAYDAY MAYDAY, [ESTACIÓN], [DISTINTIVO], PÉRDIDA DE POTENCIA, ATERRIZAJE FORZOSO [INTENCIÓN], [POSICIÓN], [ALTITUD], [RUMBO]`; estación: `[DISTINTIVO], RECIBIDO MAYDAY, INDIQUE PERSONAS A BORDO`.<br>
+**Пояснение:** пилот передаёт характер бедствия, намерение и местоположение, не задерживая управление и выполнение контрольной карты; приведённый ответ станции — учебный пример, а не дословная фраза [SERA](../reference/glossary.md#term-sera).<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** станция подтверждает MAYDAY; пилот отвечает на полезные вопросы лишь в пределах располагаемой нагрузки и немедленно исправляет неверную позицию.<br>
+**Решение при сомнении:** сначала управляйте самолётом; передайте доступную часть сообщения, используйте подходящие аварийные средства и дополните сведения, когда сможете.<br>
+Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).14095(b), GM1 [SERA](../reference/glossary.md#term-sera).14095(b)(1)(ii)(F) (проверено 2026-07-13).
 
-### Сценарий RTC-19 — PAN PAN passenger condition {#scenario-rtc-19}
-
-СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
-
-**Тип обслуживания:** emergency/[urgency](../reference/glossary.md#term-urgency) traffic on frequency in use.<br>
-**Контекст:** passenger condition affects safety and priority handling is requested, but immediate assistance in flight is not yet required.<br>
-**English:** Pilot: `PAN PAN PAN PAN PAN PAN, [STATION], [CALLSIGN], PASSENGER ILL, REQUEST PRIORITY LANDING [AERODROME], [POSITION], [ALTITUDE], [HEADING], [PERSONS/FUEL IF USEFUL]`; station: `[CALLSIGN], PAN ROGER, [INSTRUCTION/INFORMATION]`.<br>
-**Español:** Piloto: `PAN PAN PAN PAN PAN PAN, [STATION], [CALLSIGN], PASAJERO CON PROBLEMA MÉDICO, SOLICITO PRIORIDAD PARA ATERRIZAR [AERODROME], [POSITION], [ALTITUDE], [HEADING], [PERSONS/FUEL IF USEFUL]`; estación: `[CALLSIGN], PAN RECIBIDO, [INSTRUCTION/INFORMATION]`.<br>
-**Пояснение:** [urgency](../reference/glossary.md#term-urgency) signal requests priority/assistance without declaring immediate [distress](../reference/glossary.md#term-distress); useful facts follow workload.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** repeat any runway/level/heading clearance exactly; PAN [acknowledgement](../reference/glossary.md#term-acknowledgement) alone is not those readbacks.<br>
-**Решение при сомнении:** if condition worsens to serious/imminent danger requiring immediate assistance, upgrade to MAYDAY and state changed nature/intention.<br>
-Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).14095(c) (проверено 2026-07-13).
-
-### Сценарий RTC-20 — Radio failure, SSR and light signal {#scenario-rtc-20}
+### Сценарий RTC-19 — Ухудшение состояния пассажира: PAN PAN {#scenario-rtc-19}
 
 СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
 
-**Тип обслуживания:** emergency / controlled-aerodrome visual-signal response.<br>
-**Контекст:** [VFR](../reference/glossary.md#term-vfr) aircraft loses two-way radio, remains [VMC](../reference/glossary.md#term-vmc), attempts previous/appropriate channels and relay, then applies [SERA](../reference/glossary.md#term-sera) failure procedure.<br>
-**English:** Aircraft blind transmission: `TRANSMITTING BLIND, [STATION], [CALLSIGN], RADIO FAILURE, [POSITION], [ALTITUDE], LANDING AT [SUITABLE AERODROME], THIS MESSAGE TWICE`; tower light: `STEADY RED`; pilot response: continue circling/give way and acknowledge by rocking wings only when not on base/final.<br>
-**Español:** Transmisión a ciegas: `TRANSMITIENDO A CIEGAS, [STATION], [CALLSIGN], FALLO DE RADIO, [POSITION], [ALTITUDE], ATERRIZARÉ EN [SUITABLE AERODROME], MENSAJE REPETIDO`; luz de torre: `ROJA FIJA`; respuesta: ceder y continuar circuito, reconocimiento diurno con balanceo de alas fuera de base/final.<br>
-**Пояснение:** установите 7600, если оборудование и обстоятельства применимы; 7600 означает отказ связи, а не бедствие. Сохраняйте [VMC](../reference/glossary.md#term-vmc), садитесь на ближайшем подходящем аэродроме и оперативно сообщите о прибытии.<br>
-**[Readback][readback]/[acknowledgement][acknowledgement]:** radio repeat may be impossible; use prescribed visual [acknowledgement](../reference/glossary.md#term-acknowledgement) and observe further signals.<br>
-**Решение при сомнении:** do not invent runway clearance from an unreadable flash; remain predictable, watch tower and choose safe [VFR](../reference/glossary.md#term-vfr) landing consistent with [SERA](../reference/glossary.md#term-sera)/actual conditions.<br>
-Источник: `SRC-EASA-SERA-2025` [SERA](../reference/glossary.md#term-sera).14083, [SERA](../reference/glossary.md#term-sera).14085, [SERA](../reference/glossary.md#term-sera).13005, Appendix 1 Table AP 1-1 (проверено 2026-07-13).
+**Тип обслуживания:** срочный обмен на используемой частоте.<br>
+**Контекст:** состояние пассажира влияет на безопасность и требует приоритетного обслуживания, но немедленная помощь в воздухе пока не нужна.<br>
+**English:** Pilot: `PAN PAN PAN PAN PAN PAN, [STATION], [CALLSIGN], PASSENGER ILL, REQUEST PRIORITY LANDING [AERODROME], [POSITION], [ALTITUDE], [HEADING]`; station: `[CALLSIGN], ROGER PAN, SAY PERSONS ON BOARD AND FUEL ENDURANCE`.<br>
+**Español:** Piloto: `PAN PAN PAN PAN PAN PAN, [ESTACIÓN], [DISTINTIVO], PASAJERO ENFERMO, SOLICITO PRIORIDAD PARA ATERRIZAR EN [AERÓDROMO], [POSICIÓN], [ALTITUD], [RUMBO]`; estación: `[DISTINTIVO], RECIBIDO PAN, INDIQUE PERSONAS A BORDO Y AUTONOMÍA DE COMBUSTIBLE`.<br>
+**Пояснение:** сигнал срочности запрашивает приоритет и содействие без объявления немедленного бедствия; приведённый ответ станции — учебный пример, а не дословная фраза [SERA](../reference/glossary.md#term-sera).<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** полностью повторите любое разрешение, содержащее ВПП, уровень или курс; одно подтверждение PAN PAN не заменяет эти повторы.<br>
+**Решение при сомнении:** если состояние переходит в серьёзную и/или непосредственную опасность, требующую немедленной помощи, объявите MAYDAY и сообщите изменившиеся характер события и намерение.<br>
+Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).14095(c), GM1 [SERA](../reference/glossary.md#term-sera).14095(c)(1)(ii)(F) (проверено 2026-07-13).
+
+### Сценарий RTC-20 — Отказ радио, код SSR и световой сигнал {#scenario-rtc-20}
+
+СИНТЕТИЧЕСКИЙ УЧЕБНЫЙ СЦЕНАРИЙ — НЕ ДЛЯ ПОЛЁТА
+
+**Тип обслуживания:** действия при отказе связи и получение визуального сигнала контролируемого аэродрома.<br>
+**Контекст:** самолёт по [ПВП](../reference/glossary.md#term-vfr) потерял двустороннюю радиосвязь, остаётся в [ВМУ](../reference/glossary.md#term-vmc), безуспешно попробовал предыдущий и подходящие каналы и передачу через посредника, затем применяет процедуру [SERA](../reference/glossary.md#term-sera).<br>
+**English:** Aircraft transmits the complete message twice, verbatim: `TRANSMITTING BLIND, [STATION], [CALLSIGN], RADIO FAILURE, [POSITION], [ALTITUDE], LANDING AT [SUITABLE AERODROME]`; then again: `TRANSMITTING BLIND, [STATION], [CALLSIGN], RADIO FAILURE, [POSITION], [ALTITUDE], LANDING AT [SUITABLE AERODROME]`. Tower light: `STEADY RED`; pilot response: give way and continue circling; acknowledge by rocking wings only when not on base or final.<br>
+**Español:** La aeronave transmite íntegramente el mensaje dos veces: `TRANSMITIENDO A CIEGAS, [ESTACIÓN], [DISTINTIVO], FALLO DE RADIO, [POSICIÓN], [ALTITUD], ATERRIZARÉ EN [AERÓDROMO ADECUADO]`; y lo repite íntegramente: `TRANSMITIENDO A CIEGAS, [ESTACIÓN], [DISTINTIVO], FALLO DE RADIO, [POSICIÓN], [ALTITUD], ATERRIZARÉ EN [AERÓDROMO ADECUADO]`. Luz de torre: `ROJA FIJA`; respuesta: ceder el paso y continuar el circuito; reconocer balanceando las alas solo fuera de base o final.<br>
+**Пояснение:** установите 7600, если оборудование и обстоятельства это допускают; 7600 означает отказ связи, а не общее бедствие. Оставайтесь в [ВМУ](../reference/glossary.md#term-vmc), садитесь на ближайшем подходящем аэродроме и оперативно сообщите о прибытии.<br>
+**[Readback][readback]/[acknowledgement][acknowledgement]:** повтор по радио может быть невозможен; используйте предусмотренное визуальное подтверждение и наблюдайте за следующими сигналами.<br>
+**Решение при сомнении:** не выдумывайте разрешение на использование ВПП по неразличимому световому сигналу; действуйте предсказуемо, наблюдайте за вышкой и выбирайте безопасную посадку по [ПВП](../reference/glossary.md#term-vfr), соответствующую [SERA](../reference/glossary.md#term-sera) и фактическим условиям.<br>
+Источник: `SRC-EASA-SERA-2025`, [SERA](../reference/glossary.md#term-sera).14083, [SERA](../reference/glossary.md#term-sera).14085, [SERA](../reference/glossary.md#term-sera).13005, Appendix 1 Table AP 1-1 (проверено 2026-07-13).
 
 ## Безопасность {#safety}
 
-MAYDAY and PAN PAN are not interchangeable labels. 7600 is radio failure, 7700 emergency. Emergency frequency is not for routine checks. Light signals are instructions with different airborne/ground meanings. Never invent runway clearance because radio or light signal is unreadable.
+MAYDAY и PAN PAN обозначают разные состояния. Код 7600 означает отказ связи, 7700 — общее аварийное состояние. Частота 121,500 МГц не предназначена для обычных проверок. Значение светового сигнала зависит от того, находится самолёт в воздухе или на земле. Никогда не выдумывайте разрешение на использование ВПП из-за неразборчивого радио или светового сигнала.
 
 ## Типичные ошибки {#common-errors}
 
-1. Автоматически переключаться на emergency frequency 121.500 до попытки использовать рабочую частоту и контекст.
-2. Delaying aircraft control to compose a perfect message.
-3. Selecting 7700 for simple radio failure or 7600 for [distress](../reference/glossary.md#term-distress).
-4. Applying IFR timing/route rules to [ULM](../reference/glossary.md#term-ulm) day [VFR](../reference/glossary.md#term-vfr).
-5. Memorising light colour without flight/ground context.
+1. Автоматически переключаться на аварийную частоту 121,500 МГц до оценки возможности использовать уже установленную рабочую связь.
+2. Откладывать управление самолётом ради составления идеального сообщения.
+3. Выбирать 7700 при простом отказе радио либо 7600 при общем бедствии.
+4. Применять правила времени и маршрута полёта по приборам к дневному полёту [ULM](../reference/glossary.md#term-ulm) по [ПВП](../reference/glossary.md#term-vfr).
+5. Запоминать цвет светового сигнала без различения положения самолёта в воздухе и на земле.
 
 ## Конспект {#summary}
 
-- MAYDAY: serious/imminent danger requiring immediate assistance.
-- PAN PAN: safety [urgency](../reference/glossary.md#term-urgency) without immediate assistance.
-- Start normally on the frequency in use; 121.500 when necessary/desirable for emergency.
-- [VFR](../reference/glossary.md#term-vfr) radio failure: attempt contact, 7600 where applicable, stay [VMC](../reference/glossary.md#term-vmc), nearest suitable landing, report arrival.
-- Light signals and context must be understood exactly.
+- MAYDAY означает серьёзную и/или непосредственную опасность, требующую немедленной помощи.
+- PAN PAN означает срочное состояние безопасности без необходимости немедленной помощи.
+- Обычно начинают на используемой частоте; аварийную частоту 121,500 МГц применяют, когда это необходимо или целесообразно.
+- При отказе связи в полёте по [ПВП](../reference/glossary.md#term-vfr) пытаются восстановить контакт, при применимости устанавливают 7600, остаются в [ВМУ](../reference/glossary.md#term-vmc), садятся на ближайшем подходящем аэродроме и сообщают о прибытии.
+- Световые сигналы надо понимать точно и с учётом положения самолёта.
 
 ## Контрольные вопросы {#review-questions}
 
 ### Q-RTC-026 — Как различить MAYDAY и PAN PAN? {#q-rtc-026}
 
 A. Они взаимозаменяемы, если сообщение короткое.<br>
-B. MAYDAY требует immediate assistance при serious/imminent danger; PAN PAN — safety [urgency](../reference/glossary.md#term-urgency) без неё.<br>
-C. MAYDAY применяется только на 121.500.<br>
-D. PAN PAN означает radio failure code.
+B. MAYDAY означает серьёзную и/или непосредственную опасность с необходимостью немедленной помощи; PAN PAN — срочное состояние безопасности без такой необходимости.<br>
+C. MAYDAY применяют только на частоте 121,500 МГц.<br>
+D. PAN PAN означает установку кода отказа радиосвязи.<br>
 
 **Правильный ответ:** B.
 
-**Почему:** [SERA](../reference/glossary.md#term-sera).14095 defines conditions by danger and need for immediate assistance, not by desired frequency.
+**Почему:** [SERA](../reference/glossary.md#term-sera).14095 различает состояния по характеру опасности и потребности в немедленной помощи, а не по желаемой частоте.
 
-**Почему главный отвлекающий вариант неверен:** По [SERA](../reference/glossary.md#term-sera).14095 вариант A стирает различие приоритета между MAYDAY и PAN PAN, необходимое всем станциям при emergency traffic.
+**Почему главный отвлекающий вариант неверен:** вариант A стирает необходимое всем станциям различие приоритета между MAYDAY и PAN PAN.
 
-### Q-RTC-027 — На какой частоте обычно начинают MAYDAY transmission? {#q-rtc-027}
+### Q-RTC-027 — На какой частоте обычно начинают вызов MAYDAY? {#q-rtc-027}
 
-A. Всегда сначала 121.500 независимо от связи.<br>
-B. На air-ground frequency in use; 121.500/another frequency when necessary or desirable.<br>
-C. На любой сохранённой аэродромной частоте.<br>
-D. Только на A/A frequency.
+A. Всегда сначала на 121,500 МГц независимо от уже установленной связи.<br>
+B. На используемой частоте «воздух — земля»; на 121,500 МГц или другую подходящую частоту переходят, когда это необходимо или целесообразно.<br>
+C. На любой сохранённой частоте ближайшего аэродрома.<br>
+D. Только на частоте связи «воздух — воздух».<br>
 
 **Правильный ответ:** B.
 
-**Почему:** [SERA](../reference/glossary.md#term-sera).14095 starts with frequency in use and permits emergency frequency as a supplementary measure by circumstances.
+**Почему:** [SERA](../reference/glossary.md#term-sera).14095 предусматривает начало на используемой частоте и использование аварийной частоты как дополнительной меры по обстоятельствам.
 
-**Почему главный отвлекающий вариант неверен:** По [SERA](../reference/glossary.md#term-sera).14095 вариант A безусловно уводит MAYDAY с рабочей частоты на 121.500 и может прервать уже установленную связь.
+**Почему главный отвлекающий вариант неверен:** вариант A безусловно уводит вызов с рабочей частоты и может прервать уже установленную связь.
 
-### Q-RTC-028 — Какой transponder code обозначает radio-[communication failure](../reference/glossary.md#term-communication-failure)? {#q-rtc-028}
+### Q-RTC-028 — Какой код ответчика обозначает отказ радиосвязи? {#q-rtc-028}
 
-A. 7000 — conspicuity/[VFR](../reference/glossary.md#term-vfr) по применимому предписанию.<br>
-B. 7500 — unlawful interference.<br>
-C. 7600 — radio-[communication failure](../reference/glossary.md#term-communication-failure).<br>
-D. 7700 — general emergency.
+A. 7000 — код для улучшения обнаружения по применимому предписанию.<br>
+B. 7500 — незаконное вмешательство.<br>
+C. 7600 — отказ радиосвязи.<br>
+D. 7700 — общее аварийное состояние.<br>
 
 **Правильный ответ:** C.
 
-**Почему:** [SERA](../reference/glossary.md#term-sera).13005 assigns 7600 to radio-[communication failure](../reference/glossary.md#term-communication-failure) and 7700 to emergency.
+**Почему:** [SERA](../reference/glossary.md#term-sera).13005 назначает код 7600 для отказа радиосвязи, а 7700 — для общего аварийного состояния.
 
-**Почему главный отвлекающий вариант неверен:** D alerts general emergency rather than specifically identifying communications failure.
+**Почему главный отвлекающий вариант неверен:** вариант D сообщает об общем аварийном состоянии, а не указывает специально на отказ связи.
 
-### Q-RTC-029 — Каков [VFR](../reference/glossary.md#term-vfr) outcome после безуспешных попыток восстановить связь? {#q-rtc-029}
+### Q-RTC-029 — Что делать при полёте по ПВП после безуспешных попыток восстановить связь? {#q-rtc-029}
 
-A. Продолжить до planned destination в любых условиях.<br>
-B. Оставаться [VMC](../reference/glossary.md#term-vmc), сесть на nearest suitable aerodrome и быстро сообщить arrival ATS.<br>
-C. Перейти на IFR lost-communications timing без instrument privilege.<br>
-D. Орбитировать над controlled aerodrome до восстановления радио.
-
-**Правильный ответ:** B.
-
-**Почему:** [SERA](../reference/glossary.md#term-sera).14083(c)(3) states the [VFR](../reference/glossary.md#term-vfr) visual-conditions/nearest-suitable/report sequence.
-
-**Почему главный отвлекающий вариант неверен:** C imports a separate IFR procedure into a [VFR](../reference/glossary.md#term-vfr) operation and may exceed pilot privileges.
-
-### Q-RTC-030 — Что означает steady red light для aircraft in flight? {#q-rtc-030}
-
-A. Cleared to land.<br>
-B. Give way to other aircraft and continue circling.<br>
-C. Return to starting point on aerodrome.<br>
-D. Cleared for take-off.
+A. Продолжить до запланированного аэродрома назначения при любых условиях.<br>
+B. Оставаться в [ВМУ](../reference/glossary.md#term-vmc), сесть на ближайшем подходящем аэродроме и наиболее быстрым способом сообщить о прибытии соответствующему органу обслуживания воздушного движения.<br>
+C. Перейти на процедуру отказа связи для полёта по приборам без соответствующего допуска.<br>
+D. Ожидать над контролируемым аэродромом до восстановления радио независимо от запаса топлива.<br>
 
 **Правильный ответ:** B.
 
-**Почему:** [SERA](../reference/glossary.md#term-sera) Appendix 1 Table AP 1-1 assigns steady red airborne meaning to give way/continue circling.
+**Почему:** [SERA](../reference/glossary.md#term-sera).14083(c)(3) устанавливает для полёта по ПВП последовательность «визуальные условия — ближайший подходящий аэродром — сообщение о прибытии».
 
-**Почему главный отвлекающий вариант неверен:** A is the airborne meaning of steady green, not steady red.
+**Почему главный отвлекающий вариант неверен:** вариант C переносит отдельную процедуру полёта по приборам в полёт по ПВП и может выходить за пределы прав пилота.
+
+### Q-RTC-030 — Что означает постоянный красный сигнал для самолёта в воздухе? {#q-rtc-030}
+
+A. Посадка разрешена.<br>
+B. Уступите дорогу другим воздушным судам и продолжайте полёт по кругу.<br>
+C. Вернитесь в исходную точку на аэродроме.<br>
+D. Взлёт разрешён.<br>
+
+**Правильный ответ:** B.
+
+**Почему:** таблица AP 1-1 приложения 1 к [SERA](../reference/glossary.md#term-sera) назначает постоянному красному сигналу в воздухе значение «уступите дорогу и продолжайте полёт по кругу».
+
+**Почему главный отвлекающий вариант неверен:** вариант A соответствует постоянному зелёному, а не красному сигналу.
 
 ## Источники {#sources}
 
-- `SRC-EASA-SERA-2025` — Article 4a; [SERA](../reference/glossary.md#term-sera).13001/13005, 14083, 14085, 14095; Appendix 1 Table AP 1-1.
-- `SRC-BOE-RD-1180-2018` — open Spanish implementation/phraseology.
-- `SRC-AESA-ULM-RTC-PROGRAM` — national [ULM](../reference/glossary.md#term-ulm) RTC [syllabus](../reference/glossary.md#term-syllabus).
-- `SRC-ENAIRE-AIP-GEN-3-4-2026` — current Spain communications context.
-- `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` — later LAPL/PPL distinction.
+- `SRC-EASA-SERA-2025` — Article 4a; [SERA](../reference/glossary.md#term-sera).13001, [SERA](../reference/glossary.md#term-sera).13005, [SERA](../reference/glossary.md#term-sera).14083, [SERA](../reference/glossary.md#term-sera).14085, [SERA](../reference/glossary.md#term-sera).14095; Appendix 1 Table AP 1-1.
+- `SRC-BOE-RD-1180-2018` — открытая испанская реализация и фразеология.
+- `SRC-AESA-ULM-RTC-PROGRAM` — национальная программа RTC для [ULM](../reference/glossary.md#term-ulm).
+- `SRC-ENAIRE-AIP-GEN-3-4-2026` — актуальный контекст связи в Испании.
+- `SRC-EASA-AIRCREW-2026`, `SRC-BOE-FOM-1146-2019` — различие последующего перехода к LAPL/PPL.
 
 [distress-term]: ../reference/glossary.md#term-distress
 [urgency-term]: ../reference/glossary.md#term-urgency

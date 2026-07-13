@@ -15,7 +15,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-standardised-european?erules-id=ERULES-1963177438-9807",
     "edition": "онлайн-консолидация, revision August 2025",
     "checked": "2026-07-13",
-    "scope": "SERA.14015 language, SERA.8015(e) readback, SERA.13001/SERA.13005 SSR, SERA.14083 communication failure и Appendix 1 Table AP 1-1 light signals; текущие национальные AIP/NOTAM применяются дополнительно"
+    "scope": "SERA.3401 time system; SERA.8015(e) и GM1 SERA.8015(ec) readback/conditional clearance; SERA.8025 position reports после Regulation (EU) 2024/404; SERA.13001/SERA.13005 SSR; SERA.14001, SERA.14015, SERA.14020, SERA.14035, SERA.14040, SERA.14045, SERA.14050, SERA.14055, SERA.14070, SERA.14075, SERA.14083, SERA.14085 и SERA.14095; Appendix 1 Table AP 1-1 light signals; текущие национальные AIP/NOTAM применяются дополнительно"
   },
   {
     "id": "SRC-EURLEX-1178-2011",
@@ -315,6 +315,15 @@
     "scope": "Stable physics only: atmosphere, lapse/inversion, moisture, pressure/density altitude, wind, fronts, clouds, mountains, visibility, turbulence, icing and thunderstorms; no U.S. rule, product, service, minimum or numeric thunderstorm-avoidance recommendation transfers to Spain"
   },
   {
+    "id": "SRC-FAA-AIM-RADIO-2026",
+    "authority": "FAA",
+    "title": "Aeronautical Information Manual — Chapter 4, Section 2 Radio Communications Phraseology and Techniques",
+    "url": "https://www.faa.gov/air_traffic/publications/atpubs/aim_html/chap4_section_2.html",
+    "edition": "AIM Basic with Changes 1–3, effective 09.07.2026",
+    "checked": "2026-07-13",
+    "scope": "AIM 4-2-1 Radio Technique: VHF line-of-sight range, microphone position, pause after PTT, normal tone and stuck-microphone awareness; stable technical pedagogy only, not EU/Spanish phraseology, operating rule, frequency assignment or legal authority"
+  },
+  {
     "id": "SRC-EASA-VFR2IMC",
     "authority": "EASA",
     "title": "Coping with weather — VFR into IMC",
@@ -330,7 +339,7 @@
     "url": "https://www.boe.es/eli/es/rd/2018/09/21/1180/con",
     "edition": "texto consolidado; última actualización publicada 05.06.2024",
     "checked": "2026-07-13",
-    "scope": "Arts. 42–43, RCA 4.7.1.5.1.3 и Annex V: открытые официальные пары ES/EN для ATC phraseology, distress/urgency и граница AFIS; применяется вместе с SERA и текущим AIP"
+    "scope": "Раздельные pinpoints: RCA 10.5.2.1.3.1.1 — группы времени; RCA 10.5.3 — испанские дополнения к сообщениям бедствия/срочности; RCA 4.7.1.5.1.3 — граница AFIS; Annex V 1.4.9 — HOLD SHORT, Annex V 1.4.11 — подготовка к взлёту и условные разрешения, Annex V 1.4.14–1.4.18 — вход в круг, доклады, заход, посадка и уход на второй круг; применяется вместе с SERA и текущим AIP"
   },
   {
     "id": "SRC-BOE-FOM-1146-2019",
@@ -358,6 +367,15 @@
     "edition": "GEN 3.4 WEF 16.04.2026; AIP snapshot 09.07.2026",
     "checked": "2026-07-13",
     "scope": "Current Spanish communication service, language and station information; does not promise English at every ground station; dynamic AIP/AMDT must be rechecked before flight"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-LEBG-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España AD 2-LEBG — Burgos",
+    "url": "https://aip.enaire.es/aip/contenido_AMDT/LE_Amdt_A_2026_06_AD_2_LEBG_es.html",
+    "edition": "AIRAC AMDT 06/26, WEF 09.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Local example only: LEBG AD 2.18 uses the published channel for pilot-to-pilot communication outside ATS hours; AD 2.20 requires reporting intentions and position for intersection departures when AFIS is not provided; AD 2.22 more broadly requires VFR listening watch and phase-of-flight reports without awaiting a response. It does not establish universal A/A wording, field order or current data for another aerodrome"
   },
   {
     "id": "SRC-ENAIRE-AIP-ENR-1-4-2026",
