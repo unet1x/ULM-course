@@ -104,6 +104,7 @@ OFFICIAL_SOURCE_DOMAINS = {
     "www.boe.es",
     "www.seguridadaerea.gob.es",
     "sede.seguridadaerea.gob.es",
+    "www.senasa.es",
     "aip.enaire.es",
     "www.aemet.es",
     "www.faa.gov",
@@ -129,6 +130,10 @@ REQUIRED_SOURCE_IDS = {
     "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01",
     "SRC-AESA-ULM-QUESTION-BANKS",
     "SRC-AESA-LAPL-PPL-PROCEDURES",
+    "SRC-SENASA-AESA-EXAM-GUIDE-FOR-EFT-P01-GU01-ED03",
+    "SRC-BOE-ULM-EXAM-RESOLUTION-2019",
+    "SRC-BOE-PART-FCL-SPL-BPL-EXAM-RESOLUTION-2025",
+    "SRC-AESA-ULM-EXAM-GUIDE-ED10-2019-HISTORICAL",
     "SRC-ENAIRE-AIP-ESPANA",
     "SRC-AEMET-AVIATION",
     "SRC-EASA-HYPOXIA-2016",
@@ -169,6 +174,18 @@ REQUIRED_CANONICAL_TERMS = {
     "flight plan",
     "radiofonista (RTC)",
     "AESA",
+    "SENASA",
+    "SPL",
+    "BPL",
+    "convocatoria",
+    "impreso de matrícula",
+    "observación de examen",
+    "hoja de comprobación",
+    "Apto / No Apto / No Apto, Provisional",
+    "revisión",
+    "recurso de alzada",
+    "no presentado",
+    "pérdida de convocatoria",
     "EASA",
     "ICAO",
     "ENAIRE",
@@ -5667,6 +5684,516 @@ class GU09MigrationTests(unittest.TestCase):
         self.assertIn(
             self.HISTORICAL_URL,
             (ROOT / "docs/sources/audit-technical.md").read_text(encoding="utf-8"),
+        )
+
+
+class ULMExamGuideEd03MigrationTests(unittest.TestCase):
+    CURRENT_ID = "SRC-SENASA-AESA-EXAM-GUIDE-FOR-EFT-P01-GU01-ED03"
+    CURRENT_URL = (
+        "https://www.senasa.es/recursos/adobePDF/2026/pdf/"
+        "FOR-EFT-P01-GU01_Ed.03_Guia_examenes_electronicos_pilotos_"
+        "habilitaciones.pdf"
+    )
+    LANDING_URL = "https://www.senasa.es/index.php?idPag=233&lang=es-ES"
+    RESOLUTION_ID = "SRC-BOE-ULM-EXAM-RESOLUTION-2019"
+    RESOLUTION_URL = (
+        "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2019-7513"
+    )
+    PART_FCL_RESOLUTION_ID = "SRC-BOE-PART-FCL-SPL-BPL-EXAM-RESOLUTION-2025"
+    PART_FCL_RESOLUTION_URL = (
+        "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-17756"
+    )
+    HISTORICAL_ID = "SRC-AESA-ULM-EXAM-GUIDE-ED10-2019-HISTORICAL"
+    HISTORICAL_URL = (
+        "https://www.seguridadaerea.gob.es/sites/default/files/"
+        "a-dla-eut-01_guia_realiz_exam_teoricos_pilotos_ulm_y_hab_asoc.pdf"
+    )
+
+    def _sources(self):
+        return {
+            source["id"]: source
+            for source in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+
+    def _exam_section(self):
+        chapter = (
+            ROOT / "docs/00-start/03-medical-training-exams.md"
+        ).read_text(encoding="utf-8")
+        return chapter.split(
+            "## Теория, практическая проверка и заявление", 1
+        )[1].split("## Документы школы", 1)[0]
+
+    def test_current_guide_source_has_exact_document_control_and_pinpoints(self):
+        source = self._sources()[self.CURRENT_ID]
+        self.assertEqual("AESA", source["authority"])
+        self.assertEqual(self.CURRENT_URL, source["url"])
+        self.assertRegex(
+            source["edition"],
+            r"FOR-EFT-P01-GU01 Ed\.03.*Desde publicación.*"
+            r"HTTP Last-Modified 12\.06\.2026",
+        )
+        controls = f'{source["edition"]} {source["scope"]}'
+        for token in (
+            self.LANDING_URL,
+            "p. 2",
+            "p. 6",
+            "pp. 36–53",
+            "53",
+            "50b224e9695994a46ddb42449f148bbc84a6d6cb2c57237a00f2e1be0b031a5a",
+            "Ed.01 12.11.2025",
+            "Ed.02 07.04.2026",
+        ):
+            with self.subTest(token=token):
+                self.assertIn(token, controls)
+        self.assertRegex(
+            controls,
+            r"(?is)(?:неконтролируем|uncontrolled).{0,180}"
+            r"(?:web|сайт|страниц).{0,120}(?:актуальн|текущ)",
+        )
+        self.assertRegex(
+            controls,
+            r"(?is)Last-Modified.{0,180}не.{0,80}"
+            r"(?:дат[аы]\s+публикац|дат[аы]\s+редакц)",
+        )
+        self.assertNotRegex(
+            controls,
+            r"(?is)(?:Ed\.03|опубликован|редакци[яи]).{0,30}12\.06\.2026",
+        )
+
+    def test_2019_ulm_resolution_and_historical_guide_are_preserved_separately(self):
+        sources = self._sources()
+        resolution = sources[self.RESOLUTION_ID]
+        part_fcl_resolution = sources[self.PART_FCL_RESOLUTION_ID]
+        historical = sources[self.HISTORICAL_ID]
+        self.assertEqual(self.RESOLUTION_URL, resolution["url"])
+        self.assertRegex(
+            resolution["scope"],
+            r"(?is)ULM.{0,160}(?:оста[её]тся|действующ|применим).{0,160}"
+            r"2025.{0,180}(?:не\s+отмен|отдельн|не\s+регулирует)",
+        )
+        self.assertEqual(self.PART_FCL_RESOLUTION_URL, part_fcl_resolution["url"])
+        self.assertRegex(
+            part_fcl_resolution["scope"],
+            r"(?is)(?:вводн|перечень).{0,180}FCL.{0,80}(?:SPL|BPL).{0,220}"
+            r"§\s*1\.1.{0,220}§\s*17\.1.{0,260}"
+            r"(?:не\s+отмен|BOE-A-2019-7513)",
+        )
+        self.assertEqual(self.HISTORICAL_URL, historical["url"])
+        self.assertRegex(
+            historical["scope"],
+            rf"(?is)(?:историческ|superseded).{{0,180}}{re.escape(self.CURRENT_ID)}",
+        )
+
+    def test_current_maf_and_separate_rtc_formats_are_taught_with_source(self):
+        section = self._exam_section()
+        plain = _plain_markdown(section)
+        self.assertRegex(
+            plain,
+            r"(?is)MAF.{0,120}80\s+вопрос.{0,120}100\s+минут.{0,120}"
+            r"(?:не\s+менее|≥|как\s+минимум)\s*75\s*%",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)RTC.{0,120}(?:отдельн|самостоятельн).{0,180}"
+            r"12\s+вопрос.{0,120}15\s+минут",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)RTC.{0,180}не.{0,80}(?:десят|вход).{0,100}"
+            r"(?:предмет|80.{0,20}вопрос|MAF)",
+        )
+        self.assertIn(self.CURRENT_ID, section)
+
+    def test_ulm_language_options_scoring_and_attempt_boundaries_are_explicit(self):
+        plain = _plain_markdown(self._exam_section())
+        for pattern in (
+            r"(?is)ULM.{0,100}(?:только|исключительно).{0,40}испан",
+            r"(?is)(?:вариант|ответ).{0,80}\bA\b.{0,20}\bB\b.{0,20}\bC\b",
+            r"(?is)неверн\w+.{0,80}не.{0,30}(?:снима|вычита|штраф)",
+            r"(?is)проверенн\w+\s+текущ\w+\s+источник.{0,180}"
+            r"не.{0,50}устанавлива.{0,80}числов\w+\s+максимум.{0,60}попыт",
+            r"(?is)Part-FCL.{0,160}(?:четыр[её]х|4).{0,30}попыт.{0,180}"
+            r"не.{0,80}(?:перенос|примен)",
+            r"(?is)(?:четыр[её]х|4).{0,30}(?:вариант|ответ).{0,180}"
+            r"не.{0,80}(?:перенос|примен)",
+            r"(?is)(?:шест[ьи]|6).{0,30}(?:сесси|sittings).{0,180}"
+            r"не.{0,80}(?:перенос|примен)",
+        ):
+            self.assertRegex(plain, pattern)
+
+    def test_ulm_spanish_only_is_contrasted_with_part_fcl_language_choice(self):
+        chapter = (
+            ROOT / "docs/00-start/03-medical-training-exams.md"
+        ).read_text(encoding="utf-8")
+        plain = _plain_markdown(chapter)
+        self.assertRegex(
+            plain,
+            r"(?is)ULM.{0,100}(?:только|исключительно).{0,40}испан",
+        )
+        contrast_pattern = (
+            r"(?is)(?:Part-FCL|LAPL/PPL).{0,500}"
+            r"(?:испанск|Spanish).{0,120}(?:английск|English)"
+        )
+        self.assertRegex(plain, contrast_pattern)
+        self.assertRegex(
+            plain,
+            r"(?is)ULM.{0,120}Part-FCL.{0,120}(?:самостоятельн|отдельн)",
+        )
+        mutated = re.sub(
+            r"(?is)В отдельном процессе Part-FCL.*?"
+            r"не заменяет оценку владения языком\.",
+            "",
+            plain,
+        )
+        self.assertNotEqual(plain, mutated, "mutation probe removed nothing")
+        self.assertNotRegex(mutated, contrast_pattern)
+
+    def test_exam_procedure_terms_have_stable_glossary_links(self):
+        chapter = (
+            ROOT / "docs/00-start/03-medical-training-exams.md"
+        ).read_text(encoding="utf-8")
+        body = chapter.split("## Источники", 1)[0]
+        terms = {
+            term["canonical"]: term
+            for term in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))
+        }
+        expected = {
+            "convocatoria": ("convocatoria", "term-convocatoria"),
+            "impreso de matrícula": (
+                "impreso-matricula",
+                "term-impreso-de-matricula",
+            ),
+            "observación de examen": (
+                "exam-observation",
+                "term-observacion-de-examen",
+            ),
+            "hoja de comprobación": (
+                "answer-check-sheet",
+                "term-hoja-de-comprobacion",
+            ),
+        }
+        for canonical, (reference, anchor) in expected.items():
+            with self.subTest(canonical=canonical):
+                self.assertIn(canonical, terms)
+                self.assertEqual(anchor, terms[canonical]["anchor"])
+                self.assertIn(
+                    f"[{reference}]: ../reference/glossary.md#{anchor}",
+                    chapter,
+                )
+
+        for original, canonical in (
+            ("convocatoria", "convocatoria"),
+            ("impreso de matrícula", "impreso de matrícula"),
+            ("observación", "observación de examen"),
+            ("hoja de comprobación", "hoja de comprobación"),
+        ):
+            with self.subTest(original=original):
+                self.assertEqual(
+                    [],
+                    unlinked_term_occurrences(
+                        chapter,
+                        {
+                            "canonical": original,
+                            "anchor": terms[canonical]["anchor"],
+                        },
+                    ),
+                )
+
+        self.assertRegex(
+            chapter,
+            r"\[вызов экзамена \(\*convocatoria\*\)\]\[convocatoria\]",
+        )
+        self.assertRegex(
+            chapter,
+            r"\[распечатк\w* записи \(\*impreso de matrícula\*\)\]"
+            r"\[impreso-matricula\]",
+        )
+        self.assertRegex(
+            chapter,
+            r"\[Замечание к вопросу \(\*observación\*\)\]"
+            r"\[exam-observation\]",
+        )
+        self.assertRegex(
+            chapter,
+            r"\[лист проверки \(\*hoja de comprobación\*\)\]"
+            r"\[answer-check-sheet\]",
+        )
+
+    def test_spl_bpl_are_expanded_and_senasa_portal_is_clickable(self):
+        chapter = (
+            ROOT / "docs/00-start/03-medical-training-exams.md"
+        ).read_text(encoding="utf-8")
+        plain = _plain_markdown(chapter)
+        self.assertRegex(
+            plain,
+            r"(?is)лицензи\w+\s+пилот\w+\s+планер.{0,160}"
+            r"Sailplane Pilot Licence.{0,160}licencia de piloto de planeador.{0,80}SPL",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)лицензи\w+\s+пилот\w+\s+(?:аэростат|воздушн\w+\s+шар).{0,160}"
+            r"Balloon Pilot Licence.{0,160}licencia de piloto de globo.{0,80}BPL",
+        )
+        self.assertIn(
+            "[портале](https://ulm.senasa.es/index.aspx) [SENASA][senasa]",
+            chapter,
+        )
+
+    def test_no_show_glossary_does_not_conflate_exam_call_with_booking(self):
+        terms = {
+            term["canonical"]: term
+            for term in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))
+        }
+        no_show = terms["no presentado"]
+        self.assertRegex(
+            no_show["definition"],
+            r"(?is)автоматическ\w+\s+отмен\w+.{0,40}экзамен",
+        )
+        self.assertNotRegex(
+            no_show["definition"],
+            r"(?is)автоматическ\w+\s+отмен\w+.{0,40}(?:запис|matrícula|booking)",
+        )
+
+        loss = terms["pérdida de convocatoria"]
+        self.assertEqual(
+            "loss of that examination opportunity or call",
+            loss["english"],
+        )
+        self.assertEqual(
+            "потеря данной экзаменационной возможности",
+            loss["russian"],
+        )
+        self.assertRegex(
+            loss["definition"],
+            r"(?i)pérdida de la convocatoria correspondiente",
+        )
+        self.assertNotRegex(
+            f'{loss["english"]} {loss["russian"]} {loss["definition"]}',
+            r"(?is)(?:exam(?:ination)?\s+booking|потер\w+.{0,40}(?:запис|регистрац)|matrícula)",
+        )
+
+        chapter = (
+            ROOT / "docs/00-start/03-medical-training-exams.md"
+        ).read_text(encoding="utf-8")
+        plain = _plain_markdown(chapter)
+        self.assertRegex(
+            plain,
+            r"(?is)pérdida\s+de\s+convocatoria.{0,180}"
+            r"(?:экзаменационн\w+\s+возможност|examination opportunity)",
+        )
+
+    def test_ulm_admission_and_validity_clocks_are_distinguished(self):
+        plain = _plain_markdown(self._exam_section())
+        for pattern in (
+            r"(?is)сертификат\w*\s+школ.{0,100}12\s+месяц",
+            r"(?is)(?:результат|теори).{0,100}24\s+месяц.{0,100}практическ",
+            r"(?is)(?:неуспеш|не\s+сдал|отрицательн).{0,160}"
+            r"не\s+раньше.{0,50}60\s+дн",
+        ):
+            self.assertRegex(plain, pattern)
+
+    def test_age_and_rtc_admission_conflicts_are_disclosed_without_normalising(self):
+        plain = _plain_markdown(self._exam_section())
+        for pattern in (
+            r"(?is)p\.\s*36.{0,100}старше\s+16.{0,180}"
+            r"RD\s*123/2015.{0,80}(?:не\s+моложе|с)\s+16",
+            r"(?is)p\.\s*37.{0,180}RTC.{0,180}действующ\w+\s+лиценз",
+            r"(?is)p\.\s*46.{0,180}RTC.{0,180}(?:тот\s+же\s+день|same-day).{0,180}"
+            r"APTO",
+            r"(?is)art\.\s*12\.1\(a\).{0,180}(?:лицензи|licencia).{0,180}"
+            r"(?:или|либо).{0,180}(?:требован|выдач)",
+            r"(?is)(?:внутренн\w+\s+несогласован|противореч).{0,180}"
+            r"(?:p\.\s*37|p\.\s*46)",
+        ):
+            self.assertRegex(plain, pattern)
+
+    def test_exam_day_form_and_scope_traps_are_disclosed(self):
+        plain = _plain_markdown(self._exam_section())
+        for pattern in (
+            r"(?is)p\.\s*2.{0,180}(?:отмен|больше\s+не).{0,100}"
+            r"(?:предъяв|показыв).{0,100}impreso\s+de\s+matrícula.{0,100}"
+            r"(?:debidamente\s+firmado|подписан)",
+            r"(?is)p\.\s*46.{0,180}impreso\s+de\s+matrícula.{0,180}"
+            r"(?:принести|взять|иметь)",
+            r"(?is)p\.\s*45.{0,160}(?:H/HD|H\s+и\s+HD).{0,180}"
+            r"(?:не\s+указ|отсутств).{0,180}(?:не\s+придум|не\s+вывод)",
+        ):
+            self.assertRegex(plain, pattern)
+        self.assertNotRegex(
+            plain,
+            r"(?is)подпис\w+\s+школ\w+.{0,100}"
+            r"(?:impreso\s+de\s+matrícula|форм\w+\s+запис)",
+        )
+
+    def test_school_certificate_manual_and_digital_branches_are_distinct(self):
+        plain = _plain_markdown(self._exam_section())
+        self.assertRegex(
+            plain,
+            r"(?is)сертификат\w*\s+школ.{0,180}ручн\w+\s+подпис.{0,100}"
+            r"(?:бумаг|оригинал)",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)сертификат\w*\s+школ.{0,220}цифров\w+\s+подпис.{0,160}"
+            r"infoULM\.aesa@seguridadaerea\.es.{0,160}до.{0,80}экзамен",
+        )
+
+    def test_ulm_identity_documents_do_not_import_part_fcl_2019_1157_rule(self):
+        admission = self._exam_section().split(
+            "### До записи на электронный экзамен", 1
+        )[1].split("### Формат", 1)[0]
+        plain = _plain_markdown(admission)
+        self.assertRegex(
+            plain,
+            r"(?is)(?:гражданин\w*\s+Испани|для\s+граждан\s+Испани).{0,180}"
+            r"DNI.{0,40}NIE.{0,40}паспорт.{0,80}(?:водительск|permiso de conducción)",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)(?:не\s+являющ\w+\s+граждан\w+\s+Испани|"
+            r"не\s+из\s+Испани).{0,180}паспорт.{0,80}(?:карт\w+\s+резидент|"
+            r"tarjeta de residencia).{0,80}NIE",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)NIE.{0,80}без\s+фотограф.{0,100}(?:дополнительно|также).{0,50}паспорт",
+        )
+        self.assertNotRegex(plain, r"(?is)2019/1157|Regulation\s*\(EU\)\s*2019")
+
+    def test_result_observation_signature_and_review_workflow_is_exact(self):
+        plain = _plain_markdown(self._exam_section())
+        workflow = re.search(
+            r"(?is)Порядок замечания и результата.*?"
+            r"(?=Тест создаётся индивидуально)",
+            plain,
+        )
+        self.assertIsNotNone(workflow)
+        workflow_text = workflow.group(0)
+        for pattern in (
+            r"(?is)observación.{0,180}(?:до\s+завершен|до.{0,40}Finalizar)",
+            r"(?is)Apto.{0,100}(?:окончательн|definitiv).{0,160}"
+            r"No\s+Apto.{0,100}(?:окончательн|definitiv)",
+            r"(?is)No\s+Apto,?\s+Provisional.{0,240}observación.{0,220}"
+            r"(?:не\s+сдал|suspenso|fail).{0,80}(?:сдал|aprobado|pass)",
+            r"(?is)отказ.{0,100}подпис.{0,100}hoja\s+de\s+comprobación.{0,180}"
+            r"(?:аннулир|anulación).{0,100}(?:No\s+Apto|не\s+сдан)",
+            r"(?is)без.{0,100}observación.{0,180}до\s+окончан.{0,180}"
+            r"(?:право).{0,80}(?:revisión|пересмотр).{0,100}(?:утрач|теря)",
+            r"(?is)(?:отрицательн\w+\s+решен\w+.{0,80}FOR-EFT-P01-F01|"
+            r"FOR-EFT-P01-F01.{0,180}(?:отрицательн|negative)).{0,180}"
+            r"recurso\s+de\s+alzada.{0,180}(?:1|одн\w+)\s+месяц.{0,180}"
+            r"(?:следующ|после).{0,80}уведомлен",
+        ):
+            self.assertRegex(workflow_text, pattern)
+
+    def test_operational_timing_and_question_count_controls_are_exact(self):
+        plain = _plain_markdown(self._exam_section())
+        for pattern in (
+            r"(?is)(?:минимум|не\s+раньше).{0,30}15\s+календарн\w+\s+дн",
+            r"(?is)(?:календар|выбор\w+\s+дат).{0,100}не.{0,50}"
+            r"(?:предлага|доступ).{0,60}(?:первые|ближайшие)\s+15\s+дн",
+            r"(?is)не\s+более\s+двух\s+рабоч\w+\s+дн",
+            r"(?is)20\s+минут.{0,160}(?:документ|удостоверен|сертификат)",
+            r"(?is)(?:более\s+чем\s+(?:на\s+)?пять|>\s*5)\s+минут.{0,180}"
+            r"(?:no\s+presentado|неявк)",
+            r"(?is)75\s+секунд.{0,60}(?:на|/)\s+вопрос",
+            r"(?is)(?:общ\w+\s+числ\w+|количеств\w+)\s+вопрос.{0,100}"
+            r"кратн\w+\s+четыр",
+        ):
+            self.assertRegex(plain, pattern)
+        self.assertNotRegex(
+            plain,
+            r"(?is)(?:продолжительност[ььи]|врем[яени]+)\s+"
+            r"(?:экзамен\w+\s+)?кратн\w+\s+четыр",
+        )
+
+    def test_no_show_and_attempt_boundaries_have_complete_sources(self):
+        section = self._exam_section()
+        plain = _plain_markdown(section)
+        no_show = re.search(
+            r"(?is)Тест создаётся индивидуально.*?(?=###\s+Три разных срока)",
+            section,
+        )
+        self.assertIsNotNone(no_show)
+        self.assertIn("SRC-BOE-ULM-EXAM-RESOLUTION-2019", no_show.group(0))
+        self.assertRegex(no_show.group(0), r"(?is)(?:base|основани).{0,20}5")
+        self.assertRegex(
+            plain,
+            r"(?is)(?:pérdida\s+de\s+convocatoria|неявк).{0,220}"
+            r"не.{0,80}(?:числов\w+\s+попыт|одн\w+\s+из.{0,40}попыт)",
+        )
+        evidence = re.search(
+            r"(?is)Проверенные текущие источники.*?"
+            r"(?=После положительной теории)",
+            section,
+        )
+        self.assertIsNotNone(evidence)
+        self.assertIn("SRC-BOE-RD-123-2015", evidence.group(0))
+
+    def test_2019_resolution_stays_current_while_only_ed10_is_historical(self):
+        section = self._exam_section()
+        plain = _plain_markdown(section)
+        self.assertNotRegex(plain, r"(?is)стар\w+\s+Resolución\s+2019")
+        self.assertRegex(
+            plain,
+            r"(?is)Resolución\s+2019.{0,180}(?:действующ|правов\w+\s+основан)",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)Ed\.1\.0.{0,180}(?:историческ|superseded)",
+        )
+        self.assertIn(self.PART_FCL_RESOLUTION_ID, section)
+
+    def test_attempt_evidence_boundary_uses_safe_numeric_wording(self):
+        plain = _plain_markdown(self._exam_section())
+        self.assertRegex(
+            plain,
+            r"(?is)проверенн\w+\s+текущ\w+\s+источник.{0,180}"
+            r"не.{0,50}устанавлива.{0,80}числов\w+\s+максимум.{0,60}попыт",
+        )
+        self.assertNotRegex(
+            plain,
+            r"(?is)(?:безлимит|неограничен).{0,80}(?:попыт|пересдач)",
+        )
+
+    def test_current_format_and_gu09_bank_alignment_remain_separate_facts(self):
+        section = self._exam_section()
+        plain = _plain_markdown(section)
+        self.assertRegex(
+            plain,
+            r"(?is)(?:формат|80\s+вопрос).{0,160}(?:подтвержд|действующ|текущ)",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)(?:формат|руководств).{0,220}не.{0,60}"
+            r"(?:доказыва|означа|подтвержда).{0,100}банк.{0,160}GU09",
+        )
+        self.assertIn("SRC-AESA-ULM-QUESTION-BANKS", section)
+
+    def test_registry_markdown_and_spanish_audit_include_current_history_and_authority(self):
+        sources = self._sources()
+        registry_rows = {
+            row["id"]: row
+            for row in source_rows_from_markdown(
+                SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+            )
+        }
+        audit = (
+            ROOT / "docs/sources/audit-spain-2026.md"
+        ).read_text(encoding="utf-8")
+        for source_id, url in (
+            (self.CURRENT_ID, self.CURRENT_URL),
+            (self.RESOLUTION_ID, self.RESOLUTION_URL),
+            (self.PART_FCL_RESOLUTION_ID, self.PART_FCL_RESOLUTION_URL),
+            (self.HISTORICAL_ID, self.HISTORICAL_URL),
+        ):
+            with self.subTest(source=source_id):
+                self.assertEqual(sources[source_id], registry_rows[source_id])
+                self.assertIn(url, audit)
+        self.assertRegex(
+            audit,
+            r"(?is)Ed\.\s*1\.0.{0,180}(?:историческ|superseded).{0,220}"
+            r"Ed\.03",
         )
 
 

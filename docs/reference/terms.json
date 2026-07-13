@@ -297,6 +297,17 @@
     "defined_in": "docs/reference/glossary.md#term-aesa"
   },
   {
+    "id": "term-senasa",
+    "canonical": "SENASA",
+    "english": "Spanish state-owned company for aeronautical navigation and safety services and studies",
+    "spanish": "Servicios y Estudios para la Navegación Aérea y la Seguridad Aeronáutica, S.M.E., M.P., S.A.",
+    "russian": "государственная компания Испании по услугам и исследованиям для аэронавигации и авиационной безопасности",
+    "abbreviation": "SENASA",
+    "definition": "SENASA — испанская государственная компания, которая в рассматриваемом процессе предоставляет платформу и организацию электронных экзаменов по процедуре AESA. SENASA не подменяет компетентный орган AESA и не тождественна европейскому агентству EASA.",
+    "anchor": "term-senasa",
+    "defined_in": "docs/reference/glossary.md#term-senasa"
+  },
+  {
     "id": "term-easa",
     "canonical": "EASA",
     "english": "European Union Aviation Safety Agency",
@@ -1450,5 +1461,126 @@
     "definition": "Регламентирование и контролирование аэронавигационной информации — система заблаговременного распространения сведений о существенных изменениях по единым установленным датам вступления в силу; дата публикации и дата действия не тождественны.",
     "anchor": "term-aeronautical-information-regulation-control-airac",
     "defined_in": "docs/reference/glossary.md#term-aeronautical-information-regulation-control-airac"
+  },
+  {
+    "id": "term-spl",
+    "canonical": "SPL",
+    "english": "Sailplane Pilot Licence",
+    "spanish": "licencia de piloto de planeador",
+    "russian": "лицензия пилота планера",
+    "abbreviation": "SPL",
+    "definition": "SPL — лицензия пилота планера по Part-SFCL. Упоминание SPL в Resolución AESA 2025 помогает определить область этого акта, но не превращает отдельный национальный экзамен ULM в экзамен SPL.",
+    "anchor": "term-spl",
+    "defined_in": "docs/reference/glossary.md#term-spl"
+  },
+  {
+    "id": "term-bpl",
+    "canonical": "BPL",
+    "english": "Balloon Pilot Licence",
+    "spanish": "licencia de piloto de globo",
+    "russian": "лицензия пилота аэростата",
+    "abbreviation": "BPL",
+    "definition": "BPL — лицензия пилота аэростата по Part-BFCL. Упоминание BPL в Resolución AESA 2025 помогает определить область этого акта, но не превращает отдельный национальный экзамен ULM в экзамен BPL.",
+    "anchor": "term-bpl",
+    "defined_in": "docs/reference/glossary.md#term-bpl"
+  },
+  {
+    "id": "term-convocatoria",
+    "canonical": "convocatoria",
+    "english": "exam call or examination booking",
+    "spanish": "convocatoria",
+    "russian": "официальный вызов или конкретная запись на экзамен",
+    "abbreviation": null,
+    "definition": "Convocatoria в этой главе означает действующий официальный вызов либо конкретную запись кандидата на экзамен с применимыми датой и процедурой. Это не синоним числового лимита попыток.",
+    "anchor": "term-convocatoria",
+    "defined_in": "docs/reference/glossary.md#term-convocatoria"
+  },
+  {
+    "id": "term-impreso-de-matricula",
+    "canonical": "impreso de matrícula",
+    "english": "exam registration printout",
+    "spanish": "impreso de matrícula",
+    "russian": "распечатка регистрации на экзамен",
+    "abbreviation": null,
+    "definition": "Impreso de matrícula — распечатка регистрации кандидата. Ed.03 p. 2 отменяет требование предъявлять её как debidamente firmado, но p. 46 сохраняет саму распечатку среди документов, которые нужно принести.",
+    "anchor": "term-impreso-de-matricula",
+    "defined_in": "docs/reference/glossary.md#term-impreso-de-matricula"
+  },
+  {
+    "id": "term-observacion-de-examen",
+    "canonical": "observación de examen",
+    "english": "exam-question observation",
+    "spanish": "observación",
+    "russian": "замечание к экзаменационному вопросу",
+    "abbreviation": null,
+    "definition": "Observación — замечание кандидата к вопросу, введённое в интерфейсе до завершения экзамена кнопкой Finalizar. По Ed.03 отсутствие своевременной observación лишает кандидата описанного в руководстве пути revisión.",
+    "anchor": "term-observacion-de-examen",
+    "defined_in": "docs/reference/glossary.md#term-observacion-de-examen"
+  },
+  {
+    "id": "term-hoja-de-comprobacion",
+    "canonical": "hoja de comprobación",
+    "english": "answer verification sheet",
+    "spanish": "hoja de comprobación",
+    "russian": "лист проверки соответствия ответов",
+    "abbreviation": null,
+    "definition": "Hoja de comprobación — печатный лист для сверки отмеченных и напечатанных ответов после экзамена. Отказ подписать его в процедуре Ed.03 аннулирует экзамен и приводит к No Apto.",
+    "anchor": "term-hoja-de-comprobacion",
+    "defined_in": "docs/reference/glossary.md#term-hoja-de-comprobacion"
+  },
+  {
+    "id": "term-exam-result-status",
+    "canonical": "Apto / No Apto / No Apto, Provisional",
+    "english": "pass / fail / provisional fail",
+    "spanish": "Apto / No Apto / No Apto, Provisional",
+    "russian": "сдан / не сдан / предварительно не сдан",
+    "abbreviation": null,
+    "definition": "Apto и обычный No Apto — окончательные результаты. No Apto, Provisional применяется только когда своевременная observación может изменить неудачный результат на успешный.",
+    "anchor": "term-exam-result-status",
+    "defined_in": "docs/reference/glossary.md#term-exam-result-status"
+  },
+  {
+    "id": "term-revision",
+    "canonical": "revisión",
+    "english": "review of an exam observation",
+    "spanish": "revisión",
+    "russian": "пересмотр замечания к экзаменационному вопросу",
+    "abbreviation": null,
+    "definition": "Revisión в процедуре Ed.03 — рассмотрение своевременно заявленной observación. Это не автоматический пересмотр любого завершённого экзамена и не recurso de alzada.",
+    "anchor": "term-revision",
+    "defined_in": "docs/reference/glossary.md#term-revision"
+  },
+  {
+    "id": "term-recurso-de-alzada",
+    "canonical": "recurso de alzada",
+    "english": "administrative appeal to the higher authority",
+    "spanish": "recurso de alzada",
+    "russian": "административная жалоба вышестоящему органу",
+    "abbreviation": null,
+    "definition": "Recurso de alzada — предусмотренная испанской административной процедурой жалоба вышестоящему органу. В описанном Ed.03 случае срок составляет один месяц со дня, следующего за уведомлением отрицательного решения.",
+    "anchor": "term-recurso-de-alzada",
+    "defined_in": "docs/reference/glossary.md#term-recurso-de-alzada"
+  },
+  {
+    "id": "term-no-presentado",
+    "canonical": "no presentado",
+    "english": "did not attend",
+    "spanish": "no presentado",
+    "russian": "неявка на экзамен",
+    "abbreviation": null,
+    "definition": "No presentado — статус неявки. По Ed.03 опоздание более чем на пять минут вызывает автоматическую отмену экзамена и этот статус.",
+    "anchor": "term-no-presentado",
+    "defined_in": "docs/reference/glossary.md#term-no-presentado"
+  },
+  {
+    "id": "term-perdida-de-convocatoria",
+    "canonical": "pérdida de convocatoria",
+    "english": "loss of that examination opportunity or call",
+    "spanish": "pérdida de convocatoria",
+    "russian": "потеря данной экзаменационной возможности",
+    "abbreviation": null,
+    "definition": "Pérdida de la convocatoria correspondiente — точная формулировка последствия неявки по base 5 Resolución 11.04.2019: теряется данная экзаменационная возможность. Само выражение не устанавливает числовой максимум попыток ULM.",
+    "anchor": "term-perdida-de-convocatoria",
+    "defined_in": "docs/reference/glossary.md#term-perdida-de-convocatoria"
   }
 ]

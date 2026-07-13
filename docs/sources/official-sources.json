@@ -135,6 +135,42 @@
     "scope": "Испанская процедура и календарь теоретических экзаменов, где процессы Part-FCL LAPL/PPL и ULM разделены; формы и даты проверяются перед регистрацией"
   },
   {
+    "id": "SRC-SENASA-AESA-EXAM-GUIDE-FOR-EFT-P01-GU01-ED03",
+    "authority": "AESA",
+    "title": "Guía de exámenes electrónicos para pilotos y habilitaciones",
+    "url": "https://www.senasa.es/recursos/adobePDF/2026/pdf/FOR-EFT-P01-GU01_Ed.03_Guia_examenes_electronicos_pilotos_habilitaciones.pdf",
+    "edition": "FOR-EFT-P01-GU01 Ed.03; применимость «Desde publicación»; revision table p. 2: Ed.01 12.11.2025, Ed.02 07.04.2026, у Ed.03 календарная дата не напечатана; PDF HTTP Last-Modified 12.06.2026 — серверные метаданные, не дата публикации или редакции Ed.03",
+    "checked": "2026-07-13",
+    "scope": "Текущее 53-страничное руководство по электронным экзаменам; официальный landing page https://www.senasa.es/index.php?idPag=233&lang=es-ES. p. 6 разделяет маршруты, pp. 36–53 устанавливают процедуру ULM, сроки, формат MAF 80/100, отдельный RTC 12/15, испанский язык, A/B/C и порог не менее 75 % без штрафа за ошибку. Проверенная копия SHA-256 50b224e9695994a46ddb42449f148bbc84a6d6cb2c57237a00f2e1be0b031a5a. На каждой странице указано, что копия неконтролируемая: перед применением сверять web-версию текущего документа. p. 2 отменяет требование предъявлять impreso de matrícula debidamente firmado, а p. 46 сохраняет сам impreso в комплекте; это совместимые требования и отдельны от подписи сертификата школы. Напряжение p. 37/p. 46 о доступе RTC записывается, а не исправляется молча; p. 45 не содержит формата H/HD"
+  },
+  {
+    "id": "SRC-BOE-ULM-EXAM-RESOLUTION-2019",
+    "authority": "BOE",
+    "title": "Resolución de 11 de abril de 2019 — exámenes teóricos ULM",
+    "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2019-7513",
+    "edition": "Resolución de 11.04.2019; BOE-A-2019-7513; действующий ULM authority проверен 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Основание испанской процедуры электронных теоретических экзаменов ULM остаётся действующим и применимым к ULM; акт 2025 года не отменяет и не регулирует этот отдельный маршрут, что прямо подтверждается SRC-BOE-PART-FCL-SPL-BPL-EXAM-RESOLUTION-2025"
+  },
+  {
+    "id": "SRC-BOE-PART-FCL-SPL-BPL-EXAM-RESOLUTION-2025",
+    "authority": "BOE",
+    "title": "Resolución de 28 de julio de 2025 — exámenes electrónicos FCL, SPL y BPL",
+    "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-17756",
+    "edition": "Resolución 28.07.2025; опубликована 06.09.2025; действует с 07.09.2025; BOE-A-2025-17756",
+    "checked": "2026-07-13",
+    "scope": "Прямое доказательство границы: вводная часть и перечень охватывают FCL, SPL и BPL; base §1.1 называет только guide FCL и guide планеров/аэростатов; §17.1 отменяет Resolución 16.12.2016 и Resolución 03.12.2019 для FCL/планеров/аэростатов, но не ULM BOE-A-2019-7513. Поэтому акт 2025 года не отменяет и не регулирует отдельный маршрут ULM"
+  },
+  {
+    "id": "SRC-AESA-ULM-EXAM-GUIDE-ED10-2019-HISTORICAL",
+    "authority": "AESA",
+    "title": "Guía para la realización de exámenes teóricos ULM — историческая Ed.1.0",
+    "url": "https://www.seguridadaerea.gob.es/sites/default/files/a-dla-eut-01_guia_realiz_exam_teoricos_pilotos_ulm_y_hab_asoc.pdf",
+    "edition": "A-DLA-EUT-01 Ed.1.0, 2019; историческая редакция",
+    "checked": "2026-07-13",
+    "scope": "Исторический/superseded procedural guide сохранён только как evidence происхождения прежних ссылок и цифр; заменён текущим SRC-SENASA-AESA-EXAM-GUIDE-FOR-EFT-P01-GU01-ED03 и не используется как действующая процедура"
+  },
+  {
     "id": "SRC-AESA-RD182-FAQ-2026",
     "authority": "AESA",
     "title": "Preguntas y respuestas frecuentes sobre el nuevo RD 182/2026",

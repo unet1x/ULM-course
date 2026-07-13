@@ -9,6 +9,8 @@
 | LAPL(A) | [LAPL(A)](glossary.md#term-lapl-a) | Light Aircraft Pilot Licence для aeroplanes |
 | PPL(A) | [PPL(A)](glossary.md#term-ppl-a) | Private Pilot Licence для aeroplanes |
 | Part-FCL | [Part-FCL](glossary.md#term-part-fcl) | правила ЕС о лицензировании лётного состава |
+| SPL | [SPL](glossary.md#term-spl) | Sailplane Pilot Licence |
+| BPL | [BPL](glossary.md#term-bpl) | Balloon Pilot Licence |
 | DTO | [DTO](glossary.md#term-dto) | Declared Training Organisation |
 | ATO | [ATO](glossary.md#term-ato) | Approved Training Organisation |
 | SERA | [SERA](glossary.md#term-sera) | Standardised European Rules of the Air |
@@ -30,6 +32,7 @@
 | FPL | [flight plan](glossary.md#term-flight-plan) | план полёта, передаваемый обслуживанию воздушного движения |
 | RTC | [radiofonista (RTC)](glossary.md#term-radiofonista-rtc) | национальная habilitación радиотелефониста ULM |
 | AESA | [AESA](glossary.md#term-aesa) | испанский компетентный орган авиационной безопасности |
+| SENASA | [SENASA](glossary.md#term-senasa) | испанская государственная компания и оператор платформы электронных экзаменов |
 | EASA | [EASA](glossary.md#term-easa) | European Union Aviation Safety Agency |
 | ICAO | [ICAO](glossary.md#term-icao) | International Civil Aviation Organization |
 | ENAIRE | [ENAIRE](glossary.md#term-enaire) | испанский ANSP и официальный AIS publisher |
