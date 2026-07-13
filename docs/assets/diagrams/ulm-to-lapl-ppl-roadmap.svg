@@ -21,12 +21,12 @@
     </style>
   </defs>
 
-  <text x="600" y="42" class="title">Концептуальная учебная схема — не решение о credit</text>
+  <text x="600" y="42" class="title">Концептуальная учебная схема — не решение о зачёте</text>
 
   <rect x="380" y="75" width="440" height="120" class="box national"/>
   <text x="600" y="116" class="title">1. ULM + MAF</text>
   <text x="600" y="150" class="body">национальная лицензия Испании</text>
-  <text x="600" y="178" class="small">обучение, экзамены, отдельный logbook</text>
+  <text x="600" y="178" class="small">обучение, экзамены, отдельная лётная книжка</text>
 
   <path d="M 600 195 L 600 250" class="line"/>
   <rect x="400" y="250" width="400" height="90" class="box choice"/>
@@ -38,20 +38,24 @@
 
   <rect x="90" y="425" width="430" height="155" class="box lapl"/>
   <text x="305" y="465" class="title">Ветвь A: LAPL(A)</text>
-  <text x="305" y="501" class="body">full-syllabus pre-entry assessment</text>
-  <text x="305" y="533" class="small">prior MAF PIC: только индивидуальный</text>
-  <text x="305" y="560" class="small">ограниченный credit по FCL.110.A(c)</text>
+  <text x="305" y="491" class="body">предварительная оценка</text>
+  <text x="305" y="518" class="body">всей программы</text>
+  <text x="305" y="544" class="small">предыдущий MAF PIC: индивидуально</text>
+  <text x="305" y="568" class="small">ограниченный зачёт по FCL.110.A(c)</text>
 
   <rect x="680" y="425" width="430" height="155" class="box ppl"/>
-  <text x="895" y="465" class="title">Ветвь B: direct PPL(A)</text>
+  <text x="895" y="465" class="title">Ветвь B: прямой PPL(A)</text>
   <text x="895" y="501" class="body">полная программа FCL.210.A</text>
   <text x="895" y="533" class="small">AESA: часы MAF не являются</text>
-  <text x="895" y="560" class="small">credit для initial PPL(A)</text>
+  <text x="895" y="560" class="small">зачётом при первоначальной выдаче PPL(A)</text>
 
   <path d="M 520 530 C 610 610 665 605 750 580" class="dash"/>
   <text x="613" y="626" class="small">необязательный LAPL(A) → PPL(A):</text>
-  <text x="613" y="651" class="small">новая assessment + совокупные thresholds</text>
+  <text x="613" y="651" class="small">новая оценка + совокупные пороги</text>
 
-  <rect x="250" y="665" width="700" height="42" class="warning"/>
-  <text x="600" y="693" class="danger">Нет автоматической конверсии, двойного счёта или гарантии минимальных часов</text>
+  <rect id="roadmap-warning-panel" data-bbox="215 665 770 50" x="215" y="665" width="770" height="50" class="warning"/>
+  <text id="roadmap-warning-text" data-bbox="250 671 700 40" x="600" y="687" class="danger">
+    <tspan x="600" y="687">Нет автоматической конверсии или гарантии минимальных часов.</tspan>
+    <tspan x="600" y="708">Каждый зачёт требует нормы и индивидуальной оценки.</tspan>
+  </text>
 </svg>

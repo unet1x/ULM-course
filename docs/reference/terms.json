@@ -416,5 +416,93 @@
     "definition": "Skill test — формальная практическая проверка для выдачи применимой Part-FCL licence или rating, выполняемая examiner по установленному scope. Она отличается от national ULM practical exam, pre-entry flight assessment, proficiency check и обычного school progress check.",
     "anchor": "term-skill-test",
     "defined_in": "docs/reference/glossary.md#term-skill-test"
+  },
+  {
+    "id": "term-icao-compliant-licence",
+    "canonical": "ICAO-compliant licence",
+    "english": "ICAO-compliant licence / non-ICAO licence",
+    "spanish": "licencia conforme al Anexo 1 de OACI / licencia no OACI",
+    "russian": "лицензия, соответствующая стандарту Приложения 1 ICAO / лицензия вне этого стандарта",
+    "abbreviation": null,
+    "definition": "ICAO-compliant licence означает, что формат и минимальная основа лицензии соответствуют применимому стандарту Приложения 1 ICAO; non-ICAO licence не заявляет такого соответствия. Это характеристика лицензии, а не ссылка на организацию ICAO как на орган, выдавший документ, и не самостоятельное разрешение конкретного международного полёта.",
+    "anchor": "term-icao-compliant-licence",
+    "defined_in": "docs/reference/glossary.md#term-icao-compliant-licence"
+  },
+  {
+    "id": "term-training-credit",
+    "canonical": "training credit",
+    "english": "credit for prior experience or training",
+    "spanish": "crédito por experiencia o formación previa",
+    "russian": "зачёт предыдущего опыта или подготовки",
+    "abbreviation": null,
+    "definition": "Training credit — документированное уменьшение определённой части новой программы на основании применимой нормы и оценки предыдущего опыта или подготовки. Зачёт не равен автоматической конверсии лицензии, не гарантирует максимального сокращения и не позволяет повторно учитывать один элемент вопреки правилам.",
+    "anchor": "term-training-credit",
+    "defined_in": "docs/reference/glossary.md#term-training-credit"
+  },
+  {
+    "id": "term-pre-entry-flight-assessment",
+    "canonical": "pre-entry flight assessment",
+    "english": "pre-entry flight assessment",
+    "spanish": "evaluación de vuelo previa al ingreso",
+    "russian": "предварительная лётная оценка перед началом курса",
+    "abbreviation": null,
+    "definition": "Pre-entry flight assessment — оценка компетенций и предыдущего опыта кандидата учебной организацией до определения индивидуального объёма подготовки. Она должна охватывать требуемую программу там, где это предписано правилом, и не является проверкой практических навыков для выдачи лицензии.",
+    "anchor": "term-pre-entry-flight-assessment",
+    "defined_in": "docs/reference/glossary.md#term-pre-entry-flight-assessment"
+  },
+  {
+    "id": "term-syllabus",
+    "canonical": "syllabus",
+    "english": "training syllabus",
+    "spanish": "programa de formación",
+    "russian": "учебная программа с перечнем тем и упражнений",
+    "abbreviation": null,
+    "definition": "Syllabus — структурированный перечень содержания, упражнений, последовательности и стандартов курса. Совпадение названий предметов двух программ не создаёт само по себе юридического зачёта обучения или экзамена.",
+    "anchor": "term-syllabus",
+    "defined_in": "docs/reference/glossary.md#term-syllabus"
+  },
+  {
+    "id": "term-supervised-solo-flight",
+    "canonical": "supervised solo flight",
+    "english": "supervised solo flight time",
+    "spanish": "vuelo solo supervisado",
+    "russian": "самостоятельный полёт ученика под наблюдением инструктора",
+    "abbreviation": null,
+    "definition": "Supervised solo flight — полёт, в котором ученик является единственным лицом, управляющим воздушным судном, а уполномоченный инструктор разрешает и контролирует выполнение в предусмотренной правилами форме. Это не полёт с инструктором на борту и не свободная самостоятельная эксплуатация владельца лицензии.",
+    "anchor": "term-supervised-solo-flight",
+    "defined_in": "docs/reference/glossary.md#term-supervised-solo-flight"
+  },
+  {
+    "id": "term-dual-flight-instruction",
+    "canonical": "dual flight instruction",
+    "english": "dual flight instruction",
+    "spanish": "instrucción de vuelo en doble mando",
+    "russian": "лётное обучение с инструктором на борту",
+    "abbreviation": null,
+    "definition": "Dual flight instruction — учебный полёт, получаемый кандидатом от надлежащим образом уполномоченного инструктора на борту. Он учитывается отдельно от самостоятельного полёта под наблюдением и от налёта PIC после выдачи лицензии.",
+    "anchor": "term-dual-flight-instruction",
+    "defined_in": "docs/reference/glossary.md#term-dual-flight-instruction"
+  },
+  {
+    "id": "term-cross-country-flight",
+    "canonical": "cross-country flight",
+    "english": "cross-country flight",
+    "spanish": "vuelo de travesía",
+    "russian": "маршрутный полёт с навигацией за пределами локального района",
+    "abbreviation": null,
+    "definition": "Cross-country flight — маршрутный полёт, для которого применимая программа задаёт навигационную задачу, расстояние, самостоятельность и при необходимости посадки на других аэродромах. Конкретные числа различаются между ULM, LAPL(A) и PPL(A) и всегда берутся из нормы соответствующего курса.",
+    "anchor": "term-cross-country-flight",
+    "defined_in": "docs/reference/glossary.md#term-cross-country-flight"
+  },
+  {
+    "id": "term-head-of-training",
+    "canonical": "Head of Training",
+    "english": "Head of Training",
+    "spanish": "responsable de formación / jefe de enseñanza; para la escuela ULM: jefe de instrucción",
+    "russian": "руководитель подготовки учебной организации",
+    "abbreviation": null,
+    "definition": "Head of Training — назначенное лицо учебной организации, отвечающее за согласованность и стандарт подготовки в пределах применимой системы. Роль DTO/ATO по Part-FCL нельзя автоматически отождествлять со всеми функциями jefe de instrucción национальной школы ULM: точные обязанности определяет соответствующий режим.",
+    "anchor": "term-head-of-training",
+    "defined_in": "docs/reference/glossary.md#term-head-of-training"
   }
 ]

@@ -18,6 +18,8 @@ habilitación **MAF — multiejes de ala fija**. Первоначальная ц
     самолёта и текущие AIP, AIP SUP, AIC, NOTAM, метеоданные и документы
     аэродрома.
 
+[:material-airplane-takeoff: Начать с первого урока](00-start/01-how-to-study.md){ .md-button .md-button--primary }
+
 ## Порядок обучения
 
 1. Освоить ULM/MAF-основу и испанскую эксплуатационную среду.

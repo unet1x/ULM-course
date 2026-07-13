@@ -111,7 +111,36 @@ REQUIRED_CANONICAL_TERMS = {
     "occurrence reporting",
     "SEP",
     "skill test",
+    "ICAO-compliant licence",
+    "training credit",
+    "pre-entry flight assessment",
+    "syllabus",
+    "supervised solo flight",
+    "dual flight instruction",
+    "cross-country flight",
+    "Head of Training",
 }
+
+HYBRID_TERMS_REQUIRING_EXPLANATION = (
+    "credit",
+    "pre-entry",
+    "syllabus",
+    "supervised solo",
+    "dual",
+    "cross-country",
+    "Head of Training",
+    "scope",
+    "gate",
+    "prior",
+    "direct",
+    "initial issue",
+    "full stop",
+    "flight instruction",
+    "total aeroplane",
+    "rolling",
+    "checkout",
+    "assessment",
+)
 
 FENCE_OPENER = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
 INLINE_CODE = re.compile(r"(`+)(?:[^`]|`(?!\1))*?\1")
@@ -492,6 +521,10 @@ def unlinked_term_occurrences(text, term):
         match.span()
         for match in re.finditer(r"<https?://[^>\n]+>", clean_text)
     )
+    ignored.extend(
+        match.span()
+        for match in re.finditer(r"\{[^}\n]*#[^}\n]+\}", clean_text)
+    )
     anchor_pattern = re.compile(
         rf"<a\b[^>]*\bid\s*=\s*(?:"
         rf'"{re.escape(anchor)}"|\'{re.escape(anchor)}\'|'
@@ -535,6 +568,275 @@ def is_learner_chapter(path):
     except ValueError:
         return False
     return bool(relative.parts and re.fullmatch(r"\d{2}-.+", relative.parts[0]))
+
+
+def mkdocs_nav_paths(text):
+    """Return real Markdown nav targets, excluding full-line/inline comments."""
+    paths = set()
+    for raw_line in text.splitlines():
+        line = raw_line.split("#", 1)[0].rstrip()
+        if not line.strip():
+            continue
+        match = re.match(
+            r"^\s*-\s+(?:(?:[^:\n]+):\s+)?['\"]?([^'\"\s#][^#]*?\.md)['\"]?\s*$",
+            line,
+        )
+        if match:
+            paths.add(match.group(1).strip())
+    return paths
+
+
+def applicability_table_labels(text):
+    section = re.search(
+        r"(?ms)^##\s+Карта применимости(?:\s+\{#[^}]+\})?\s*$"
+        r"(.*?)(?=^##\s+|\Z)",
+        text,
+    )
+    if section is None:
+        return []
+    labels = []
+    for line in section.group(1).splitlines():
+        match = re.match(r"^\|\s*(.+?)\s*\|", line)
+        if match is None:
+            continue
+        cell = match.group(1).strip()
+        linked = re.fullmatch(r"(\[[^]]+\])(?:\[[^]]+\]|\([^)]*\))", cell)
+        labels.append(linked.group(1) if linked else cell)
+    return labels
+
+
+def normative_claim_errors(text, registered_sources):
+    """Find source-free normative claims without relying on opt-in #norm IDs."""
+    # Keep inline-code source IDs (the course deliberately renders SRC-* that way),
+    # while excluding fenced examples that are not learner prose.
+    clean = strip_fenced_code(text)
+    clean = re.split(r"(?m)^##\s+Контрольные вопросы\b", clean, maxsplit=1)[0]
+    sections = re.split(r"(?m)(?=^##\s+)", clean)
+    cue = re.compile(
+        r"(?i)(?:\b(?:обязан(?:а|ы)?|требу(?:ет|ется|ются)|допускается|"
+        r"запрещ[её]н(?:а|о|ы)?|действител(?:ен|ьна|ьно|ьны)|разрешает|"
+        r"выда[её]тся|призна[её]тся|не\s+превышает|не\s+менее|минимум|"
+        r"максимум)\b|\b(?:FCL|SERA)\.\d)"
+    )
+    errors = []
+    for section in sections:
+        heading = re.search(r"(?m)^##\s+(.+)$", section)
+        if heading is None or not cue.search(section):
+            continue
+        cited = set(re.findall(r"SRC-[A-Z0-9-]+", section))
+        if not cited:
+            errors.append(f"{heading.group(1)}: normative claim has no SRC citation")
+        elif not cited.issubset(registered_sources):
+            errors.append(
+                f"{heading.group(1)}: unknown sources {sorted(cited - registered_sources)}"
+            )
+    return errors
+
+
+def _sentences(text):
+    clean = strip_code(text)
+    return [
+        sentence.strip()
+        for sentence in re.split(r"(?<=[.!?])(?:\s+|\n+)|\n{2,}", clean)
+        if sentence.strip()
+    ]
+
+
+def _tight_negation_before(value, position):
+    prefix = value[max(0, position - 28) : position]
+    return re.search(r"(?i)\bне(?:\s+[а-яa-z-]+){0,2}\s+$", prefix) is not None
+
+
+def automatic_recognition_claims(text):
+    patterns = (
+        re.compile(
+            r"(?i)часы\s+ULM[^.!?\n]{0,45}?"
+            r"(?P<verb>полностью\s+засчитываются|засчитываются\s+полностью)"
+            r"[^.!?\n]{0,45}?PPL"
+        ),
+        re.compile(
+            r"(?i)ULM[^.!?\n]{0,30}?автоматически[^.!?\n]{0,16}?"
+            r"(?P<verb>превращается|становится)[^.!?\n]{0,30}?LAPL"
+        ),
+        re.compile(
+            r"(?i)ULM[^.!?\n]{0,20}?(?P<verb>конвертируется)"
+            r"[^.!?\n]{0,30}?PPL\s+без\s+(?:оценки|проверки)"
+        ),
+    )
+    errors = []
+    for sentence in _sentences(text):
+        for pattern in patterns:
+            match = pattern.search(sentence)
+            if match and not _tight_negation_before(sentence, match.start("verb")):
+                errors.append(sentence)
+                break
+    return errors
+
+
+FOREIGN_COUNTRY = re.compile(
+    r"(?i)\b(?:France|Portugal|Italy|Germany|Austria|Switzerland|Belgium|"
+    r"Netherlands|Ireland|Poland|Czechia|Croatia|Greece|France|Italie|Italia|"
+    r"Portugal|Франци[яию]|Португали[яию]|Итали[яию]|Германи[яию]|Австри[яию]|"
+    r"Швейцари[яию]|Бельги[яию]|Нидерланд(?:ы|ах)|Ирланди[яию]|Польш[аеиу]|"
+    r"Чехи[яию]|Хорвати[яию]|Греци[яию])\b"
+)
+FOREIGN_OPERATION = re.compile(
+    r"(?i)(?:процедур|правил|разрешен|разрешён|permit|permission|authori[sz]ation|"
+    r"маршрут|пересеч|вл[её]т|пол[её]т|airspace|AIP|NOTAM|радио|план\s+пол[её]та)"
+)
+
+
+def cross_border_procedure_errors(text):
+    return [
+        sentence
+        for sentence in _sentences(text)
+        if FOREIGN_COUNTRY.search(sentence) and FOREIGN_OPERATION.search(sentence)
+    ]
+
+
+def _plain_markdown(value):
+    value = re.sub(r"\[([^]]+)\](?:\[[^]]+\]|\([^)]*\))", r"\1", value)
+    value = re.sub(r"[`*_{}<>]", " ", value)
+    return " ".join(value.split())
+
+
+def _substantive(value, minimum_words=3, minimum_length=12):
+    plain = _plain_markdown(value)
+    words = re.findall(r"[A-Za-zА-Яа-яЁё0-9]+", plain)
+    return len(plain) >= minimum_length and len(words) >= minimum_words
+
+
+def parsed_question_blocks(text):
+    headings = list(
+        re.finditer(
+            r"(?m)^###\s+(Q-(?:START|LAW)-\d{3})\s+—\s+(.+?)"
+            r"(?:\s+\{#([a-z][a-z0-9-]*)\})?\s*$",
+            text,
+        )
+    )
+    blocks = []
+    for index, match in enumerate(headings):
+        end = headings[index + 1].start() if index + 1 < len(headings) else len(text)
+        next_h2 = re.search(r"(?m)^##\s+", text[match.end() : end])
+        if next_h2:
+            end = match.end() + next_h2.start()
+        blocks.append(
+            {
+                "id": match.group(1),
+                "prompt": match.group(2).strip(),
+                "anchor": match.group(3),
+                "body": text[match.end() : end],
+            }
+        )
+    return blocks
+
+
+ABSURD_DISTRACTOR = re.compile(
+    r"(?i)(?:купить.{0,20}книж|рекламн(?:ый|ая|ое)\s+сайт|"
+    r"автор\s+этого\s+курса|количеств[оа]\s+букв|цвет\s+приложения|"
+    r"если\s+нет\s+ветра)"
+)
+
+
+def question_block_errors(text):
+    errors = []
+    prompts = {}
+    for block in parsed_question_blocks(text):
+        identifier = block["id"]
+        prompt = block["prompt"]
+        body = block["body"]
+        if not _substantive(prompt, minimum_words=4, minimum_length=18):
+            errors.append(f"{identifier}: prompt is not substantive")
+        normal_prompt = re.sub(r"\W+", " ", _plain_markdown(prompt).casefold()).strip()
+        if normal_prompt in prompts:
+            errors.append(f"{identifier}: duplicate prompt with {prompts[normal_prompt]}")
+        prompts[normal_prompt] = identifier
+
+        options = re.findall(r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", body)
+        if [letter for letter, _ in options] != list("ABCD"):
+            errors.append(f"{identifier}: expected exactly options A-D")
+        option_values = [
+            re.sub(r"\W+", " ", _plain_markdown(value).casefold()).strip()
+            for _, value in options
+        ]
+        if len(option_values) != len(set(option_values)):
+            errors.append(f"{identifier}: duplicate answer options")
+        for letter, value in options:
+            if not _substantive(value, minimum_words=2, minimum_length=8):
+                errors.append(f"{identifier}: option {letter} is not substantive")
+            if ABSURD_DISTRACTOR.search(_plain_markdown(value)):
+                errors.append(f"{identifier}: option {letter} is an absurd distractor")
+
+        answer = re.search(r"\*\*Правильный ответ:\*\*\s*([A-D])\.", body)
+        if answer is None:
+            errors.append(f"{identifier}: answer must be A-D")
+        why = re.search(
+            r"(?ms)\*\*Почему:\*\*\s*(.+?)(?=\n\n\*\*Почему главный отвлекающий)",
+            body,
+        )
+        distractor = re.search(
+            r"(?ms)\*\*Почему главный отвлекающий вариант неверен:\*\*\s*(.+?)(?=\n\n|\Z)",
+            body,
+        )
+        if why is None or not _substantive(why.group(1), 5, 28):
+            errors.append(f"{identifier}: explanation is not substantive")
+        if distractor is None or not _substantive(distractor.group(1), 5, 28):
+            errors.append(f"{identifier}: distractor explanation is not substantive")
+    return errors
+
+
+def explicit_atx_heading_errors(text):
+    errors = []
+    identifiers = []
+    for line_number, line in enumerate(strip_fenced_code(text).splitlines(), 1):
+        match = ATX_HEADING.match(line)
+        if match is None:
+            continue
+        attribute = ATTRIBUTE_ID.search(match.group(2))
+        if attribute is None:
+            errors.append(f"line {line_number}: missing explicit English anchor")
+            continue
+        identifier = attribute.group(1)
+        if not re.fullmatch(r"[a-z][a-z0-9-]*", identifier):
+            errors.append(f"line {line_number}: invalid explicit English anchor {identifier}")
+        identifiers.append(identifier)
+    for duplicate in sorted({item for item in identifiers if identifiers.count(item) > 1}):
+        errors.append(f"duplicate explicit anchor {duplicate}")
+    return errors
+
+
+def unexplained_hybrid_occurrences(text):
+    clean = strip_code(text)
+    links, definition_spans = _markdown_link_spans(clean)
+    explained_spans = []
+    ignored = list(definition_spans)
+    for is_image, label_start, label_end, target, start, end in links:
+        ignored.extend(((start, label_start), (label_end, end)))
+        fragment = unquote(urlsplit(_clean_target(target)).fragment)
+        if not is_image and fragment.startswith("term-"):
+            explained_spans.append((label_start, label_end))
+    errors = []
+    for hybrid in HYBRID_TERMS_REQUIRING_EXPLANATION:
+        pattern = re.compile(rf"(?i)(?<![\w-]){re.escape(hybrid)}(?![\w-])")
+        for match in pattern.finditer(clean):
+            if _inside_any(match.start(), ignored + explained_spans):
+                continue
+            errors.append((clean.count("\n", 0, match.start()) + 1, hybrid))
+    return errors
+
+
+def element_bbox(element):
+    value = element.attrib.get("data-bbox", "")
+    numbers = [float(item) for item in value.split()]
+    if len(numbers) != 4:
+        return None
+    return tuple(numbers)
+
+
+def bboxes_overlap(first, second):
+    ax, ay, aw, ah = first
+    bx, by, bw, bh = second
+    return ax < bx + bw and bx < ax + aw and ay < by + bh and by < ay + ah
 
 
 def learner_chapter_files():
@@ -948,6 +1250,11 @@ ULM
         text = '<a id="term-ulm"></a> **ULM** — definition.\n'
         self.assertEqual([], unlinked_term_occurrences(text, term))
 
+    def test_explicit_heading_anchor_metadata_is_not_learner_prose(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = "# [ULM](#term-ulm) roadmap {#ulm-roadmap}\n"
+        self.assertEqual([], unlinked_term_occurrences(text, term))
+
     def test_longer_commonmark_closing_fence_is_ignored_and_lines_preserved(self):
         term = {"canonical": "ULM", "anchor": "term-ulm"}
         for character in ("`", "~"):
@@ -1239,13 +1546,131 @@ class CourseStructureTests(unittest.TestCase):
                         self.assertTrue(label.strip(), "image alt text is required")
 
 
+class Task4ValidatorRegressionTests(unittest.TestCase):
+    def test_nav_parser_rejects_commented_fake_entry(self):
+        config = """nav:
+  # - Fake: 00-start/commented.md
+  - Real: 00-start/real.md # visible row
+"""
+        self.assertEqual({"00-start/real.md"}, mkdocs_nav_paths(config))
+
+    def test_applicability_labels_must_be_actual_table_rows(self):
+        text = """## Карта применимости {#applicability}
+
+<!-- [ULM — ОСНОВА] -->
+| Метка | Как использовать главу |
+|---|---|
+| [ИСПАНИЯ] | Только Испания. |
+
+## Далее {#next}
+"""
+        self.assertEqual(
+            ["Метка", "---", "[ИСПАНИЯ]"], applicability_table_labels(text)
+        )
+        self.assertNotIn("[ULM — ОСНОВА]", applicability_table_labels(text))
+
+    def test_normative_claim_scanner_does_not_depend_on_norm_anchor(self):
+        registered = {"SRC-TEST"}
+        without_source = """## Правило без специального ID {#rule}
+
+Пилот обязан иметь документ и не менее трёх часов опыта.
+"""
+        with_source = without_source + "\nИсточник: `SRC-TEST`.\n"
+        self.assertTrue(normative_claim_errors(without_source, registered))
+        self.assertEqual([], normative_claim_errors(with_source, registered))
+
+    def test_automatic_recognition_is_sentence_local_and_requires_tight_negation(self):
+        positives = (
+            "Часы ULM полностью засчитываются при выдаче PPL.",
+            "ULM автоматически превращается в LAPL.",
+            "ULM конвертируется в PPL без оценки.",
+            "Это не относится к погоде. Часы ULM полностью засчитываются при выдаче PPL.",
+        )
+        for value in positives:
+            with self.subTest(value=value):
+                self.assertTrue(automatic_recognition_claims(value))
+        allowed = (
+            "Часы ULM не полностью засчитываются при выдаче PPL.",
+            "ULM автоматически не превращается в LAPL.",
+            "ULM не конвертируется в PPL без оценки.",
+        )
+        for value in allowed:
+            with self.subTest(value=value):
+                self.assertEqual([], automatic_recognition_claims(value))
+
+    def test_cross_border_guard_covers_multiple_foreign_states(self):
+        for value in (
+            "Для полёта в Italy запросите местное разрешение.",
+            "Перед пересечением границы Германии изучите её AIP.",
+            "Маршрут во Францию требует отдельной процедуры.",
+        ):
+            with self.subTest(value=value):
+                self.assertTrue(cross_border_procedure_errors(value))
+        self.assertEqual(
+            [],
+            cross_border_procedure_errors(
+                "Курс рассматривает ULM только в Испании и не обучает иностранным процедурам."
+            ),
+        )
+
+    def test_question_parser_rejects_empty_duplicate_and_absurd_content(self):
+        invalid = """### Q-LAW-901 — Пусто {#q-law-901}
+
+A. Одинаковый вариант.<br>
+B. Одинаковый вариант.<br>
+C. Купить новую книжку.<br>
+D. Нет.
+
+**Правильный ответ:** E.
+
+**Почему:** Так.
+
+**Почему главный отвлекающий вариант неверен:** Нет.
+
+### Q-LAW-902 — Пусто {#q-law-902}
+
+A. Первый содержательный вариант.<br>
+B. Второй содержательный вариант.<br>
+C. Третий содержательный вариант.<br>
+D. Четвёртый содержательный вариант.
+
+**Правильный ответ:** A.
+
+**Почему:** Это достаточно полное объяснение правильного ответа на вопрос.
+
+**Почему главный отвлекающий вариант неверен:** Этот вариант противоречит условию и поэтому не подходит.
+"""
+        errors = "\n".join(question_block_errors(invalid))
+        for expected in (
+            "prompt is not substantive",
+            "duplicate prompt",
+            "duplicate answer options",
+            "absurd distractor",
+            "answer must be A-D",
+            "explanation is not substantive",
+            "distractor explanation is not substantive",
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, errors)
+
+    def test_heading_guard_requires_stable_ascii_identifier(self):
+        self.assertTrue(explicit_atx_heading_errors("## Русский заголовок"))
+        self.assertTrue(
+            explicit_atx_heading_errors("## Русский заголовок {#русский-якорь}")
+        )
+        self.assertEqual(
+            [], explicit_atx_heading_errors("## Русский заголовок {#russian-heading}")
+        )
+
+
 class Task4RoadmapAndAirLawTests(unittest.TestCase):
     def test_task4_chapters_exist_and_are_in_navigation(self):
         config = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+        nav_paths = mkdocs_nav_paths(config)
         for relative_path in TASK4_CHAPTERS:
             with self.subTest(path=relative_path):
                 self.assertTrue((ROOT / relative_path).is_file(), relative_path)
-                self.assertIn(relative_path.removeprefix("docs/"), config)
+                self.assertIn(relative_path.removeprefix("docs/"), nav_paths)
 
     def test_every_task4_chapter_has_visible_applicability_table(self):
         for relative_path in TASK4_CHAPTERS:
@@ -1253,13 +1678,10 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
             self.assertTrue(path.is_file(), relative_path)
             text = path.read_text(encoding="utf-8")
             with self.subTest(path=relative_path):
-                self.assertIn("## Карта применимости", text)
-                self.assertRegex(
-                    text,
-                    r"(?m)^\|\s*Метка\s*\|\s*Как использовать главу\s*\|$",
-                )
+                labels = applicability_table_labels(text)
+                self.assertIn("Метка", labels)
                 for label in APPLICABILITY_LABELS:
-                    self.assertIn(label, text)
+                    self.assertIn(label, labels)
 
     def test_normative_subsections_cite_registered_sources(self):
         registered = {
@@ -1282,37 +1704,46 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
                     self.assertTrue(cited, "normative subsection needs SRC citation")
                     self.assertTrue(cited.issubset(registered), cited - registered)
 
+    def test_normative_claims_are_source_cited_even_without_norm_anchor(self):
+        registered = {
+            source["id"] for source in json.loads(SOURCE_REGISTRY.read_text())
+        }
+        violations = []
+        for relative_path in TASK4_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            violations.extend(
+                f"{relative_path}: {error}"
+                for error in normative_claim_errors(text, registered)
+            )
+        self.assertEqual([], violations)
+
     def test_course_does_not_claim_automatic_ulm_part_fcl_recognition(self):
-        forbidden = re.compile(
-            r"(?i)(?:автоматическ(?:ий|ое|ая)\s+"
-            r"(?:зачёт|признание|конверсия)|"
-            r"ULM\s*(?:=|равен)\s*(?:LAPL|PPL))"
-        )
-        allowed_negation = re.compile(r"(?i)(?:нет|не|без|отсутствует).{0,35}$")
+        violations = []
         for relative_path in TASK4_CHAPTERS:
             path = ROOT / relative_path
             if not path.is_file():
                 continue
-            text = strip_code(path.read_text(encoding="utf-8"))
-            for match in forbidden.finditer(text):
-                prefix = text[max(0, match.start() - 40) : match.start()]
-                with self.subTest(path=relative_path, phrase=match.group(0)):
-                    self.assertRegex(prefix, allowed_negation)
+            violations.extend(
+                f"{relative_path}: {sentence}"
+                for sentence in automatic_recognition_claims(
+                    path.read_text(encoding="utf-8")
+                )
+            )
+        self.assertEqual([], violations)
 
     def test_task4_does_not_teach_cross_border_ulm_procedures(self):
-        forbidden_country_procedure = re.compile(
-            r"(?i)(?:франц|португал|\bfrance\b|\bportugal\b)"
-        )
+        violations = []
         for relative_path in TASK4_CHAPTERS:
             path = ROOT / relative_path
             if not path.is_file():
                 continue
-            with self.subTest(path=relative_path):
-                self.assertIsNone(
-                    forbidden_country_procedure.search(
-                        strip_code(path.read_text(encoding="utf-8"))
-                    )
+            violations.extend(
+                f"{relative_path}: {sentence}"
+                for sentence in cross_border_procedure_errors(
+                    path.read_text(encoding="utf-8")
                 )
+            )
+        self.assertEqual([], violations)
 
     def test_task4_svgs_are_accessible_original_conceptual_diagrams(self):
         for relative_path in TASK4_SVGS:
@@ -1330,30 +1761,157 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
                 words = " ".join(root.itertext()).casefold()
                 self.assertIn("концептуальн", words)
 
-    def test_task4_has_at_least_30_unique_explained_questions(self):
-        combined = "\n".join(
-            (ROOT / path).read_text(encoding="utf-8")
-            for path in TASK4_CHAPTERS
-            if (ROOT / path).is_file()
-        )
-        blocks = list(
-            re.finditer(
-                r"(?ms)^###\s+(Q-(?:START|LAW)-\d{3})\b(.*?)(?=^###\s+Q-(?:START|LAW)-\d{3}\b|\Z)",
-                combined,
+    def test_airspace_svg_layering_contrast_and_geometry(self):
+        path = ROOT / "docs/assets/diagrams/airspace-structure.svg"
+        root = ET.parse(path).getroot()
+        by_id = {
+            element.attrib["id"]: element
+            for element in root.iter()
+            if "id" in element.attrib
+        }
+        for identifier in (
+            "terrain-layer",
+            "special-use-zone",
+            "aerodrome-symbol",
+            "warning-panel",
+            "warning-text",
+        ):
+            self.assertIn(identifier, by_id)
+        serialised = ET.tostring(root, encoding="unicode")
+        self.assertLess(serialised.index('id="terrain-layer"'), serialised.index('id="special-use-zone"'))
+        self.assertLess(serialised.index('id="terrain-layer"'), serialised.index('id="aerodrome-symbol"'))
+        self.assertEqual("#102a43", by_id["warning-panel"].attrib.get("fill"))
+        self.assertEqual("#ffffff", by_id["warning-text"].attrib.get("fill"))
+        terrain = element_bbox(by_id["terrain-layer"])
+        zone = element_bbox(by_id["special-use-zone"])
+        aerodrome = element_bbox(by_id["aerodrome-symbol"])
+        self.assertIsNotNone(terrain)
+        self.assertIsNotNone(zone)
+        self.assertIsNotNone(aerodrome)
+        self.assertFalse(bboxes_overlap(terrain, zone))
+        self.assertFalse(bboxes_overlap(terrain, aerodrome))
+
+    def test_roadmap_svg_warning_is_wrapped_inside_panel(self):
+        path = ROOT / "docs/assets/diagrams/ulm-to-lapl-ppl-roadmap.svg"
+        root = ET.parse(path).getroot()
+        namespace = "{http://www.w3.org/2000/svg}"
+        by_id = {
+            element.attrib["id"]: element
+            for element in root.iter()
+            if "id" in element.attrib
+        }
+        panel = by_id["roadmap-warning-panel"]
+        text = by_id["roadmap-warning-text"]
+        tspans = list(text.findall(f"{namespace}tspan"))
+        self.assertGreaterEqual(len(tspans), 2)
+        self.assertTrue(all((item.text or "").strip() for item in tspans))
+        self.assertTrue(all(len((item.text or "").strip()) <= 60 for item in tspans))
+        panel_box = element_bbox(panel)
+        text_box = element_bbox(text)
+        self.assertIsNotNone(panel_box)
+        self.assertIsNotNone(text_box)
+        px, py, pw, ph = panel_box
+        tx, ty, tw, th = text_box
+        self.assertGreaterEqual(tx, px)
+        self.assertGreaterEqual(ty, py)
+        self.assertLessEqual(tx + tw, px + pw)
+        self.assertLessEqual(ty + th, py + ph)
+
+    def test_task4_has_four_substantive_unique_questions_per_chapter(self):
+        blocks = []
+        violations = []
+        for relative_path in TASK4_CHAPTERS:
+            text = (ROOT / relative_path).read_text(encoding="utf-8")
+            chapter_blocks = parsed_question_blocks(text)
+            self.assertEqual(4, len(chapter_blocks), relative_path)
+            blocks.extend(chapter_blocks)
+            violations.extend(
+                f"{relative_path}: {error}"
+                for error in question_block_errors(text)
             )
-        )
-        identifiers = [match.group(1) for match in blocks]
+        identifiers = [block["id"] for block in blocks]
         self.assertGreaterEqual(len(identifiers), 30)
         self.assertEqual(len(identifiers), len(set(identifiers)))
-        for match in blocks:
-            with self.subTest(question=match.group(1)):
-                body = match.group(2)
-                self.assertIn("**Правильный ответ:**", body)
-                self.assertIn("**Почему:**", body)
-                self.assertIn(
-                    "**Почему главный отвлекающий вариант неверен:**",
-                    body,
+        prompts = [
+            re.sub(r"\W+", " ", _plain_markdown(block["prompt"]).casefold()).strip()
+            for block in blocks
+        ]
+        self.assertEqual(len(prompts), len(set(prompts)))
+        self.assertEqual([], violations)
+
+    def test_q_start_006_is_not_duplicate_of_direct_ppl_credit_question(self):
+        text = (ROOT / TASK4_CHAPTERS[1]).read_text(encoding="utf-8")
+        block = next(
+            item for item in parsed_question_blocks(text) if item["id"] == "Q-START-006"
+        )
+        self.assertNotRegex(_plain_markdown(block["prompt"]), r"(?i)PPL|прям")
+
+    def test_all_task4_headings_have_stable_explicit_english_anchors(self):
+        violations = []
+        for relative_path in TASK4_CHAPTERS:
+            violations.extend(
+                f"{relative_path}: {error}"
+                for error in explicit_atx_heading_errors(
+                    (ROOT / relative_path).read_text(encoding="utf-8")
                 )
+            )
+        self.assertEqual([], violations)
+
+    def test_hybrid_english_is_linked_to_an_explanation(self):
+        violations = []
+        for relative_path in TASK4_CHAPTERS:
+            path = ROOT / relative_path
+            violations.extend(
+                f"{relative_path}:{line}: {term}"
+                for line, term in unexplained_hybrid_occurrences(
+                    path.read_text(encoding="utf-8")
+                )
+            )
+        self.assertEqual([], violations)
+
+    def test_index_prominently_links_to_first_lesson(self):
+        text = (ROOT / "docs/index.md").read_text(encoding="utf-8")
+        before_order = text.split("## Порядок обучения", 1)[0]
+        self.assertRegex(
+            before_order,
+            r"(?i)\[[^]]*(?:начать|перв|урок)[^]]*\]\(00-start/01-how-to-study\.md\)",
+        )
+
+    def test_legal_pinpoints_and_scope_match_reviewed_sources(self):
+        audit = (ROOT / "docs/sources/audit-spain-2026.md").read_text(
+            encoding="utf-8"
+        )
+        expected_rows = {
+            "ES-ULM-TRN-001": "Art. 5.3;",
+            "ES-ULM-TRN-002": "Art. 5.4;",
+            "ES-ULM-OPS-003": "Art. 4.1(a)–(b);",
+            "ES-ULM-OPS-004": "Art. 4.1(c);",
+            "ES-ULM-OPS-005": "Art. 4.1(e);",
+            "ES-ULM-OPS-006": "Art. 4.1(d);",
+        }
+        for row_id, pinpoint in expected_rows.items():
+            row = next(line for line in audit.splitlines() if f"| {row_id} |" in line)
+            with self.subTest(row=row_id):
+                self.assertIn(pinpoint, row)
+        duplicate_row = next(
+            line for line in audit.splitlines() if "| ES-FCL-ULM-003 |" in line
+        )
+        self.assertRegex(duplicate_row, r"(?i)обладател.*Part-FCL|Part-FCL.*обладател")
+
+        medical = (ROOT / TASK4_CHAPTERS[2]).read_text(encoding="utf-8")
+        self.assertIn("art. 6.3(c)", medical)
+        airspace = (ROOT / TASK4_CHAPTERS[6]).read_text(encoding="utf-8")
+        self.assertIn("art. 4.1(d)", airspace)
+        condition = "когда это требуется классом, характером операции и текущим AIP"
+        self.assertIn(condition, _plain_markdown(airspace))
+        self.assertIn(condition, audit)
+
+        occurrence = (ROOT / TASK4_CHAPTERS[7]).read_text(encoding="utf-8")
+        self.assertRegex(
+            occurrence,
+            r"(?is)рекомендаци[яи]\s+курса.{0,220}не\s+устанавливает.{0,80}"
+            r"персональн(?:ую|ой)\s+(?:обязанность|норму)\s+(?:для\s+)?ученика",
+        )
 
 
 if __name__ == "__main__":

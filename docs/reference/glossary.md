@@ -392,3 +392,91 @@ SEP — class rating Part-FCL для применимой группы single-en
 - **Сокращение:** нет
 
 Skill test — формальная практическая проверка для выдачи применимой Part-FCL licence или rating, выполняемая examiner по установленному scope. Она отличается от national ULM practical exam, pre-entry flight assessment, proficiency check и обычного school progress check.
+
+<a id="term-icao-compliant-licence"></a>
+## ICAO-compliant licence
+
+- **Canonical:** ICAO-compliant licence
+- **English:** ICAO-compliant licence / non-ICAO licence
+- **Español:** licencia conforme al Anexo 1 de OACI / licencia no OACI
+- **Русский:** лицензия, соответствующая стандарту Приложения 1 ICAO / лицензия вне этого стандарта
+- **Сокращение:** нет
+
+ICAO-compliant licence означает, что формат и минимальная основа лицензии соответствуют применимому стандарту Приложения 1 ICAO; non-ICAO licence не заявляет такого соответствия. Это характеристика лицензии, а не ссылка на организацию ICAO как на орган, выдавший документ, и не самостоятельное разрешение конкретного международного полёта.
+
+<a id="term-training-credit"></a>
+## Training credit
+
+- **Canonical:** training credit
+- **English:** credit for prior experience or training
+- **Español:** crédito por experiencia o formación previa
+- **Русский:** зачёт предыдущего опыта или подготовки
+- **Сокращение:** нет
+
+Training credit — документированное уменьшение определённой части новой программы на основании применимой нормы и оценки предыдущего опыта или подготовки. Зачёт не равен автоматической конверсии лицензии, не гарантирует максимального сокращения и не позволяет повторно учитывать один элемент вопреки правилам.
+
+<a id="term-pre-entry-flight-assessment"></a>
+## Pre-entry flight assessment
+
+- **Canonical:** pre-entry flight assessment
+- **English:** pre-entry flight assessment
+- **Español:** evaluación de vuelo previa al ingreso
+- **Русский:** предварительная лётная оценка перед началом курса
+- **Сокращение:** нет
+
+Pre-entry flight assessment — оценка компетенций и предыдущего опыта кандидата учебной организацией до определения индивидуального объёма подготовки. Она должна охватывать требуемую программу там, где это предписано правилом, и не является проверкой практических навыков для выдачи лицензии.
+
+<a id="term-syllabus"></a>
+## Syllabus
+
+- **Canonical:** syllabus
+- **English:** training syllabus
+- **Español:** programa de formación
+- **Русский:** учебная программа с перечнем тем и упражнений
+- **Сокращение:** нет
+
+Syllabus — структурированный перечень содержания, упражнений, последовательности и стандартов курса. Совпадение названий предметов двух программ не создаёт само по себе юридического зачёта обучения или экзамена.
+
+<a id="term-supervised-solo-flight"></a>
+## Supervised solo flight
+
+- **Canonical:** supervised solo flight
+- **English:** supervised solo flight time
+- **Español:** vuelo solo supervisado
+- **Русский:** самостоятельный полёт ученика под наблюдением инструктора
+- **Сокращение:** нет
+
+Supervised solo flight — полёт, в котором ученик является единственным лицом, управляющим воздушным судном, а уполномоченный инструктор разрешает и контролирует выполнение в предусмотренной правилами форме. Это не полёт с инструктором на борту и не свободная самостоятельная эксплуатация владельца лицензии.
+
+<a id="term-dual-flight-instruction"></a>
+## Dual flight instruction
+
+- **Canonical:** dual flight instruction
+- **English:** dual flight instruction
+- **Español:** instrucción de vuelo en doble mando
+- **Русский:** лётное обучение с инструктором на борту
+- **Сокращение:** нет
+
+Dual flight instruction — учебный полёт, получаемый кандидатом от надлежащим образом уполномоченного инструктора на борту. Он учитывается отдельно от самостоятельного полёта под наблюдением и от налёта PIC после выдачи лицензии.
+
+<a id="term-cross-country-flight"></a>
+## Cross-country flight
+
+- **Canonical:** cross-country flight
+- **English:** cross-country flight
+- **Español:** vuelo de travesía
+- **Русский:** маршрутный полёт с навигацией за пределами локального района
+- **Сокращение:** нет
+
+Cross-country flight — маршрутный полёт, для которого применимая программа задаёт навигационную задачу, расстояние, самостоятельность и при необходимости посадки на других аэродромах. Конкретные числа различаются между ULM, LAPL(A) и PPL(A) и всегда берутся из нормы соответствующего курса.
+
+<a id="term-head-of-training"></a>
+## Head of Training
+
+- **Canonical:** Head of Training
+- **English:** Head of Training
+- **Español:** responsable de formación / jefe de enseñanza; para la escuela ULM: jefe de instrucción
+- **Русский:** руководитель подготовки учебной организации
+- **Сокращение:** нет
+
+Head of Training — назначенное лицо учебной организации, отвечающее за согласованность и стандарт подготовки в пределах применимой системы. Роль DTO/ATO по Part-FCL нельзя автоматически отождествлять со всеми функциями jefe de instrucción национальной школы ULM: точные обязанности определяет соответствующий режим.
