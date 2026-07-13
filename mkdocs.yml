@@ -1,0 +1,31 @@
+site_name: Теория ULM/MAF → LAPL(A) или PPL(A)
+site_description: ULM-first курс для Испании с последующим выбором LAPL(A) или PPL(A)
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: ru
+
+plugins:
+  - search:
+      lang:
+        - ru
+        - en
+        - es
+
+nav:
+  - Главная: index.md
+  - Исследовательская база:
+      - Испания и нормативная дата: sources/audit-spain-2026.md
+      - Техническая карта: sources/audit-technical.md
+      - Переход к LAPL(A): sources/audit-lapl-transition.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
