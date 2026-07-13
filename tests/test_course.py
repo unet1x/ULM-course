@@ -459,8 +459,12 @@ def unlinked_term_occurrences(text, term):
         rf"(?:[ \t]*</a[ \t]*>)?",
         re.IGNORECASE,
     )
+    canonical_pattern = _term_pattern(term["canonical"]).pattern
     definition_pattern = re.compile(
-        _term_pattern(term["canonical"]).pattern + r"(?=\s*(?:—|–|-|:))",
+        rf"[ \t]*(?:{canonical_pattern}|"
+        rf"\*\*{canonical_pattern}\*\*|"
+        rf"__{canonical_pattern}__)"
+        r"(?=[ \t]*(?:—|–|:))",
         re.IGNORECASE,
     )
     for anchor_match in anchor_pattern.finditer(clean_text):
@@ -468,7 +472,7 @@ def unlinked_term_occurrences(text, term):
         line_end = clean_text.find("\n", anchor_match.end())
         if line_end == -1:
             line_end = len(clean_text)
-        definition = definition_pattern.search(
+        definition = definition_pattern.match(
             clean_text, anchor_match.end(), line_end
         )
         if definition is not None:
@@ -893,6 +897,16 @@ ULM
             "затем ULM повторяется без ссылки.\n"
         )
         self.assertEqual([1], unlinked_term_occurrences(text, term))
+
+    def test_intraword_hyphen_after_anchor_is_prose_not_a_definition(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = '<a id="term-ulm"></a> This ULM-first course is prose.\n'
+        self.assertEqual([1], unlinked_term_occurrences(text, term))
+
+    def test_formatted_canonical_definition_after_anchor_is_ignored(self):
+        term = {"canonical": "ULM", "anchor": "term-ulm"}
+        text = '<a id="term-ulm"></a> **ULM** — definition.\n'
+        self.assertEqual([], unlinked_term_occurrences(text, term))
 
     def test_longer_commonmark_closing_fence_is_ignored_and_lines_preserved(self):
         term = {"canonical": "ULM", "anchor": "term-ulm"}
