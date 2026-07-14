@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" aria-labelledby="title desc">
+  <title id="title">Три оси, движения и основные органы управления</title>
+  <desc id="desc">Вид самолёта в перспективе с продольной осью крена, поперечной осью тангажа и вертикальной осью рыскания; отмечены элерон, руль высоты и руль направления.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="18" markerHeight="18" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0 L10 5 L0 10 z" fill="context-stroke"/></marker></defs>
+  <rect width="720" height="520" fill="#f8fafc"/>
+  <g id="aircraft" fill="#cbd5e1" stroke="#0f172a" stroke-width="4">
+    <path d="M155 292 L590 254 L650 282 L590 307 L155 292 Z"/>
+    <path d="M310 278 L395 90 L440 92 L390 283 Z"/>
+    <path d="M310 300 L395 472 L440 467 L390 293 Z"/>
+    <path d="M170 287 L215 210 L250 215 L230 290 Z"/>
+    <path d="M170 296 L215 372 L250 368 L230 293 Z"/>
+    <path d="M175 286 L205 170 L230 175 L225 289 Z"/>
+  </g>
+  <line id="roll-axis" x1="125" y1="290" x2="665" y2="290" stroke="#2563eb" stroke-width="7" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="440" y="245" font-size="30" font-family="sans-serif" fill="#1d4ed8">крен / roll</text>
+  <line id="pitch-axis" x1="300" y1="90" x2="420" y2="490" stroke="#047857" stroke-width="7" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="475" y="420" font-size="30" font-family="sans-serif" fill="#047857">тангаж / pitch</text>
+  <line id="yaw-axis" x1="360" y1="490" x2="360" y2="80" stroke="#dc2626" stroke-width="7" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <circle id="centre-of-gravity" cx="360" cy="290" r="10" fill="#0f172a" stroke="#f8fafc" stroke-width="3"/>
+  <text x="70" y="120" font-size="30" font-family="sans-serif" fill="#b91c1c">рыскание / yaw</text>
+  <path id="aileron" d="M405 106 L435 108 L420 150 L389 149 Z" fill="#f59e0b" stroke="#92400e" stroke-width="4"/>
+  <text x="465" y="145" font-size="30" font-family="sans-serif" fill="#92400e">элерон</text>
+  <path id="elevator" d="M195 350 L232 346 L250 368 L215 372 Z" fill="#f59e0b" stroke="#92400e" stroke-width="4"/>
+  <text x="70" y="405" font-size="30" font-family="sans-serif" fill="#92400e">руль высоты</text>
+  <path id="rudder" d="M177 275 L205 170 L225 178 L220 278 Z" fill="#f59e0b" stroke="#92400e" stroke-width="4"/>
+  <text x="50" y="185" font-size="30" font-family="sans-serif" fill="#92400e">руль направления</text>
+  <text x="360" y="505" text-anchor="middle" font-size="30" font-family="sans-serif" fill="#475569">компоновку сверять с конкретным самолётом</text>
+  <text x="360" y="62" text-anchor="middle" font-size="30" font-family="sans-serif" font-weight="700" fill="#102a43">КОНЦЕПТУАЛЬНО — НЕ ДЛЯ ПОЛЁТА</text>
+</svg>

@@ -86,6 +86,21 @@ TASK8_SVGS = (
     "docs/assets/diagrams/sample-route.svg",
     "docs/assets/diagrams/chart-symbols-gen23.svg",
 )
+TASK9_CHAPTERS = (
+    "docs/06-principles-of-flight/01-flow-forces-moments.md",
+    "docs/06-principles-of-flight/02-lift-drag-polar.md",
+    "docs/06-principles-of-flight/03-stability-controls.md",
+    "docs/06-principles-of-flight/04-stall-spin-load-factor.md",
+    "docs/06-principles-of-flight/05-propeller-effects.md",
+    "docs/06-principles-of-flight/06-ulm-low-inertia-gusts.md",
+)
+TASK9_SVGS = (
+    "docs/assets/diagrams/four-forces.svg",
+    "docs/assets/diagrams/angle-of-attack.svg",
+    "docs/assets/diagrams/drag-polar.svg",
+    "docs/assets/diagrams/three-axis-stability.svg",
+    "docs/assets/diagrams/vn-envelope.svg",
+)
 APPLICABILITY_LABELS = (
     "[ULM — ОСНОВА]",
     "[ULM — ОСОБО ВАЖНО]",
@@ -109,6 +124,8 @@ OFFICIAL_SOURCE_DOMAINS = {
     "www.aemet.es",
     "www.faa.gov",
     "www.aviation.govt.nz",
+    "www1.grc.nasa.gov",
+    "ntrs.nasa.gov",
     "egnos.gsc-europa.eu",
     "www.cdc.gov",
     "ama.aemet.es",
@@ -291,6 +308,19 @@ REQUIRED_CANONICAL_TERMS = {
     "Coordinated Universal Time (UTC)",
     "air traffic services (ATS)",
     "Aeronautical Information Regulation and Control (AIRAC)",
+    "relative airflow",
+    "boundary layer",
+    "lift",
+    "drag",
+    "glide ratio",
+    "static stability",
+    "dynamic stability",
+    "adverse yaw",
+    "critical angle of attack",
+    "manoeuvring speed",
+    "P-factor",
+    "wing loading",
+    "ground effect",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -943,7 +973,7 @@ def _substantive(value, minimum_words=3, minimum_length=12):
 def parsed_question_blocks(text):
     headings = list(
         re.finditer(
-            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV)-\d{3})\s+—\s+(.+?)"
+            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV|PF)-\d{3})\s+—\s+(.+?)"
             r"(?:\s+\{#([a-z][a-z0-9-]*)\})?\s*$",
             text,
         )
@@ -5487,6 +5517,670 @@ class Task8NavigationTests(unittest.TestCase):
                 self.assertRegex(title.text or "", r"[А-Яа-яЁё]")
                 self.assertRegex(desc.text or "", r"[А-Яа-яЁё]")
                 self.assertFalse((title.text or "").strip().startswith(("Wind", "Synthetic")))
+
+
+class Task9PrinciplesOfFlightTests(unittest.TestCase):
+    REQUIRED_SOURCE_IDS = {
+        "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01",
+        "SRC-AESA-MAF-PRACTICAL-GU05-ED01",
+        "SRC-EASA-AIRCREW-2026",
+        "SRC-FAA-PHAK-25C-CH4",
+        "SRC-FAA-PHAK-25C-CH5",
+        "SRC-FAA-PHAK-25C-CH6",
+        "SRC-FAA-AFH-3C-CH5",
+        "SRC-FAA-AFH-3C-CH17",
+        "SRC-FAA-AFH-3C-ADDENDUM-2025",
+        "SRC-NASA-GRC-BERNOULLI-NEWTON-2024",
+        "SRC-NASA-GRC-LIFT-2024",
+        "SRC-NASA-GRC-BOUNDARY-LAYER-2024",
+        "SRC-NACA-TR-824",
+    }
+
+    def _read(self, relative_path):
+        path = ROOT / relative_path
+        self.assertTrue(path.is_file(), relative_path)
+        return path.read_text(encoding="utf-8")
+
+    def _all_text(self):
+        return "\n".join(self._read(path) for path in TASK9_CHAPTERS)
+
+    def _calculation_blocks(self):
+        text = self._all_text()
+        matches = list(
+            re.finditer(
+                r"(?m)^###\s+(CALC-PF-(\d{2}))\s+—[^\n]*\{#calc-pf-\2\}\s*$",
+                text,
+            )
+        )
+        blocks = {}
+        for index, match in enumerate(matches):
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            next_h2 = re.search(r"(?m)^##\s+", text[match.end():end])
+            if next_h2:
+                end = match.end() + next_h2.start()
+            blocks[match.group(1)] = text[match.start():end]
+        return blocks
+
+    def test_task9_files_exist_and_are_in_navigation(self):
+        nav_paths = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        for relative_path in TASK9_CHAPTERS:
+            with self.subTest(path=relative_path):
+                self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+                self.assertIn(relative_path.removeprefix("docs/"), nav_paths)
+        for relative_path in TASK9_SVGS:
+            self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+
+    def test_task9_template_applicability_and_boundaries(self):
+        required = {
+            "purpose", "outcomes", "applicability", "theory", "ulm-application",
+            "part-fcl-extension", "safety", "common-errors", "summary",
+            "review-questions", "sources",
+        }
+        for relative_path in TASK9_CHAPTERS:
+            text = self._read(relative_path)
+            plain = _plain_markdown(text)
+            with self.subTest(path=relative_path):
+                self.assertEqual([], explicit_atx_heading_errors(text))
+                self.assertTrue(required.issubset(markdown_anchors(text)))
+                for label in APPLICABILITY_LABELS:
+                    self.assertIn(label, applicability_table_labels(text))
+                self.assertRegex(plain, r"(?is)ULM.{0,180}(?:Испани|MAF)")
+                self.assertRegex(plain, r"(?is)(?:LAPL|PPL).{0,240}(?:Part-FCL|переход|позже)")
+                self.assertRegex(plain, r"(?is)(?:AFM|POH).{0,160}инструктор")
+                self.assertRegex(plain, r"(?is)теори.{0,180}не.{0,80}(?:разреш|да[её]т\s+прав).{0,180}(?:самостоятель|без\s+инструктор)")
+
+    def test_task9_required_concepts_and_gu09_cross_block_traceability(self):
+        text = _plain_markdown(self._all_text())
+        anchors = markdown_anchors(self._all_text())
+        required_anchors = {
+            "relative-airflow", "pressure-momentum", "boundary-layer-separation",
+            "four-forces-moments", "angle-of-attack-attitude-path", "lift-equation",
+            "drag-components", "polar-glide", "static-dynamic-stability",
+            "three-axes-controls", "secondary-effects", "high-lift-devices",
+            "critical-aoa-stall", "spin-awareness", "turn-load-factor",
+            "vn-envelope-concept", "va-boundary", "propeller-blade-flow",
+            "torque-pfactor-gyro-slipstream", "low-inertia-gust-response",
+            "energy-margin", "ground-effect", "decision-scenarios",
+        }
+        self.assertTrue(required_anchors.issubset(anchors), required_anchors - anchors)
+        for scope in ("pp. 15–20", "pp. 21–27", "pp. 33–39", "pp. 49–58"):
+            self.assertIn(scope, text)
+        self.assertRegex(text, r"(?is)GU09.{0,220}(?:объ[её]м|цели|программ).{0,220}не.{0,100}(?:доказатель|источник).{0,100}физик")
+        self.assertRegex(text, r"(?is)LAPL.{0,180}(?:тот\s+же|общ).{0,180}PPL.{0,180}(?:081|Principles of Flight)")
+        self.assertRegex(text, r"(?is)Part-NCO.{0,180}(?:операц|воздушн\w+\s+судн).{0,180}не.{0,100}лиценз")
+
+    def test_task9_misconceptions_are_refuted_clause_locally(self):
+        text = _plain_markdown(self._all_text())
+        patterns = (
+            r"(?is)(?:частиц|порци|струй).{0,100}(?:верхн|сверху).{0,180}не.{0,80}(?:обязаны|должны).{0,100}(?:встрет|одновременно)",
+            r"(?is)Бернулли.{0,100}Ньютон.{0,180}не.{0,80}(?:конкурир|противореч|взаимоисключ)",
+            r"(?is)угол\s+атаки.{0,120}не.{0,50}(?:равен|то\s+же).{0,100}(?:тангаж|pitch attitude)",
+            r"(?is)stall.{0,180}не.{0,80}(?:только|просто).{0,80}низк\w+\s+скорост",
+            r"(?is)не.{0,60}(?:одн|един).{0,80}неизменн\w+.{0,50}скорост.{0,80}stall",
+            r"(?is)крен.{0,100}сам\s+по\s+себе.{0,80}не.{0,80}(?:вызыва|созда).{0,80}stall",
+            r"(?is)(?:V_A|VA|маневрир).{0,160}не.{0,80}(?:абсолют|универсальн).{0,100}защит",
+            r"(?is)(?:одна|типовая|универсальн).{0,80}V[-‑]n.{0,140}не.{0,80}(?:да[её]т|заменя).{0,100}(?:предел|AFM|POH)",
+            r"(?is)закрылк.{0,180}не.{0,80}всегда.{0,160}(?:одинаков|одном\s+направлен)",
+            r"(?is)(?:тяж[её]л|л[её]гк).{0,180}не.{0,80}всегда.{0,140}(?:безопас|дальше|лучше)",
+            r"(?is)P[-‑]?factor.{0,180}не.{0,80}(?:всегда|кажд).{0,100}(?:одн|одинаков).{0,80}(?:направлен|рыск)",
+            r"(?is)чтени.{0,100}теори.{0,180}не.{0,80}(?:разреш|да[её]т\s+прав).{0,160}(?:stall|spin|свал|штопор)",
+        )
+        for pattern in patterns:
+            with self.subTest(pattern=pattern):
+                self.assertRegex(text, re.compile(pattern))
+
+    def test_task9_turn_relation_is_correct_and_bounded(self):
+        text = _plain_markdown(self._read(TASK9_CHAPTERS[3]))
+        self.assertRegex(text, r"n\s*=\s*1\s*/\s*cos\s*\(?phi\)?")
+        self.assertRegex(text, r"(?is)(?:установивш|steady).{0,100}координирован.{0,100}горизонтальн.{0,100}(?:разворот|turn)")
+        self.assertRegex(text, r"(?is)GU09.{0,160}(?:экспоненц|exponential).{0,180}(?:неточн|неверн|не\s+использ)")
+        self.assertRegex(text, r"(?is)(?:сильно|резко).{0,60}нелинейн")
+
+    def test_task9_has_structured_recomputable_calculations(self):
+        blocks = self._calculation_blocks()
+        self.assertGreaterEqual(len(blocks), 6)
+        for identifier, block in blocks.items():
+            with self.subTest(calculation=identifier):
+                for label in ("Дано", "Формула", "Расчёт", "Результат", "Решение пилота"):
+                    self.assertRegex(block, rf"(?m)^\*\*{re.escape(label)}:\*\*")
+                self.assertIn("КОНЦЕПТУАЛЬНО — НЕ ДЛЯ ПОЛЁТА", block)
+                self.assertRegex(block, r"(?:N|kN|m|kN·m|kt|km|ft|°|безразмер)")
+        expected = {
+            "CALC-PF-01": 0.0,
+            "CALC-PF-02": 0.072,
+            "CALC-PF-03": 0.4,
+            "CALC-PF-04": 12.0,
+            "CALC-PF-05": 2 ** 0.5,
+            "CALC-PF-06": 2 ** 0.25,
+        }
+        self.assertTrue(expected.keys() <= blocks.keys())
+        for identifier, value in expected.items():
+            self.assertIn(f"<!-- recompute-result: {value:.3f} -->", blocks[identifier])
+
+    def test_task9_has_six_structured_energy_risk_scenarios(self):
+        text = self._all_text()
+        matches = list(re.finditer(r"(?m)^###\s+(SCN-PF-(\d{2}))\s+—[^\n]+\{#scn-pf-\2\}\s*$", text))
+        self.assertGreaterEqual(len(matches), 6)
+        blocks = []
+        for index, match in enumerate(matches):
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            next_h2 = re.search(r"(?m)^##\s+", text[match.end():end])
+            if next_h2:
+                end = match.end() + next_h2.start()
+            blocks.append(text[match.start():end])
+        for block in blocks:
+            for label in ("Признаки", "Механизм", "Ошибочная интуиция", "Граница безопасного решения", "Приоритет"):
+                self.assertRegex(block, rf"(?m)^\*\*{re.escape(label)}:\*\*")
+            self.assertRegex(_plain_markdown(block), r"(?is)(?:AFM|POH).{0,100}инструктор")
+        combined = _plain_markdown("\n".join(blocks))
+        for topic in ("порыв", "base-to-final", "turn-back", "рельеф", "высоко и быстро", "уход на второй круг"):
+            self.assertIn(topic.casefold(), combined.casefold())
+        self.assertRegex(combined, r"(?is)нет.{0,80}универсальн.{0,100}высот.{0,100}turn-back")
+
+    def test_task9_has_thirty_five_substantive_unique_questions(self):
+        questions = []
+        errors = []
+        chapter_counts = []
+        for relative_path in TASK9_CHAPTERS:
+            text = self._read(relative_path)
+            chapter = parsed_question_blocks(text)
+            questions.extend(chapter)
+            chapter_counts.append(len(chapter))
+            errors.extend(f"{relative_path}: {error}" for error in question_block_errors(text))
+        self.assertEqual([], errors)
+        self.assertGreaterEqual(len(questions), 35)
+        self.assertTrue(all(count >= 5 for count in chapter_counts), chapter_counts)
+        identifiers = [item["id"] for item in questions]
+        self.assertEqual(len(identifiers), len(set(identifiers)))
+        self.assertTrue(all(identifier.startswith("Q-PF-") for identifier in identifiers))
+        for question in questions:
+            self.assertIsNotNone(question["anchor"], question["id"])
+            self.assertIn(question["anchor"], markdown_anchors(self._all_text()))
+
+    def test_task9_sources_are_registered_audited_and_pinpointed(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))}
+        self.assertTrue(self.REQUIRED_SOURCE_IDS <= sources.keys(), self.REQUIRED_SOURCE_IDS - sources.keys())
+        registry_md = SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+        audit = (COURSE_DOCS / "sources" / "audit-technical.md").read_text(encoding="utf-8")
+        chapter_text = self._all_text()
+        for identifier in self.REQUIRED_SOURCE_IDS:
+            with self.subTest(source=identifier):
+                self.assertIn(identifier, registry_md)
+                self.assertIn(identifier, audit)
+                self.assertIn(identifier, chapter_text)
+        pinpoint_patterns = {
+            "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01": r"pp\. 15–20",
+            "SRC-AESA-MAF-PRACTICAL-GU05-ED01": r"p\. 9",
+            "SRC-FAA-PHAK-25C-CH4": r"pp\. 4-1–4-3.+4-5–4-10",
+            "SRC-FAA-PHAK-25C-CH5": r"pp\. 5-1–5-20.+5-25–5-38",
+            "SRC-FAA-PHAK-25C-CH6": r"pp\. 6-2–6-12",
+            "SRC-FAA-AFH-3C-CH5": r"pp\. 5-12–5-27",
+            "SRC-FAA-AFH-3C-CH17": r"pp\. 17-7–17-8.+17-12–17-15",
+        }
+        for identifier, pattern in pinpoint_patterns.items():
+            self.assertRegex(sources[identifier]["scope"], pattern)
+        self.assertRegex(sources["SRC-NACA-TR-824"]["scope"], r"(?is)Reynolds.{0,120}(?:поверхност|шероховат).{0,120}(?:закрыл|high-lift)")
+
+    def test_task9_source_metadata_and_current_transition_caveats(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))}
+        lift = sources["SRC-NASA-GRC-LIFT-2024"]
+        self.assertIn("lift-equation", lift["url"])
+        self.assertIn("10.07.2024", lift["edition"])
+        addendum = sources["SRC-FAA-AFH-3C-ADDENDUM-2025"]
+        self.assertIn("20.10.2025", addendum["edition"])
+        self.assertRegex(addendum["scope"], r"(?is)chapter\s*17.{0,120}(?:remove|удален|исключен)")
+        chapter6 = _plain_markdown(self._read(TASK9_CHAPTERS[5]))
+        self.assertRegex(chapter6, r"(?is)Addendum.{0,100}20\.10\.2025.{0,200}(?:удален|исключен|remov)")
+        all_text = _plain_markdown(self._all_text())
+        self.assertRegex(all_text, r"(?is)банк.{0,100}вопрос.{0,200}GU09.{0,200}(?:не.{0,50}подтверж|пересмотр|после\s+лета)")
+
+    def test_task9_audited_physics_nuances_are_explicit(self):
+        lift_drag = _plain_markdown(self._read(TASK9_CHAPTERS[1]))
+        stall = _plain_markdown(self._read(TASK9_CHAPTERS[3]))
+        propeller = _plain_markdown(self._read(TASK9_CHAPTERS[4]))
+        for pattern in (
+            r"(?is)(?:профил|section).{0,160}не.{0,80}(?:поляр|polar).{0,100}(?:самол[её]т|aircraft)",
+            r"(?is)(?:коэффициент|coefficient).{0,100}не.{0,60}(?:постоян|констант)",
+            r"(?is)профильн\w+\s+сопротивлен.{0,140}не.{0,60}(?:тождествен|равн|всё).{0,100}паразитн",
+        ):
+            self.assertRegex(lift_drag, re.compile(pattern))
+        for pattern in (
+            r"(?is)(?:IAS|CAS).{0,160}(?:динамическ|stall).{0,160}(?:TAS|истинн).{0,180}(?:плотност|высот)",
+            r"(?is)VA.{0,180}(?:однократ|один\s+раз).{0,100}(?:одн\w+\s+ос|one\s+axis).{0,160}(?:плавн|smooth).{0,100}(?:воздух|air)",
+            r"(?is)VA.{0,160}(?:повторн|repeated|реверс|revers|одноврем|simultaneous).{0,160}не.{0,100}(?:защищ|покрыва)",
+        ):
+            self.assertRegex(stall, re.compile(pattern))
+        self.assertRegex(propeller, r"(?is)(?:направлен|direction).{0,180}(?:вращен|rotation).{0,180}(?:установ|installation).{0,180}не.{0,100}универс")
+
+    def test_task9_high_risk_scenarios_forbid_unsupervised_experiment(self):
+        text = self._all_text()
+        for identifier in ("SCN-PF-01", "SCN-PF-02", "SCN-PF-04", "SCN-PF-06"):
+            match = re.search(
+                rf"(?ms)^###\s+{identifier}\s+—.*?(?=^###\s+SCN-PF-|^##\s+)",
+                text,
+            )
+            self.assertIsNotNone(match, identifier)
+            self.assertRegex(
+                _plain_markdown(match.group(0)),
+                r"(?is)не.{0,100}(?:самостоятель|эксперимент|практиков|отрабатыв)",
+                identifier,
+            )
+
+    def test_task9_prose_and_questions_are_russian_first(self):
+        violations = []
+        for relative_path in TASK9_CHAPTERS:
+            text = self._read(relative_path).split("## Источники", 1)[0]
+            for line_number, line in enumerate(text.splitlines(), 1):
+                if not line.strip() or re.match(r"^\s*\[[^]]+\]:", line):
+                    continue
+                plain = _plain_markdown(line)
+                plain = re.sub(
+                    r"\((?:English|EN):.*?(?:español|ES):.*?\)",
+                    " ",
+                    plain,
+                    flags=re.IGNORECASE,
+                )
+                latin_words = re.findall(r"(?<![A-Za-z])[A-Za-z][A-Za-z'-]{2,}(?![A-Za-z])", plain)
+                russian_words = re.findall(r"(?<![А-Яа-яЁё])[А-Яа-яЁё][А-Яа-яЁё-]{2,}(?![А-Яа-яЁё])", plain)
+                if len(latin_words) >= 7 and len(latin_words) > 2 * max(1, len(russian_words)):
+                    violations.append(
+                        f"{relative_path}:{line_number}: {' '.join(latin_words[:10])}"
+                    )
+        self.assertEqual([], violations)
+
+    def test_task9_reviewed_distractors_stay_in_the_aerodynamic_domain(self):
+        review_text = "\n".join(
+            self._read(path).split("## Контрольные вопросы", 1)[1].split("## Источники", 1)[0]
+            for path in TASK9_CHAPTERS
+        )
+        for pattern in (
+            r"(?i)paint\s+colou?r|цвет\w*\s+окраск",
+            r"(?i)radio\s+frequency|радиочастот",
+            r"(?i)magnetic\s+variation|магнитн\w+\s+склонен",
+            r"(?i)registration\s+document",
+            r"(?i)расстояни\w+\s+самол[её]т\w+\s+до\s+поверхност\w+\s+ВПП",
+            r"(?i)alternate\w*\s+rotation\s+direction\s+every\s+revolution",
+        ):
+            with self.subTest(pattern=pattern):
+                self.assertNotRegex(review_text, pattern)
+
+    def test_task9_lapl_and_ppl_share_subject_081_theory_depth(self):
+        for relative_path in TASK9_CHAPTERS:
+            text = self._read(relative_path)
+            applicability = text.split("## Карта применимости", 1)[1].split("## Теория", 1)[0]
+            with self.subTest(path=relative_path):
+                self.assertRegex(
+                    _plain_markdown(applicability),
+                    r"(?is)LAPL.{0,100}PPL.{0,160}(?:одинаков|общ).{0,160}(?:глубин|предмет|subject\s+081)",
+                )
+                self.assertNotRegex(
+                    applicability,
+                    r"(?is)\[PPL\s+—\s+РАСШИРЕНИЕ\].{0,180}(?:добавлен|глубже|расширенн)",
+                )
+
+    def test_task9_mobile_arrowheads_and_labels_are_bounded(self):
+        for relative_path in TASK9_SVGS:
+            root = ET.parse(ROOT / relative_path).getroot()
+            ns = "{http://www.w3.org/2000/svg}"
+            markers = list(root.iter(f"{ns}marker"))
+            with self.subTest(path=relative_path):
+                self.assertTrue(markers)
+                for marker in markers:
+                    self.assertEqual("userSpaceOnUse", marker.attrib.get("markerUnits"))
+                    self.assertLessEqual(float(marker.attrib["markerWidth"]), 20)
+                    self.assertLessEqual(float(marker.attrib["markerHeight"]), 20)
+        angle = " ".join(ET.parse(ROOT / TASK9_SVGS[1]).getroot().itertext())
+        self.assertIn("набегающий поток", angle)
+        self.assertRegex(angle, r"угол атаки.{0,20}AoA|AoA.{0,20}угол атаки")
+
+    def test_task9_audit_heading_precedes_its_own_bullets(self):
+        audit = (COURSE_DOCS / "sources" / "audit-technical.md").read_text(encoding="utf-8")
+        task9 = audit.index("## Task 9 — Principles of flight evidence map")
+        dangerous = audit.index("## Dangerous simplifications to prohibit")
+        first_bullet = audit.index("- **“Air on top must meet air below")
+        self.assertLess(task9, dangerous)
+        self.assertLess(dangerous, first_bullet)
+        self.assertNotIn("\n## ", audit[dangerous + 3 : first_bullet])
+
+    def test_task9_source_change_control_uses_current_metadata(self):
+        sources = {
+            item["id"]: item
+            for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        self.assertEqual(
+            "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/lift-equation/",
+            sources["SRC-NASA-GRC-LIFT-2024"]["url"],
+        )
+        addendum_scope = sources["SRC-FAA-AFH-3C-ADDENDUM-2025"]["scope"]
+        self.assertRegex(
+            addendum_scope,
+            r"(?is)(?:will\s+be\s+removed|будет\s+(?:удален|исключен)|"
+            r"планирует(?:ся)?\s+(?:удалить|исключить)|schedules?.{0,40}removal)",
+        )
+        self.assertNotRegex(
+            addendum_scope,
+            r"(?is)(?:states?\s+that\s+chapter\s+17\s+is\s+removed|"
+            r"chapter\s+17\s+removal\s+prevents|глава\s+17\s+(?:уже\s+)?(?:удалена|исключена))",
+        )
+        evidence = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in (
+                SOURCE_REGISTRY,
+                SOURCE_REGISTRY_MD,
+                COURSE_DOCS / "sources" / "audit-technical.md",
+                ROOT / TASK9_CHAPTERS[5],
+            )
+        )
+        self.assertNotIn("NASA TM X-73228", evidence)
+
+    def test_task9_turn_and_stall_models_state_their_assumptions(self):
+        stall_markdown = self._read(TASK9_CHAPTERS[3])
+        stall = _plain_markdown(stall_markdown)
+        self.assertRegex(stall, r"n\s*=\s*1\s*/\s*cos\s*\(?phi\)?")
+        self.assertRegex(
+            stall,
+            r"(?is)(?:вертикальн\w+\s+составляющ\w+\s+тяги|vertical\s+thrust).{0,180}"
+            r"(?:друг\w+\s+вертикальн\w+\s+сил|other\s+vertical\s+forces)",
+        )
+        self.assertRegex(stall, r"(?:sqrt\s*\(?n\)?|√n)")
+        self.assertRegex(
+            stall_markdown,
+            r"(?is)n\s*>\s*0.{0,260}(?:одинаков\w+|same).{0,120}"
+            r"(?:плотност|density).{0,160}"
+            r"(?:баз\w+\s+скорост|speed\s+basis|IAS|CAS|TAS)",
+        )
+
+    def test_task9_induced_drag_and_departures_are_explained(self):
+        lift_drag = _plain_markdown(self._read(TASK9_CHAPTERS[1]))
+        stall = _plain_markdown(self._read(TASK9_CHAPTERS[3]))
+        self.assertRegex(
+            lift_drag,
+            r"(?is)(?:циркуляц|circulation).{0,260}"
+            r"(?:индуктивн\w+\s+сопротивлен|induced\s+drag)",
+        )
+        self.assertRegex(
+            stall,
+            r"(?is)(?:спиральн\w+\s+пикирован|spiral\s+dive).{0,280}"
+            r"(?:штопор|spin).{0,280}(?:различ|не\s+одно|не\s+тождествен)",
+        )
+
+    def test_task9_wind_energy_claim_is_bounded_to_steady_uniform_wind(self):
+        gusts = _plain_markdown(self._read(TASK9_CHAPTERS[5]))
+        self.assertRegex(
+            gusts,
+            r"(?is)(?:кинетическ\w+\s+энерг|energy).{0,240}"
+            r"(?:постоянн\w+\s+и\s+однородн\w+\s+ветр|steady\s+uniform\s+wind)",
+        )
+        self.assertRegex(
+            gusts,
+            r"(?is)(?:порыв|gust|сдвиг\w+\s+ветр|wind\s+shear).{0,260}"
+            r"(?:воздушн\w+\s+скорост|air-relative|относительн\w+\s+воздух)",
+        )
+
+    def test_task9_diagram_geometry_encodes_the_physical_relationships(self):
+        ns = "{http://www.w3.org/2000/svg}"
+
+        drag = ET.parse(ROOT / "docs/assets/diagrams/drag-polar.svg").getroot()
+        curves = {}
+        for identifier in ("induced-curve", "parasite-curve", "total-curve"):
+            node = next(item for item in drag.iter() if item.attrib.get("id") == identifier)
+            self.assertEqual(f"{ns}polyline", node.tag)
+            curves[identifier] = [
+                tuple(float(value) for value in point.split(","))
+                for point in node.attrib["points"].split()
+            ]
+        self.assertEqual(
+            [point[0] for point in curves["induced-curve"]],
+            [point[0] for point in curves["parasite-curve"]],
+        )
+        self.assertEqual(
+            [point[0] for point in curves["induced-curve"]],
+            [point[0] for point in curves["total-curve"]],
+        )
+        for induced, parasite, total in zip(
+            curves["induced-curve"], curves["parasite-curve"], curves["total-curve"]
+        ):
+            self.assertLess(total[1], min(induced[1], parasite[1]))
+
+        angle = ET.parse(ROOT / "docs/assets/diagrams/angle-of-attack.svg").getroot()
+        rays = {
+            identifier: next(item for item in angle.iter() if item.attrib.get("id") == identifier)
+            for identifier in ("chord-line", "attitude-line", "flight-path-line")
+        }
+        ray_origins = {
+            (float(node.attrib["x1"]), float(node.attrib["y1"]))
+            for node in rays.values()
+        }
+        self.assertEqual(1, len(ray_origins))
+        expected_arcs = {
+            "aoa-arc": "flight-path-line chord-line",
+            "attitude-arc": "horizon attitude-line",
+            "flight-path-arc": "horizon flight-path-line",
+        }
+        for identifier, relationship in expected_arcs.items():
+            node = next(item for item in angle.iter() if item.attrib.get("id") == identifier)
+            self.assertEqual(relationship, node.attrib.get("data-between"))
+
+        axes = ET.parse(ROOT / "docs/assets/diagrams/three-axis-stability.svg").getroot()
+        cg = next(item for item in axes.iter() if item.attrib.get("id") == "centre-of-gravity")
+        cx, cy = float(cg.attrib["cx"]), float(cg.attrib["cy"])
+        for identifier in ("roll-axis", "pitch-axis", "yaw-axis"):
+            node = next(item for item in axes.iter() if item.attrib.get("id") == identifier)
+            x1, y1, x2, y2 = (
+                float(node.attrib[name]) for name in ("x1", "y1", "x2", "y2")
+            )
+            cross_product = (cx - x1) * (y2 - y1) - (cy - y1) * (x2 - x1)
+            self.assertAlmostEqual(0.0, cross_product, places=6)
+
+        envelope = ET.parse(ROOT / "docs/assets/diagrams/vn-envelope.svg").getroot()
+        one_g = next(item for item in envelope.iter() if item.attrib.get("id") == "one-g-line")
+        gust = next(item for item in envelope.iter() if item.attrib.get("id") == "gust-boundary")
+        self.assertEqual(one_g.attrib["y1"], one_g.attrib["y2"])
+        self.assertEqual("one-g-line", gust.attrib.get("data-reference"))
+        one_g_y = float(one_g.attrib["y1"])
+        gust_points = [
+            (float(x), float(y))
+            for _, x, y in re.findall(
+                r"([ML])\s*([0-9.]+)\s+([0-9.]+)", gust.attrib["d"]
+            )
+        ]
+        self.assertEqual(3, len(gust_points))
+        self.assertEqual(one_g_y, gust_points[0][1])
+        self.assertGreater(gust_points[1][0], gust_points[0][0])
+        self.assertEqual(gust_points[1][0], gust_points[2][0])
+        self.assertLess(gust_points[1][1], one_g_y)
+        self.assertGreater(gust_points[2][1], one_g_y)
+
+    def test_task9_chapters_two_to_four_are_genuinely_russian_first(self):
+        official_phrases = (
+            "Principios de Vuelo",
+            "Performance y Planificación Vuelo",
+            "Conocimiento General de la Aeronave",
+            "Procedimientos Operacionales",
+        )
+        forbidden_unexplained = re.compile(
+            r"(?i)\b(?:control\s+forces?|coupling|trim\s+response|spin\s+awareness)\b"
+        )
+        for relative_path in TASK9_CHAPTERS[1:4]:
+            raw = self._read(relative_path).split("## Источники", 1)[0]
+            visible = re.sub(r"```.*?```|`[^`]*`", " ", raw, flags=re.DOTALL)
+            visible = re.sub(
+                r"\((?:English|EN):.*?(?:español|ES):.*?\)",
+                " ",
+                visible,
+                flags=re.IGNORECASE,
+            )
+            visible = re.sub(r"SRC-[A-Z0-9-]+", " ", visible)
+            for phrase in official_phrases:
+                visible = visible.replace(phrase, " ")
+            visible = _plain_markdown(visible)
+            latin = re.findall(
+                r"(?<![A-Za-z])[A-Za-z][A-Za-z'-]{2,}(?![A-Za-z])", visible
+            )
+            russian = re.findall(
+                r"(?<![А-Яа-яЁё])[А-Яа-яЁё][А-Яа-яЁё-]{2,}(?![А-Яа-яЁё])",
+                visible,
+            )
+            with self.subTest(path=relative_path):
+                self.assertLessEqual(
+                    len(latin) * 100 / max(1, len(russian)),
+                    25.0,
+                    f"Latin={len(latin)}, Russian={len(russian)}",
+                )
+                self.assertNotRegex(visible, forbidden_unexplained)
+                self.assertNotRegex(
+                    visible,
+                    r"(?<![A-Za-z])(?:[A-Za-z][A-Za-z'-]{2,}\s+){2}"
+                    r"[A-Za-z][A-Za-z'-]{2,}(?![A-Za-z])",
+                )
+
+        link_counts = {
+            path: self._read(path).count("../reference/glossary.md#")
+            for path in (TASK9_CHAPTERS[1], TASK9_CHAPTERS[3])
+        }
+        self.assertLessEqual(link_counts[TASK9_CHAPTERS[1]], 90, link_counts)
+        self.assertLessEqual(link_counts[TASK9_CHAPTERS[3]], 90, link_counts)
+
+    def test_task9_propeller_rotor_does_not_link_to_mountain_wave_rotor(self):
+        propeller = self._read(TASK9_CHAPTERS[4])
+        gyroscopic = propeller.split("#### Гироскопическая реакция", 1)[1].split(
+            "### Четыре эффекта", 1
+        )[0]
+        self.assertNotIn("#term-rotor", gyroscopic)
+        self.assertRegex(
+            _plain_markdown(gyroscopic),
+            r"(?is)(?:вращающ\w+|ж[её]стк\w+).{0,80}ротор",
+        )
+
+    def test_task9_aoa_diagram_declares_its_chord_axis_assumption(self):
+        root = ET.parse(ROOT / "docs/assets/diagrams/angle-of-attack.svg").getroot()
+        chord = next(item for item in root.iter() if item.attrib.get("id") == "chord-line")
+        attitude = next(
+            item for item in root.iter() if item.attrib.get("id") == "attitude-line"
+        )
+        coordinates = ("x1", "y1", "x2", "y2")
+        self.assertEqual(
+            tuple(chord.attrib[name] for name in coordinates),
+            tuple(attitude.attrib[name] for name in coordinates),
+        )
+        words = " ".join(root.itertext())
+        self.assertRegex(
+            words,
+            r"(?is)хорд\w*.{0,60}(?:совпада|принят\w+\s+за).{0,80}"
+            r"(?:продольн\w+\s+(?:ось|баз)|лини\w+\s+тангаж)",
+        )
+
+    def test_task9_every_distractor_uses_the_chapter_aerodynamic_domain(self):
+        chapter_domains = (
+            r"(?i)(?:воздух|поток|давлен|импульс|сил|момент|Бернул|Ньютон|"
+            r"погранич|свал|крыл|самол|скорост|тяга|вес|surface|flow|lift|drag|stall)",
+            r"(?i)(?:угол|AoA|тангаж|траектор|поток|скорост|коэффициент|CL|"
+            r"плотност|площад|крыл|подъ[её]мн|сопротив|индуктив|паразит|планир|"
+            r"высот|расстоян|ветр|закрыл|экран|масса|самол|flap|lift|drag|stall)",
+            r"(?i)(?:устойчив|колеб|амплитуд|крен|тангаж|рыск|элерон|рул|"
+            r"трим|усили|нагруз|момент|закрыл|управ|ось|самол|lift|drag|stall)",
+            r"(?i)(?:свал|штопор|AoA|угол|скорост|крен|разворот|перегруз|n\b|"
+            r"VA\b|V-n|координац|рыск|асимметр|крыл|самол|AFM|POH)",
+            r"(?i)(?:винт|лопаст|тяга|момент|вращен|стру|P-factor|гироскоп|"
+            r"прецесс|рыск|тангаж|крен|мощност|обор|самол|AFM|POH)",
+            r"(?i)(?:масса|нагрузк|крыл|порыв|ветр|скорост|энерги|высот|"
+            r"рельеф|турбул|заход|ВПП|уход|конфигурац|самол|AFM|POH|W/S)",
+        )
+        for chapter_index, relative_path in enumerate(TASK9_CHAPTERS):
+            for question in parsed_question_blocks(self._read(relative_path)):
+                options = re.findall(
+                    r"(?m)^([A-D])\.\s+(.+?)<br>\s*$", question["body"]
+                )
+                self.assertEqual(4, len(options), question["id"])
+                answer = re.search(
+                    r"\*\*Правильный ответ:\*\*\s*([A-D])", question["body"]
+                ).group(1)
+                for letter, option in options:
+                    if letter == answer:
+                        continue
+                    with self.subTest(question=question["id"], option=letter):
+                        self.assertRegex(
+                            _plain_markdown(option), chapter_domains[chapter_index]
+                        )
+
+        focused = {
+            question["id"]: question["body"]
+            for path in TASK9_CHAPTERS
+            for question in parsed_question_blocks(self._read(path))
+        }
+        self.assertNotRegex(focused["Q-PF-004"], r"(?is)(?:ВПП|runway).{0,80}ветр")
+        self.assertNotRegex(focused["Q-PF-008"], r"(?is)площад\w*.{0,80}нул")
+        self.assertNotRegex(focused["Q-PF-010"], r"(?is)перегруз")
+
+    def test_task9_distractor_does_not_negate_its_own_selected_control_effect(self):
+        questions = {
+            question["id"]: question
+            for path in TASK9_CHAPTERS
+            for question in parsed_question_blocks(self._read(path))
+        }
+        option_c = re.search(
+            r"(?m)^C\.\s+(.+?)<br>\s*$", questions["Q-PF-015"]["body"]
+        ).group(1)
+        self.assertNotRegex(
+            _plain_markdown(option_c),
+            r"(?is)(?:рул|элерон|интерцептор).{0,120}"
+            r"(?:исключ|не\s+(?:созда|вызыва)).{0,60}крен",
+        )
+        rationale = re.search(
+            r"(?is)\*\*Почему главный отвлекающий вариант неверен:\*\*\s*(.+)",
+            questions["Q-PF-015"]["body"],
+        ).group(1)
+        self.assertRegex(_plain_markdown(rationale), r"(?i)интерцептор")
+        self.assertNotRegex(_plain_markdown(rationale), r"(?i)рул\w*\s+направлен")
+
+    def test_task9_terms_are_registered_with_ru_en_es_definitions(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))}
+        required = {
+            "relative airflow", "boundary layer", "lift", "drag", "glide ratio",
+            "static stability", "dynamic stability", "adverse yaw", "critical angle of attack",
+            "manoeuvring speed", "P-factor", "wing loading", "ground effect",
+        }
+        self.assertTrue(required <= terms.keys(), required - terms.keys())
+        glossary = GLOSSARY.read_text(encoding="utf-8")
+        for canonical in required:
+            term = terms[canonical]
+            with self.subTest(term=canonical):
+                for key in ("russian", "english", "spanish", "definition", "anchor", "defined_in"):
+                    self.assertTrue(term[key], f"{canonical}: {key}")
+                self.assertIn(f'id="{term["anchor"]}"', glossary)
+                self.assertRegex(term["russian"], r"[А-Яа-яЁё]")
+                self.assertRegex(term["spanish"], r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]")
+
+    def test_task9_svgs_are_accessible_mobile_and_geometric(self):
+        required_ids = (
+            {"flight-path", "relative-airflow", "lift-vector", "drag-vector", "thrust-vector", "weight-vector"},
+            {"chord-line", "relative-airflow", "aoa-arc", "attitude-line", "flight-path-line"},
+            {"parasite-curve", "induced-curve", "total-curve"},
+            {"roll-axis", "pitch-axis", "yaw-axis", "aileron", "elevator", "rudder"},
+            {"positive-boundary", "negative-boundary", "gust-boundary", "load-axis", "speed-axis"},
+        )
+        for relative_path, semantic_ids in zip(TASK9_SVGS, required_ids):
+            self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+            root = ET.parse(ROOT / relative_path).getroot()
+            ns = "{http://www.w3.org/2000/svg}"
+            with self.subTest(path=relative_path):
+                self.assertEqual(f"{ns}svg", root.tag)
+                self.assertEqual("img", root.attrib.get("role"))
+                self.assertTrue(root.attrib.get("aria-labelledby"))
+                self.assertIsNotNone(root.find(f"{ns}title"))
+                self.assertIsNotNone(root.find(f"{ns}desc"))
+                self.assertFalse(list(root.iter(f"{ns}image")))
+                _, _, width, _ = (float(value) for value in root.attrib["viewBox"].split())
+                self.assertLessEqual(width, 760)
+                sizes = [float(node.attrib["font-size"].removesuffix("px")) for node in root.iter(f"{ns}text") if "font-size" in node.attrib]
+                self.assertTrue(sizes)
+                self.assertGreaterEqual(min(sizes) * 340 / width, 13.0)
+                ids = {node.attrib.get("id") for node in root.iter() if node.attrib.get("id")}
+                self.assertTrue(semantic_ids <= ids, semantic_ids - ids)
+                self.assertGreaterEqual(sum(1 for node in root.iter() if node.tag in {f"{ns}path", f"{ns}line", f"{ns}polyline", f"{ns}polygon"}), 8)
+                words = " ".join(root.itertext())
+                self.assertRegex(words, r"[А-Яа-яЁё]")
+                self.assertIn("КОНЦЕПТУАЛЬНО — НЕ ДЛЯ ПОЛЁТА", words)
 
 
 class GU09MigrationTests(unittest.TestCase):

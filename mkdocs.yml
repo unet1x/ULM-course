@@ -61,6 +61,13 @@ nav:
       - VOR, DME и ADF для Part-FCL: 05-navigation/05-vor-dme-adf-ppl.md
       - GNSS и перекрёстная проверка: 05-navigation/06-gnss-and-cross-check.md
       - Потеря ориентировки и уход с маршрута: 05-navigation/07-lost-diversion-border.md
+  - Принципы полёта:
+      - Поток, силы и моменты: 06-principles-of-flight/01-flow-forces-moments.md
+      - Подъёмная сила, сопротивление и polar: 06-principles-of-flight/02-lift-drag-polar.md
+      - Устойчивость и органы управления: 06-principles-of-flight/03-stability-controls.md
+      - Stall, spin awareness и перегрузка: 06-principles-of-flight/04-stall-spin-load-factor.md
+      - Винт и связанные моменты: 06-principles-of-flight/05-propeller-effects.md
+      - ULM — малая инерция, порывы и энергия: 06-principles-of-flight/06-ulm-low-inertia-gusts.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md

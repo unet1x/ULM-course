@@ -1582,5 +1582,148 @@
     "definition": "Pérdida de la convocatoria correspondiente — точная формулировка последствия неявки по base 5 Resolución 11.04.2019: теряется данная экзаменационная возможность. Само выражение не устанавливает числовой максимум попыток ULM.",
     "anchor": "term-perdida-de-convocatoria",
     "defined_in": "docs/reference/glossary.md#term-perdida-de-convocatoria"
+  },
+  {
+    "id": "term-relative-airflow",
+    "canonical": "relative airflow",
+    "english": "relative airflow",
+    "spanish": "viento relativo",
+    "russian": "набегающий поток относительно самолёта",
+    "abbreviation": null,
+    "definition": "Relative airflow — локальное направление движения воздуха относительно рассматриваемой части самолёта; в базовой модели оно противоположно траектории этой части через воздушную массу, но винтовая струя, порыв и вращение создают локальные отличия.",
+    "anchor": "term-relative-airflow",
+    "defined_in": "docs/reference/glossary.md#term-relative-airflow"
+  },
+  {
+    "id": "term-boundary-layer",
+    "canonical": "boundary layer",
+    "english": "boundary layer",
+    "spanish": "capa límite",
+    "russian": "пограничный слой",
+    "abbreviation": null,
+    "definition": "Boundary layer — тонкая вязкая область у поверхности, где скорость потока изменяется от нуля на стенке до скорости внешнего течения. Его состояние и отделение влияют на сопротивление, подъёмную силу и stall.",
+    "anchor": "term-boundary-layer",
+    "defined_in": "docs/reference/glossary.md#term-boundary-layer"
+  },
+  {
+    "id": "term-lift",
+    "canonical": "lift",
+    "english": "lift",
+    "spanish": "sustentación",
+    "russian": "подъёмная сила",
+    "abbreviation": "L",
+    "definition": "Lift — составляющая результирующей аэродинамической силы, перпендикулярная направлению невозмущённого относительного потока. Она не обязана быть вертикальной и не является синонимом веса.",
+    "anchor": "term-lift",
+    "defined_in": "docs/reference/glossary.md#term-lift"
+  },
+  {
+    "id": "term-drag",
+    "canonical": "drag",
+    "english": "drag",
+    "spanish": "resistencia aerodinámica",
+    "russian": "аэродинамическое сопротивление",
+    "abbreviation": "D",
+    "definition": "Drag — составляющая результирующей аэродинамической силы, параллельная невозмущённому относительному потоку и направленная против относительного движения самолёта через воздух.",
+    "anchor": "term-drag",
+    "defined_in": "docs/reference/glossary.md#term-drag"
+  },
+  {
+    "id": "term-glide-ratio",
+    "canonical": "glide ratio",
+    "english": "glide ratio",
+    "spanish": "fineza o relación de planeo",
+    "russian": "аэродинамическое качество при планировании",
+    "abbreviation": "L/D",
+    "definition": "Glide ratio в устойчивой учебной модели — отношение пройденного в спокойном воздухе горизонтального расстояния к потерянной высоте, связанное с L/D. Реальная дальность над землёй зависит также от ветра, режима, конфигурации и данных AFM/POH.",
+    "anchor": "term-glide-ratio",
+    "defined_in": "docs/reference/glossary.md#term-glide-ratio"
+  },
+  {
+    "id": "term-static-stability",
+    "canonical": "static stability",
+    "english": "static stability",
+    "spanish": "estabilidad estática",
+    "russian": "статическая устойчивость",
+    "abbreviation": null,
+    "definition": "Static stability описывает начальную тенденцию после малого возмущения: возвращаться к исходному состоянию, оставаться в новом или удаляться дальше. Она не описывает последующее затухание во времени.",
+    "anchor": "term-static-stability",
+    "defined_in": "docs/reference/glossary.md#term-static-stability"
+  },
+  {
+    "id": "term-dynamic-stability",
+    "canonical": "dynamic stability",
+    "english": "dynamic stability",
+    "spanish": "estabilidad dinámica",
+    "russian": "динамическая устойчивость",
+    "abbreviation": null,
+    "definition": "Dynamic stability описывает развитие движения во времени после возмущения: затухают, сохраняются или нарастают колебания. Она оценивается после определения начальной статической тенденции.",
+    "anchor": "term-dynamic-stability",
+    "defined_in": "docs/reference/glossary.md#term-dynamic-stability"
+  },
+  {
+    "id": "term-adverse-yaw",
+    "canonical": "adverse yaw",
+    "english": "adverse yaw",
+    "spanish": "guiñada adversa",
+    "russian": "обратное рыскание при создании крена",
+    "abbreviation": null,
+    "definition": "Adverse yaw — начальная тенденция носа рыскать против желаемого разворота из-за разности сопротивления и подъёмной силы на полукрыльях при отклонении элеронов. Сила эффекта и требуемая координация зависят от самолёта и режима.",
+    "anchor": "term-adverse-yaw",
+    "defined_in": "docs/reference/glossary.md#term-adverse-yaw"
+  },
+  {
+    "id": "term-critical-angle-of-attack",
+    "canonical": "critical angle of attack",
+    "english": "critical angle of attack",
+    "spanish": "ángulo de ataque crítico",
+    "russian": "критический угол атаки",
+    "abbreviation": "critical AoA",
+    "definition": "Critical angle of attack — для заданных профиля, состояния поверхности, числа Рейнольдса и конфигурации область угла атаки, после превышения которой отделение потока приводит к характерному падению коэффициента подъёмной силы. Это не один универсальный угол для всех самолётов.",
+    "anchor": "term-critical-angle-of-attack",
+    "defined_in": "docs/reference/glossary.md#term-critical-angle-of-attack"
+  },
+  {
+    "id": "term-manoeuvring-speed",
+    "canonical": "manoeuvring speed",
+    "english": "design manoeuvring speed",
+    "spanish": "velocidad de maniobra",
+    "russian": "расчётная манёвренная скорость",
+    "abbreviation": "VA",
+    "definition": "Manoeuvring speed VA — обозначенная для конкретного самолёта и условий скорость, связанная с расчётным сочетанием аэродинамического stall и предельной манёвренной нагрузки. Она не защищает от любых порывов, повторных полных или одновременных разноосных отклонений и не переносится между массами или самолётами.",
+    "anchor": "term-manoeuvring-speed",
+    "defined_in": "docs/reference/glossary.md#term-manoeuvring-speed"
+  },
+  {
+    "id": "term-p-factor",
+    "canonical": "P-factor",
+    "english": "asymmetric blade effect or P-factor",
+    "spanish": "efecto asimétrico de las palas o factor P",
+    "russian": "асимметрия тяги диска винта",
+    "abbreviation": "P-factor",
+    "definition": "P-factor — асимметрия тяги разных участков диска винта при наклонном набегании потока. Направление и величина зависят от направления вращения, установки, угла диска, скорости и мощности; универсального направления рыскания нет.",
+    "anchor": "term-p-factor",
+    "defined_in": "docs/reference/glossary.md#term-p-factor"
+  },
+  {
+    "id": "term-wing-loading",
+    "canonical": "wing loading",
+    "english": "wing loading",
+    "spanish": "carga alar",
+    "russian": "удельная нагрузка на крыло",
+    "abbreviation": "W/S",
+    "definition": "Wing loading W/S — отношение веса W к выбранной опорной площади крыла S. Низкая масса сама по себе не доказывает низкую нагрузку на крыло, хорошую реакцию на порыв или лучшее планирование.",
+    "anchor": "term-wing-loading",
+    "defined_in": "docs/reference/glossary.md#term-wing-loading"
+  },
+  {
+    "id": "term-ground-effect",
+    "canonical": "ground effect",
+    "english": "ground effect",
+    "spanish": "efecto suelo",
+    "russian": "экранный эффект у поверхности",
+    "abbreviation": null,
+    "definition": "Ground effect — изменение вихревой системы, induced drag и связанного downwash при полёте близко к поверхности. Оно может уменьшить требуемую мощность и изменить ощущение выравнивания, но не улучшает возможности самолёта после выхода из этой области.",
+    "anchor": "term-ground-effect",
+    "defined_in": "docs/reference/glossary.md#term-ground-effect"
   }
 ]

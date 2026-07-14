@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" aria-labelledby="title desc">
+  <title id="title">Четыре силы относительно траектории и набегающего потока</title>
+  <desc id="desc">Концептуальная схема самолёта на наклонной траектории: подъёмная сила перпендикулярна потоку, сопротивление параллельно ему, тяга показана вдоль оси самолёта, вес вертикален.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="18" markerHeight="18" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"/>
+    </marker>
+  </defs>
+  <rect width="720" height="520" fill="#f8fafc"/>
+  <text x="360" y="38" text-anchor="middle" font-size="30" font-family="sans-serif" font-weight="700" fill="#102a43">КОНЦЕПТУАЛЬНО — НЕ ДЛЯ ПОЛЁТА</text>
+  <g id="flight-path" stroke="#2563eb" stroke-width="5" fill="none">
+    <line x1="90" y1="395" x2="640" y2="250" marker-end="url(#arrow)"/>
+  </g>
+  <text x="680" y="350" text-anchor="end" font-size="30" font-family="sans-serif" fill="#1d4ed8">траектория / path</text>
+  <g id="aircraft" transform="translate(360 320) rotate(-15)" fill="#334e68" stroke="#102a43" stroke-width="3">
+    <path d="M-112 0 L92 -10 L125 0 L92 10 L-112 0 Z"/>
+    <path d="M-12 -8 L32 -78 L58 -74 L37 -5 Z"/>
+    <path d="M-12 8 L32 78 L58 74 L37 5 Z"/>
+    <path d="M-88 -3 L-62 -40 L-43 -35 L-55 -1 Z"/>
+    <path d="M-88 3 L-62 40 L-43 35 L-55 1 Z"/>
+  </g>
+  <g id="relative-airflow" stroke="#7c3aed" stroke-width="6" fill="none">
+    <line x1="610" y1="235" x2="422" y2="285" marker-end="url(#arrow)"/>
+  </g>
+  <text x="680" y="195" text-anchor="end" font-size="30" font-family="sans-serif" fill="#6d28d9">набегающий поток</text>
+  <g id="lift-vector" stroke="#047857" stroke-width="7" fill="none">
+    <line x1="360" y1="320" x2="292" y2="86" marker-end="url(#arrow)"/>
+  </g>
+  <text x="280" y="165" text-anchor="end" font-size="30" font-family="sans-serif" fill="#047857">подъёмная сила L</text>
+  <g id="drag-vector" stroke="#b45309" stroke-width="7" fill="none">
+    <line x1="360" y1="320" x2="172" y2="370" marker-end="url(#arrow)"/>
+  </g>
+  <text x="68" y="420" font-size="30" font-family="sans-serif" fill="#92400e">сопротивление D</text>
+  <g id="thrust-vector" stroke="#dc2626" stroke-width="7" fill="none">
+    <line x1="360" y1="320" x2="560" y2="266" marker-end="url(#arrow)"/>
+  </g>
+  <text x="510" y="235" font-size="30" font-family="sans-serif" fill="#b91c1c">тяга T</text>
+  <g id="weight-vector" stroke="#111827" stroke-width="7" fill="none">
+    <line x1="360" y1="320" x2="360" y2="482" marker-end="url(#arrow)"/>
+  </g>
+  <text x="385" y="472" font-size="30" font-family="sans-serif" fill="#111827">вес W</text>
+</svg>

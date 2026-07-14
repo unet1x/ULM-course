@@ -91,3 +91,10 @@
 | DME | [distance measuring equipment (DME)](glossary.md#term-distance-measuring-equipment-dme) | дальномерное оборудование |
 | ADF | [automatic direction finder (ADF)](glossary.md#term-automatic-direction-finder-adf) | автоматический радиокомпас |
 | NDB | [non-directional beacon (NDB)](glossary.md#term-non-directional-beacon-ndb) | ненаправленный радиомаяк |
+| L | [lift](glossary.md#term-lift) | подъёмная сила, перпендикулярная относительному потоку |
+| D | [drag](glossary.md#term-drag) | аэродинамическое сопротивление вдоль относительного потока |
+| L/D | [glide ratio](glossary.md#term-glide-ratio) | отношение подъёмной силы к сопротивлению; в ограниченной модели связано с качеством планирования |
+| VA | [manoeuvring speed](glossary.md#term-manoeuvring-speed) | расчётная манёвренная скорость конкретного самолёта и условий, не универсальная защита |
+| W/S | [wing loading](glossary.md#term-wing-loading) | удельная нагрузка на крыло |
+| critical AoA | [critical angle of attack](glossary.md#term-critical-angle-of-attack) | критический угол атаки для заданных профиля и условий, не универсальное число |
+| P-factor | [P-factor](glossary.md#term-p-factor) | асимметричный эффект лопастей винта; направление зависит от вращения и установки |

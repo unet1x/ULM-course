@@ -6,7 +6,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew",
     "edition": "онлайн-консолидация от 24.02.2026",
     "checked": "2026-07-13",
-    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; AMC1 FCL.115/FCL.120 и AMC1 FCL.210/FCL.215 §§9.1–9.2 задают общую LAPL/PPL navigation theory и radio-navigation depth; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency; удобная публикация сверяется с EUR-Lex"
+    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; AMC1 FCL.115/FCL.120 отсылает LAPL к общей PPL syllabus, а AMC1 FCL.210/FCL.215 §5.1 задаёт subject 081 Principles of Flight и §§9.1–9.2 — navigation theory/radio-navigation depth; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency; удобная публикация сверяется с EUR-Lex"
   },
   {
     "id": "SRC-EASA-SERA-2025",
@@ -114,7 +114,7 @@
     "url": "https://www.seguridadaerea.gob.es/sites/default/files/FOR-ULM-P01-ETI01-GU09_Objetivos_de_aprendizaje_ULM.pdf",
     "edition": "FOR-ULM-P01-ETI01-GU09 Ed.01; страница AESA обновлена 29.05.2026; PDF HTTP Last-Modified 29.05.2026; применимость «Desde publicación»",
     "checked": "2026-07-13",
-    "scope": "Текущие цели обучения ULM; это syllabus целей обучения, а не самостоятельный источник стабильной физики или технических механизмов. Документ содержит 66 страниц, все девять предметов на pp. 7–63, в том числе Navegación, pp. 28–32, и отдельную Habilitación Radiotelefonía на pp. 64–65; аудированная копия SHA-256 52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2. Копия неконтролируемая: перед применением сверять текущую версию на сайте AESA. Аномалии: на p. 66 заголовок GU10 Ed.01, а упомянутого на p. 3 отдельного списка Trazabilidad в доступном 66-страничном PDF нет"
+    "scope": "Текущие цели обучения ULM; это syllabus целей обучения, а не самостоятельный источник стабильной физики или технических механизмов. Документ содержит 66 страниц, все девять предметов на pp. 7–63: Derecho Aéreo pp. 7–14, Principios de Vuelo pp. 15–20, Performance pp. 21–27, Navegación, pp. 28–32, Conocimiento General pp. 33–39, Meteorología pp. 40–48, Procedimientos pp. 49–58, Human Factors pp. 59–62, Comunicaciones p. 63; отдельная Habilitación Radiotelefonía на pp. 64–65. Аудированная копия SHA-256 52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2. Копия неконтролируемая: перед применением сверять текущую версию на сайте AESA. Аномалии: на p. 66 заголовок GU10 Ed.01, а упомянутого на p. 3 отдельного списка Trazabilidad в доступном 66-страничном PDF нет"
   },
   {
     "id": "SRC-AESA-ULM-QUESTION-BANKS",
@@ -493,5 +493,104 @@
     "edition": "Issue 3.6, 09.09.2024",
     "checked": "2026-07-13",
     "scope": "Appendix B pp. 47–48 PDF and RAIM definition p. 60 PDF explain integrity concepts for suitable certified equipment. They do not establish that a consumer tablet has RAIM, SBAS/EGNOS SoL capability or operational approval"
+  },
+  {
+    "id": "SRC-AESA-MAF-PRACTICAL-GU05-ED01",
+    "authority": "AESA",
+    "title": "Programa de formación en vuelo — habilitación de piloto de ULM (MAF)",
+    "url": "https://www.seguridadaerea.gob.es/sites/default/files/FOR-ULM-P01-ETI01-GU05%20Programa%20formaci%C3%B3n%20en%20vuelo%20habilitaci%C3%B3n%20de%20piloto%20de%20ULM%20%28MAF%29.pdf",
+    "edition": "FOR-ULM-P01-ETI01-GU05 Ed.01; uncontrolled copy, checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Practical-training boundary only: p. 9 lists supervised steep-turn, slow-flight, stall recognition/recovery and incipient-spin avoidance exercises. It does not supply a generic written recovery checklist and does not authorise self-training; aircraft limits, approved procedures, instructor and school govern"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH4",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 4 Principles of Flight",
+    "url": "https://www.faa.gov/regulationspolicies/handbooksmanuals/aviation/phak/chapter-4-principles-flight",
+    "edition": "FAA-H-8083-25C (2023), Chapter 4",
+    "checked": "2026-07-13",
+    "scope": "Stable technical pedagogy on printed pp. 4-1–4-3 and 4-5–4-10: forces, pressure/velocity, Newton and Bernoulli relationships, atmosphere and basic flight mechanics. U.S. certification and operating rules are excluded"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH5",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 5 Aerodynamics of Flight",
+    "url": "https://www.faa.gov/regulationspolicies/handbooksmanuals/aviation/phak/chapter-5-aerodynamics-flight",
+    "edition": "FAA-H-8083-25C (2023), Chapter 5",
+    "checked": "2026-07-13",
+    "scope": "Stable aerodynamics on printed pp. 5-1–5-20 and 5-25–5-38: lift/drag, axes/stability, turns/load factor, stall/spin awareness, propeller effects and limits concepts. p. 5-35 specifically warns that VA is not protection against repeated full deflections or simultaneous full inputs on more than one axis. No U.S. rule or generic recovery procedure transfers to Spain"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH6",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 6 Flight Controls",
+    "url": "https://www.faa.gov/regulationspolicies/handbooksmanuals/aviation/phak/chapter-6-flight-controls",
+    "edition": "FAA-H-8083-25C (2023), Chapter 6",
+    "checked": "2026-07-13",
+    "scope": "Stable control-system pedagogy on printed pp. 6-2–6-12: primary/secondary effects, trim and high-lift/control-device concepts. Installed-aircraft AFM/POH and instructor determine actual operation"
+  },
+  {
+    "id": "SRC-FAA-AFH-3C-CH5",
+    "authority": "FAA",
+    "title": "Airplane Flying Handbook — Chapter 5 Maintaining Aircraft Control",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/06_afh_ch5.pdf",
+    "edition": "FAA-H-8083-3C (2021), Chapter 5",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 5-12–5-27 support stall/spin recognition, prevention and training-risk awareness. This course does not copy manoeuvre or recovery sequences; supervised instruction, approval, limitations and the aircraft AFM/POH prevail"
+  },
+  {
+    "id": "SRC-FAA-AFH-3C-CH17",
+    "authority": "FAA",
+    "title": "Airplane Flying Handbook — Chapter 17 Transition to Light Sport Airplanes",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/18_afh_ch17.pdf",
+    "edition": "FAA-H-8083-3C (2021), Chapter 17; read with Addendum dated 20.10.2025",
+    "checked": "2026-07-13",
+    "scope": "Conditional small/light-aircraft pedagogy on printed pp. 17-7–17-8 and 17-12–17-15: gust response, control forces and energy management. The 20.10.2025 Addendum schedules Chapter 17 for removal; therefore this is bounded legacy pedagogy only. U.S. LSA is not Spanish ULM; no category rule, value, procedure or assumed handling quality transfers"
+  },
+  {
+    "id": "SRC-FAA-AFH-3C-ADDENDUM-2025",
+    "authority": "FAA",
+    "title": "Airplane Flying Handbook — Addendum (MOSAIC)",
+    "url": "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/AFH_Addendum_%28MOSAIC%29.pdf",
+    "edition": "FAA-H-8083-3C Addendum, 20.10.2025",
+    "checked": "2026-07-13",
+    "scope": "Current change-control companion to FAA-H-8083-3C; it states that Chapter 17 will be removed in the next revision. Until that revision, Chapter 17 remains part of the current edition; its excerpts are nevertheless retained only as explicitly bounded light-aircraft handling pedagogy and never as U.S. LSA law or Spanish ULM equivalence"
+  },
+  {
+    "id": "SRC-NASA-GRC-BERNOULLI-NEWTON-2024",
+    "authority": "NASA Glenn Research Center",
+    "title": "Bernoulli and Newton",
+    "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/bernoulli-and-newton/",
+    "edition": "official educational page, updated 13.11.2024",
+    "checked": "2026-07-13",
+    "scope": "Explains pressure-integration and momentum/flow-turning views as compatible and explicitly rejects equal-transit-time and other single-cause myths. Educational fluid mechanics only, not an aircraft operating rule"
+  },
+  {
+    "id": "SRC-NASA-GRC-LIFT-2024",
+    "authority": "NASA Glenn Research Center",
+    "title": "Lift Equation",
+    "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/lift-equation/",
+    "edition": "official educational page, updated 10.07.2024",
+    "checked": "2026-07-13",
+    "scope": "Educational explanation of lift-equation dependencies and the role of the lift coefficient; it does not provide operational coefficients, aircraft limits or a complete flow solution"
+  },
+  {
+    "id": "SRC-NASA-GRC-BOUNDARY-LAYER-2024",
+    "authority": "NASA Glenn Research Center",
+    "title": "Boundary Layer",
+    "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/boundary-layer/",
+    "edition": "official educational page, updated 17.07.2024",
+    "checked": "2026-07-13",
+    "scope": "No-slip, laminar/turbulent boundary-layer concept, adverse-pressure-gradient sensitivity and separation at learner level. It does not define one universal critical angle, stall warning or recovery action"
+  },
+  {
+    "id": "SRC-NACA-TR-824",
+    "authority": "NACA / NASA Technical Reports Server",
+    "title": "Summary of Airfoil Data",
+    "url": "https://ntrs.nasa.gov/citations/19930090976",
+    "edition": "NACA-TR-824, 1945",
+    "checked": "2026-07-13",
+    "scope": "Historical measured section-data evidence that lift, drag and moment polars depend on airfoil, Reynolds number, состояние поверхности/шероховатость and high-lift devices. No one profile, section polar or coefficient is treated as the polar or limit of an entire aircraft"
   }
 ]

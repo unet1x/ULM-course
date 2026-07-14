@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" aria-labelledby="title desc">
+  <title id="title">Угол атаки, тангаж и угол траектории — разные величины</title>
+  <desc id="desc">Концептуальная схема различает горизонт, траекторию, линию хорды, относительный поток, угол атаки, угол тангажа и угол траектории. Для наглядности хорда совпадает с продольной базовой осью.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="18" markerHeight="18" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0 L10 5 L0 10 z" fill="context-stroke"/></marker>
+  </defs>
+  <rect width="720" height="520" fill="#f8fafc"/>
+  <line id="horizon" x1="70" y1="335" x2="650" y2="335" stroke="#64748b" stroke-width="4" stroke-dasharray="12 10"/>
+  <text x="80" y="380" font-size="30" font-family="sans-serif" fill="#475569">горизонт</text>
+  <line id="flight-path-line" x1="220" y1="335" x2="620" y2="295" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow)"/>
+  <text x="405" y="390" font-size="30" font-family="sans-serif" fill="#1d4ed8">траектория γ</text>
+  <line id="relative-airflow" x1="620" y1="295" x2="220" y2="335" stroke="#7c3aed" stroke-width="6" marker-end="url(#arrow)"/>
+  <text x="680" y="435" text-anchor="end" font-size="30" font-family="sans-serif" fill="#6d28d9">набегающий поток</text>
+  <path id="airfoil" d="M220 335 C320 275 470 248 600 250 C480 278 340 310 220 335 Z" fill="#dbeafe" stroke="#0f172a" stroke-width="4"/>
+  <line id="chord-line" x1="220" y1="335" x2="600" y2="250" stroke="#047857" stroke-width="6"/>
+  <text x="430" y="245" font-size="30" font-family="sans-serif" fill="#047857">хорда</text>
+  <line id="attitude-line" x1="220" y1="335" x2="600" y2="250" stroke="#dc2626" stroke-width="4" stroke-dasharray="10 8"/>
+  <text x="680" y="185" text-anchor="end" font-size="30" font-family="sans-serif" fill="#b91c1c">тангаж θ к горизонту</text>
+  <path id="aoa-arc" data-between="flight-path-line chord-line" d="M369 320 A150 150 0 0 0 366 302" fill="none" stroke="#ea580c" stroke-width="7"/>
+  <text x="70" y="485" font-size="30" font-family="sans-serif" fill="#c2410c">угол атаки α (AoA)</text>
+  <path id="attitude-arc" data-between="horizon attitude-line" d="M330 335 A110 110 0 0 0 327 311" fill="none" stroke="#dc2626" stroke-width="5"/>
+  <path id="flight-path-arc" data-between="horizon flight-path-line" d="M300 335 A80 80 0 0 0 300 327" fill="none" stroke="#2563eb" stroke-width="5"/>
+  <text x="83" y="105" font-size="30" font-family="sans-serif" fill="#102a43">α = θ − γ в этой плоской модели</text>
+  <text x="83" y="145" font-size="30" font-family="sans-serif" fill="#102a43">хорда совпадает с продольной базой</text>
+  <text x="360" y="55" text-anchor="middle" font-size="30" font-family="sans-serif" font-weight="700" fill="#102a43">КОНЦЕПТУАЛЬНО — НЕ ДЛЯ ПОЛЁТА</text>
+</svg>
