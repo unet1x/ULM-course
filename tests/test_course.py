@@ -2401,6 +2401,14 @@ class CourseStructureTests(unittest.TestCase):
             "github.ref == 'refs/heads/master'",
             workflow,
         )
+        self.assertNotRegex(workflow, r"(?m)^concurrency:\s*$")
+        self.assertRegex(
+            workflow,
+            r"(?ms)^  deploy:\s*\n"
+            r"    concurrency:\s*\n"
+            r"      group: pages\s*\n"
+            r"      cancel-in-progress: true$",
+        )
 
     def test_readme_links_to_public_course(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
