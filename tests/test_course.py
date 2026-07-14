@@ -118,6 +118,19 @@ TASK10_SVGS = (
     "docs/assets/diagrams/pitot-static.svg",
     "docs/assets/diagrams/brs-decision-boundary.svg",
 )
+TASK11_CHAPTERS = (
+    "docs/08-performance-planning/01-mass-balance.md",
+    "docs/08-performance-planning/02-takeoff-climb-landing.md",
+    "docs/08-performance-planning/03-density-altitude.md",
+    "docs/08-performance-planning/04-fuel-range-endurance.md",
+    "docs/08-performance-planning/05-ulm-worked-example.md",
+    "docs/08-performance-planning/06-ppl-worked-example.md",
+)
+TASK11_REFERENCE = "docs/reference/formulas.md"
+TASK11_SVGS = (
+    "docs/assets/diagrams/mass-balance.svg",
+    "docs/assets/diagrams/performance-factors.svg",
+)
 APPLICABILITY_LABELS = (
     "[ULM — ОСНОВА]",
     "[ULM — ОСОБО ВАЖНО]",
@@ -138,6 +151,7 @@ OFFICIAL_SOURCE_DOMAINS = {
     "sede.seguridadaerea.gob.es",
     "www.senasa.es",
     "aip.enaire.es",
+    "insignia.enaire.es",
     "www.aemet.es",
     "www.faa.gov",
     "www.aviation.govt.nz",
@@ -379,6 +393,18 @@ REQUIRED_CANONICAL_TERMS = {
     "Part-NCO",
     "aircraft maintenance programme (AMP)",
     "inclinometer",
+    "datum",
+    "arm",
+    "weight-and-balance moment",
+    "centre of gravity envelope",
+    "take-off mass",
+    "landing mass",
+    "usable fuel",
+    "unusable fuel",
+    "final reserve fuel",
+    "aircraft range",
+    "aircraft endurance",
+    "climb gradient",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -1031,7 +1057,7 @@ def _substantive(value, minimum_words=3, minimum_length=12):
 def parsed_question_blocks(text):
     headings = list(
         re.finditer(
-            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV|PF|AGK)-\d{3})\s+—\s+(.+?)"
+            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV|PF|AGK|PERF)-\d{3})\s+—\s+(.+?)"
             r"(?:\s+\{#([a-z][a-z0-9-]*)\})?\s*$",
             text,
         )
@@ -2055,7 +2081,11 @@ class CourseRegistryTests(unittest.TestCase):
                 self.assertRegex(source["id"], r"^SRC-[A-Z0-9-]+$")
                 expected_checked = (
                     "2026-07-14"
-                    if source["id"] == "SRC-BRS6-REV-A-HISTORICAL"
+                    if source["id"] in {
+                        "SRC-BRS6-REV-A-HISTORICAL",
+                        "SRC-ENAIRE-AIP-GEN-3-1-2026",
+                        "SRC-ENAIRE-INSIGNIA-HELP-2026",
+                    }
                     else "2026-07-13"
                 )
                 self.assertEqual(expected_checked, source["checked"])
@@ -7531,6 +7561,1405 @@ class ULMExamGuideEd03MigrationTests(unittest.TestCase):
             r"(?is)Ed\.\s*1\.0.{0,180}(?:историческ|superseded).{0,220}"
             r"Ed\.03",
         )
+
+
+class Task11PerformancePlanningTests(unittest.TestCase):
+    REQUIRED_SOURCE_IDS = {
+        "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01",
+        "SRC-EASA-AIRCREW-2026",
+        "SRC-EASA-SERA-2025",
+        "SRC-EASA-AIR-OPS-2026",
+        "SRC-BOE-RD-765-2022",
+        "SRC-BOE-RD-141-2025",
+        "SRC-FAA-PHAK-25C-CH10",
+        "SRC-FAA-PHAK-25C-CH11",
+        "SRC-FAA-WBH-1B",
+        "SRC-ENAIRE-AIP-GEN-3-1-2026",
+        "SRC-ENAIRE-INSIGNIA-HELP-2026",
+    }
+
+    def _read(self, relative_path):
+        path = ROOT / relative_path
+        self.assertTrue(path.is_file(), relative_path)
+        return path.read_text(encoding="utf-8")
+
+    def _all_text(self):
+        return "\n".join(self._read(path) for path in TASK11_CHAPTERS)
+
+    @staticmethod
+    def _blocks_from_text(text, prefix):
+        matches = list(
+            re.finditer(
+                rf"(?m)^###\s+({prefix}-(\d{{2}}))\s+—[^\n]*"
+                rf"\{{#{prefix.casefold()}-\2\}}\s*$",
+                text,
+            )
+        )
+        blocks = {}
+        for index, match in enumerate(matches):
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            next_h2 = re.search(r"(?m)^##\s+", text[match.end():end])
+            if next_h2:
+                end = match.end() + next_h2.start()
+            blocks[match.group(1)] = text[match.start():end]
+        return blocks
+
+    def _blocks(self, prefix):
+        return self._blocks_from_text(self._all_text(), prefix)
+
+    def test_task11_files_navigation_and_template(self):
+        nav_paths = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        for relative_path in TASK11_CHAPTERS + (TASK11_REFERENCE,):
+            with self.subTest(path=relative_path):
+                self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+                self.assertIn(relative_path.removeprefix("docs/"), nav_paths)
+        for relative_path in TASK11_SVGS:
+            self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+
+        required = {
+            "purpose", "outcomes", "applicability", "theory", "ulm-application",
+            "part-fcl-extension", "safety", "common-errors", "summary",
+            "review-questions", "sources",
+        }
+        for relative_path in TASK11_CHAPTERS:
+            text = self._read(relative_path)
+            with self.subTest(path=relative_path):
+                self.assertEqual([], explicit_atx_heading_errors(text))
+                self.assertTrue(required <= markdown_anchors(text))
+                for label in APPLICABILITY_LABELS:
+                    self.assertIn(label, applicability_table_labels(text))
+                self.assertIn("УЧЕБНЫЕ ДАННЫЕ — НЕ ДЛЯ ПОЛЁТА", text)
+
+    def test_task11_exact_scope_and_operation_based_part_nco(self):
+        text = _plain_markdown(self._all_text())
+        for scope in (
+            "pp. 21–27", "p. 31 §§6.7, 7.1", "p. 33 §1.2",
+            "p. 38 §§4.6, 4.8", "pp. 49–50 §§2.3, 2.6",
+            "p. 51 §§3.1, 4.1", "p. 55 §7.4",
+        ):
+            self.assertIn(scope, text)
+        self.assertRegex(text, r"(?is)LAPL.{0,160}(?:общ|тот\s+же).{0,160}PPL.{0,200}§§7\.1–7\.3")
+        self.assertRegex(text, r"(?is)Part-NCO.{0,180}(?:операц|воздушн\w+\s+судн).{0,180}не.{0,100}лиценз")
+        self.assertRegex(text, r"(?is)(?:испанск\w+\s+национальн\w+\s+ULM|национальн\w+\s+ULM).{0,220}не.{0,100}автоматическ.{0,160}Part-NCO")
+
+    def test_task11_final_source_verifier_corrections_are_explicit(self):
+        text = _plain_markdown(self._all_text())
+        self.assertRegex(text, r"(?is)RD\s*141/2025.{0,180}art\.?\s*29\(2\)\(c\).{0,120}29\(5\)\(b\)\(3\).{0,220}(?:масс|центров|взвеш)")
+        self.assertRegex(text, r"(?is)NCO\.OP\.185.{0,180}(?:контрол|monitor).{0,160}топлив")
+        self.assertRegex(text, r"(?is)MINIMUM\s+FUEL.{0,220}MAYDAY\s+FUEL")
+        self.assertRegex(text, r"(?is)10.{0,120}(?:тот\s+же|same).{0,120}(?:видим|sight).{0,160}30.{0,140}(?:обычн|normal).{0,140}VFR.{0,160}45.{0,140}(?:ноч|night|IFR)")
+        self.assertRegex(text, r"(?is)(?:финальн\w+\s+резерв|final\s+reserve).{0,180}(?:защищ|protected).{0,180}не.{0,90}(?:contingency|непредвиденн)")
+        self.assertRegex(text, r"(?is)Insignia(?:VFR)?.{0,180}(?:прототип|prototype).{0,220}ICARO.{0,120}(?:PIB|NOTAM)")
+        self.assertRegex(text, r"(?is)(?:требуем|required).{0,80}(?:≤|не\s+больше).{0,100}(?:располагаем|available).{0,180}необходим.{0,100}не.{0,80}достаточ")
+
+    def test_task11_myths_are_refuted_clause_locally(self):
+        text = _plain_markdown(self._all_text())
+        patterns = (
+            r"(?is)600\s*кг.{0,150}не.{0,70}(?:MTOM|разреш[её]нн\w+\s+масс).{0,120}(?:кажд|люб).{0,50}ULM",
+            r"(?is)(?:одн\w+\s+час|час\w+\s+топлив).{0,190}(?:формул|RD\s*765/2022).{0,180}не.{0,80}(?:эксплуатацион|операционн).{0,80}резерв",
+            r"(?is)(?:10/30/45|10,\s*30\s*и\s*45).{0,180}Part-NCO.{0,180}не.{0,80}(?:универсальн|правил).{0,120}(?:испанск\w+\s+ULM|ULM\s+Испани)",
+            r"(?is)(?:кажд|любой).{0,80}VFR.{0,120}не.{0,80}требу.{0,130}(?:назначенн|destination).{0,80}(?:запасн|alternate)",
+            r"(?is)CG.{0,140}не.{0,50}только.{0,80}(?:взл[её]т|take-off).{0,150}(?:посад|кажд\w+\s+этап)",
+            r"(?is)(?:трав|мокр|уклон|встречн\w+\s+ветр).{0,180}(?:процент|поправк).{0,180}не.{0,70}(?:универсальн|действител)",
+            r"(?is)(?:правил\w+\s+больш\w+\s+пальц|rule of thumb|эмпирическ).{0,180}не.{0,70}(?:замен|подмен).{0,100}(?:AFM|POH|таблиц)",
+            r"(?is)легч.{0,180}не.{0,70}всегда.{0,120}(?:короч|лучше).{0,100}(?:взл[её]т|набор)",
+            r"(?is)встречн\w+\s+ветр.{0,180}не.{0,80}(?:гарантир|полностью).{0,100}(?:учитыв|засчитыв)",
+            r"(?is)(?:американск|США).{0,150}(?:стандартн\w+\s+масс|standard weights).{0,180}не.{0,80}(?:перенос|примен).{0,100}Испани",
+            r"(?is)(?:указател|индикатор).{0,100}топлив.{0,180}не.{0,70}(?:доказыв|гарантир).{0,100}(?:полезн|usable|endurance)",
+            r"(?is)(?:верн\w+\s+арифметик|расч[её]т\w+\s+сош[её]л).{0,180}не.{0,80}(?:дела|гарантир).{0,100}(?:пол[её]т|вылет).{0,80}безопас",
+        )
+        for pattern in patterns:
+            with self.subTest(pattern=pattern):
+                self.assertRegex(text, re.compile(pattern))
+
+    def test_task11_calculations_are_structured_and_recomputable(self):
+        blocks = self._blocks("CALC-PERF")
+        self.assertEqual(26, len(blocks))
+        for identifier, block in blocks.items():
+            with self.subTest(calculation=identifier):
+                for label in (
+                    "Дано", "Формула", "Расчёт", "Результат", "Решение пилота",
+                    "Допущения", "Округление",
+                ):
+                    self.assertRegex(block, rf"(?m)^\*\*{re.escape(label)}:\*\*")
+                self.assertIn("УЧЕБНЫЕ ДАННЫЕ — НЕ ДЛЯ ПОЛЁТА", block)
+                self.assertRegex(block, r"(?:kg|кг|m|м|kg·m|кг·м|L|л|h|ч|min|мин|kt|NM|ft|fpm|%)")
+
+        def field(identifier, label):
+            match = re.search(
+                rf"(?m)^\*\*{re.escape(label)}:\*\*\s*(.+)$",
+                blocks[identifier],
+            )
+            self.assertIsNotNone(match, f"{identifier}: {label}")
+            return _plain_markdown(match.group(1))
+
+        def numbers(value):
+            return [float(item) for item in re.findall(r"(?<![A-Za-z0-9])\d+(?:\.\d+)?", value)]
+
+        given = {identifier: field(identifier, "Дано") for identifier in blocks}
+        for identifier in ("CALC-PERF-03", "CALC-PERF-04"):
+            self.assertNotIn("как выше", given[identifier].casefold(), identifier)
+
+        computed = {}
+        value = numbers(given["CALC-PERF-01"])
+        computed["CALC-PERF-01"] = value[0] * value[1]
+        value = numbers(given["CALC-PERF-02"])
+        computed["CALC-PERF-02"] = value[0] / value[1]
+        for identifier in ("CALC-PERF-03", "CALC-PERF-04"):
+            pairs = [
+                (float(mass), float(moment))
+                for mass, moment in re.findall(
+                    r"(\d+(?:\.\d+)?)\s*(?:kg\s*)?/\s*(\d+(?:\.\d+)?)",
+                    given[identifier],
+                )
+            ]
+            self.assertGreaterEqual(len(pairs), 5, identifier)
+            computed[identifier] = sum(moment for _, moment in pairs) / sum(
+                mass for mass, _ in pairs
+            )
+        value = numbers(given["CALC-PERF-05"])
+        computed["CALC-PERF-05"] = (value[1] - value[2] * value[3]) / (
+            value[0] - value[2]
+        )
+        value = numbers(given["CALC-PERF-06"])
+        computed["CALC-PERF-06"] = value[0] + (value[2] - value[1]) * value[3]
+        value = numbers(given["CALC-PERF-07"])
+        computed["CALC-PERF-07"] = 15 - value[1] * value[0] / value[2]
+        value = numbers(given["CALC-PERF-08"])
+        computed["CALC-PERF-08"] = value[0] + value[3] * (value[1] - value[2])
+
+        match = re.search(
+            r"при\s+(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)\s*kg\s+—\s+"
+            r"(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)\s*m\s+на\s+"
+            r"(\d+(?:\.\d+)?)\s*ft\s+и\s+"
+            r"(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)\s*m\s+на\s+"
+            r"(\d+(?:\.\d+)?)\s*ft;\s+масса\s+(\d+(?:\.\d+)?)\s*kg;\s+"
+            r"барометрическая\s+высота\s+(\d+(?:\.\d+)?)\s*ft",
+            given["CALC-PERF-09"],
+            re.IGNORECASE,
+        )
+        self.assertIsNotNone(match, "CALC-PERF-09 inputs")
+        m0, m1, d00, d01, h0, d10, d11, h1, mass, altitude = map(float, match.groups())
+        low = d00 + (mass - m0) / (m1 - m0) * (d01 - d00)
+        high = d10 + (mass - m0) / (m1 - m0) * (d11 - d10)
+        computed["CALC-PERF-09"] = low + (altitude - h0) / (h1 - h0) * (high - low)
+
+        value = numbers(given["CALC-PERF-10"])
+        computed["CALC-PERF-10"] = value[0] * value[1]
+        value = numbers(given["CALC-PERF-11"])
+        computed["CALC-PERF-11"] = value[0] / (value[1] / 60)
+        value = numbers(given["CALC-PERF-12"])
+        computed["CALC-PERF-12"] = value[0] / value[1]
+        value = numbers(given["CALC-PERF-13"])
+        computed["CALC-PERF-13"] = value[0] * value[1] / value[-1]
+        for identifier, operation in (
+            ("CALC-PERF-14", "divide"),
+            ("CALC-PERF-15", "multiply"),
+            ("CALC-PERF-16", "multiply"),
+        ):
+            value = numbers(given[identifier])
+            computed[identifier] = (
+                value[0] / value[1] if operation == "divide" else value[0] * value[1]
+            )
+        value = numbers(given["CALC-PERF-17"])
+        computed["CALC-PERF-17"] = value[-1] / value[1]
+        value = numbers(given["CALC-PERF-18"])
+        computed["CALC-PERF-18"] = value[0] / value[1] * 60
+        computed["CALC-PERF-19"] = sum(numbers(given["CALC-PERF-19"]))
+        for identifier in ("CALC-PERF-20", "CALC-PERF-21"):
+            value = numbers(given[identifier])
+            computed[identifier] = value[1] / value[0]
+        computed["CALC-PERF-22"] = sum(numbers(given["CALC-PERF-22"]))
+
+        sep = self._read(TASK11_CHAPTERS[5])
+        table = re.search(
+            r"(?ms)\|\s*PA\s*\|\s*(\d+(?:\.\d+)?)\s*kg\s*\|\s*"
+            r"(\d+(?:\.\d+)?)\s*kg\s*\|.*?"
+            r"\|\s*(\d+(?:\.\d+)?)\s*ft\s*\|\s*(\d+(?:\.\d+)?)\s*m\s*\|\s*"
+            r"(\d+(?:\.\d+)?)\s*m\s*\|.*?"
+            r"\|\s*(\d+(?:\.\d+)?)\s*ft\s*\|\s*(\d+(?:\.\d+)?)\s*m\s*\|\s*"
+            r"(\d+(?:\.\d+)?)\s*m\s*\|",
+            sep.split("{#performance-interpolation}", 1)[1],
+        )
+        self.assertIsNotNone(table, "SEP take-off interpolation table")
+        m0, m1, h0, d00, d01, h1, d10, d11 = map(float, table.groups())
+        value = numbers(given["CALC-PERF-23"])
+        mass, altitude = value[0], value[1]
+        low = d00 + (mass - m0) / (m1 - m0) * (d01 - d00)
+        high = d10 + (mass - m0) / (m1 - m0) * (d11 - d10)
+        computed["CALC-PERF-23"] = low + (altitude - h0) / (h1 - h0) * (high - low)
+        value = numbers(given["CALC-PERF-24"])
+        computed["CALC-PERF-24"] = value[1] * value[2]
+        value = numbers(given["CALC-PERF-25"])
+        computed["CALC-PERF-25"] = value[0] * value[1]
+        value = numbers(given["CALC-PERF-26"])
+        computed["CALC-PERF-26"] = value[0] / value[1]
+
+        self.assertEqual(set(blocks), set(computed))
+        for identifier, value in computed.items():
+            result = field(identifier, "Результат")
+            if identifier == "CALC-PERF-05":
+                displayed = re.search(r"CG\s*(?:=\s*)?(\d+(?:\.\d+)?)", result)
+            else:
+                displayed = re.search(r"\d+(?:\.\d+)?", result)
+            self.assertIsNotNone(displayed, identifier)
+            token = displayed.group(1) if displayed.lastindex else displayed.group(0)
+            decimals = len(token.partition(".")[2])
+            with self.subTest(recomputed=identifier):
+                self.assertAlmostEqual(value, float(token), places=decimals)
+
+    def test_task11_visible_formula_semantics_dimensions_and_arithmetic(self):
+        self.maxDiff = None
+        semantic_contracts = {
+            "CALC-PERF-01": r"(?i)момент.+масса.+×.+плеч",
+            "CALC-PERF-02": r"(?i)масса.+момент.+/.+плеч",
+            "CALC-PERF-03": r"(?i)CG.+сумм\w+\s+момент.+/.+сумм\w+\s+масс",
+            "CALC-PERF-04": r"(?i)CG.+посадочн\w+\s+момент.+/.+посадочн\w+\s+масс",
+            "CALC-PERF-05": r"(?i)нов\w+\s+CG.+стар\w+\s+момент.+[−-].+снят\w+\s+момент.+/.+стар\w+\s+масс.+[−-].+снят\w+\s+масс",
+            "CALC-PERF-06": r"(?i)PA.+превышен.+1013\.25.+QNH.+30",
+            "CALC-PERF-07": r"(?i)TISA.+15.+2.+PA.+1000",
+            "CALC-PERF-08": r"(?i)DA.+PA.+120.+OAT.+TISA",
+            "CALC-PERF-09": r"(?i)дол\w+\s+по\s+масс.+двух\s+строк.+дол\w+\s+по\s+высот",
+            "CALC-PERF-10": r"(?i)дистанц.+расч[её]тн.+×.+множител",
+            "CALC-PERF-11": r"(?i)градиент.+fpm.+/.+NM/min",
+            "CALC-PERF-12": r"(?i)градиент.+высот.+/.+горизонтальн\w+\s+расстоян",
+            "CALC-PERF-13": r"(?i)дальност.+высот.+×.+качеств.+6076",
+            "CALC-PERF-14": r"(?i)продолжительност.+количеств.+/.+расход",
+            "CALC-PERF-15": r"(?i)масса.+объ[её]м.+×.+плотност",
+            "CALC-PERF-16": r"(?i)маршрутн\w+\s+топлив.+врем.+×.+расход",
+            "CALC-PERF-17": r"(?i)фактическ\w+\s+расход.+израсходованн.+/.+врем",
+            "CALC-PERF-18": r"(?i)минут.+количеств.+/.+расход.+×.+60",
+            "CALC-PERF-19": r"(?i)требуем.+сумм.+компонент",
+            "CALC-PERF-20": r"(?i)CG.+момент.+/.+масс",
+            "CALC-PERF-21": r"(?i)CG.+посадочн\w+\s+момент.+/.+посадочн\w+\s+масс",
+            "CALC-PERF-22": r"(?i)требуем.+сумм.+компонент",
+            "CALC-PERF-23": r"(?i)дол\w+\s+по\s+масс.+двух\s+строк.+дол\w+\s+по\s+высот",
+            "CALC-PERF-24": r"(?i)резерв.+врем.+×.+расход",
+            "CALC-PERF-25": r"(?i)дальност.+врем.+×.+GS",
+            "CALC-PERF-26": r"(?i)продолжительност.+количеств.+/.+расход",
+        }
+        dimension_contracts = {
+            "CALC-PERF-01": r"kg\s*×\s*m\s*=\s*kg·m",
+            "CALC-PERF-02": r"kg·m\s*/\s*m\s*=\s*kg",
+            "CALC-PERF-03": r"kg·m\s*/\s*kg\s*=\s*m",
+            "CALC-PERF-04": r"kg·m\s*/\s*kg\s*=\s*m",
+            "CALC-PERF-05": r"kg·m\s*/\s*kg\s*=\s*m",
+            "CALC-PERF-06": r"ft\s*\+\s*hPa\s*×\s*ft/hPa\s*=\s*ft",
+            "CALC-PERF-07": r"°C\s*[−-]\s*\(°C/1000\s*ft\)\s*×\s*ft\s*=\s*°C",
+            "CALC-PERF-08": r"ft\s*\+\s*\(ft/°C\)\s*×\s*°C\s*=\s*ft",
+            "CALC-PERF-09": r"m\s*\+\s*\(kg/kg\)\s*×\s*m\s*=\s*m.+m\s*\+\s*\(ft/ft\)\s*×\s*m\s*=\s*m",
+            "CALC-PERF-10": r"m\s*×\s*безразмерн.+m",
+            "CALC-PERF-11": r"ft/min.+NM/min.+ft/NM",
+            "CALC-PERF-12": r"ft\s*/\s*NM\s*=\s*ft/NM",
+            "CALC-PERF-13": r"ft\s*×\s*безразмерн.+/\s*\(ft/NM\)\s*=\s*NM",
+            "CALC-PERF-14": r"L\s*/\s*\(L/h\)\s*=\s*h",
+            "CALC-PERF-15": r"L\s*×\s*kg/L\s*=\s*kg",
+            "CALC-PERF-16": r"h\s*×\s*L/h\s*=\s*L",
+            "CALC-PERF-17": r"L\s*/\s*h\s*=\s*L/h",
+            "CALC-PERF-18": r"L\s*/\s*\(L/h\).+min/h.+min",
+            "CALC-PERF-19": r"L\s*\+\s*L.+\=\s*L",
+            "CALC-PERF-20": r"kg·m\s*/\s*kg\s*=\s*m",
+            "CALC-PERF-21": r"kg·m\s*/\s*kg\s*=\s*m",
+            "CALC-PERF-22": r"L\s*\+\s*L.+\=\s*L",
+            "CALC-PERF-23": r"m\s*\+\s*\(kg/kg\)\s*×\s*m\s*=\s*m.+m\s*\+\s*\(ft/ft\)\s*×\s*m\s*=\s*m",
+            "CALC-PERF-24": r"h\s*×\s*L/h\s*=\s*L",
+            "CALC-PERF-25": r"h\s*×\s*NM/h\s*=\s*NM",
+            "CALC-PERF-26": r"L\s*/\s*\(L/h\)\s*=\s*h",
+        }
+        calculation_tokens = {
+            "CALC-PERF-01": "56.25", "CALC-PERF-02": "340",
+            "CALC-PERF-03": "0.49110", "CALC-PERF-04": "0.4780",
+            "CALC-PERF-05": "0.47224", "CALC-PERF-06": "2197.5",
+            "CALC-PERF-07": "10.6", "CALC-PERF-08": "4288",
+            "CALC-PERF-09": "380.024", "CALC-PERF-10": "437.0276",
+            "CALC-PERF-11": "432", "CALC-PERF-12": "113.8889",
+            "CALC-PERF-13": "3.950", "CALC-PERF-14": "1.75",
+            "CALC-PERF-15": "25.2", "CALC-PERF-16": "18",
+            "CALC-PERF-17": "13.2", "CALC-PERF-18": "105",
+            "CALC-PERF-19": "32", "CALC-PERF-20": "0.6649777",
+            "CALC-PERF-21": "0.634193", "CALC-PERF-22": "129",
+            "CALC-PERF-23": "513.98", "CALC-PERF-24": "18",
+            "CALC-PERF-25": "180", "CALC-PERF-26": "2.25",
+        }
+
+        def field(block, label):
+            match = re.search(rf"(?m)^\*\*{label}:\*\*\s*(.+)$", block)
+            return _plain_markdown(match.group(1)) if match else ""
+
+        def evaluate_expression(expression):
+            normalised = expression.replace("×", "*").replace("−", "-")
+            self.assertRegex(normalised, r"^[0-9().+*/\s-]+$")
+            return float(eval(normalised, {"__builtins__": {}}, {}))
+
+        def visible_errors(text):
+            blocks = self._blocks_from_text(text, "CALC-PERF")
+            errors = []
+            for identifier, contract in semantic_contracts.items():
+                formula = field(blocks.get(identifier, ""), "Формула")
+                calculation = field(blocks.get(identifier, ""), "Расчёт")
+                if not re.search(contract, formula):
+                    errors.append(f"{identifier}: formula semantics")
+                if "Размерность:" not in formula:
+                    errors.append(f"{identifier}: visible dimension")
+                elif not re.search(dimension_contracts[identifier], formula):
+                    errors.append(f"{identifier}: wrong dimension")
+                if calculation_tokens[identifier] not in calculation:
+                    errors.append(f"{identifier}: calculation/result not tied")
+                unit_pattern = (
+                    r"kg·m|ft/NM|ft/min|NM/min|kg/L|L/h|NM/h|fpm|"
+                    r"min|kg|km|ft|NM|kt|°C|%|m|L|h"
+                )
+                unit_regex = re.compile(rf"(?<=\d)\s*(?:{unit_pattern})")
+
+                def normalise_unit(match):
+                    clause_start = calculation.rfind(";", 0, match.start()) + 1
+                    has_prior_equality = "=" in calculation[clause_start:match.start()]
+                    followed_by_equality = re.match(
+                        r"\s*(?:=|≈)", calculation[match.end():]
+                    )
+                    return "; " if has_prior_equality and followed_by_equality else ""
+
+                calculation_numeric = unit_regex.sub(normalise_unit, calculation)
+                chains = re.findall(
+                    r"(?<![\w.])((?:\d|\()[0-9\s().+*/×−-]+"
+                    r"(?:=\s*(?:\d|\()[0-9\s().+*/×−-]+)+)",
+                    calculation_numeric,
+                )
+                valid_chains = 0
+                checked_terminals = []
+                for chain in chains:
+                    parts = [part.strip().rstrip(". ") for part in chain.split("=")]
+                    if len(parts) < 2 or any(not part for part in parts):
+                        continue
+                    try:
+                        values = [evaluate_expression(part) for part in parts]
+                    except (AssertionError, SyntaxError, ValueError, ZeroDivisionError):
+                        continue
+                    valid_chains += 1
+                    checked_terminals.extend(values[1:])
+                    for left, right, token in zip(values, values[1:], parts[1:]):
+                        literals = re.findall(r"\d+(?:\.(\d+))?", token)
+                        decimals = max((len(item) for item in literals), default=0)
+                        tolerance = 0.5 * 10 ** (-decimals) + 1e-9
+                        if abs(left - right) > tolerance:
+                            errors.append(f"{identifier}: arithmetic {chain}")
+                if valid_chains == 0:
+                    errors.append(f"{identifier}: no checked arithmetic equality")
+                expected_token = calculation_tokens[identifier]
+                expected_value = float(expected_token)
+                expected_decimals = len(expected_token.partition(".")[2])
+                expected_tolerance = 0.5 * 10 ** (-expected_decimals) + 1e-9
+                if not any(
+                    abs(value - expected_value) <= expected_tolerance
+                    for value in checked_terminals
+                ):
+                    errors.append(f"{identifier}: arithmetic not tied to result")
+            return errors
+
+        all_text = self._all_text()
+        self.assertEqual([], visible_errors(all_text))
+
+        wrong_formula = all_text.replace(
+            "старый момент − снятый момент",
+            "старый момент × снятый момент",
+            1,
+        )
+        self.assertIn("CALC-PERF-05: formula semantics", visible_errors(wrong_formula))
+        wrong_arithmetic = all_text.replace(
+            "49.2/0.432 = 113.8889 ft/NM",
+            "49.2/0.432 = 999.99 ft/NM",
+            1,
+        )
+        self.assertTrue(
+            any(error.startswith("CALC-PERF-12: arithmetic") for error in visible_errors(wrong_arithmetic))
+        )
+        wrong_dimension = all_text.replace(
+            "kg × m = kg·m",
+            "kg × m = kg",
+            1,
+        )
+        self.assertIn("CALC-PERF-01: wrong dimension", visible_errors(wrong_dimension))
+
+    def test_task11_complete_dossiers_have_provenance_ledger_and_decision(self):
+        for relative_path, aircraft_label in (
+            (TASK11_CHAPTERS[4], "ULM-T1"),
+            (TASK11_CHAPTERS[5], "SEP-T2"),
+        ):
+            text = self._read(relative_path)
+            plain = _plain_markdown(text)
+            with self.subTest(path=relative_path):
+                self.assertIn(aircraft_label, text)
+                self.assertGreaterEqual(text.count("УЧЕБНЫЕ ДАННЫЕ — НЕ ДЛЯ ПОЛЁТА"), 6)
+                for anchor in (
+                    "data-provenance", "loading-table", "cg-envelope-check",
+                    "performance-interpolation", "fuel-ledger", "weather-runway-assumptions",
+                    "source-gate", "take-off-distance-gate", "landing-distance-gate",
+                    "climb-gate", "alternative-escape-gate", "go-no-go-decision",
+                ):
+                    self.assertIn(anchor, markdown_anchors(text))
+                self.assertRegex(plain, r"(?is)(?:ревизи|revision).{0,120}(?:вымышлен|учебн)")
+                self.assertRegex(plain, r"(?is)(?:GO|NO-GO|пересмотр).{0,180}(?:причин|услов|ворот|gate)")
+        ulm = _plain_markdown(self._read(TASK11_CHAPTERS[4]))
+        self.assertRegex(ulm, r"(?is)NO-GO.{0,200}(?:дистанц|запас|полос)")
+        self.assertRegex(ulm, r"(?is)гипотетическ\w+\s+учебн\w+\s+продолжен.{0,180}NO-GO")
+        for value in ("256.736", "295.246", "296 m", "LDA 390", "94 m"):
+            self.assertIn(value, ulm)
+        self.assertRegex(ulm, r"(?is)LDA\s+390.{0,180}посадочн\w+\s+ворот\w+\s+проход")
+        for value in ("432 ft/NM", "113.889", "114 ft/NM", "137 ft/NM"):
+            self.assertIn(value, ulm)
+        self.assertRegex(
+            ulm,
+            r"(?is)432\s*≥\s*137.{0,180}ворот\w+\s+набора\s+проход.{0,300}NO-GO",
+        )
+
+        sep = _plain_markdown(self._read(TASK11_CHAPTERS[5]))
+        for value in ("379.322", "436.220", "437 m", "LDA 620", "183 m"):
+            self.assertIn(value, sep)
+        self.assertRegex(sep, r"(?is)LDA.{0,80}620.{0,180}(?:проход|запас)")
+        self.assertRegex(
+            sep,
+            r"(?is)(?:таблиц|узл).{0,300}градиент.{0,500}375\.680.{0,220}"
+            r"300\s*ft/NM.{0,180}(?:проход|запас)",
+        )
+        decision = sep.split("Итоговое решение", 1)[1]
+        for gate in (
+            "источник", "масса", "центров", "взл", "посад", "набор",
+            "топлив", "погод", "запасн",
+        ):
+            self.assertRegex(decision, rf"(?i){gate}", gate)
+        self.assertRegex(decision, r"(?is)условн\w+\s+GO.{0,220}(?:все|кажд).{0,120}(?:ворот|провер)")
+
+    def test_task11_dossier_tables_recompute_landing_margins_and_climb_gates(self):
+        def subsection(text, anchor, next_anchor):
+            return text.split(f"{{#{anchor}}}", 1)[1].split(f"{{#{next_anchor}}}", 1)[0]
+
+        def grid_match(section, value_unit):
+            return re.search(
+                r"\|\s*PA\s*\|\s*(\d+(?:\.\d+)?)\s*kg\s*\|\s*"
+                r"(\d+(?:\.\d+)?)\s*kg\s*\|.*?"
+                rf"\|\s*(\d+(?:\.\d+)?)\s*ft\s*\|\s*"
+                rf"(\d+(?:\.\d+)?)\s*{re.escape(value_unit)}\s*\|\s*"
+                rf"(\d+(?:\.\d+)?)\s*{re.escape(value_unit)}\s*\|.*?"
+                rf"\|\s*(\d+(?:\.\d+)?)\s*ft\s*\|\s*"
+                rf"(\d+(?:\.\d+)?)\s*{re.escape(value_unit)}\s*\|\s*"
+                rf"(\d+(?:\.\d+)?)\s*{re.escape(value_unit)}\s*\|",
+                section,
+                re.DOTALL,
+            )
+
+        def grid(section, value_unit):
+            match = grid_match(section, value_unit)
+            return tuple(map(float, match.groups())) if match else None
+
+        def ceil_int(value):
+            integer = int(value)
+            return integer if value == integer else integer + 1
+
+        def bilinear(values, mass, altitude):
+            m0, m1, h0, v00, v01, h1, v10, v11 = values
+            low = v00 + (mass - m0) / (m1 - m0) * (v01 - v00)
+            high = v10 + (mass - m0) / (m1 - m0) * (v11 - v10)
+            raw = low + (altitude - h0) / (h1 - h0) * (high - low)
+            return low, high, raw
+
+        def has_numeric_token(section, token):
+            return re.search(
+                rf"(?<![\d.]){re.escape(token)}",
+                section,
+            ) is not None
+
+        def verify(ulm, sep):
+            errors = []
+            ulm_takeoff = subsection(ulm, "take-off-distance-gate", "landing-distance-gate")
+            ulm_grid = grid(ulm_takeoff, "m")
+            if not ulm_grid:
+                errors.append("ULM take-off table")
+            else:
+                _, _, raw = bilinear(ulm_grid, 518.2, 1200)
+                factored = raw * 1.15
+                rounded = ceil_int(factored)
+                deficit = rounded - 410
+                for label, token in (
+                    ("ULM take-off raw", f"{raw:.3f}"),
+                    ("ULM take-off factored", f"{factored:.3f}"),
+                    ("ULM take-off rounded", f"{rounded} m"),
+                    ("ULM take-off deficit", f"{deficit} m"),
+                ):
+                    if not has_numeric_token(ulm_takeoff, token):
+                        errors.append(label)
+                if rounded <= 410 or not re.search(rf"{rounded}\s*>\s*410", ulm_takeoff):
+                    errors.append("ULM take-off gate")
+
+            ulm_landing = subsection(ulm, "landing-distance-gate", "climb-gate")
+            ulm_grid = grid(ulm_landing, "m")
+            if not ulm_grid:
+                errors.append("ULM landing table")
+            else:
+                low, high, raw = bilinear(ulm_grid, 503.8, 1200)
+                factored = raw * 1.15
+                rounded = ceil_int(factored)
+                margin = 390 - rounded
+                for label, token in (
+                    ("ULM landing low", f"{low:.3f}"),
+                    ("ULM landing high", f"{high:.3f}"),
+                    ("ULM landing raw", f"{raw:.3f}"),
+                    ("ULM landing factored", f"{factored:.3f}"),
+                    ("ULM landing rounded", f"{rounded} m"),
+                    ("ULM landing margin", f"{margin} m"),
+                ):
+                    if not has_numeric_token(ulm_landing, token):
+                        errors.append(label)
+
+            ulm_climb = subsection(ulm, "climb-gate", "fuel-ledger")
+            def table_value(label, unit):
+                match = re.search(
+                    rf"(?m)^\|[^\n]*{label}[^\n]*\|\s*(\d+(?:\.\d+)?)\s*{re.escape(unit)}\s*\|",
+                    ulm_climb,
+                    re.IGNORECASE,
+                )
+                return float(match.group(1)) if match else None
+
+            roc = table_value(r"518\.2\s*kg", "fpm")
+            gs = table_value("GS", "kt")
+            shown_available = table_value("Перевод", "ft/NM")
+            shown_geometric = table_value("Геометрическое", "ft/NM")
+            if None in (roc, gs, shown_available, shown_geometric):
+                errors.append("ULM climb table")
+            else:
+                available = roc / (gs / 60)
+                geometric_raw = 49.2 / 0.432
+                required = ceil_int(geometric_raw * 1.20)
+                if abs(available - shown_available) > 0.5:
+                    errors.append("ULM climb available")
+                if shown_geometric != ceil_int(geometric_raw):
+                    errors.append("ULM climb geometric")
+                if f"{geometric_raw:.3f}" not in ulm_climb or f"{required} ft/NM" not in ulm_climb:
+                    errors.append("ULM climb policy")
+                if available < required or not re.search(rf"{int(shown_available)}\s*≥\s*{required}", ulm_climb):
+                    errors.append("ULM climb gate")
+
+            sep_landing = subsection(sep, "landing-distance-gate", "climb-gate")
+            sep_grid = grid(sep_landing, "m")
+            if not sep_grid:
+                errors.append("SEP landing table")
+            else:
+                low, high, raw = bilinear(sep_grid, 976.04, 1000)
+                factored = raw * 1.15
+                rounded = ceil_int(factored)
+                margin = 620 - rounded
+                for label, token in (
+                    ("SEP landing low", f"{low:.3f}"),
+                    ("SEP landing high", f"{high:.3f}"),
+                    ("SEP landing raw", f"{raw:.3f}"),
+                    ("SEP landing factored", f"{factored:.3f}"),
+                    ("SEP landing rounded", f"{rounded} m"),
+                    ("SEP landing margin", f"{margin} m"),
+                ):
+                    if not has_numeric_token(sep_landing, token):
+                        errors.append(label)
+
+            sep_takeoff = subsection(sep, "take-off-distance-gate", "landing-distance-gate")
+            sep_grid = grid(sep_takeoff, "m")
+            if not sep_grid:
+                errors.append("SEP take-off table")
+            else:
+                _, _, raw = bilinear(sep_grid, 1032.2, 1000)
+                factored = raw * 1.15
+                rounded = ceil_int(factored)
+                margin = 690 - rounded
+                for label, token in (
+                    ("SEP take-off raw", f"{raw:.3f}"),
+                    ("SEP take-off factored", f"{factored:.3f}"),
+                    ("SEP take-off rounded", f"{rounded} m"),
+                    ("SEP take-off margin", f"{margin} m"),
+                ):
+                    if not has_numeric_token(sep_takeoff, token):
+                        errors.append(label)
+                if rounded > 690 or not re.search(rf"{rounded}\s*≤\s*690", sep_takeoff):
+                    errors.append("SEP take-off gate")
+
+            sep_climb = subsection(sep, "climb-gate", "fuel-ledger")
+            sep_grid = grid(sep_climb, "ft/NM")
+            if not sep_grid:
+                errors.append("SEP climb table")
+            else:
+                _, _, available = bilinear(sep_grid, 1032.2, 1000)
+                policy = 300
+                margin = available - policy
+                if f"{available:.3f}" not in sep_climb or f"{margin:.3f}" not in sep_climb:
+                    errors.append("SEP climb interpolation")
+                if available < policy or not re.search(r"375\.680\s*≥\s*300", sep_climb):
+                    errors.append("SEP climb gate")
+            return errors
+
+        ulm = self._read(TASK11_CHAPTERS[4])
+        sep = self._read(TASK11_CHAPTERS[5])
+        self.assertEqual([], verify(ulm, sep))
+        def mutate_grid_cell(text, anchor, next_anchor, unit, group_index):
+            marker = f"{{#{anchor}}}"
+            next_marker = f"{{#{next_anchor}}}"
+            before, remainder = text.split(marker, 1)
+            body, after = remainder.split(next_marker, 1)
+            match = grid_match(body, unit)
+            self.assertIsNotNone(match, anchor)
+            start, end = match.span(group_index)
+            replacement = str(float(match.group(group_index)) + 1).removesuffix(".0")
+            body = body[:start] + replacement + body[end:]
+            return before + marker + body + next_marker + after
+
+        mutations = []
+        for label, base_ulm, base_sep, anchor, next_anchor, unit in (
+            ("ULM take-off", True, False, "take-off-distance-gate", "landing-distance-gate", "m"),
+            ("ULM landing", True, False, "landing-distance-gate", "climb-gate", "m"),
+            ("SEP take-off", False, True, "take-off-distance-gate", "landing-distance-gate", "m"),
+            ("SEP landing", False, True, "landing-distance-gate", "climb-gate", "m"),
+            ("SEP climb", False, True, "climb-gate", "fuel-ledger", "ft/NM"),
+        ):
+            for group_index in range(1, 9):
+                mutations.append(
+                    (
+                        f"{label} cell {group_index}",
+                        mutate_grid_cell(ulm, anchor, next_anchor, unit, group_index) if base_ulm else ulm,
+                        mutate_grid_cell(sep, anchor, next_anchor, unit, group_index) if base_sep else sep,
+                    )
+                )
+        mutations.append(
+            ("ULM climb", ulm.replace("| GS в наборе | 55 kt |", "| GS в наборе | 56 kt |", 1), sep)
+        )
+        for label, mutated_ulm, mutated_sep in mutations:
+            with self.subTest(mutation=label):
+                self.assertTrue(verify(mutated_ulm, mutated_sep), label)
+
+    def test_task11_dossiers_have_explicit_weather_policy_gates(self):
+        def weather_errors(text, destination, alternate):
+            errors = []
+            if "weather-gate" not in markdown_anchors(text):
+                return ["missing weather gate"]
+            section = text.split("{#weather-gate}", 1)[1].split("### ", 1)[0]
+            plain = _plain_markdown(section)
+            policy = re.search(
+                r"(?is)политик.{0,160}видимост.{0,80}не\s+ниже\s+"
+                r"(\d+(?:\.\d+)?)\s*km.{0,160}(?:нижн\w+\s+границ|основани\w+\s+облак)"
+                r".{0,80}не\s+ниже\s+(\d+(?:\.\d+)?)\s*ft",
+                plain,
+            )
+            destination_rows = re.findall(
+                rf"(?im)^\s*-\s*Аэродром\s+назначения\s+{re.escape(destination)}\s*:\s*(.+?)\s*$",
+                section,
+            )
+            alternate_rows = re.findall(
+                rf"(?im)^\s*-\s*Запасн\w+\s+аэродром\w*\s+"
+                rf"{re.escape(alternate)}\s*:\s*(.+?)\s*$",
+                section,
+            )
+            destination_labels = re.findall(
+                rf"(?i)Аэродром\s+назначения\s+{re.escape(destination)}\s*:",
+                section,
+            )
+            alternate_labels = re.findall(
+                rf"(?i)Запасн\w+\s+аэродром\w*\s+{re.escape(alternate)}\s*:",
+                section,
+            )
+            destination_row = _plain_markdown(destination_rows[0]) if len(destination_rows) == 1 else ""
+            alternate_row = _plain_markdown(alternate_rows[0]) if len(alternate_rows) == 1 else ""
+            destination_values = re.search(
+                r"(?is)прогнозн\w+\s+видимост\w*\s+(\d+(?:\.\d+)?)\s*km\s*"
+                r"≥\s*(\d+(?:\.\d+)?)\s*km.{0,120}"
+                r"(?:нижн\w+\s+границ\w*\s+облак\w*|основани\w+\s+облак\w*)\s+(\d+)\s*ft\s*"
+                r"≥\s*(\d+)\s*ft",
+                destination_row,
+            )
+            alternate_values = re.search(
+                r"(?is)прогноз\w*\s+(\d+(?:\.\d+)?)\s*km\s+и\s+(\d+)\s*ft",
+                alternate_row,
+            )
+            if not policy:
+                errors.append("policy thresholds")
+                return errors
+            if len(destination_rows) != 1 or len(destination_labels) != 1:
+                errors.append("destination row count")
+                return errors
+            if len(alternate_rows) != 1 or len(alternate_labels) != 1:
+                errors.append("alternate row count")
+                return errors
+            if not destination_values:
+                errors.append("destination values")
+                return errors
+            if not alternate_values:
+                errors.append("alternate values")
+                return errors
+            policy_visibility, policy_cloud = map(float, policy.groups())
+            destination_visibility, shown_visibility, destination_cloud, shown_cloud = map(
+                float, destination_values.groups()
+            )
+            alternate_visibility, alternate_cloud = map(float, alternate_values.groups())
+            if destination not in plain:
+                errors.append("destination name")
+            if alternate not in plain:
+                errors.append("alternate name")
+            if shown_visibility != policy_visibility:
+                errors.append("destination shown visibility threshold")
+            if shown_cloud != policy_cloud:
+                errors.append("destination shown cloud threshold")
+            if destination_visibility < policy_visibility:
+                errors.append("destination visibility fails policy")
+            if destination_cloud < policy_cloud:
+                errors.append("destination cloud fails policy")
+            if alternate_visibility < policy_visibility:
+                errors.append("alternate visibility fails policy")
+            if alternate_cloud < policy_cloud:
+                errors.append("alternate cloud fails policy")
+            destination_decision = destination_row
+            alternate_decision = alternate_row
+            negative_decision = (
+                r"(?i)\b(?:неприемлем\w*|NO(?:[-‑–\s])?GO|запрещ\w*|закрыт\w*)\b"
+                r"|не\s+(?:проход\w*|разреш\w*)"
+            )
+            affirmative_decision = r"(?i)\bрешение\s*:\s*(?:проход|проходит)\b"
+            if (
+                not re.search(affirmative_decision, destination_decision)
+                or re.search(negative_decision, destination_decision)
+            ):
+                errors.append("destination decision")
+            if (
+                not re.search(affirmative_decision, alternate_decision)
+                or re.search(negative_decision, alternate_decision)
+            ):
+                errors.append("alternate decision")
+            if not re.search(r"(?is)(?:вымышлен|учебн).{0,100}(?:политик|минимум|критери)", plain):
+                errors.append("fictional policy")
+            return errors
+
+        for relative_path, destination, alternate in (
+            (TASK11_CHAPTERS[4], "Поле Альфа", "Поле Браво"),
+            (TASK11_CHAPTERS[5], "Поле Гамма", "Поле Дельта"),
+        ):
+            text = self._read(relative_path)
+            with self.subTest(path=relative_path):
+                self.assertEqual([], weather_errors(text, destination, alternate))
+
+        ulm = self._read(TASK11_CHAPTERS[4])
+        sep = self._read(TASK11_CHAPTERS[5])
+        mutations = (
+            (
+                "ULM destination visibility",
+                ulm.replace("Прогнозная видимость 8 km", "Прогнозная видимость 4 km", 1),
+                "Поле Альфа", "Поле Браво",
+            ),
+            (
+                "ULM alternate weather",
+                ulm.replace("прогноз 9 km и 3500 ft", "прогноз 1 km и 500 ft", 1),
+                "Поле Альфа", "Поле Браво",
+            ),
+            (
+                "SEP destination visibility",
+                sep.replace("Прогнозная видимость 10 km", "Прогнозная видимость 6 km", 1),
+                "Поле Гамма", "Поле Дельта",
+            ),
+            (
+                "SEP alternate weather",
+                sep.replace("прогноз 12 km и 4500 ft", "прогноз 1 km и 500 ft", 1),
+                "Поле Гамма", "Поле Дельта",
+            ),
+            (
+                "ULM unrelated weather decoy",
+                ulm.replace(
+                    "- Аэродром назначения Поле Альфа:",
+                    "- Посторонний прогноз: видимость 8 km и облака 3000 ft.\n"
+                    "- Аэродром назначения Поле Альфа:",
+                    1,
+                ).replace("Прогнозная видимость 8 km", "Прогнозная видимость 4 km", 1),
+                "Поле Альфа", "Поле Браво",
+            ),
+            (
+                "ULM duplicate destination row",
+                ulm.replace(
+                    "- Аэродром назначения Поле Альфа:",
+                    "- Аэродром назначения Поле Альфа: Прогнозная видимость 8 km ≥ 5 km; "
+                    "нижняя граница облаков 3000 ft ≥ 2000 ft; решение: проход.\n"
+                    "- Аэродром назначения Поле Альфа:",
+                    1,
+                ).replace("Прогнозная видимость 8 km", "Прогнозная видимость 4 km", 1),
+                "Поле Альфа", "Поле Браво",
+            ),
+            (
+                "ULM negative destination decision",
+                ulm.replace("решение: проход", "решение: неприемлем, NO-GO", 1),
+                "Поле Альфа", "Поле Браво",
+            ),
+            (
+                "ULM negative alternate decision",
+                ulm.replace(
+                    "Запасной аэродром Поле Браво: прогноз 9 km и 3500 ft AGL; решение: проход",
+                    "Запасной аэродром Поле Браво: прогноз 9 km и 3500 ft AGL; "
+                    "решение: неприемлем, NO-GO",
+                    1,
+                ),
+                "Поле Альфа", "Поле Браво",
+            ),
+            (
+                "ULM spaced negative decision",
+                ulm.replace("решение: проход.", "решение: проход; NO GO.", 1),
+                "Поле Альфа", "Поле Браво",
+            ),
+            (
+                "ULM contradictory Russian decision",
+                ulm.replace("решение: проход.", "решение: проход; вылет запрещён.", 1),
+                "Поле Альфа", "Поле Браво",
+            ),
+            (
+                "ULM Unicode-marker duplicate destination",
+                ulm.replace(
+                    "- Аэродром назначения Поле Альфа: Прогнозная видимость 8 km ≥ 5 km; "
+                    "нижняя граница облаков 3000 ft ≥ 2000 ft; решение: проход.",
+                    "- Аэродром назначения Поле Альфа: Прогнозная видимость 8 km ≥ 5 km; "
+                    "нижняя граница облаков 3000 ft ≥ 2000 ft; решение: проход.\n"
+                    "– Аэродром назначения Поле Альфа: Прогнозная видимость 4 km ≥ 5 km; "
+                    "нижняя граница облаков 3000 ft ≥ 2000 ft; решение: проход.",
+                    1,
+                ),
+                "Поле Альфа", "Поле Браво",
+            ),
+        )
+        for label, mutated, destination, alternate in mutations:
+            with self.subTest(mutation=label):
+                base = ulm if destination == "Поле Альфа" else sep
+                self.assertNotEqual(base, mutated, f"mutation did not change dossier: {label}")
+                self.assertTrue(weather_errors(mutated, destination, alternate), label)
+
+    def test_task11_ten_decision_scenarios_are_structured(self):
+        blocks = self._blocks("SCN-PERF")
+        self.assertGreaterEqual(len(blocks), 10)
+        combined = _plain_markdown("\n".join(blocks.values()))
+        for block in blocks.values():
+            for label in (
+                "Исходные данные", "Проверка источника", "Расчёт или сравнение",
+                "Ворота решения", "Решение",
+            ):
+                self.assertRegex(block, rf"(?m)^\*\*{re.escape(label)}:\*\*")
+            self.assertIn("УЧЕБНЫЕ ДАННЫЕ — НЕ ДЛЯ ПОЛЁТА", block)
+        for topic in (
+            "перегруз", "центровк", "топлив", "плотност", "ветер",
+            "мокр", "уклон", "препятств", "расход", "запасн",
+        ):
+            self.assertIn(topic, combined.casefold())
+        self.assertRegex(combined, r"(?is)(?:NO-GO|не\s+вылетать|снять\s+груз|перенести\s+вылет|изменить\s+маршрут)")
+
+    def test_task11_questions_are_original_substantive_and_anchored(self):
+        questions = []
+        errors = []
+        chapter_counts = []
+        all_anchors = markdown_anchors(self._all_text())
+        registered_sources = {
+            item["id"] for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        for relative_path in TASK11_CHAPTERS:
+            text = self._read(relative_path)
+            chapter = parsed_question_blocks(text)
+            questions.extend(chapter)
+            chapter_counts.append(len(chapter))
+            errors.extend(f"{relative_path}: {error}" for error in question_block_errors(text))
+            chapter_anchors = markdown_anchors(text)
+            for question in chapter:
+                theory = re.search(
+                    r"(?m)^\*\*Опора в теории:\*\*\s*"
+                    r"\[[^]\n]+\]\(#([a-z][a-z0-9-]*)\)\.?\s*$",
+                    question["body"],
+                )
+                self.assertIsNotNone(theory, f"{question['id']}: theory link")
+                if theory:
+                    self.assertNotEqual(question["anchor"], theory.group(1), question["id"])
+                    self.assertIn(theory.group(1), chapter_anchors, question["id"])
+                source = re.search(
+                    r"(?m)^\*\*Источник:\*\*\s*(.+?)\s*$",
+                    question["body"],
+                )
+                self.assertIsNotNone(source, f"{question['id']}: per-question source")
+                if source:
+                    cited = set(re.findall(r"SRC-[A-Z0-9-]+", source.group(1)))
+                    self.assertTrue(cited, question["id"])
+                    self.assertTrue(cited <= registered_sources, (question["id"], cited - registered_sources))
+        self.assertEqual([], errors)
+        self.assertGreaterEqual(len(questions), 40)
+        self.assertTrue(all(count >= 6 for count in chapter_counts), chapter_counts)
+        identifiers = [item["id"] for item in questions]
+        self.assertEqual(len(identifiers), len(set(identifiers)))
+        self.assertTrue(all(identifier.startswith("Q-PERF-") for identifier in identifiers))
+        for question in questions:
+            self.assertIsNotNone(question["anchor"], question["id"])
+            self.assertIn(question["anchor"], all_anchors)
+
+    def test_task11_question_distractors_are_plausible_domain_errors(self):
+        review_text = "\n".join(
+            self._read(path).split("## Контрольные вопросы", 1)[1].split("## Источники", 1)[0]
+            for path in TASK11_CHAPTERS
+        )
+        weak = (
+            r"(?i)погода\s+и\s+QNH\s+исчезают",
+            r"(?i)плотность\s+меняется\s+до\s+нуля",
+            r"(?i)топливн\w+\s+расход\s+обязательно\s+удваивается",
+            r"(?i)баки\s+(?:уже\s+)?пуст",
+            r"(?i)только\s+цвет\w*\s+(?:таблиц|график|документ)",
+            r"(?i)срок\w+\s+действия\s+ULM\s+licen",
+            r"(?i)предел\w+\s+двигател\w+\s+Rotax",
+            r"(?i)вылететь\s+быстрее",
+            r"(?i)потому\s+что\s+(?:они|топливо)\s+не\s+имеют\s+масс",
+        )
+        for pattern in weak:
+            self.assertNotRegex(review_text, pattern)
+
+    def test_task11_sources_are_registered_audited_and_pinpointed(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))}
+        self.assertTrue(self.REQUIRED_SOURCE_IDS <= sources.keys(), self.REQUIRED_SOURCE_IDS - sources.keys())
+        registry_md = SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+        audit = (COURSE_DOCS / "sources" / "audit-technical.md").read_text(encoding="utf-8")
+        chapter_text = self._all_text()
+        for identifier in self.REQUIRED_SOURCE_IDS:
+            with self.subTest(source=identifier):
+                self.assertIn(identifier, registry_md)
+                self.assertIn(identifier, audit)
+                self.assertIn(identifier, chapter_text)
+        self.assertRegex(sources["SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01"]["scope"], r"pp\. 21–27")
+        self.assertRegex(sources["SRC-EASA-AIRCREW-2026"]["scope"], r"§§7\.1–7\.3")
+        self.assertRegex(sources["SRC-EASA-AIR-OPS-2026"]["scope"], r"NCO\.OP\.125.+NCO\.POL\.100.+\.105.+\.110")
+        self.assertRegex(sources["SRC-FAA-PHAK-25C-CH10"]["scope"], r"pp\. 10-1–10-6")
+        self.assertRegex(sources["SRC-FAA-PHAK-25C-CH11"]["scope"], r"pp\. 11-1–11-34")
+        self.assertRegex(
+            sources["SRC-FAA-WBH-1B"]["scope"],
+            r"(?i)Chapter 3.+(?:weighing|взвеш).+(?:empty weight|пуст\w+\s+масс).+CG.+"
+            r"pp\. 5-1–5-4.+7-1–7-8",
+        )
+        self.assertNotRegex(
+            sources["SRC-FAA-WBH-1B"]["scope"],
+            r"(?i)Chapter 3 terminology",
+        )
+        self.assertRegex(sources["SRC-BOE-RD-141-2025"]["scope"], r"29\(2\)\(c\).+29\(5\)\(b\)\(3\)")
+        self.assertRegex(sources["SRC-ENAIRE-AIP-GEN-3-1-2026"]["scope"], r"GEN 3\.1.+ICARO.+PIB.+NOTAM")
+        insignia = sources["SRC-ENAIRE-INSIGNIA-HELP-2026"]
+        self.assertEqual("https://insignia.enaire.es/ayuda/help.html", insignia["url"])
+        self.assertRegex(insignia["scope"], r"(?is)NOTAM.{0,120}prototyp.{0,180}ICARO")
+        self.assertNotEqual(
+            insignia["url"], sources["SRC-ENAIRE-AIP-GEN-3-1-2026"]["url"]
+        )
+
+    def test_task11_terms_and_formula_reference_are_bilingual_and_bounded(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))}
+        required = {
+            "datum", "arm", "weight-and-balance moment", "centre of gravity envelope",
+            "take-off mass", "landing mass", "usable fuel", "unusable fuel",
+            "final reserve fuel", "aircraft range", "aircraft endurance", "climb gradient",
+        }
+        self.assertTrue(required <= terms.keys(), required - terms.keys())
+        glossary = GLOSSARY.read_text(encoding="utf-8")
+        for canonical in required:
+            term = terms[canonical]
+            for key in ("russian", "english", "spanish", "definition", "anchor", "defined_in"):
+                self.assertTrue(term[key], f"{canonical}: {key}")
+            self.assertRegex(term["definition"], r"^[А-ЯЁ]")
+            self.assertIn(f'id="{term["anchor"]}"', glossary)
+        formulas = self._read(TASK11_REFERENCE)
+        for anchor in (
+            "mass-moment-cg", "loading-change", "pressure-density-altitude",
+            "climb-gradient", "range-endurance", "fuel-ledger", "interpolation",
+        ):
+            self.assertIn(anchor, markdown_anchors(formulas))
+        self.assertGreaterEqual(formulas.count("НЕ ДЛЯ ПОЛЁТА"), 5)
+        self.assertRegex(_plain_markdown(formulas), r"(?is)(?:линейн\w+\s+интерполяц).{0,220}только.{0,120}(?:между|внутри).{0,120}(?:ячейк|узл|точк)")
+        self.assertRegex(_plain_markdown(formulas), r"(?is)экстраполяц.{0,120}(?:запрещ|не\s+выполня)")
+
+    def test_task11_prose_and_questions_are_russian_first(self):
+        self.maxDiff = None
+        violations = []
+        hybrid_english = re.compile(
+            r"(?i)\b(?:performance|planning|ledger|framework|aircraft|operation|theory|"
+            r"synthetic|dossier|briefing|available|required|protected|reserve|alternative|"
+            r"escape|replan|loading|landing|take-off|weather|source|method|margin|surface|"
+            r"slope|condition|approach|actual|monitoring|flow|range|endurance|cross-check|"
+            r"coefficients|distributed|regulatory|total|go-around|governing|obstacle|"
+            r"grass|wet|headwind|corrections?|chart|sanity|climb\s+rate|temperature\s+"
+            r"correction|ground\s+gradient|kilogram|gallons?|pounds?|gates|envelope)\b"
+        )
+
+        def language_violations(relative_path, source_text):
+            found = []
+            text = source_text
+            in_display_math = False
+            for line_number, line in enumerate(text.splitlines(), 1):
+                if line.strip() == r"\[":
+                    in_display_math = True
+                    continue
+                if line.strip() == r"\]":
+                    in_display_math = False
+                    continue
+                if in_display_math:
+                    continue
+                if not line.strip() or re.match(r"^\s*\[[^]]+\]:", line):
+                    continue
+                visible_line = re.sub(r"\{#[^}]+\}", " ", line)
+                visible_line = re.sub(r"\$\$.*?\$\$|\$.*?\$", " ", visible_line)
+                visible_line = re.sub(r"<!--.*?-->", " ", visible_line)
+                visible_line = re.sub(
+                    r"\b(?:Q|SCN|CALC)-PERF-\d+\b",
+                    " ",
+                    visible_line,
+                    flags=re.IGNORECASE,
+                )
+                plain = _plain_markdown(visible_line)
+                plain = re.sub(
+                    r"\((?:English|EN):.*?(?:español|ES):.*?\)",
+                    " ",
+                    plain,
+                    flags=re.IGNORECASE,
+                )
+                plain = re.sub(r"\((?:English|EN):[^)]*\)", " ", plain, flags=re.IGNORECASE)
+                plain = plain.replace("Performance y Planificación Vuelo", " ")
+                for official_title in (
+                    "Easy Access Rules for Air Operations",
+                    "Air Ops",
+                    "Real Decreto",
+                ):
+                    plain = plain.replace(official_title, " ")
+                plain = re.sub(r"SRC-[A-Z0-9-]+", " ", plain)
+                latin_words = re.findall(
+                    r"(?<![A-Za-z])[A-Za-z][A-Za-z'-]{2,}(?![A-Za-z])", plain
+                )
+                allowed_technical = {
+                    "agl", "aemet", "afm", "aip", "ais", "amc", "ato", "atis", "atc",
+                    "cas", "cg", "da", "dto", "eta", "fcl", "fpm", "full", "fuel",
+                    "easa", "enaire", "gen", "go", "gm", "gs", "hpa", "ias", "icao",
+                    "icaro", "ifr", "isa", "kg", "kt", "lapl", "lda", "maf", "mayday",
+                    "min", "minimum", "mtom",
+                    "nco", "nm", "no-go", "notam", "oat", "om", "pa", "part-fcl",
+                    "part-nco", "pib", "poh", "ppl", "qnh", "replan", "rev", "roc",
+                    "pol", "sep", "sera", "sop", "t-sop", "src", "tas", "tisa", "ulm",
+                    "vfr", "vii",
+                    "art", "arts", "annex", "article", "regulation", "insignia",
+                    "espa", "gal", "syllabus",
+                }
+                latin_words = [
+                    word for word in latin_words
+                    if word.casefold() not in allowed_technical
+                    and not word.casefold().startswith("part-")
+                    and not word.casefold().startswith("insignia")
+                    and not word.casefold().startswith(("afm-", "faa-", "sep-", "ulm-", "vfr-"))
+                ]
+                russian_words = re.findall(
+                    r"(?<![А-Яа-яЁё])[А-Яа-яЁё][А-Яа-яЁё-]{2,}(?![А-Яа-яЁё])", plain
+                )
+                if latin_words or hybrid_english.search(plain):
+                    found.append(
+                        f"{relative_path}:{line_number}: {' '.join(latin_words[:10])}"
+                    )
+            return found
+
+        for relative_path in TASK11_CHAPTERS + (TASK11_REFERENCE,):
+            violations.extend(language_violations(relative_path, self._read(relative_path)))
+        self.assertEqual([], violations)
+        mutation_fragments = (
+            "go-around", "governing data", "GOVERNING DATA", "obstacle analysis",
+            "grass/wet/headwind corrections", "chart", "sanity check", "climb rate",
+            "temperature correction", "ground gradient", "kilogram", "U.S. gallons",
+            "pounds", "gates", "envelope",
+        )
+        for fragment in mutation_fragments:
+            with self.subTest(language_mutation=fragment):
+                probe = f"Пилот проверяет {fragment} перед полётом."
+                self.assertTrue(language_violations("mutation.md", probe))
+        allowed_probe = (
+            "AFM POH ULM MAF LAPL PPL SEP Part-FCL Part-NCO AMC FCL NCO SERA "
+            "AIP NOTAM QNH OAT ISA PA DA IAS TAS GS CG ROC ATC PIB ICARO kg m ft "
+            "hPa kt NM min h L L/h ft/NM fpm US gal lb."
+        )
+        self.assertEqual([], language_violations("allowed.md", allowed_probe))
+        labelled_probe = (
+            "Уход на второй круг (English: go-around; español: motor y al aire)."
+        )
+        self.assertEqual([], language_violations("labelled.md", labelled_probe))
+        self.assertEqual(
+            [],
+            language_violations("title.md", "Performance y Planificación Vuelo"),
+        )
+        self.assertTrue(language_violations("title-mutation.md", "Performance chart"))
+        self.assertTrue(
+            language_violations(
+                "source-mutation.md",
+                "## Источники\n- `SRC-TEST` — operational rules only.",
+            )
+        )
+
+    def test_task11_repeated_glossary_links_are_paragraph_local(self):
+        duplicates = []
+        for relative_path in TASK11_CHAPTERS:
+            text = self._read(relative_path).split("## Источники", 1)[0]
+            for paragraph in re.split(r"\n\s*\n", text):
+                targets = re.findall(
+                    r"\]\(\.\./reference/glossary\.md#(term-[a-z0-9-]+)\)",
+                    paragraph,
+                )
+                repeated = {target for target in targets if targets.count(target) > 1}
+                if repeated:
+                    line = text.count("\n", 0, text.find(paragraph)) + 1
+                    duplicates.append(f"{relative_path}:{line}: {sorted(repeated)}")
+        self.assertEqual([], duplicates)
+
+    def test_task11_fuel_calls_separate_sera_phraseology_from_part_nco_triggers(self):
+        fuel = self._read(TASK11_CHAPTERS[3])
+        section = fuel.split("{#fuel-radio-calls}", 1)[1].split("### ", 1)[0]
+        plain = _plain_markdown(section)
+        self.assertRegex(
+            plain,
+            r"(?is)SERA\.11012.{0,180}(?:фразеолог|радиосообщ|реакц\w+\s+ATC)",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)NCO\.OP\.185\(b\).{0,220}контролируем\w+\s+пол[её]т.{0,220}"
+            r"конкретн\w+\s+(?:аэродром|площадк).{0,220}(?:изменен|изменени).{0,100}разрешен",
+        )
+        self.assertRegex(plain, r"(?is)NCO\.OP\.185\(c\).{0,220}контролируем\w+\s+пол[её]т")
+        self.assertRegex(
+            plain,
+            r"(?is)ближайш\w+.{0,220}безопасн\w+\s+посадк.{0,220}"
+            r"меньше.{0,100}(?:финальн|final)",
+        )
+        self.assertRegex(
+            plain,
+            r"(?is)GM1\s+NCO\.OP\.185\(b\)&\(c\).{0,220}неконтролируем\w+.{0,180}"
+            r"(?:усмотрен|целесообраз|считает\s+разумн)",
+        )
+        question = next(
+            item for item in parsed_question_blocks(fuel) if item["id"] == "Q-PERF-026"
+        )
+        q_plain = _plain_markdown(question["prompt"] + " " + question["body"])
+        self.assertRegex(q_plain, r"(?is)(?:радиосообщ|ATC).{0,220}конкретн\w+\s+(?:аэродром|мест|площадк)")
+        self.assertRegex(q_plain, r"(?is)(?:задержк|изменен\w+\s+разрешен).{0,180}ниже.{0,80}(?:финальн|final)")
+
+        sep = self._read(TASK11_CHAPTERS[5])
+        alternative = sep.split("{#alternative-escape-gate}", 1)[1].split("### ", 1)[0]
+        row = next(
+            (line for line in alternative.splitlines() if "ниже резерва" in line),
+            "",
+        )
+        self.assertRegex(row, r"NCO\.OP\.185\(c\)")
+        self.assertRegex(row, r"SERA\.11012")
+
+    def test_task11_runway_slope_and_wind_are_independent_inputs(self):
+        performance = self._read(TASK11_CHAPTERS[1])
+        scenario = re.search(
+            r"(?ms)^###\s+SCN-PERF-05\s+—.*?(?=^###\s|^##\s)",
+            performance,
+        )
+        self.assertIsNotNone(scenario)
+        plain = _plain_markdown(scenario.group(0))
+        self.assertNotRegex(plain, r"(?is)уклон.{0,100}уменьша.{0,100}попутн\w+\s+компонент")
+        self.assertRegex(plain, r"(?is)ВПП\s*09.{0,180}ветер\s+270\s*°")
+        self.assertRegex(plain, r"(?is)(?:уклон.{0,40}ветер|ветер.{0,40}уклон).{0,80}независим")
+
+    def test_task11_display_precision_matches_declared_rounding(self):
+        for identifier in ("CALC-PERF-22", "CALC-PERF-24"):
+            block = self._blocks("CALC-PERF")[identifier]
+            result = re.search(r"(?m)^\*\*Результат:\*\*\s*(.+)$", block).group(1)
+            rounding = _plain_markdown(
+                re.search(r"(?m)^\*\*Округление:\*\*\s*(.+)$", block).group(1)
+            )
+            self.assertRegex(rounding, r"(?i)(?:цел\w+\s+(?:L|л)|whole\s+L)")
+            self.assertNotRegex(result, r"\d+\.0{2,}\s*L")
+        exact_result_tokens = {
+            "CALC-PERF-01": "56.25 kg·m",
+            "CALC-PERF-02": "340.0 kg",
+            "CALC-PERF-06": "2197.5 ft",
+            "CALC-PERF-07": "10.6 °C",
+            "CALC-PERF-14": "1.75 h",
+            "CALC-PERF-15": "25.2 kg",
+            "CALC-PERF-17": "13.2 L/h",
+            "CALC-PERF-18": "105 min",
+            "CALC-PERF-22": "129 L",
+            "CALC-PERF-24": "18 L",
+            "CALC-PERF-25": "180 NM",
+            "CALC-PERF-26": "2.25 h",
+        }
+        blocks = self._blocks("CALC-PERF")
+        for identifier, token in exact_result_tokens.items():
+            result = re.search(r"(?m)^\*\*Результат:\*\*\s*(.+)$", blocks[identifier]).group(1)
+            with self.subTest(precision=identifier):
+                self.assertIn(token, result)
+        self.assertNotRegex(
+            "\n".join(
+                re.search(r"(?m)^\*\*Результат:\*\*\s*(.+)$", block).group(1)
+                for block in blocks.values()
+            ),
+            r"(?:56\.250|340\.000|2197\.500|25\.200|1\.750|13\.200)",
+        )
+        if "2200 ft" in re.search(
+            r"(?m)^\*\*Дано:\*\*\s*(.+)$", blocks["CALC-PERF-07"]
+        ).group(1):
+            chain = _plain_markdown(blocks["CALC-PERF-06"] + blocks["CALC-PERF-07"])
+            self.assertRegex(
+                chain,
+                r"(?is)2197\.5.{0,500}2200.{0,180}(?:отдельн\w+\s+приближ|приближ\w+\s+для\s+решен)",
+            )
+
+    def test_task11_q039_preserves_four_option_line_breaks(self):
+        sep = self._read(TASK11_CHAPTERS[5])
+        question = next(item for item in parsed_question_blocks(sep) if item["id"] == "Q-PERF-039")
+        option_lines = [line for line in question["body"].splitlines() if re.match(r"^[A-D]\.\s", line)]
+        self.assertEqual(4, len(option_lines))
+        for line in option_lines[:3]:
+            self.assertTrue(line.rstrip().endswith("<br>"), line)
+
+    def test_task11_air_ops_205_scope_and_enaire_dates_are_controlled(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))}
+        air_ops = sources["SRC-EASA-AIR-OPS-2026"]
+        self.assertRegex(air_ops["scope"], r"NCO\.OP\.205/AMC1")
+        audit = (COURSE_DOCS / "sources" / "audit-technical.md").read_text(encoding="utf-8")
+        self.assertRegex(audit, r"(?is)PERF-NCO-001[^\n]*NCO\.OP\.205/AMC1")
+        sep_sources = self._read(TASK11_CHAPTERS[5]).split("## Источники", 1)[1]
+        self.assertRegex(sep_sources, r"NCO\.OP\.205/AMC1")
+
+        registry_md = SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+        spain_audit = (COURSE_DOCS / "sources" / "audit-spain-2026.md").read_text(encoding="utf-8")
+        for identifier in (
+            "SRC-ENAIRE-AIP-GEN-3-1-2026",
+            "SRC-ENAIRE-INSIGNIA-HELP-2026",
+        ):
+            source = sources[identifier]
+            with self.subTest(source=identifier):
+                self.assertEqual("2026-07-14", source["checked"])
+                self.assertIn("checked 14.07.2026", source["edition"])
+                row = next(line for line in registry_md.splitlines() if f"| {identifier} |" in line)
+                self.assertIn("| 2026-07-14 |", row)
+        insignia_rows = "\n".join(
+            line for line in spain_audit.splitlines()
+            if "ES-AIP-005" in line or "SRC-ENAIRE-INSIGNIA-HELP-2026" in line
+        )
+        self.assertNotRegex(insignia_rows, r"(?i)Last-Modified")
+
+    def test_task11_performance_svg_has_causal_topology(self):
+        root = ET.parse(ROOT / TASK11_SVGS[1]).getroot()
+        expected_edges = {
+            ("aircraft-inputs", "source-gate"),
+            ("environment-inputs", "source-gate"),
+            ("runway-inputs", "source-gate"),
+            ("source-gate", "aircraft-table"),
+            ("aircraft-table", "margin-gate"),
+            ("margin-gate", "decision-gate"),
+        }
+        def geometry_errors(svg_root):
+            by_id = {
+                node.attrib["id"]: node
+                for node in svg_root.iter()
+                if "id" in node.attrib
+            }
+
+            def panel_bbox(group):
+                boxes = []
+                for node in group.iter():
+                    tag = node.tag.rsplit("}", 1)[-1]
+                    if tag == "rect":
+                        boxes.append(tuple(float(node.attrib[key]) for key in ("x", "y", "width", "height")))
+                    elif tag == "polygon":
+                        points = [
+                            tuple(map(float, pair.split(",")))
+                            for pair in node.attrib.get("points", "").split()
+                        ]
+                        if points:
+                            xs, ys = zip(*points)
+                            boxes.append((min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys)))
+                if not boxes:
+                    return None
+                return (
+                    min(box[0] for box in boxes),
+                    min(box[1] for box in boxes),
+                    max(box[0] + box[2] for box in boxes) - min(box[0] for box in boxes),
+                    max(box[1] + box[3] for box in boxes) - min(box[1] for box in boxes),
+                )
+
+            def endpoints(edge):
+                tag = edge.tag.rsplit("}", 1)[-1]
+                if tag == "line":
+                    return (
+                        (float(edge.attrib["x1"]), float(edge.attrib["y1"])),
+                        (float(edge.attrib["x2"]), float(edge.attrib["y2"])),
+                    )
+                if tag == "path":
+                    numbers = [float(value) for value in re.findall(r"-?\d+(?:\.\d+)?", edge.attrib.get("d", ""))]
+                    if len(numbers) >= 4:
+                        return (tuple(numbers[:2]), tuple(numbers[-2:]))
+                return None
+
+            def touches(point, box, tolerance=3.0):
+                x, y = point
+                bx, by, width, height = box
+                dx = max(bx - x, 0, x - (bx + width))
+                dy = max(by - y, 0, y - (by + height))
+                return dx * dx + dy * dy <= tolerance * tolerance
+
+            errors = []
+            actual_edges = {}
+            for node in svg_root.iter():
+                source = node.attrib.get("data-from")
+                target = node.attrib.get("data-to")
+                if source and target:
+                    actual_edges[(source, target)] = node
+            for source, target in expected_edges:
+                edge = actual_edges.get((source, target))
+                if edge is None:
+                    errors.append(f"missing {source}->{target}")
+                    continue
+                if source not in by_id or target not in by_id:
+                    errors.append(f"unknown endpoint {source}->{target}")
+                    continue
+                points = endpoints(edge)
+                source_box = panel_bbox(by_id[source])
+                target_box = panel_bbox(by_id[target])
+                if not points or not source_box or not target_box:
+                    errors.append(f"missing geometry {source}->{target}")
+                    continue
+                start, end = points
+                if not touches(start, source_box):
+                    errors.append(f"detached start {source}->{target}")
+                if not touches(end, target_box):
+                    errors.append(f"detached end {source}->{target}")
+                if end[1] <= start[1]:
+                    errors.append(f"wrong direction {source}->{target}")
+            return errors
+
+        self.assertEqual([], geometry_errors(root))
+        mutated = ET.fromstring(ET.tostring(root, encoding="unicode"))
+        runway_edge = next(
+            node for node in mutated.iter()
+            if node.attrib.get("data-from") == "runway-inputs"
+            and node.attrib.get("data-to") == "source-gate"
+        )
+        runway_edge.attrib.update({"x1": "20", "y1": "20", "x2": "30", "y2": "30"})
+        self.assertTrue(geometry_errors(mutated))
+
+    def test_task11_svgs_are_accessible_mobile_and_geometric(self):
+        required_ids = (
+            {"datum", "arm-lines", "moments", "cg-envelope", "departure-point", "landing-point"},
+            {"aircraft-inputs", "environment-inputs", "runway-inputs", "source-gate", "margin-gate", "decision-gate"},
+        )
+        for relative_path, semantic_ids in zip(TASK11_SVGS, required_ids):
+            root = ET.parse(ROOT / relative_path).getroot()
+            ns = "{http://www.w3.org/2000/svg}"
+            with self.subTest(path=relative_path):
+                self.assertEqual(f"{ns}svg", root.tag)
+                self.assertEqual("img", root.attrib.get("role"))
+                self.assertTrue(root.attrib.get("aria-labelledby"))
+                self.assertIsNotNone(root.find(f"{ns}title"))
+                self.assertIsNotNone(root.find(f"{ns}desc"))
+                self.assertFalse(list(root.iter(f"{ns}image")))
+                _, _, width, _ = (float(value) for value in root.attrib["viewBox"].split())
+                self.assertLessEqual(width, 760)
+                sizes = [float(node.attrib["font-size"].removesuffix("px")) for node in root.iter(f"{ns}text") if "font-size" in node.attrib]
+                self.assertTrue(sizes)
+                self.assertGreaterEqual(min(sizes) * 340 / width, 13.0)
+                ids = {node.attrib.get("id") for node in root.iter() if node.attrib.get("id")}
+                self.assertTrue(semantic_ids <= ids, semantic_ids - ids)
+                geometry = {f"{ns}path", f"{ns}line", f"{ns}polyline", f"{ns}polygon", f"{ns}rect", f"{ns}circle", f"{ns}ellipse"}
+                self.assertGreaterEqual(sum(1 for node in root.iter() if node.tag in geometry), 12)
+                words = " ".join(root.itertext())
+                self.assertRegex(words, r"[А-Яа-яЁё]")
+                self.assertIn("УЧЕБНАЯ СХЕМА — НЕ ДЛЯ ПОЛЁТА", words)
 
 
 if __name__ == "__main__":

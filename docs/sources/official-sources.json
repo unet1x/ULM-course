@@ -6,7 +6,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew",
     "edition": "онлайн-консолидация от 24.02.2026",
     "checked": "2026-07-13",
-    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; AMC1 FCL.115/FCL.120 отсылает LAPL к общей PPL syllabus, а AMC1 FCL.210/FCL.215 §5.1 задаёт subject 081 Principles of Flight и §§9.1–9.2 — navigation theory/radio-navigation depth; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency; удобная публикация сверяется с EUR-Lex"
+    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; AMC1 FCL.115/FCL.120 отсылает LAPL к общей PPL syllabus, а AMC1 FCL.210/FCL.215 §5.1 задаёт subject 081 Principles of Flight, §§7.1–7.3 — mass and balance, performance, flight planning/monitoring, и §§9.1–9.2 — navigation theory/radio-navigation depth; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency; удобная публикация сверяется с EUR-Lex"
   },
   {
     "id": "SRC-EASA-SERA-2025",
@@ -15,7 +15,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-standardised-european?erules-id=ERULES-1963177438-9807",
     "edition": "онлайн-консолидация, revision August 2025",
     "checked": "2026-07-13",
-    "scope": "SERA.2010(b) pre-flight information; SERA.4001 flight-plan submission including international borders; SERA.3401 time system; SERA.8015(e) и GM1 SERA.8015(ec) readback/conditional clearance; SERA.8025 position reports после Regulation (EU) 2024/404; SERA.13001/SERA.13005 SSR; SERA.14001, SERA.14015, SERA.14020, SERA.14035, SERA.14040, SERA.14045, SERA.14050, SERA.14055, SERA.14070, SERA.14075, SERA.14083, SERA.14085 и SERA.14095; Appendix 1 Table AP 1-1 light signals; текущие национальные AIP/NOTAM применяются дополнительно"
+    "scope": "SERA.2010(b) pre-flight information, fuel/energy and alternative-course logic; SERA.11012/GM fuel-state communication meaning for MINIMUM FUEL and MAYDAY FUEL; SERA.4001 flight-plan submission including international borders; SERA.3401 time system; SERA.8015(e) и GM1 SERA.8015(ec) readback/conditional clearance; SERA.8025 position reports после Regulation (EU) 2024/404; SERA.13001/SERA.13005 SSR; SERA.14001, SERA.14015, SERA.14020, SERA.14035, SERA.14040, SERA.14045, SERA.14050, SERA.14055, SERA.14070, SERA.14075, SERA.14083, SERA.14085 и SERA.14095; Appendix 1 Table AP 1-1 light signals; текущие национальные AIP/NOTAM применяются дополнительно"
   },
   {
     "id": "SRC-EURLEX-1178-2011",
@@ -78,7 +78,7 @@
     "url": "https://www.boe.es/eli/es/rd/2022/09/20/765/con",
     "edition": "консолидировано 12.03.2026; изменения действуют с 01.04.2026",
     "checked": "2026-07-13",
-    "scope": "Испанские категории и эксплуатация; art. 4.1(d), (e), (f) и art. 4.2 после RD 182/2026: controlled airspace и ночной VFR требуют установленного нормой оборудования и действующих эквивалентных полномочий Part-FCL; за пределами Испании применяются требования государства пролёта; применяется с 01.04.2026"
+    "scope": "Испанские категории и эксплуатация; arts. 1.2, 1.4 и 3 различают category mass ceilings, design empty-mass formula including the one-hour fuel term and aircraft documents: это не MTOM каждого борта и не operational reserve. art. 4.1(d), (e), (f) и art. 4.2 после RD 182/2026: controlled airspace и ночной VFR требуют установленного нормой оборудования и действующих эквивалентных полномочий Part-FCL; за пределами Испании применяются требования государства пролёта; применяется с 01.04.2026"
   },
   {
     "id": "SRC-BOE-RD-141-2025",
@@ -87,7 +87,7 @@
     "url": "https://www.boe.es/eli/es/rd/2025/02/25/141",
     "edition": "BOE от 26.02.2025; действует с 27.02.2025",
     "checked": "2026-07-13",
-    "scope": "Начальная и поддерживаемая лётная годность испанских ULM; не регулирует лицензию пилота и эксплуатационные привилегии"
+    "scope": "Начальная и поддерживаемая лётная годность испанских ULM; arts. 2, 28, 30 задают document/airworthiness boundary; art. 29(2)(c) для нового и art. 29(5)(b)(3) для подержанного ULM указывают particularized equipment and complete weight-and-balance data origin; art. 29(2)(d), 29(5)(c) и art. 34(3)(d) поддерживают current manuals/data. Не регулирует лицензию пилота и не даёт generic dispatch numbers"
   },
   {
     "id": "SRC-AESA-ULM-PROCEDURES",
@@ -330,7 +330,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?erules-id=ERULES-1963177438-18537",
     "edition": "Revision 24, March 2026, published 27.03.2026",
     "checked": "2026-07-13",
-    "scope": "Article 5(4), Annex VII (Part-NCO), NCO.GEN.135(a)(10)/AMC1 и NCO.OP.135 для документов, карт и предполётной информации применимой операции; NCO.OP.160, AMC1 и GM1/GM2 для начала/продолжения и перепланирования по погоде; NCO.IDE.A.170 для ELT/PLB и NCO.IDE.A.200 для ответчика по требованиям воздушного пространства. Область определяется операцией и воздушным судном; одно наличие лицензии не определяет применимость Part-NCO"
+    "scope": "Article 5(4), Annex VII (Part-NCO); NCO.GEN.135(a)(10)/AMC1 и NCO.OP.135 для документов, карт, погоды и предполётной информации; NCO.OP.125/AMC1–3/GM2 for scoped fuel planning and protected final reserve; NCO.OP.140 IFR alternate scope; NCO.OP.185 in-flight fuel monitoring; NCO.OP.205/AMC1 for landing-condition assessment and in-flight update; NCO.POL.100, .105 and .110 for mass, CG, weighing and performance; NCO.OP.160, AMC1 and GM1/GM2 for weather continuation/replanning; NCO.IDE.A.170 ELT/PLB and NCO.IDE.A.200 transponder. Область определяется операцией и воздушным судном; одно наличие лицензии не определяет применимость Part-NCO"
   },
   {
     "id": "SRC-WMO-CLOUD-ATLAS-2017",
@@ -871,5 +871,50 @@
     "edition": "Composite ENR 2.2 PDF checked 13.07.2026; page ENR 2.2-26 WEF 22.01.2026",
     "checked": "2026-07-13",
     "scope": "TMZ material begins at PDF p. 26 / page ENR 2.2-26 WEF 22.01.2026 and states Mode A+C or Mode S; this is a page-specific snapshot, not one edition date for the composite ENR 2.2. Current AIP/NOTAM and actual clearance/communication requirements control"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH10",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 10 Weight and Balance",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/phak/12_phak_ch10.pdf",
+    "edition": "FAA-H-8083-25C (2023), Chapter 10",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 10-1–10-6: stable mass/CG effects, moment arithmetic and loading-chart pedagogy only. U.S. regulations, standard occupant/fuel weights and sample dispatch data are excluded; current aircraft documents control"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH11",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 11 Aircraft Performance",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/phak/13_phak_ch11.pdf",
+    "edition": "FAA-H-8083-25C (2023), Chapter 11",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 11-1–11-34: stable AFM chart-reading, density-altitude, climb, range/endurance and runway/performance-factor pedagogy only. No U.S. rule, generic correction or example value is imported"
+  },
+  {
+    "id": "SRC-FAA-WBH-1B",
+    "authority": "FAA",
+    "title": "Weight & Balance Handbook",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/FAA-H-8083-1.pdf",
+    "edition": "FAA-H-8083-1B, 2016; catalogue/addendum status rechecked 13.04.2026",
+    "checked": "2026-07-13",
+    "scope": "Chapter 3 weighing and determination of empty weight CG; printed pp. 5-1–5-4 and pp. 7-1–7-8 for loading methods, equipment/configuration changes and records. Technical pedagogy only; U.S. law, standard weights and example aircraft data are excluded"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-GEN-3-1-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España GEN 3.1 — Servicio de información aeronáutica",
+    "url": "https://aip.enaire.es/aip/contenido_AMDT/LE_Amdt_2026_408_GEN_3_1_es.html",
+    "edition": "AMDT 408/26, WEF 09.07.2026; checked 14.07.2026",
+    "checked": "2026-07-14",
+    "scope": "GEN 3.1 §§3.4–3.5 identifies current NOTAM/PIB structure and ICARO route for PIB and NOTAM queries; operational briefing scope must be obtained through ICARO/AIS and rechecked before flight"
+  },
+  {
+    "id": "SRC-ENAIRE-INSIGNIA-HELP-2026",
+    "authority": "ENAIRE",
+    "title": "Ayuda de ENAIRE Insignia — prototipo de visualización NOTAM",
+    "url": "https://insignia.enaire.es/ayuda/help.html",
+    "edition": "Help page, version 3.7 dated 04.05.2026; checked 14.07.2026",
+    "checked": "2026-07-14",
+    "scope": "The ENAIRE help page labels the NOTAM display as a prototype and directs operational use or PIB generation to ICARO. It supports only the prototype/cross-check boundary, not operational briefing completeness"
   }
 ]

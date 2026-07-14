@@ -77,11 +77,19 @@ nav:
       - Приёмники давления и приборы: 07-aircraft-general-knowledge/06-pitot-static-instruments.md
       - Авионика, наблюдение и аварийные маяки: 07-aircraft-general-knowledge/07-avionics-transponder-elt.md
       - Обслуживание, осмотр и спасательная система: 07-aircraft-general-knowledge/08-maintenance-preflight-brs.md
+  - Лётные характеристики и планирование:
+      - Масса, загрузка и центровка: 08-performance-planning/01-mass-balance.md
+      - Взлёт, набор, препятствия и посадка: 08-performance-planning/02-takeoff-climb-landing.md
+      - Барометрическая высота и высота по плотности: 08-performance-planning/03-density-altitude.md
+      - Топливо, дальность и продолжительность: 08-performance-planning/04-fuel-range-endurance.md
+      - Полное учебное досье ULM-T1: 08-performance-planning/05-ulm-worked-example.md
+      - Полное учебное досье SEP-T2: 08-performance-planning/06-ppl-worked-example.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md
       - Карточки радиосвязи: reference/checklists-radio.md
       - Шаблон навигационного лога: reference/templates-flight-log.md
+      - Формулы лётного планирования: reference/formulas.md
   - Исследовательская база:
       - Реестр официальных источников: sources/official-sources.md
       - Испания и нормативная дата: sources/audit-spain-2026.md

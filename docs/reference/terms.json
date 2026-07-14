@@ -2143,5 +2143,137 @@
     "definition": "Резервный источник статического давления предоставляет предусмотренный установкой альтернативный статический вход. Его наличие, управление и влияние на показания специфичны для самолёта и определяются AFM/POH, дополнением и точной контрольной картой.",
     "anchor": "term-alternate-static-source",
     "defined_in": "docs/reference/glossary.md#term-alternate-static-source"
+  },
+  {
+    "id": "term-datum",
+    "canonical": "datum",
+    "english": "datum",
+    "spanish": "plano de referencia",
+    "russian": "начало отсчёта",
+    "abbreviation": null,
+    "definition": "Начало отсчёта — выбранная изготовителем плоскость или линия, от которой в установленной системе измеряют плечи элементов загрузки.",
+    "anchor": "term-datum",
+    "defined_in": "docs/reference/glossary.md#term-datum"
+  },
+  {
+    "id": "term-arm",
+    "canonical": "arm",
+    "english": "arm",
+    "spanish": "brazo",
+    "russian": "плечо",
+    "abbreviation": null,
+    "definition": "Плечо — подписанное расстояние от установленного начала отсчёта до центра массы элемента; знак и единицы определяет документация самолёта.",
+    "anchor": "term-arm",
+    "defined_in": "docs/reference/glossary.md#term-arm"
+  },
+  {
+    "id": "term-moment",
+    "canonical": "weight-and-balance moment",
+    "english": "moment",
+    "spanish": "momento",
+    "russian": "статический момент",
+    "abbreviation": null,
+    "definition": "Статический момент элемента загрузки равен его массе, умноженной на плечо в системе конкретного самолёта.",
+    "anchor": "term-moment",
+    "defined_in": "docs/reference/glossary.md#term-moment"
+  },
+  {
+    "id": "term-centre-of-gravity-envelope",
+    "canonical": "centre of gravity envelope",
+    "english": "centre of gravity envelope",
+    "spanish": "envolvente del centro de gravedad",
+    "russian": "допустимая область центровки",
+    "abbreviation": null,
+    "definition": "Допустимая область центровки задаёт разрешённые сочетания массы и положения центра тяжести для конкретного самолёта и конфигурации.",
+    "anchor": "term-centre-of-gravity-envelope",
+    "defined_in": "docs/reference/glossary.md#term-centre-of-gravity-envelope"
+  },
+  {
+    "id": "term-take-off-mass",
+    "canonical": "take-off mass",
+    "english": "take-off mass",
+    "spanish": "masa de despegue",
+    "russian": "взлётная масса",
+    "abbreviation": null,
+    "definition": "Взлётная масса — фактическая масса самолёта для начала взлёта после учёта топлива, израсходованного до этой фазы, согласно определениям его документации.",
+    "anchor": "term-take-off-mass",
+    "defined_in": "docs/reference/glossary.md#term-take-off-mass"
+  },
+  {
+    "id": "term-landing-mass",
+    "canonical": "landing mass",
+    "english": "landing mass",
+    "spanish": "masa de aterrizaje",
+    "russian": "посадочная масса",
+    "abbreviation": null,
+    "definition": "Посадочная масса — ожидаемая или фактическая масса самолёта при посадке с учётом расхода топлива и изменений загрузки.",
+    "anchor": "term-landing-mass",
+    "defined_in": "docs/reference/glossary.md#term-landing-mass"
+  },
+  {
+    "id": "term-usable-fuel",
+    "canonical": "usable fuel",
+    "english": "usable fuel",
+    "spanish": "combustible utilizable",
+    "russian": "полезное топливо",
+    "abbreviation": null,
+    "definition": "Полезное топливо — часть количества топлива, доступная двигателю в условиях и конфигурациях, установленных документацией конкретного самолёта.",
+    "anchor": "term-usable-fuel",
+    "defined_in": "docs/reference/glossary.md#term-usable-fuel"
+  },
+  {
+    "id": "term-unusable-fuel",
+    "canonical": "unusable fuel",
+    "english": "unusable fuel",
+    "spanish": "combustible no utilizable",
+    "russian": "невырабатываемое топливо",
+    "abbreviation": null,
+    "definition": "Невырабатываемое топливо — часть топлива, которая не считается доступной для работы двигателя по условиям документации самолёта.",
+    "anchor": "term-unusable-fuel",
+    "defined_in": "docs/reference/glossary.md#term-unusable-fuel"
+  },
+  {
+    "id": "term-final-reserve-fuel",
+    "canonical": "final reserve fuel",
+    "english": "final reserve fuel",
+    "spanish": "combustible de reserva final",
+    "russian": "финальный резерв топлива",
+    "abbreviation": null,
+    "definition": "Финальный резерв топлива — отдельно рассчитанный и защищаемый компонент применимого топливного плана; его величина и правовой статус зависят от режима операции и самолётных данных.",
+    "anchor": "term-final-reserve-fuel",
+    "defined_in": "docs/reference/glossary.md#term-final-reserve-fuel"
+  },
+  {
+    "id": "term-range",
+    "canonical": "aircraft range",
+    "english": "range",
+    "spanish": "alcance",
+    "russian": "дальность",
+    "abbreviation": null,
+    "definition": "Дальность — расстояние, достижимое при заданных запасе топлива, режиме, ветре и прочих явно установленных условиях.",
+    "anchor": "term-range",
+    "defined_in": "docs/reference/glossary.md#term-range"
+  },
+  {
+    "id": "term-endurance",
+    "canonical": "aircraft endurance",
+    "english": "endurance",
+    "spanish": "autonomía temporal",
+    "russian": "продолжительность",
+    "abbreviation": null,
+    "definition": "Продолжительность — время, доступное при заданном полезном количестве топлива и расходе; защищённые компоненты плана рассматриваются отдельно.",
+    "anchor": "term-endurance",
+    "defined_in": "docs/reference/glossary.md#term-endurance"
+  },
+  {
+    "id": "term-climb-gradient",
+    "canonical": "climb gradient",
+    "english": "climb gradient",
+    "spanish": "gradiente de ascenso",
+    "russian": "градиент набора",
+    "abbreviation": null,
+    "definition": "Градиент набора — отношение набранной высоты к горизонтальному расстоянию; для перевода скороподъёмности в градиент относительно земли требуется путевая скорость.",
+    "anchor": "term-climb-gradient",
+    "defined_in": "docs/reference/glossary.md#term-climb-gradient"
   }
 ]
