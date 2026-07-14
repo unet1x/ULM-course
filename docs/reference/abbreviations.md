@@ -98,3 +98,25 @@
 | W/S | [wing loading](glossary.md#term-wing-loading) | удельная нагрузка на крыло |
 | critical AoA | [critical angle of attack](glossary.md#term-critical-angle-of-attack) | критический угол атаки для заданных профиля и условий, не универсальное число |
 | P-factor | [P-factor](glossary.md#term-p-factor) | асимметричный эффект лопастей винта; направление зависит от вращения и установки |
+| EMS | [engine management system (EMS)](glossary.md#term-engine-management-system-ems) | электронная система управления двигателем в применимой архитектуре |
+| ADC | [air data computer (ADC)](glossary.md#term-air-data-computer-adc) | вычислитель воздушных данных |
+| Mode S | [Mode S](glossary.md#term-mode-s) | адресный режим вторичного наблюдения |
+| ADS-B | [automatic dependent surveillance–broadcast (ADS-B)](glossary.md#term-ads-b) | зависимое радиовещательное наблюдение |
+| ELT | [emergency locator transmitter (ELT)](glossary.md#term-elt) | аварийный радиомаяк воздушного судна |
+| PLB | [personal locator beacon (PLB)](glossary.md#term-plb) | персональный аварийный радиомаяк |
+| Part-ML | [Part-ML](glossary.md#term-part-ml) | правила ЕС о поддержании лётной годности применимых лёгких воздушных судов |
+| Part-NCO | [Part-NCO](glossary.md#term-part-nco) | правила ЕС для применимых некоммерческих операций на воздушных судах, не являющихся сложными моторными |
+| AMP | [aircraft maintenance programme (AMP)](glossary.md#term-aircraft-maintenance-programme-amp) | программа технического обслуживания воздушного судна |
+| OM | [Operator's Manual (OM)](glossary.md#term-operators-manual-om) | руководство по эксплуатации изготовителя двигателя или оборудования |
+| IM | [Installation Manual (IM)](glossary.md#term-installation-manual-im) | руководство по установке |
+| MML | [Maintenance Manual Line (MML)](glossary.md#term-maintenance-manual-line-mml) | руководство по линейному техническому обслуживанию |
+| SB | [service bulletin (SB)](glossary.md#term-service-bulletin-sb) | сервисный бюллетень изготовителя |
+| SI | [service instruction (SI)](glossary.md#term-service-instruction-si) | сервисная инструкция изготовителя |
+| ASI | [airspeed indicator (ASI)](glossary.md#term-airspeed-indicator-asi) | указатель воздушной скорости |
+| VSI | [vertical speed indicator (VSI)](glossary.md#term-vertical-speed-indicator-vsi) | указатель вертикальной скорости или вариометр |
+| IAS | [indicated airspeed (IAS)](glossary.md#term-indicated-airspeed-ias) | приборная воздушная скорость |
+| CAS | [calibrated airspeed (CAS)](glossary.md#term-calibrated-airspeed-cas) | калиброванная воздушная скорость |
+| CDI | [capacitor-discharge ignition (CDI)](glossary.md#term-capacitor-discharge-ignition-cdi) | конденсаторно-разрядное зажигание |
+| PSR | [primary surveillance radar (PSR)](glossary.md#term-primary-surveillance-radar-psr) | первичный обзорный радиолокатор |
+| Mode A | [Mode A](glossary.md#term-mode-a) | код ответчика без передачи барометрической высоты |
+| Mode C | [Mode C](glossary.md#term-mode-c) | ответчик с передачей кодированной барометрической высоты |

@@ -330,7 +330,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?erules-id=ERULES-1963177438-18537",
     "edition": "Revision 24, March 2026, published 27.03.2026",
     "checked": "2026-07-13",
-    "scope": "Article 5(4), Annex VII (Part-NCO), NCO.GEN.135(a)(10)/AMC1 и NCO.OP.135 для документов, карт и предполётной информации применимой операции; NCO.OP.160, AMC1 и GM1/GM2 для начала/продолжения и перепланирования по погоде. Область определяется операцией и воздушным судном; одно наличие лицензии не определяет применимость Part-NCO"
+    "scope": "Article 5(4), Annex VII (Part-NCO), NCO.GEN.135(a)(10)/AMC1 и NCO.OP.135 для документов, карт и предполётной информации применимой операции; NCO.OP.160, AMC1 и GM1/GM2 для начала/продолжения и перепланирования по погоде; NCO.IDE.A.170 для ELT/PLB и NCO.IDE.A.200 для ответчика по требованиям воздушного пространства. Область определяется операцией и воздушным судном; одно наличие лицензии не определяет применимость Part-NCO"
   },
   {
     "id": "SRC-WMO-CLOUD-ATLAS-2017",
@@ -555,7 +555,7 @@
     "url": "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/AFH_Addendum_%28MOSAIC%29.pdf",
     "edition": "FAA-H-8083-3C Addendum, 20.10.2025",
     "checked": "2026-07-13",
-    "scope": "Current change-control companion to FAA-H-8083-3C; it states that Chapter 17 will be removed in the next revision. Until that revision, Chapter 17 remains part of the current edition; its excerpts are nevertheless retained only as explicitly bounded light-aircraft handling pedagogy and never as U.S. LSA law or Spanish ULM equivalence"
+    "scope": "Current change-control companion to FAA-H-8083-3C; it states that Chapter 17 will be removed in the next revision. Until that revision, Chapter 17 remains part of the current edition; its excerpts are retained only as bounded light-aircraft handling pedagogy. The U.S. LSA maintenance insertion on p. 2-4 was reviewed and excluded from the generic Spanish ULM walk-around: it is neither Spanish ULM law nor a maintenance authorisation"
   },
   {
     "id": "SRC-NASA-GRC-BERNOULLI-NEWTON-2024",
@@ -592,5 +592,284 @@
     "edition": "NACA-TR-824, 1945",
     "checked": "2026-07-13",
     "scope": "Historical measured section-data evidence that lift, drag and moment polars depend on airfoil, Reynolds number, состояние поверхности/шероховатость and high-lift devices. No one profile, section polar or coefficient is treated as the polar or limit of an entire aircraft"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH3",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 3 Aircraft Construction",
+    "url": "https://www.faa.gov/regulationspolicies/handbooksmanuals/aviation/phak/chapter-3-aircraft-construction",
+    "edition": "FAA-H-8083-25C (2023), Chapter 3",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 3-1–3-16: stable construction, load, material and landing-gear principles only; U.S. certification rules and aircraft-specific inspection or repair instructions are excluded"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH7",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 7 Aircraft Systems",
+    "url": "https://www.faa.gov/regulationspolicies/handbooksmanuals/aviation/phak/chapter-7-aircraft-systems",
+    "edition": "FAA-H-8083-25C (2023), Chapter 7",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 7-1–7-19 and 7-25–7-34: stable piston-engine, propeller, induction, ignition, lubrication, cooling, fuel, electrical and landing-gear mechanisms; U.S. rules, example limits and generic procedures are excluded"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-CH8",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Chapter 8 Flight Instruments",
+    "url": "https://www.faa.gov/regulationspolicies/handbooksmanuals/aviation/phak/chapter-8-flight-instruments",
+    "edition": "FAA-H-8083-25C (2023), Chapter 8",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 8-1–8-28: pitot-static, ASI, altimeter, VSI, ADC, compass and gyro principles/errors; installed indications, limitations and procedures remain aircraft/equipment specific"
+  },
+  {
+    "id": "SRC-FAA-AFH-3C-CH2",
+    "authority": "FAA",
+    "title": "Airplane Flying Handbook — Chapter 2 Ground Operations",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/03_afh_ch2.pdf",
+    "edition": "FAA-H-8083-3C (2021), Chapter 2",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 2-4–2-6: generic preflight pedagogy that itself defers sequence and detail to the AFM/POH and manufacturer checklist; no U.S. rule or generic checklist transfers"
+  },
+  {
+    "id": "SRC-ROTAX-TECH-DOCS",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "ROTAX Aircraft Engines — Technical Documentation",
+    "url": "https://www.flyrotax.com/p/service/technical-documentation",
+    "edition": "live official locator, checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Current-document locator for exact engine model, variant, serial/effectivity, language, OM/IM/MML and applicable SB/SI/AD; English original and metric SI values control, while the aircraft AFM/POH controls aircraft-level operation"
+  },
+  {
+    "id": "SRC-ROTAX-OM-912-ED4-R2",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Operator's Manual for ROTAX Engine Type 912 Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm00000KrSU5IAN?asPdf=false",
+    "edition": "OM-912 Edition 4 Rev.2; footer 01.06.2025; catalogue 15.07.2025",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 PDF p. 5, section 3-2 PDF p. 42 and section 6-2 PDF p. 74 establish document/applicability and operator role for the carburetted 912 family; no limit or procedure is transferred to another engine or installation"
+  },
+  {
+    "id": "SRC-ROTAX-OM-912I-ED2-R2",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Operator's Manual for ROTAX Engine Type 912 i Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm00000NeYQlIAN?asPdf=false",
+    "edition": "OM-912 i Edition 2 Rev.2; footer 01.09.2025; catalogue 06.10.2025",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 PDF p. 5 and section 7-2 PDF p. 72 establish document/applicability and electronically managed injected-engine context; exact aircraft installation and current effectivity control"
+  },
+  {
+    "id": "SRC-ROTAX-OM-914-ED3-R0",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Operator's Manual for ROTAX Engine Type 914 Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/0685c00000CxbZSAAZ?asPdf=false",
+    "edition": "OM-914 Edition 3 Rev.0, 01.08.2019",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 PDF p. 5 and section 7-2 PDF p. 68 establish document/applicability and turbocharged-family context; no value, warning response or procedure is universal"
+  },
+  {
+    "id": "SRC-ROTAX-OM-915I-ED0-R4",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Operator's Manual for ROTAX Engine Type 915 i A/C24",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm00000JDCwpIAH?asPdf=false",
+    "edition": "OM-915 i A/C24 Edition 0 Rev.4, 01.09.2022",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 PDF p. 5, section 7-2 and sections 7-6–7-19 from PDF p. 80 support only document control and qualitative injected/turbo/EMS architecture; installed-aircraft data controls operation"
+  },
+  {
+    "id": "SRC-ROTAX-OM-916I-ED0-R1",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Operator's Manual for ROTAX Engine Type 916 i A/C24",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/0685c00000OhBUUAA3?asPdf=false",
+    "edition": "OM-916 i A/C24 Edition 0 Rev.1, 01.12.2023",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 PDF p. 5, section 3-2 PDF p. 36 and section 7-2 PDF p. 76 support document control and qualitative injected/turbo/EMS architecture only; exact effectivity and installation control"
+  },
+  {
+    "id": "SRC-ROTAX-IM-MML-ROLE-2026",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "ROTAX installation and line-maintenance manual snapshots — role boundary",
+    "url": "https://www.flyrotax.com/p/service/technical-documentation",
+    "edition": "912 IM Issue 3 Rev.1/MML Issue 4 Rev.2 (01.06.2025); 912 i IM Issue 2 Rev.1 (01.02.2020)/MML Issue 2 Rev.2 (01.05.2023); 914 IM Issue 3 Rev.0 (01.08.2019)/MML Issue 3 Rev.0 (01.03.2024); 915 i IM Issue 0 Rev.5 (01.02.2024)/MML Issue 0 Rev.3 (01.05.2025); 916 i IM/MML Issue 0 Rev.2 (01.12.2025)",
+    "checked": "2026-07-13",
+    "scope": "Role/effectivity evidence only: IM addresses manufacturer/installer work; MML requires competence, type knowledge, tools/facilities and applicable authority/ROTAX/iRMT constraints. Re-find the exact controlled file by model/serial/effectivity before use; this course gives no maintenance instruction"
+  },
+  {
+    "id": "SRC-ROTAX-IM-912-ED3-R1",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Installation Manual ROTAX 912 Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm00000KrY9hIAF?asPdf=false",
+    "edition": "IM-912 Edition 3 Rev.1; printed 01.06.2025; portal 15.07.2025",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 PDF p. 5: general manufacturer/installer guide, not a specific-airframe installation instruction; aircraft manufacturer and exact installation control"
+  },
+  {
+    "id": "SRC-ROTAX-MML-912-ED4-R2",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Maintenance Manual Line ROTAX 912 Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm00000KrSVhIAN?asPdf=false",
+    "edition": "MML-912 Edition 4 Rev.2; printed 01.06.2025; portal 15.07.2025",
+    "checked": "2026-07-13",
+    "scope": "Role boundary: 00-00-00 pp. 2, 13, 15 and 05-00-00 p. 2 require current status, competence/type knowledge, tools/facilities and authority/ROTAX constraints; no pilot self-maintenance instruction"
+  },
+  {
+    "id": "SRC-ROTAX-IM-912I-ED2-R1",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Installation Manual ROTAX 912 i Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/0685c00000CyqRLAAZ?asPdf=false",
+    "edition": "IM-912 i Edition 2 Rev.1, 01.02.2020",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 role/applicability boundary only; general manufacturer/installer guide, not pilot procedure or specific-airframe installation approval"
+  },
+  {
+    "id": "SRC-ROTAX-MML-912I-ED2-R2",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Maintenance Manual Line ROTAX 912 i Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/0685c00000KkWZLAA3?asPdf=false",
+    "edition": "MML-912 i Edition 2 Rev.2; printed 01.05.2023; portal 19.06.2023",
+    "checked": "2026-07-13",
+    "scope": "Competence, current-data, tools/facilities and authority role boundary only; not a pilot maintenance guide"
+  },
+  {
+    "id": "SRC-ROTAX-IM-914-ED3-R0",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Installation Manual ROTAX 914 Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/0681H000008i9vXQAQ?asPdf=false",
+    "edition": "IM-914 Edition 3 Rev.0, 01.08.2019",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 manufacturer/installer role boundary only; exact airframe installation and aircraft manufacturer control"
+  },
+  {
+    "id": "SRC-ROTAX-MML-914-ED3-R0",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Maintenance Manual Line ROTAX 914 Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm000007loADIAY?asPdf=false",
+    "edition": "MML-914 Edition 3 Rev.0; printed 01.03.2024; portal 09.04.2024",
+    "checked": "2026-07-13",
+    "scope": "00-00-00 and 05-00-00 role boundary including authorised-person criteria around PDF p. 36; not pilot self-maintenance instruction"
+  },
+  {
+    "id": "SRC-ROTAX-IM-915I-ED0-R5",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Installation Manual ROTAX 915 i Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm000007lo3lIAA?asPdf=false",
+    "edition": "IM-915 i Edition 0 Rev.5; printed 01.02.2024; portal 09.04.2024",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 manufacturer/installer role and effectivity boundary only; not an aircraft or pilot operating instruction"
+  },
+  {
+    "id": "SRC-ROTAX-MML-915I-ED0-R3",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Maintenance Manual Line ROTAX 915 i Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm00000Ilo2IIAR?asPdf=false",
+    "edition": "MML-915 i Edition 0 Rev.3; printed 01.05.2025; portal 13.05.2025",
+    "checked": "2026-07-13",
+    "scope": "Competence, current-data, tools/facilities and authority role boundary only; not a pilot maintenance guide"
+  },
+  {
+    "id": "SRC-ROTAX-IM-916I-ED0-R2",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Installation Manual ROTAX 916 i Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm00000RCbu1IAD?asPdf=false",
+    "edition": "IM-916 i Edition 0 Rev.2; printed 01.12.2025; portal 26.12.2025",
+    "checked": "2026-07-13",
+    "scope": "INTRO-1 manufacturer/installer role and effectivity boundary only; not an aircraft or pilot operating instruction"
+  },
+  {
+    "id": "SRC-ROTAX-MML-916I-ED0-R2",
+    "authority": "BRP-Rotax GmbH & Co KG",
+    "title": "Maintenance Manual Line ROTAX 916 i Series",
+    "url": "https://rotax.my.salesforce-sites.com/DocumentsSearch/sfc/servlet.shepherd/version/download/068Mm00000RCj0DIAT?asPdf=false",
+    "edition": "MML-916 i Edition 0 Rev.2; printed 01.12.2025; portal 26.12.2025",
+    "checked": "2026-07-13",
+    "scope": "Competence, current-data, tools/facilities and authority role boundary only; not a pilot maintenance guide"
+  },
+  {
+    "id": "SRC-FAA-PHAK-25C-ADDENDUM-2025",
+    "authority": "FAA",
+    "title": "Pilot's Handbook of Aeronautical Knowledge — Addendum (MOSAIC)",
+    "url": "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/PHAK_Addendum_%28MOSAIC%29.pdf",
+    "edition": "FAA-H-8083-25C Addendum, 20.10.2025; catalogue rechecked 13.04.2026",
+    "checked": "2026-07-13",
+    "scope": "Current-control companion; relevant Chapter 3/6 introductory changes were reviewed and do not alter the narrow stable construction/control mechanisms used here. U.S. MOSAIC/LSA certification and law are excluded"
+  },
+  {
+    "id": "SRC-BRS-REBUILD-2026",
+    "authority": "BRS Aerospace",
+    "title": "BRS Rebuild Center",
+    "url": "https://brsaerospace.com/rebuild/",
+    "edition": "live official support page, checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Installed-system service status comes from its data placard; use serial number and manufacturer support when uncertain. No generic repack interval, serviceability declaration or deployment procedure"
+  },
+  {
+    "id": "SRC-BRS-SUPPORT-2026",
+    "authority": "BRS Aerospace",
+    "title": "BRS Aerospace Support",
+    "url": "https://brsaerospace.com/support/",
+    "edition": "live official support page, checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Current route to support, service bulletins and first-responder material; the installed aircraft supplement/manual/placard/serial/effectivity remain controlling"
+  },
+  {
+    "id": "SRC-BRS6-REV-A-HISTORICAL",
+    "authority": "BRS Aerospace",
+    "title": "BRS-6 Owner's Manual and General Installation Guide 020002-01 Rev.A — historical revision",
+    "url": "https://brsaerospace.com/wp-content/uploads/2020/06/020002-01-Rev.-A.pdf",
+    "edition": "document 020002-01 Rev.A; официальный 96-страничный PDF доступен при проверке 14.07.2026; только исторический/контекстный статус",
+    "checked": "2026-07-14",
+    "scope": "Историческая ревизия; её текущий статус и применимость не установлены. Она не используется для пределов, действий с рукоятью, порядка взведения, интервала или контрольной карты; определяющими остаются установленное дополнение/руководство/табличка/серийный номер самолёта и актуальная поддержка производителя"
+  },
+  {
+    "id": "SRC-EU-1321-2014-PART-ML-2026",
+    "authority": "EUR-Lex",
+    "title": "Regulation (EU) No 1321/2014 — continuing airworthiness, consolidated",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02014R1321-20260222",
+    "edition": "consolidated 22.02.2026; Annex Vb Part-ML",
+    "checked": "2026-07-13",
+    "scope": "Annex Vb ML.A.201, ML.A.301, ML.A.803 and Appendices II–III: later applicable Part-ML continuing-airworthiness and limited pilot-owner maintenance boundaries; not the national Spanish ULM regime"
+  },
+  {
+    "id": "SRC-EASA-CONTINUING-AIRWORTHINESS-2026",
+    "authority": "EASA",
+    "title": "ED Decision 2026/002/R — Amendment 3 to AMC/GM to Part-ML",
+    "url": "https://www.easa.europa.eu/en/document-library/agency-decisions/ed-decision-2026002r",
+    "edition": "ED Decision 2026/002/R; Annex VI, Issue 1 Amendment 3",
+    "checked": "2026-07-13",
+    "scope": "Current AMC/GM change control for Part-ML on the course date; Annex VI updates pilot-owner task-category guidance. The binding consolidated Regulation 1321/2014 and exact aircraft/AMP/maintenance data remain controlling; September 2025 Easy Access alone is not fully current"
+  },
+  {
+    "id": "SRC-EASA-PART-ML-AMC-GM-I1-A3-2026",
+    "authority": "EASA",
+    "title": "AMC and GM to Part-ML — Issue 1 Amendment 3",
+    "url": "https://www.easa.europa.eu/en/downloads/143113/en",
+    "edition": "Issue 1 Amendment 3, Annex VI to ED Decision 2026/002/R",
+    "checked": "2026-07-13",
+    "scope": "Current official Annex VI file on the course date; Appendix II task-category guidance and AMC/GM support interpretation only. Binding Regulation 1321/2014, the aircraft AMP and current maintenance data control; this source grants no pilot-owner authorisation"
+  },
+  {
+    "id": "SRC-EURLEX-2026-0100",
+    "authority": "EUR-Lex",
+    "title": "Commission Implementing Regulation (EU) 2026/100",
+    "url": "https://eur-lex.europa.eu/eli/reg_impl/2026/100/oj",
+    "edition": "OJ 19.01.2026; relevant changes apply 07.08.2026",
+    "checked": "2026-07-13",
+    "scope": "Future-effective continuing-airworthiness change control only: relevant provisions are not treated as current on 13.07.2026 and must be rechecked on/after 07.08.2026"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-ENR-1-6-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España ENR 1.6 — Servicios y procedimientos de vigilancia ATS",
+    "url": "https://aip.enaire.es/AIP/contenido_AIP/ENR/LE_ENR_1_6_en.pdf",
+    "edition": "ENR 1.6 WEF 19.03.2026; checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Section 2.1 starts at PDF p. 6; ENR 1.6-1 is WEF 19.03.2026. Current Spanish surveillance/transponder context only; actual airspace, equipment and code requirements remain dynamic and require current AIP/NOTAM"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-ENR-2-2-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España ENR 2.2 — Otro espacio aéreo regulado",
+    "url": "https://aip.enaire.es/AIP/contenido_AIP/ENR/LE_ENR_2_2_en.pdf",
+    "edition": "Composite ENR 2.2 PDF checked 13.07.2026; page ENR 2.2-26 WEF 22.01.2026",
+    "checked": "2026-07-13",
+    "scope": "TMZ material begins at PDF p. 26 / page ENR 2.2-26 WEF 22.01.2026 and states Mode A+C or Mode S; this is a page-specific snapshot, not one edition date for the composite ENR 2.2. Current AIP/NOTAM and actual clearance/communication requirements control"
   }
 ]

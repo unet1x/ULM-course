@@ -68,6 +68,15 @@ nav:
       - Stall, spin awareness и перегрузка: 06-principles-of-flight/04-stall-spin-load-factor.md
       - Винт и связанные моменты: 06-principles-of-flight/05-propeller-effects.md
       - ULM — малая инерция, порывы и энергия: 06-principles-of-flight/06-ulm-low-inertia-gusts.md
+  - Воздушное судно и системы:
+      - Планер, нагрузки и управление: 07-aircraft-general-knowledge/01-airframe-controls-loads.md
+      - Поршневой двигатель: 07-aircraft-general-knowledge/02-piston-engine.md
+      - Семейства ROTAX и документы: 07-aircraft-general-knowledge/03-rotax-operation.md
+      - Топливо, масло, охлаждение и зажигание: 07-aircraft-general-knowledge/04-fuel-oil-cooling-ignition.md
+      - Винт и электрическая система: 07-aircraft-general-knowledge/05-propeller-electrical.md
+      - Приёмники давления и приборы: 07-aircraft-general-knowledge/06-pitot-static-instruments.md
+      - Авионика, наблюдение и аварийные маяки: 07-aircraft-general-knowledge/07-avionics-transponder-elt.md
+      - Обслуживание, осмотр и спасательная система: 07-aircraft-general-knowledge/08-maintenance-preflight-brs.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md

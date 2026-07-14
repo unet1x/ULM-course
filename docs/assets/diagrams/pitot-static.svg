@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1020" role="img" aria-labelledby="pitot-title pitot-desc">
+  <title id="pitot-title">Связи приёмников полного и статического давления с приборами</title>
+  <desc id="pitot-desc">Полное давление из приёмника Пито и статическое давление поступают в указатель воздушной скорости. Высотомер и вариометр получают только статическое давление. Нарушение одного входа выделено как причина недостоверности соответствующих приборов без универсального описания показаний.</desc>
+  <defs>
+    <marker id="pressure-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="context-stroke"/>
+    </marker>
+  </defs>
+  <rect width="720" height="1020" fill="#f8fafc"/>
+  <text x="360" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#102a43">Пито-статическая система: кто получает давление</text>
+
+  <g id="pitot-input">
+    <path d="M45 162 H190 V205 H115 V188 H45 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="5"/>
+    <circle cx="45" cy="175" r="11" fill="#ffffff" stroke="#1d4ed8" stroke-width="4"/>
+    <path d="M10 175 H35" fill="none" stroke="#2563eb" stroke-width="7" marker-end="url(#pressure-arrow)"/>
+    <text x="115" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Приёмник Пито</text>
+    <text x="115" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#1e3a8a">полное давление</text>
+  </g>
+
+  <g id="static-input">
+    <path d="M530 130 Q610 105 680 150 V220 Q610 260 530 230 Z" fill="#ecfdf5" stroke="#047857" stroke-width="5"/>
+    <circle cx="585" cy="180" r="12" fill="#ffffff" stroke="#047857" stroke-width="5"/>
+    <circle cx="625" cy="180" r="12" fill="#ffffff" stroke="#047857" stroke-width="5"/>
+    <text x="605" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">Статический порт</text>
+    <text x="605" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">статическое давление</text>
+  </g>
+
+  <path d="M190 185 H280 V395" fill="none" stroke="#2563eb" stroke-width="8" marker-end="url(#pressure-arrow)"/>
+  <path d="M585 192 V350 H440 V395" fill="none" stroke="#047857" stroke-width="8" marker-end="url(#pressure-arrow)"/>
+  <path d="M585 350 V610" fill="none" stroke="#047857" stroke-width="8" marker-end="url(#pressure-arrow)"/>
+  <path d="M585 350 H140 V610" fill="none" stroke="#047857" stroke-width="8" marker-end="url(#pressure-arrow)"/>
+  <circle cx="585" cy="350" r="10" fill="#047857"/>
+
+  <g id="asi">
+    <circle cx="360" cy="480" r="86" fill="#ffffff" stroke="#334155" stroke-width="6"/>
+    <path d="M310 520 A60 60 0 1 1 410 520" fill="none" stroke="#2563eb" stroke-width="8"/>
+    <line x1="360" y1="480" x2="402" y2="445" stroke="#dc2626" stroke-width="6"/>
+    <circle cx="360" cy="480" r="9" fill="#dc2626"/>
+    <text x="360" y="605" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">Скорость (ASI)</text>
+    <text x="360" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">полное − статическое</text>
+  </g>
+
+  <g id="altimeter">
+    <circle cx="140" cy="700" r="82" fill="#ffffff" stroke="#334155" stroke-width="6"/>
+    <line x1="140" y1="700" x2="140" y2="650" stroke="#dc2626" stroke-width="6"/>
+    <line x1="140" y1="700" x2="175" y2="720" stroke="#2563eb" stroke-width="5"/>
+    <circle cx="140" cy="700" r="9" fill="#dc2626"/>
+    <text x="140" y="820" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">Высотомер</text>
+    <text x="140" y="855" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">только статика</text>
+  </g>
+
+  <g id="vsi">
+    <circle cx="585" cy="700" r="82" fill="#ffffff" stroke="#334155" stroke-width="6"/>
+    <line x1="585" y1="700" x2="625" y2="675" stroke="#dc2626" stroke-width="6"/>
+    <path d="M555 735 H615" fill="none" stroke="#64748b" stroke-width="5" stroke-dasharray="8 7"/>
+    <circle cx="585" cy="700" r="9" fill="#dc2626"/>
+    <text x="585" y="820" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">Вариометр (VSI)</text>
+    <text x="585" y="855" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">статика + задержка</text>
+  </g>
+
+  <rect x="55" y="875" width="610" height="72" rx="12" fill="#fff7ed" stroke="#c2410c" stroke-width="4"/>
+  <text x="360" y="905" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#9a3412">Вид блокировки меняет эффект.</text>
+  <text x="360" y="937" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#9a3412">Точный ответ — AFM/POH.</text>
+  <rect x="30" y="958" width="660" height="50" rx="12" fill="#102a43"/>
+  <text x="360" y="992" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#ffffff">УЧЕБНАЯ СХЕМА — НЕ ЧЕК-ЛИСТ</text>
+</svg>

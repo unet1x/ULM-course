@@ -223,7 +223,7 @@
 
 ## Расширение [Part-FCL](../reference/glossary.md#term-part-fcl) {#part-fcl-extension}
 
-Будущий кандидат на [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a) повторяет DR, лог и контроль полёта в полной программе [DTO](../reference/glossary.md#term-dto)/[ATO](../reference/glossary.md#term-ato). Для эксплуатации, к которой применима Part-NCO, используются NCO.GEN.135/NCO.OP.135; это требование вида эксплуатации, а не последствие одной лицензии. Источники: `SRC-EASA-AIRCREW-2026`, `SRC-EASA-AIR-OPS-2026` (проверено 13.07.2026).
+Будущий кандидат на [LAPL(A)](../reference/glossary.md#term-lapl-a)/[PPL(A)](../reference/glossary.md#term-ppl-a) повторяет DR, лог и контроль полёта в полной программе [DTO](../reference/glossary.md#term-dto)/[ATO](../reference/glossary.md#term-ato). Для эксплуатации, к которой применима [Part-NCO](../reference/glossary.md#term-part-nco), используются NCO.GEN.135/NCO.OP.135; это требование вида эксплуатации, а не последствие одной лицензии. Источники: `SRC-EASA-AIRCREW-2026`, `SRC-EASA-AIR-OPS-2026` (проверено 13.07.2026).
 
 ## Безопасность {#safety}
 

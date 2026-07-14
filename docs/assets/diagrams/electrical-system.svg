@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1080" role="img" aria-labelledby="electrical-title electrical-desc">
+  <title id="electrical-title">Обобщённая система постоянного тока воздушного судна</title>
+  <desc id="electrical-desc">Генератор и аккумулятор через защиту и главный выключатель питают шину. От шины отдельные защищённые ветви ведут к авионике, насосу и свету; обратный ток показан через отрицательную шину. Реальная архитектура и действия при отказе зависят от самолёта.</desc>
+  <defs>
+    <marker id="current-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="context-stroke"/>
+    </marker>
+  </defs>
+  <rect width="720" height="1080" fill="#f8fafc"/>
+  <text x="360" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#102a43">Электропитание: источники → шина → нагрузки</text>
+
+  <g id="generator">
+    <circle cx="150" cy="160" r="64" fill="#dbeafe" stroke="#1d4ed8" stroke-width="5"/>
+    <path d="M110 160 C125 125 145 195 160 160 C175 125 195 195 210 160" fill="none" stroke="#1d4ed8" stroke-width="6"/>
+    <text x="150" y="256" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Генератор</text>
+  </g>
+
+  <g id="battery">
+    <rect x="480" y="105" width="150" height="112" rx="10" fill="#ecfdf5" stroke="#047857" stroke-width="5"/>
+    <line x1="510" y1="92" x2="545" y2="92" stroke="#047857" stroke-width="6"/>
+    <line x1="565" y1="84" x2="565" y2="100" stroke="#047857" stroke-width="5"/>
+    <line x1="555" y1="92" x2="575" y2="92" stroke="#047857" stroke-width="5"/>
+    <text x="555" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">Аккумулятор</text>
+    <text x="555" y="256" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">хранит энергию</text>
+  </g>
+
+  <g id="protection">
+    <rect x="90" y="305" width="210" height="80" rx="14" fill="#fff7ed" stroke="#c2410c" stroke-width="5"/>
+    <path d="M125 345 H165 L180 325 L200 365 L220 345 H260" fill="none" stroke="#c2410c" stroke-width="5"/>
+    <text x="195" y="425" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#9a3412">Регулирование / защита</text>
+  </g>
+
+  <g id="master">
+    <rect x="445" y="305" width="220" height="80" rx="14" fill="#f5f3ff" stroke="#6d28d9" stroke-width="5"/>
+    <circle cx="490" cy="345" r="13" fill="#ffffff" stroke="#6d28d9" stroke-width="4"/>
+    <circle cx="620" cy="345" r="13" fill="#ffffff" stroke="#6d28d9" stroke-width="4"/>
+    <line x1="503" y1="338" x2="603" y2="315" stroke="#6d28d9" stroke-width="6"/>
+    <text x="555" y="425" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#5b21b6">Главный выключатель</text>
+  </g>
+
+  <path d="M150 224 V305" fill="none" stroke="#2563eb" stroke-width="8" marker-end="url(#current-arrow)"/>
+  <path d="M555 217 V305" fill="none" stroke="#047857" stroke-width="8" marker-end="url(#current-arrow)"/>
+  <path d="M300 345 H360 V500" fill="none" stroke="#2563eb" stroke-width="8" marker-end="url(#current-arrow)"/>
+  <path d="M445 345 H360" fill="none" stroke="#047857" stroke-width="8" marker-end="url(#current-arrow)"/>
+
+  <g id="bus">
+    <rect x="80" y="515" width="560" height="72" rx="12" fill="#102a43"/>
+    <text x="360" y="561" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff">Положительная шина распределения</text>
+  </g>
+
+  <g id="load">
+    <path d="M170 587 V645" fill="none" stroke="#2563eb" stroke-width="7" marker-end="url(#current-arrow)"/>
+    <path d="M360 587 V645" fill="none" stroke="#2563eb" stroke-width="7" marker-end="url(#current-arrow)"/>
+    <path d="M550 587 V645" fill="none" stroke="#2563eb" stroke-width="7" marker-end="url(#current-arrow)"/>
+    <rect x="110" y="655" width="120" height="48" rx="10" fill="#ffedd5" stroke="#c2410c" stroke-width="4"/>
+    <rect x="300" y="655" width="120" height="48" rx="10" fill="#ffedd5" stroke="#c2410c" stroke-width="4"/>
+    <rect x="490" y="655" width="120" height="48" rx="10" fill="#ffedd5" stroke="#c2410c" stroke-width="4"/>
+    <text x="170" y="688" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#9a3412">защита</text>
+    <text x="360" y="688" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#9a3412">защита</text>
+    <text x="550" y="688" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#9a3412">защита</text>
+    <rect x="80" y="735" width="180" height="92" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="5"/>
+    <rect x="270" y="735" width="180" height="92" rx="14" fill="#ecfdf5" stroke="#047857" stroke-width="5"/>
+    <rect x="460" y="735" width="180" height="92" rx="14" fill="#f5f3ff" stroke="#6d28d9" stroke-width="5"/>
+    <text x="170" y="790" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Авионика</text>
+    <text x="360" y="790" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">Насос</text>
+    <text x="550" y="790" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#5b21b6">Свет</text>
+    <line x1="170" y1="703" x2="170" y2="735" stroke="#2563eb" stroke-width="7" marker-end="url(#current-arrow)"/>
+    <line x1="360" y1="703" x2="360" y2="735" stroke="#2563eb" stroke-width="7" marker-end="url(#current-arrow)"/>
+    <line x1="550" y1="703" x2="550" y2="735" stroke="#2563eb" stroke-width="7" marker-end="url(#current-arrow)"/>
+  </g>
+
+  <path d="M170 827 V882 H555 V827" fill="none" stroke="#475569" stroke-width="7"/>
+  <path d="M360 827 V882" fill="none" stroke="#475569" stroke-width="7"/>
+  <path d="M555 882 H665 V260 H585" fill="none" stroke="#475569" stroke-width="7" stroke-dasharray="12 9" marker-end="url(#current-arrow)"/>
+  <text x="350" y="925" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#475569">обратный путь / отрицательная шина</text>
+
+  <rect x="30" y="968" width="660" height="84" rx="14" fill="#102a43"/>
+  <text x="360" y="1002" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#ffffff">УЧЕБНАЯ СХЕМА — НЕ ЧЕК-ЛИСТ</text>
+  <text x="360" y="1036" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#ffffff">Действия при отказе — только AFM/POH.</text>
+</svg>

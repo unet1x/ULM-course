@@ -101,6 +101,23 @@ TASK9_SVGS = (
     "docs/assets/diagrams/three-axis-stability.svg",
     "docs/assets/diagrams/vn-envelope.svg",
 )
+TASK10_CHAPTERS = (
+    "docs/07-aircraft-general-knowledge/01-airframe-controls-loads.md",
+    "docs/07-aircraft-general-knowledge/02-piston-engine.md",
+    "docs/07-aircraft-general-knowledge/03-rotax-operation.md",
+    "docs/07-aircraft-general-knowledge/04-fuel-oil-cooling-ignition.md",
+    "docs/07-aircraft-general-knowledge/05-propeller-electrical.md",
+    "docs/07-aircraft-general-knowledge/06-pitot-static-instruments.md",
+    "docs/07-aircraft-general-knowledge/07-avionics-transponder-elt.md",
+    "docs/07-aircraft-general-knowledge/08-maintenance-preflight-brs.md",
+)
+TASK10_SVGS = (
+    "docs/assets/diagrams/four-stroke-cycle.svg",
+    "docs/assets/diagrams/fuel-system.svg",
+    "docs/assets/diagrams/electrical-system.svg",
+    "docs/assets/diagrams/pitot-static.svg",
+    "docs/assets/diagrams/brs-decision-boundary.svg",
+)
 APPLICABILITY_LABELS = (
     "[ULM — ОСНОВА]",
     "[ULM — ОСОБО ВАЖНО]",
@@ -131,6 +148,9 @@ OFFICIAL_SOURCE_DOMAINS = {
     "ama.aemet.es",
     "cloudatlas.wmo.int",
     "store.icao.int",
+    "www.flyrotax.com",
+    "rotax.my.salesforce-sites.com",
+    "brsaerospace.com",
 }
 REQUIRED_SOURCE_IDS = {
     "SRC-EASA-AIRCREW-2026",
@@ -164,6 +184,23 @@ REQUIRED_SOURCE_IDS = {
     "SRC-CDC-CO-CLINICAL",
 }
 REQUIRED_CANONICAL_TERMS = {
+    "aircraft checklist",
+    "aircraft flight manual supplement",
+    "placard",
+    "Operator's Manual (OM)",
+    "Installation Manual (IM)",
+    "Maintenance Manual Line (MML)",
+    "service bulletin (SB)",
+    "service instruction (SI)",
+    "airspeed indicator (ASI)",
+    "vertical speed indicator (VSI)",
+    "indicated airspeed (IAS)",
+    "calibrated airspeed (CAS)",
+    "capacitor-discharge ignition (CDI)",
+    "primary surveillance radar (PSR)",
+    "Mode A",
+    "Mode C",
+    "alternate static source",
     "ULM",
     "MAF",
     "LAPL(A)",
@@ -321,6 +358,27 @@ REQUIRED_CANONICAL_TERMS = {
     "P-factor",
     "wing loading",
     "ground effect",
+    "airframe",
+    "structural fatigue",
+    "trim",
+    "four-stroke cycle",
+    "detonation",
+    "pre-ignition",
+    "carburettor icing",
+    "vapour lock",
+    "dry sump",
+    "engine management system (EMS)",
+    "pitot-static system",
+    "air data computer (ADC)",
+    "Mode S",
+    "automatic dependent surveillance–broadcast (ADS-B)",
+    "emergency locator transmitter (ELT)",
+    "personal locator beacon (PLB)",
+    "whole-aircraft recovery system",
+    "Part-ML",
+    "Part-NCO",
+    "aircraft maintenance programme (AMP)",
+    "inclinometer",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -973,7 +1031,7 @@ def _substantive(value, minimum_words=3, minimum_length=12):
 def parsed_question_blocks(text):
     headings = list(
         re.finditer(
-            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV|PF)-\d{3})\s+—\s+(.+?)"
+            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV|PF|AGK)-\d{3})\s+—\s+(.+?)"
             r"(?:\s+\{#([a-z][a-z0-9-]*)\})?\s*$",
             text,
         )
@@ -1995,7 +2053,12 @@ class CourseRegistryTests(unittest.TestCase):
             with self.subTest(source=source.get("id")):
                 self.assertTrue(required_fields.issubset(source))
                 self.assertRegex(source["id"], r"^SRC-[A-Z0-9-]+$")
-                self.assertEqual("2026-07-13", source["checked"])
+                expected_checked = (
+                    "2026-07-14"
+                    if source["id"] == "SRC-BRS6-REV-A-HISTORICAL"
+                    else "2026-07-13"
+                )
+                self.assertEqual(expected_checked, source["checked"])
                 parsed = urlsplit(source["url"])
                 self.assertEqual("https", parsed.scheme)
                 self.assertIn(parsed.hostname, OFFICIAL_SOURCE_DOMAINS)
@@ -6181,6 +6244,585 @@ class Task9PrinciplesOfFlightTests(unittest.TestCase):
                 words = " ".join(root.itertext())
                 self.assertRegex(words, r"[А-Яа-яЁё]")
                 self.assertIn("КОНЦЕПТУАЛЬНО — НЕ ДЛЯ ПОЛЁТА", words)
+
+
+class Task10AircraftGeneralKnowledgeTests(unittest.TestCase):
+    REQUIRED_SOURCE_IDS = {
+        "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01",
+        "SRC-EASA-AIRCREW-2026",
+        "SRC-BOE-RD-141-2025",
+        "SRC-EASA-AIR-OPS-2026",
+        "SRC-EU-1321-2014-PART-ML-2026",
+        "SRC-ENAIRE-AIP-ENR-1-6-2026",
+        "SRC-ENAIRE-AIP-ENR-2-2-2026",
+        "SRC-FAA-PHAK-25C-CH3",
+        "SRC-FAA-PHAK-25C-CH6",
+        "SRC-FAA-PHAK-25C-CH7",
+        "SRC-FAA-PHAK-25C-CH8",
+        "SRC-FAA-PHAK-25C-ADDENDUM-2025",
+        "SRC-FAA-AFH-3C-CH2",
+        "SRC-FAA-AFH-3C-ADDENDUM-2025",
+        "SRC-ROTAX-TECH-DOCS",
+        "SRC-ROTAX-OM-912-ED4-R2",
+        "SRC-ROTAX-OM-912I-ED2-R2",
+        "SRC-ROTAX-OM-914-ED3-R0",
+        "SRC-ROTAX-OM-915I-ED0-R4",
+        "SRC-ROTAX-OM-916I-ED0-R1",
+        "SRC-ROTAX-IM-MML-ROLE-2026",
+        "SRC-ROTAX-IM-912-ED3-R1",
+        "SRC-ROTAX-MML-912-ED4-R2",
+        "SRC-ROTAX-IM-912I-ED2-R1",
+        "SRC-ROTAX-MML-912I-ED2-R2",
+        "SRC-ROTAX-IM-914-ED3-R0",
+        "SRC-ROTAX-MML-914-ED3-R0",
+        "SRC-ROTAX-IM-915I-ED0-R5",
+        "SRC-ROTAX-MML-915I-ED0-R3",
+        "SRC-ROTAX-IM-916I-ED0-R2",
+        "SRC-ROTAX-MML-916I-ED0-R2",
+        "SRC-BRS-REBUILD-2026",
+        "SRC-BRS-SUPPORT-2026",
+        "SRC-BRS6-REV-A-HISTORICAL",
+        "SRC-EASA-CONTINUING-AIRWORTHINESS-2026",
+        "SRC-EASA-PART-ML-AMC-GM-I1-A3-2026",
+        "SRC-EURLEX-2026-0100",
+    }
+
+    def _read(self, relative_path):
+        path = ROOT / relative_path
+        self.assertTrue(path.is_file(), relative_path)
+        return path.read_text(encoding="utf-8")
+
+    def _all_text(self):
+        return "\n".join(self._read(path) for path in TASK10_CHAPTERS)
+
+    def test_task10_files_exist_and_are_in_navigation(self):
+        nav_paths = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        for relative_path in TASK10_CHAPTERS:
+            with self.subTest(path=relative_path):
+                self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+                self.assertIn(relative_path.removeprefix("docs/"), nav_paths)
+        for relative_path in TASK10_SVGS:
+            self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+
+    def test_task10_template_applicability_and_manual_hierarchy(self):
+        required = {
+            "purpose", "outcomes", "applicability", "theory", "ulm-application",
+            "part-fcl-extension", "safety", "common-errors", "summary",
+            "review-questions", "sources",
+        }
+        all_text = self._all_text()
+        hierarchy = (
+            r"(?is)(?:закон|AIP|NOTAM|AD).{0,260}(?:AFM|POH).{0,260}"
+            r"(?:двигател|оборудован|SB|SI).{0,260}(?:программ\w+\s+техобслуж|records|запис).{0,260}курс"
+        )
+        self.assertRegex(_plain_markdown(all_text), hierarchy)
+        for relative_path in TASK10_CHAPTERS:
+            text = self._read(relative_path)
+            plain = _plain_markdown(text)
+            with self.subTest(path=relative_path):
+                self.assertEqual([], explicit_atx_heading_errors(text))
+                self.assertTrue(required.issubset(markdown_anchors(text)))
+                for label in APPLICABILITY_LABELS:
+                    self.assertIn(label, applicability_table_labels(text))
+                self.assertIn("УЧЕБНАЯ СХЕМА — НЕ ЧЕК-ЛИСТ", plain)
+                self.assertRegex(plain, r"(?is)(?:AFM|POH).{0,180}(?:инструктор|точн\w+\s+документ)")
+
+    def test_task10_gu09_and_part_fcl_scope_is_precise(self):
+        text = _plain_markdown(self._all_text())
+        self.assertRegex(text, r"(?is)GU09.{0,220}pp\. 33–39")
+        self.assertRegex(text, r"(?is)MAF.{0,220}(?:строк|целей).{0,180}не.{0,80}(?:DCG|автожир|вертол[её]т)")
+        self.assertRegex(text, r"(?is)LAPL.{0,200}(?:тот\s+же|общ).{0,180}PPL.{0,180}(?:8\.1|8\.2|Aircraft General Knowledge)")
+        self.assertRegex(text, r"(?is)Part-(?:ML|NCO).{0,220}(?:операц|воздушн\w+\s+судн|режим).{0,220}не.{0,100}лиценз")
+
+    def test_task10_rotax_document_control_and_family_boundaries(self):
+        chapter = _plain_markdown(self._read(TASK10_CHAPTERS[2]))
+        for value in (
+            "OM-912 Edition 4 Rev.2", "OM-912 i Edition 2 Rev.2",
+            "OM-914 Edition 3 Rev.0", "OM-915 i A/C24 Edition 0 Rev.4",
+            "OM-916 i A/C24 Edition 0 Rev.1",
+        ):
+            self.assertIn(value, chapter)
+        for value in (
+            "912 IM Issue 3 Rev.1", "MML Issue 4 Rev.2", "912 i IM Issue 2 Rev.1",
+            "MML Issue 2 Rev.2", "914 IM Issue 3 Rev.0", "MML Issue 3 Rev.0",
+            "915 i IM Issue 0 Rev.5", "MML Issue 0 Rev.3",
+            "916 i IM/MML Issue 0 Rev.2",
+        ):
+            self.assertIn(value, chapter)
+        self.assertRegex(chapter, r"(?is)английск\w+\s+оригинал.{0,120}SI.{0,80}(?:име|приоритет)")
+        self.assertRegex(chapter, r"(?is)точн\w+\s+(?:модел|вариант).{0,140}серийн\w+\s+номер.{0,140}(?:effectivity|применим)")
+        for pattern in (
+            r"(?is)912.{0,120}карбюратор.{0,180}912\s+i.{0,120}(?:впрыск|инжектор)",
+            r"(?is)не.{0,80}кажд\w+\s+ROTAX.{0,100}турб",
+            r"(?is)(?:CDI|зажиган).{0,180}(?:EMS|lane|канал).{0,180}не.{0,80}(?:одно|тождествен)",
+        ):
+            self.assertRegex(chapter, pattern)
+
+    def test_task10_no_universal_rotax_or_brs_numbers_or_procedures(self):
+        operational = _plain_markdown(
+            "\n".join(
+                self._read(path).split("## Контрольные вопросы", 1)[0]
+                for path in TASK10_CHAPTERS
+            )
+        )
+        operational = re.sub(r"Q-AGK-\d{3}|SRC-[A-Z0-9-]+", " ", operational)
+        forbidden_positive = (
+            r"(?is)(?:универсальн|для\s+всех|кажд\w+\s+ROTAX).{0,100}\d+(?:[.,]\d+)?\s*(?:rpm|об/мин|°C|bar|V|A|час)",
+            r"(?is)BRS.{0,120}(?:минимальн\w+\s+высот|не\s+ниже|до\s+скорост).{0,80}\d+",
+            r"(?is)(?:всегда|для\s+всех).{0,100}(?:нажм|потян|выключ|закры|сброс|перезапуст|reset).{0,120}(?:BRS|ROTAX|автомат|предохранител)",
+        )
+        for pattern in forbidden_positive:
+            self.assertNotRegex(operational, pattern)
+        self.assertRegex(operational, r"(?is)(?:RPM|температур|давлен|топлив|масл|охлажд).{0,240}не.{0,100}универсальн")
+        self.assertRegex(operational, r"(?is)BRS.{0,240}(?:нет|не\s+существ).{0,100}универсальн.{0,120}(?:высот|масс|скорост|рукоят|последователь)")
+
+    def test_task10_has_eight_structured_fault_cases(self):
+        text = self._all_text()
+        matches = list(re.finditer(r"(?m)^###\s+(SCN-AGK-(\d{2}))\s+—[^\n]+\{#scn-agk-\2\}\s*$", text))
+        self.assertGreaterEqual(len(matches), 8)
+        blocks = []
+        for index, match in enumerate(matches):
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            next_h2 = re.search(r"(?m)^##\s+", text[match.end():end])
+            if next_h2:
+                end = match.end() + next_h2.start()
+            blocks.append(text[match.start():end])
+        for block in blocks:
+            for label in ("Признаки", "Конкурирующие объяснения", "Граница безопасного решения", "Точный документ", "Почему это не чек-лист"):
+                self.assertRegex(block, rf"(?m)^\*\*{re.escape(label)}:\*\*")
+        combined = _plain_markdown("\n".join(blocks))
+        for topic in ("pitot", "static", "топлив", "электр", "карбюратор", "lane", "винт", "BRS"):
+            self.assertIn(topic.casefold(), combined.casefold())
+
+    def test_task10_maintenance_brs_elt_and_surveillance_boundaries(self):
+        chapter7 = _plain_markdown(self._read(TASK10_CHAPTERS[6]))
+        chapter8 = _plain_markdown(self._read(TASK10_CHAPTERS[7]))
+        self.assertRegex(chapter8, r"(?is)RD\s*141/2025.{0,180}(?:arts?\.?|стать).{0,80}34–38")
+        self.assertRegex(chapter8, r"(?is)(?:art\.?|стать).{0,30}39.{0,220}(?:AD|директив)")
+        self.assertRegex(chapter8, r"(?is)(?:владел|держател).{0,160}не.{0,100}(?:любой|все).{0,100}(?:работ|техобслуж)")
+        self.assertRegex(chapter8, r"(?is)Part-ML.{0,180}(?:ML\.A\.201|ML\.A\.301|ML\.A\.803).{0,240}(?:отдельн|позже|LAPL|PPL)")
+        self.assertRegex(chapter8, r"(?is)ML\.A\.803.{0,260}(?:владелец-пилот|pilot-owner).{0,220}(?:запис|log).{0,200}(?:лиценз|подпис)")
+        self.assertRegex(chapter8, r"(?is)(?:критическ|critical).{0,240}(?:AD|ALI).{0,240}(?:специальн|calibrated|калиброван)")
+        self.assertRegex(chapter8, r"(?is)2026/100.{0,160}07\.08\.2026.{0,140}(?:будущ|ещ[её]\s+не|повторн\w+\s+провер)")
+        self.assertRegex(chapter8, r"(?is)BRS-6.{0,180}доступ.{0,120}14\.07\.2026.{0,220}(?:историч|статус).{0,160}не.{0,80}(?:установлен|подтвержд|актуальн)")
+        self.assertNotRegex(chapter8, r"(?is)BRS-6.{0,180}(?:404|недоступ)")
+        self.assertRegex(chapter8, r"(?is)(?:самовольн|непредписан|неизвестн).{0,180}перерезан\w+\s+кабел.{0,180}не.{0,100}(?:доказыва|подтвержд).{0,100}безопас")
+        self.assertRegex(chapter8, r"(?is)(?:точн|актуальн).{0,140}(?:инструкц|материал).{0,140}(?:изготовител|спасател).{0,180}(?:может|способн).{0,120}(?:предпис|указ).{0,120}перерез")
+        self.assertRegex(chapter7, r"(?is)NCO\.IDE\.A\.170.{0,200}(?:операц|воздушн\w+\s+судн).{0,160}не.{0,80}лиценз")
+        self.assertRegex(chapter7, r"(?is)maximum passenger seating configuration.{0,80}(?:six|6|шест)")
+        self.assertRegex(chapter7, r"(?is)PLB.{0,160}не.{0,80}всегда.{0,120}(?:заменя|эквивалент).{0,80}ELT")
+        self.assertRegex(chapter7, r"(?is)(?:ADS-B|FLARM|ADS-L|OGN).{0,240}не.{0,80}(?:разреша|заменя).{0,120}(?:ATC|clearance|осмотр|lookout)")
+
+    def test_task10_circuit_breaker_boundary_is_document_specific(self):
+        chapter_raw = self._read(TASK10_CHAPTERS[4])
+        chapter = _plain_markdown(chapter_raw)
+        self.assertRegex(chapter, r"(?is)(?:сброс|включен)\w*.{0,140}не.{0,80}(?:диагност|многократ|повторн).{0,180}(?:только|лишь).{0,140}(?:AFM|POH|контрольн\w+\s+карт).{0,120}(?:разреш|указ)")
+        self.assertNotIn("- Не включайте автоматический выключатель повторно.", chapter_raw)
+
+    def test_task10_part_ml_pilot_owner_paths_and_exclusions_are_exact(self):
+        chapter = _plain_markdown(self._read(TASK10_CHAPTERS[7]))
+        self.assertRegex(chapter, r"(?is)некоммерческ\w+.{0,80}юридическ\w+\s+лиц\w+.{0,180}(?:решени|назначен)")
+        self.assertRegex(chapter, r"(?is)(?:сложн|complex).{0,100}Appendix III.{0,180}(?:работ\w+\s+с\s+компонент|компонент).{0,100}ML\.A\.502\(a\)/\(b\)")
+
+    def test_task10_explains_yaw_slip_skid_indication(self):
+        chapter = _plain_markdown(self._read(TASK10_CHAPTERS[5]))
+        self.assertRegex(chapter, r"(?is)(?:рыск|yaw).{0,260}(?:инклинометр|шарик)")
+        self.assertRegex(chapter, r"(?is)(?:инклинометр|шарик).{0,320}(?:скольжен|slip).{0,180}(?:занос|skid).{0,220}(?:координир)")
+
+    def test_task10_aircraft_identity_does_not_use_automotive_vin(self):
+        chapter = _plain_markdown(self._read(TASK10_CHAPTERS[2]))
+        self.assertNotRegex(chapter, r"\bVIN\b")
+
+    def test_task10_visible_headings_and_labels_are_russian_first(self):
+        violations = []
+        for relative_path in TASK10_CHAPTERS:
+            text = self._read(relative_path).split("## Источники", 1)[0]
+            for line_number, line in enumerate(text.splitlines(), 1):
+                if not re.match(r"^#{1,6}\s+", line):
+                    continue
+                visible = re.sub(r"\{#[^}]+\}\s*$", "", line)
+                visible = re.sub(r"\[[^]]+\]\([^)]+\)", "", visible)
+                if not re.search(r"[А-Яа-яЁё]", visible):
+                    violations.append(f"{relative_path}:{line_number}: {line}")
+        self.assertEqual([], violations)
+
+        text = self._all_text()
+        for fragment in (
+            "Separate later Part-ML/Part-NCO applicability",
+            "The current AFH Addendum was also checked",
+            "Cutting an activation cable does not make the rocket safe",
+            "Unknown BRS status is a no-assumption boundary",
+            "сравнивать с checklist",
+            "сверить defect",
+        ):
+            self.assertNotIn(fragment, _plain_markdown(text))
+
+        pitot_svg = self._read("docs/assets/diagrams/pitot-static.svg")
+        brs_svg = self._read("docs/assets/diagrams/brs-decision-boundary.svg")
+        self.assertNotIn("только static", pitot_svg)
+        self.assertNotIn("static + задержка", pitot_svg)
+        for fragment in ("supplement", "placard", "service status"):
+            self.assertNotIn(fragment, brs_svg)
+
+    def test_task10_asi_distinguishes_ias_from_cas(self):
+        chapter = _plain_markdown(self._read(TASK10_CHAPTERS[5]))
+        self.assertRegex(chapter, r"(?is)IAS.{0,160}indicated airspeed.{0,160}velocidad indicada")
+        self.assertRegex(chapter, r"(?is)CAS.{0,160}calibrated airspeed.{0,160}velocidad calibrada.{0,220}(?:поправ|коррект)")
+
+    def test_task10_structural_fatigue_does_not_link_human_fatigue(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))}
+        self.assertIn("structural fatigue", terms)
+        self.assertNotIn("fatigue", terms)
+        human = self._read("docs/02-human-performance/03-stress-fatigue-medication.md")
+        self.assertNotIn("term-fatigue-structure", human)
+
+    def test_task10_recovery_term_and_first_use_are_generic(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))}
+        term = terms["whole-aircraft recovery system"]
+        self.assertIsNone(term["abbreviation"])
+        self.assertNotRegex(term["definition"], r"(?i)\benvelope\b")
+        self.assertRegex(term["definition"], r"(?is)BRS.{0,120}CAPS.{0,180}не.{0,80}(?:универсальн|взаимозамен|сокращ)")
+        chapter = _plain_markdown(self._read(TASK10_CHAPTERS[7]))
+        self.assertLess(chapter.find("whole-aircraft recovery system"), chapter.find("BRS"))
+        chapter7 = _plain_markdown(self._read(TASK10_CHAPTERS[6]))
+        self.assertEqual(1, chapter7.count("PLB не всегда"))
+
+    def test_task10_first_use_expands_new_technical_abbreviations(self):
+        chapter3 = _plain_markdown(self._read(TASK10_CHAPTERS[2]))
+        chapter7 = _plain_markdown(self._read(TASK10_CHAPTERS[6]))
+        chapter8 = _plain_markdown(self._read(TASK10_CHAPTERS[7]))
+        self.assertRegex(chapter3, r"(?is)руководств\w+\s+по\s+эксплуатации.{0,180}Operator.?s Manual.{0,120}\bOM\b")
+        self.assertRegex(chapter3, r"(?is)руководств\w+\s+по\s+установке.{0,180}Installation Manual.{0,120}\bIM\b")
+        self.assertRegex(chapter3, r"(?is)руководств\w+\s+по\s+линейн\w+\s+техобслуживан.{0,200}Maintenance Manual Line.{0,120}\bMML\b")
+        self.assertRegex(chapter3, r"(?is)конденсаторн.{0,80}зажиган.{0,180}capacitor.discharge ignition.{0,120}\bCDI\b")
+        self.assertRegex(chapter7, r"(?is)первичн\w+\s+обзорн\w+\s+радиолокатор.{0,160}primary surveillance radar.{0,100}\bPSR\b")
+        self.assertRegex(chapter7, r"(?is)вторичн\w+\s+обзорн\w+\s+радиолокатор.{0,180}\bSSR\b")
+        self.assertRegex(chapter8, r"(?is)ограничен\w+\s+л[её]тн\w+\s+годност.{0,180}airworthiness limitations items.{0,100}\bALI\b")
+
+    def test_task10_document_instrument_and_surveillance_terms_are_registered(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))}
+        required = {
+            "aircraft checklist": None,
+            "aircraft flight manual supplement": None,
+            "placard": None,
+            "Operator's Manual (OM)": "OM",
+            "Installation Manual (IM)": "IM",
+            "Maintenance Manual Line (MML)": "MML",
+            "service bulletin (SB)": "SB",
+            "service instruction (SI)": "SI",
+            "airspeed indicator (ASI)": "ASI",
+            "vertical speed indicator (VSI)": "VSI",
+            "indicated airspeed (IAS)": "IAS",
+            "calibrated airspeed (CAS)": "CAS",
+            "capacitor-discharge ignition (CDI)": "CDI",
+            "primary surveillance radar (PSR)": "PSR",
+            "Mode A": "Mode A",
+            "Mode C": "Mode C",
+            "alternate static source": None,
+        }
+        glossary = self._read("docs/reference/glossary.md")
+        abbreviations = self._read("docs/reference/abbreviations.md")
+        for canonical, abbreviation in required.items():
+            with self.subTest(canonical=canonical):
+                self.assertIn(canonical, terms)
+                term = terms[canonical]
+                for field in ("russian", "english", "spanish", "definition", "anchor", "defined_in"):
+                    self.assertTrue(term[field], f"{canonical}: {field}")
+                self.assertEqual(abbreviation, term.get("abbreviation"))
+                self.assertIn(f'id="{term["anchor"]}"', glossary)
+                if abbreviation:
+                    self.assertIn(f"| {abbreviation} |", abbreviations)
+
+    def test_task10_new_technical_abbreviations_link_to_their_own_definitions(self):
+        terms = {
+            item["abbreviation"]: item
+            for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))
+            if item.get("id") in {
+                "term-operators-manual-om",
+                "term-installation-manual-im",
+                "term-maintenance-manual-line-mml",
+                "term-service-bulletin-sb",
+                "term-service-instruction-si",
+                "term-airspeed-indicator-asi",
+                "term-vertical-speed-indicator-vsi",
+                "term-indicated-airspeed-ias",
+                "term-calibrated-airspeed-cas",
+                "term-capacitor-discharge-ignition-cdi",
+                "term-primary-surveillance-radar-psr",
+                "term-mode-a",
+                "term-mode-c",
+            }
+        }
+        violations = []
+        for path in learner_chapter_files():
+            text = path.read_text(encoding="utf-8")
+            for abbreviation, term in terms.items():
+                abbreviation_term = dict(term, canonical=abbreviation)
+                violations.extend(
+                    f"{path.relative_to(ROOT)}:{line}: {abbreviation}"
+                    for line in unlinked_term_occurrences(text, abbreviation_term)
+                )
+        self.assertEqual([], violations)
+
+    def test_task10_pitot_static_and_alternate_static_are_russian_first(self):
+        chapter = _plain_markdown(self._read(TASK10_CHAPTERS[5]))
+        self.assertNotIn("каноническая модель pitot-static", chapter)
+        self.assertRegex(chapter, r"(?is)учебн\w+\s+модел\w+\s+при[её]мн\w+\s+систем.{0,180}pitot-static")
+        self.assertRegex(chapter, r"(?is)резервн\w+\s+источник\w+\s+статическ\w+\s+давлен.{0,180}alternate static source")
+
+    def test_task10_recovery_glossary_definition_has_metadata_separator(self):
+        glossary = self._read("docs/reference/glossary.md")
+        section = glossary.split('<a id="term-whole-aircraft-recovery-system"></a>', 1)[1]
+        section = section.split("<a id=", 1)[0]
+        self.assertRegex(section, r"\*\*Русский:\*\*[^\n]+\n\nПарашютная спасательная система")
+
+    def test_task10_question_specific_distractor_rationales(self):
+        blocks = {
+            item["id"]: item["body"]
+            for path in TASK10_CHAPTERS
+            for item in parsed_question_blocks(self._read(path))
+        }
+        q14 = _plain_markdown(blocks["Q-AGK-014"])
+        self.assertRegex(q14, r"(?is)Почему главный отвлекающий вариант неверен:\s*C\b.{0,220}(?:эксплуатацион|AFM|POH)")
+        q16 = _plain_markdown(blocks["Q-AGK-016"])
+        self.assertRegex(q16, r"(?is)Почему главный отвлекающий вариант неверен:.{0,40}\bB\b.{0,220}\bD\b")
+        q25 = _plain_markdown(blocks["Q-AGK-025"])
+        self.assertRegex(q25, r"(?is)Почему главный отвлекающий вариант неверен:.{0,40}\bB\b.{0,240}\bD\b")
+        self.assertRegex(q25, r"B\.\s*Нормальное\s+напряжен.*доказывает.*генератор")
+        self.assertRegex(q25, r"D\.\s*Снят.*нагруз.*подтверждает.*генератор")
+        q28 = _plain_markdown(blocks["Q-AGK-028"])
+        self.assertRegex(q28, r"(?is)Почему главный отвлекающий вариант неверен:.{0,320}(?:общ|ADC|статическ)")
+        self.assertRegex(q28, r"B\.\s*Согласие\s+двух\s+экран.*один\s+ADC")
+        self.assertRegex(q28, r"C\.\s*Раздельное\s+электропитан.*одн.*статическ.*порт")
+        rationale28 = q28.split("Почему главный отвлекающий вариант неверен:", 1)[1]
+        self.assertNotRegex(rationale28, r"(?i)геометрическ\w+\s+высот")
+
+    def test_task10_gu09_elt_objective_does_not_claim_applicability(self):
+        chapter = self._read(TASK10_CHAPTERS[6])
+        block = next(item for item in parsed_question_blocks(chapter) if item["id"] == "Q-AGK-035")
+        body = _plain_markdown(block["body"])
+        self.assertRegex(body, r"(?is)A\..{0,180}(?:существован|общ\w+\s+назначен).{0,180}аварийн\w+.{0,80}(?:локализац|местополож)")
+        answer_and_why = body.split("Почему главный отвлекающий вариант неверен:", 1)[0]
+        self.assertNotRegex(answer_and_why, r"(?i)GU09.{0,160}применим")
+
+    def test_task10_air_ops_central_scope_includes_ide_170_and_200(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))}
+        scope = sources["SRC-EASA-AIR-OPS-2026"]["scope"]
+        self.assertIn("NCO.IDE.A.170", scope)
+        self.assertIn("NCO.IDE.A.200", scope)
+
+    def test_task10_fuel_return_is_explicitly_routed_to_tank(self):
+        fuel_svg = self._read("docs/assets/diagrams/fuel-system.svg")
+        self.assertRegex(fuel_svg, r'(?is)<path[^>]+id="fuel-return"[^>]+>')
+        self.assertRegex(fuel_svg, r"(?is)<desc[^>]*>.*обратн\w+\s+(?:лини|магистрал).{0,160}бак")
+
+    def test_task10_ulm_engine_margin_is_aircraft_and_situation_specific(self):
+        chapter2 = _plain_markdown(self._read(TASK10_CHAPTERS[1]))
+        self.assertNotIn("Малый тепловой и энергетический запас требует раннего решения", chapter2)
+        self.assertRegex(chapter2, r"(?is)(?:инерци|запас\w+\s+(?:врем|высот)).{0,220}(?:конкретн\w+\s+(?:самол[её]т|установк|ситуац)|зависит\s+от)")
+
+    def test_task10_new_glossary_definitions_are_russian_first(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))}
+        for canonical in (
+            "airframe", "trim", "four-stroke cycle", "detonation", "pre-ignition",
+            "carburettor icing", "vapour lock", "dry sump", "pitot-static system",
+        ):
+            with self.subTest(canonical=canonical):
+                self.assertRegex(terms[canonical]["definition"], r"^[А-ЯЁ]")
+        self.assertNotIn("clearance", terms["Mode S"]["definition"])
+
+    def test_task10_distractors_are_technically_plausible(self):
+        questions = _plain_markdown("\n".join(
+            self._read(path).split("## Контрольные вопросы", 1)[1]
+            for path in TASK10_CHAPTERS
+        ))
+        implausible = (
+            "Сонливость пилота после длинного полёта",
+            "Четырёхтактный двигатель всегда имеет турбокомпрессор",
+            "Двухтактный двигатель никогда не применим",
+            "Только цвет обложки руководства",
+            "другое название топливного бака",
+            "управляет ответчиком режима S",
+            "механическими приводами винта",
+            "Для выдачи ATC clearance",
+            "измеряет октановое число топлива",
+            "открывает controlled airspace",
+            "создаёт только шасси",
+            "навсегда изменяет шаг винта",
+            "стирает навигационную базу данных",
+            "управляет только полным давлением",
+            "измеряет загрязнение топлива",
+            "показывает температуру аккумулятора",
+            "магнитный курс и частоту вращения двигателя",
+            "количество топлива и наружную температуру",
+            "влияет только на девиацию компаса",
+            "два экрана всегда используют разные самолёты",
+            "Цвет экрана определяет независимость",
+            "Количество топлива из каждого бака",
+            "Визуальное наблюдение выключает передатчик",
+            "Барометрическая высота гарантирует радиоприём",
+            "Автоматические права эксплуатации за рубежом",
+            "Только по цвету крышки ракеты",
+        )
+        for fragment in implausible:
+            self.assertNotIn(fragment, questions)
+
+    def test_task10_dynamic_source_pinpoints_and_installed_system_caveats(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))}
+        self.assertEqual(
+            "https://aip.enaire.es/AIP/contenido_AIP/ENR/LE_ENR_1_6_en.pdf",
+            sources["SRC-ENAIRE-AIP-ENR-1-6-2026"]["url"],
+        )
+        enr22 = sources["SRC-ENAIRE-AIP-ENR-2-2-2026"]
+        self.assertEqual(
+            "https://aip.enaire.es/AIP/contenido_AIP/ENR/LE_ENR_2_2_en.pdf",
+            enr22["url"],
+        )
+        self.assertRegex(enr22["scope"], r"(?is)(?:ENR\s*2\.2-26|PDF\s*p\.?\s*26).{0,160}(?:page-specific|страниц)")
+        self.assertNotRegex(enr22["edition"], r"(?is)^ENR\s*2\.2\s+WEF")
+
+        chapter3 = _plain_markdown(self._read(TASK10_CHAPTERS[2]))
+        chapter6 = _plain_markdown(self._read(TASK10_CHAPTERS[5]))
+        chapter8 = _plain_markdown(self._read(TASK10_CHAPTERS[7]))
+        self.assertRegex(chapter3 + chapter6, r"(?is)912\s*i.{0,240}(?:ECU|вычисл|calculated).{0,200}(?:расход|fuel flow).{0,240}(?:AFM|измер|aircraft manufacturer|производител)")
+        self.assertRegex(chapter6, r"(?is)(?:прост\w+|canonical).{0,140}pitot.{0,180}(?:ADC|alternate static|резервн).{0,200}(?:может|может отлич|конфигурац)")
+        self.assertRegex(chapter8, r"(?is)AFH Addendum.{0,180}(?:p\.?\s*2-4|стр\.?\s*2-4).{0,200}(?:U\.S\.|США).{0,120}(?:исключ|не перенос)")
+
+    def test_task10_has_forty_substantive_unique_questions(self):
+        questions = []
+        errors = []
+        chapter_counts = []
+        for relative_path in TASK10_CHAPTERS:
+            text = self._read(relative_path)
+            chapter = parsed_question_blocks(text)
+            questions.extend(chapter)
+            chapter_counts.append(len(chapter))
+            errors.extend(f"{relative_path}: {error}" for error in question_block_errors(text))
+        self.assertEqual([], errors)
+        self.assertGreaterEqual(len(questions), 40)
+        self.assertTrue(all(count >= 5 for count in chapter_counts), chapter_counts)
+        identifiers = [item["id"] for item in questions]
+        self.assertEqual(len(identifiers), len(set(identifiers)))
+        self.assertTrue(all(identifier.startswith("Q-AGK-") for identifier in identifiers))
+
+    def test_task10_prose_and_questions_are_russian_first(self):
+        violations = []
+        for relative_path in TASK10_CHAPTERS:
+            text = self._read(relative_path).split("## Источники", 1)[0]
+            for line_number, line in enumerate(text.splitlines(), 1):
+                if not line.strip() or re.match(r"^\s*\[[^]]+\]:", line):
+                    continue
+                plain = _plain_markdown(line)
+                plain = re.sub(
+                    r"\((?:English|EN):.*?(?:español|ES):.*?\)",
+                    " ",
+                    plain,
+                    flags=re.IGNORECASE,
+                )
+                latin_words = re.findall(
+                    r"(?<![A-Za-z])[A-Za-z][A-Za-z'-]{2,}(?![A-Za-z])", plain
+                )
+                russian_words = re.findall(
+                    r"(?<![А-Яа-яЁё])[А-Яа-яЁё][А-Яа-яЁё-]{2,}(?![А-Яа-яЁё])", plain
+                )
+                if len(latin_words) >= 7 and len(latin_words) > 2 * max(1, len(russian_words)):
+                    violations.append(
+                        f"{relative_path}:{line_number}: {' '.join(latin_words[:10])}"
+                    )
+        self.assertEqual([], violations)
+
+    def test_task10_sources_are_registered_audited_and_exact(self):
+        sources = {item["id"]: item for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))}
+        self.assertTrue(self.REQUIRED_SOURCE_IDS <= sources.keys(), self.REQUIRED_SOURCE_IDS - sources.keys())
+        registry_md = SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+        audit = (COURSE_DOCS / "sources" / "audit-technical.md").read_text(encoding="utf-8")
+        chapter_text = self._all_text()
+        for identifier in self.REQUIRED_SOURCE_IDS:
+            with self.subTest(source=identifier):
+                self.assertIn(identifier, registry_md)
+                self.assertIn(identifier, audit)
+                self.assertIn(identifier, chapter_text)
+        exact = {
+            "SRC-ROTAX-OM-912-ED4-R2": "Edition 4 Rev.2",
+            "SRC-ROTAX-OM-912I-ED2-R2": "Edition 2 Rev.2",
+            "SRC-ROTAX-OM-914-ED3-R0": "Edition 3 Rev.0",
+            "SRC-ROTAX-OM-915I-ED0-R4": "Edition 0 Rev.4",
+            "SRC-ROTAX-OM-916I-ED0-R1": "Edition 0 Rev.1",
+            "SRC-ROTAX-IM-912-ED3-R1": "Edition 3 Rev.1",
+            "SRC-ROTAX-MML-912-ED4-R2": "Edition 4 Rev.2",
+            "SRC-ROTAX-IM-912I-ED2-R1": "Edition 2 Rev.1",
+            "SRC-ROTAX-MML-912I-ED2-R2": "Edition 2 Rev.2",
+            "SRC-ROTAX-IM-914-ED3-R0": "Edition 3 Rev.0",
+            "SRC-ROTAX-MML-914-ED3-R0": "Edition 3 Rev.0",
+            "SRC-ROTAX-IM-915I-ED0-R5": "Edition 0 Rev.5",
+            "SRC-ROTAX-MML-915I-ED0-R3": "Edition 0 Rev.3",
+            "SRC-ROTAX-IM-916I-ED0-R2": "Edition 0 Rev.2",
+            "SRC-ROTAX-MML-916I-ED0-R2": "Edition 0 Rev.2",
+        }
+        for identifier, edition in exact.items():
+            self.assertIn(edition, sources[identifier]["edition"])
+            self.assertIn("rotax.my.salesforce-sites.com", sources[identifier]["url"])
+        stale = sources["SRC-BRS6-REV-A-HISTORICAL"]
+        self.assertEqual("2026-07-14", stale["checked"])
+        self.assertRegex(stale["edition"], r"(?is)доступ.{0,100}14\.07\.2026")
+        self.assertRegex(stale["scope"], r"(?is)(?:историч|status|статус).{0,160}не.{0,100}(?:установлен|подтвержд|current|текущ)")
+        self.assertNotRegex(stale["edition"] + stale["scope"], r"(?is)404|stale|недоступ")
+        self.assertNotRegex(stale["edition"], r"(?i)^current|текущ")
+        self.assertEqual(
+            "https://www.easa.europa.eu/en/downloads/143113/en",
+            sources["SRC-EASA-PART-ML-AMC-GM-I1-A3-2026"]["url"],
+        )
+
+    def test_task10_terms_are_registered_with_ru_en_es_definitions(self):
+        terms = {item["canonical"]: item for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))}
+        required = {
+            "airframe", "structural fatigue", "trim", "four-stroke cycle", "detonation",
+            "pre-ignition", "carburettor icing", "vapour lock", "dry sump",
+            "engine management system (EMS)", "pitot-static system", "air data computer (ADC)",
+            "Mode S", "automatic dependent surveillance–broadcast (ADS-B)",
+            "emergency locator transmitter (ELT)", "personal locator beacon (PLB)",
+            "whole-aircraft recovery system", "Part-ML", "Part-NCO",
+            "aircraft maintenance programme (AMP)",
+        }
+        self.assertTrue(required <= terms.keys(), required - terms.keys())
+        glossary = GLOSSARY.read_text(encoding="utf-8")
+        for canonical in required:
+            term = terms[canonical]
+            for key in ("russian", "english", "spanish", "definition", "anchor", "defined_in"):
+                self.assertTrue(term[key], f"{canonical}: {key}")
+            self.assertIn(f'id="{term["anchor"]}"', glossary)
+
+    def test_task10_svgs_are_accessible_mobile_and_geometric(self):
+        required_ids = (
+            {"intake", "compression", "power", "exhaust", "intake-valve", "exhaust-valve", "piston"},
+            {"tank", "selector", "filter", "pump", "carburettor-branch", "injection-branch"},
+            {"generator", "battery", "master", "bus", "protection", "load"},
+            {"pitot-input", "static-input", "asi", "altimeter", "vsi"},
+            {"recognition", "decision", "exact-manual-gate", "ground-hazard", "rescuer-hazard"},
+        )
+        for relative_path, semantic_ids in zip(TASK10_SVGS, required_ids):
+            self.assertTrue((ROOT / relative_path).is_file(), relative_path)
+            root = ET.parse(ROOT / relative_path).getroot()
+            ns = "{http://www.w3.org/2000/svg}"
+            with self.subTest(path=relative_path):
+                self.assertEqual(f"{ns}svg", root.tag)
+                self.assertEqual("img", root.attrib.get("role"))
+                self.assertTrue(root.attrib.get("aria-labelledby"))
+                self.assertIsNotNone(root.find(f"{ns}title"))
+                self.assertIsNotNone(root.find(f"{ns}desc"))
+                self.assertFalse(list(root.iter(f"{ns}image")))
+                _, _, width, _ = (float(value) for value in root.attrib["viewBox"].split())
+                self.assertLessEqual(width, 760)
+                sizes = [float(node.attrib["font-size"].removesuffix("px")) for node in root.iter(f"{ns}text") if "font-size" in node.attrib]
+                self.assertTrue(sizes)
+                self.assertGreaterEqual(min(sizes) * 340 / width, 13.0)
+                ids = {node.attrib.get("id") for node in root.iter() if node.attrib.get("id")}
+                self.assertTrue(semantic_ids <= ids, semantic_ids - ids)
+                geometry = {f"{ns}path", f"{ns}line", f"{ns}polyline", f"{ns}polygon", f"{ns}rect", f"{ns}circle", f"{ns}ellipse"}
+                self.assertGreaterEqual(sum(1 for node in root.iter() if node.tag in geometry), 10)
+                words = " ".join(root.itertext())
+                self.assertRegex(words, r"[А-Яа-яЁё]")
+                self.assertIn("УЧЕБНАЯ СХЕМА — НЕ ЧЕК-ЛИСТ", words)
 
 
 class GU09MigrationTests(unittest.TestCase):
