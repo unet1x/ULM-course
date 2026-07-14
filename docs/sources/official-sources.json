@@ -6,7 +6,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew",
     "edition": "онлайн-консолидация от 24.02.2026",
     "checked": "2026-07-13",
-    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; AMC1 FCL.115/FCL.120 отсылает LAPL к общей PPL syllabus, а AMC1 FCL.210/FCL.215 §5.1 задаёт subject 081 Principles of Flight, §§7.1–7.3 — mass and balance, performance, flight planning/monitoring, и §§9.1–9.2 — navigation theory/radio-navigation depth; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency; удобная публикация сверяется с EUR-Lex"
+    "scope": "Part-FCL, Part-MED и Part-DTO вместе с AMC/GM; AMC1 FCL.115/FCL.120 отсылает LAPL к общей PPL syllabus, а AMC1 FCL.210/FCL.215 задаёт для PPL theoretical knowledge course baseline не менее 100 часов и раскрывает §5.1 subject 081 Principles of Flight, §§7.1–7.3 mass and balance, performance и flight planning/monitoring, а §§9.1–9.2 navigation theory и radio-navigation depth. FCL.125/FCL.235 задают section-result, two-attempt и further-training boundaries initial skill test; FCL.055, FCL.120, FCL.215, FCL.035(b)(6) и Appendix 1 различают Communications knowledge, radiotelephony privileges и language proficiency. AMC не является самостоятельной binding norm, а удобная консолидация сверяется с EUR-Lex"
   },
   {
     "id": "SRC-EASA-SERA-2025",
@@ -24,7 +24,7 @@
     "url": "https://eur-lex.europa.eu/eli/reg/2011/1178/2026-02-22/eng",
     "edition": "консолидированный текст от 22.02.2026",
     "checked": "2026-07-13",
-    "scope": "Юридический текст Part-FCL и Part-MED на указанную дату консолидации; последующие акты и даты применимости проверяются отдельно"
+    "scope": "Юридический текст Part-FCL и Part-MED на указанную дату консолидации; FCL.055(c) задаёт повторную оценку language Level 4/5 через 4/6 лет и отсутствие периодической оценки Level 6, FCL.125/FCL.235 — section-result и two-attempt/further-training boundaries initial skill test, FCL.140.A(c) — engine-variant boundary LAPL(A), FCL.210.A(d) — credit только для holder licence другой aircraft category, MED.A.045 — сроки LAPL/Class 2 medical. В FCL.030/FCL.125/FCL.235 не установлен общий срок действия успешно сданного initial LAPL/PPL skill test; последующие акты и даты применимости проверяются отдельно"
   },
   {
     "id": "SRC-EURLEX-2024-2076",
@@ -49,9 +49,9 @@
     "authority": "EUR-Lex",
     "title": "Commission Implementing Regulation (EU) 2026/781",
     "url": "https://eur-lex.europa.eu/eli/reg_impl/2026/781/oj/eng",
-    "edition": "OJ от 10.04.2026",
+    "edition": "OJ от 10.04.2026; основная применимость с 30.04.2028",
     "checked": "2026-07-13",
-    "scope": "Контроль поправок после консолидации EASA; проверенные изменения FCL.110 и FCL.210 относятся к вертолётам и не меняют описанные требования LAPL(A) и PPL(A)"
+    "scope": "Контроль поправок после консолидации EASA: по Article 3 основная часть применяется с 30.04.2028, а с 30.04.2026 — только Annex I points 5–7 по FCL.740.H, FCL.930.TRI и FCL.935.TRI. Будущие изменения FCL.110 и FCL.210 относятся к вертолётам и не меняют описанные требования LAPL(A) и PPL(A); будущий текст не применяется как текущий на 13.07.2026"
   },
   {
     "id": "SRC-BOE-RD-123-2015",
@@ -133,6 +133,24 @@
     "edition": "динамическая страница, обновлена 29.06.2026",
     "checked": "2026-07-13",
     "scope": "Испанская процедура и календарь теоретических экзаменов, где процессы Part-FCL LAPL/PPL и ULM разделены; формы и даты проверяются перед регистрацией"
+  },
+  {
+    "id": "SRC-AESA-FLIGHT-TEST-FORMS-2026",
+    "authority": "AESA",
+    "title": "Pruebas de vuelo: formatos de examen",
+    "url": "https://www.seguridadaerea.gob.es/es/node/3745",
+    "edition": "динамическая страница, обновлена 24.06.2026",
+    "checked": "2026-07-13",
+    "scope": "Текущая точка доступа AESA к initial skill-test forms: LAPL(A) LIC-PVLO-P01-F01/F01E и PPL(A) LIC-PVLO-P01-F03/F03E на контрольную дату. Номера, редакции и процедура динамичны и перепроверяются перед test; страница не создаёт общего срока действия успешно сданного initial skill test"
+  },
+  {
+    "id": "SRC-AESA-AME-LIST-2026",
+    "authority": "AESA",
+    "title": "Médicos examinadores aéreos autorizados",
+    "url": "https://www.seguridadaerea.gob.es/es/ambitos/licencias-y-medicina-aeronautica/medicina-aeronautica/medicos-examinadores-aereos-autorizados",
+    "edition": "динамическая страница, обновлена 25.05.2026",
+    "checked": "2026-07-13",
+    "scope": "Актуальный испанский список AME AESA; все перечисленные AME авторизованы для initial, revalidation и renewal Class 2/LAPL medical. Конкретную запись, контакты и статус повторно проверяют перед записью; страница не гарантирует индивидуальную медицинскую годность"
   },
   {
     "id": "SRC-SENASA-AESA-EXAM-GUIDE-FOR-EFT-P01-GU01-ED03",
@@ -402,7 +420,7 @@
     "url": "https://www.boe.es/eli/es/o/2019/11/13/fom1146/con",
     "edition": "texto consolidado; última actualización 25.11.2019",
     "checked": "2026-07-13",
-    "scope": "Arts. 2(a),(d), 3, 4, 7–9: Spanish/English radiotelephony annotation and FCL.055 language proficiency are separate; minimum operational Level 4"
+    "scope": "Arts. 2(a),(d), 3, 4, 7–9: Spanish/English radiotelephony annotation and FCL.055 language proficiency are separate; minimum operational Level 4. Периоды 3/6/9 лет из art. 5.2 относятся к персоналу AFIS/SDP, а не к Part-FCL pilot language endorsement, для которого применяются FCL.055(c) 4/6 лет и отсутствие периодической оценки Level 6"
   },
   {
     "id": "SRC-AESA-ULM-RTC-PROGRAM",

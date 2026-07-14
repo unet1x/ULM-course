@@ -97,6 +97,13 @@ nav:
       - План полёта ATS: 10-flight-preparation/03-ats-flight-plan.md
       - Учебный местный полёт: 10-flight-preparation/04-local-flight-scenario.md
       - Учебный внутренний маршрут: 10-flight-preparation/05-cross-country-scenario.md
+  - Переход ULM → LAPL(A) или PPL(A):
+      - Как выбрать LAPL(A) или PPL(A): 11-transition-to-part-fcl/01-choose-lapl-or-ppl.md
+      - ULM/MAF → LAPL(A): 11-transition-to-part-fcl/02-ulm-to-lapl.md
+      - ULM/MAF → PPL(A): 11-transition-to-part-fcl/03-ulm-to-ppl.md
+      - LAPL(A) → PPL(A): 11-transition-to-part-fcl/04-lapl-to-ppl.md
+      - Medical, экзамены и skill test: 11-transition-to-part-fcl/05-medical-exams-skill-test.md
+      - Проверка DTO/ATO до договора: 11-transition-to-part-fcl/06-dto-ato-pre-entry-checklist.md
   - Справочники:
       - Глоссарий: reference/glossary.md
       - Сокращения: reference/abbreviations.md
@@ -104,6 +111,7 @@ nav:
       - Шаблон навигационного лога: reference/templates-flight-log.md
       - Формулы лётного планирования: reference/formulas.md
       - Рабочий лист подготовки полёта: reference/checklists-flight.md
+      - Рабочий лист перехода в Part-FCL: reference/checklists-transition.md
   - Исследовательская база:
       - Реестр официальных источников: sources/official-sources.md
       - Испания и нормативная дата: sources/audit-spain-2026.md

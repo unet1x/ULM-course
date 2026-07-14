@@ -2372,3 +2372,14 @@ FPMZ — опубликованная зона, в которой применя
 - **Сокращение:** ARR
 
 Сообщение ARR используется для требуемого донесения о прибытии и закрытия FPL по SERA.4020 и текущей реализации. Сам факт посадки не всегда доказывает подтверждённое закрытие плана.
+
+<a id="term-flight-simulation-training-device-fstd"></a>
+## Flight simulation training device (FSTD)
+
+- **Canonical:** flight simulation training device (FSTD)
+- **English:** flight simulation training device
+- **Español:** dispositivo de entrenamiento de simulación de vuelo
+- **Русский:** имитационное тренажёрное устройство для лётной подготовки
+- **Сокращение:** FSTD
+
+Обобщающий термин Part-FCL для квалифицированного имитационного устройства, на котором разрешённая программа может засчитать прямо предусмотренную часть подготовки. Домашний симулятор сам по себе не становится FSTD и не создаёт зачёт часов.

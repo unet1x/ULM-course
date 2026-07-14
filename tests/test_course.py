@@ -296,6 +296,7 @@ REQUIRED_CANONICAL_TERMS = {
     "cross-country flight",
     "Head of Training",
     "TMG",
+    "flight simulation training device (FSTD)",
     "AMC",
     "LAPL medical certificate",
     "Class 2 medical certificate",
@@ -9620,6 +9621,747 @@ class Task12OperationsFlightPreparationTests(unittest.TestCase):
         )
         if edge.tag.rsplit("}", 1)[-1] == "line":
             edge.attrib.update({"x1": "-100", "y1": "-100"})
+        else:
+            edge.attrib["d"] = "M -100 -100 L -90 -90"
+        self.assertTrue(topology_errors(mutated))
+
+
+class Task13TransitionTests(unittest.TestCase):
+    CHAPTERS = (
+        "docs/11-transition-to-part-fcl/01-choose-lapl-or-ppl.md",
+        "docs/11-transition-to-part-fcl/02-ulm-to-lapl.md",
+        "docs/11-transition-to-part-fcl/03-ulm-to-ppl.md",
+        "docs/11-transition-to-part-fcl/04-lapl-to-ppl.md",
+        "docs/11-transition-to-part-fcl/05-medical-exams-skill-test.md",
+        "docs/11-transition-to-part-fcl/06-dto-ato-pre-entry-checklist.md",
+    )
+    REFERENCE = "docs/reference/checklists-transition.md"
+    SVG = "docs/assets/diagrams/ulm-to-lapl-ppl-decision-tree.svg"
+    REQUIRED_SOURCE_IDS = {
+        "SRC-EASA-AIRCREW-2026",
+        "SRC-EURLEX-1178-2011",
+        "SRC-EURLEX-2024-2076",
+        "SRC-EURLEX-2025-0134",
+        "SRC-EURLEX-2026-0781",
+        "SRC-BOE-RD-765-2022",
+        "SRC-BOE-RD-182-2026",
+        "SRC-AESA-RD182-FAQ-2026",
+        "SRC-AESA-LAPL-PPL-PROCEDURES",
+        "SRC-BOE-PART-FCL-SPL-BPL-EXAM-RESOLUTION-2025",
+        "SRC-SENASA-AESA-EXAM-GUIDE-FOR-EFT-P01-GU01-ED03",
+    }
+
+    def _read(self, relative_path):
+        path = ROOT / relative_path
+        if not path.is_file():
+            self.fail(f"missing Task 13 artifact: {relative_path}")
+        return path.read_text(encoding="utf-8")
+
+    def _all_text(self):
+        return "\n".join(self._read(path) for path in self.CHAPTERS)
+
+    def _assert_claim_has_nearby_source(self, text, pattern, label):
+        match = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+        self.assertIsNotNone(match, label)
+        if match is None:
+            return
+        window = text[max(0, match.start() - 220) : match.end() + 700]
+        self.assertRegex(window, r"SRC-[A-Z0-9-]+", f"uncited claim: {label}")
+
+    @staticmethod
+    def _transition_questions(text):
+        headings = list(
+            re.finditer(
+                r"(?m)^###\s+(Q-TRANS-(\d{3}))\s+—\s+(.+?)"
+                r"\s+\{#(q-trans-\2)\}\s*$",
+                text,
+            )
+        )
+        blocks = []
+        for index, match in enumerate(headings):
+            end = headings[index + 1].start() if index + 1 < len(headings) else len(text)
+            next_h2 = re.search(r"(?m)^##\s+", text[match.end() : end])
+            if next_h2:
+                end = match.end() + next_h2.start()
+            blocks.append(
+                {
+                    "id": match.group(1),
+                    "prompt": match.group(3).strip(),
+                    "anchor": match.group(4),
+                    "body": text[match.end() : end],
+                }
+            )
+        return blocks
+
+    def test_task13_files_navigation_and_stable_anchors(self):
+        nav = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        for relative_path in self.CHAPTERS + (self.REFERENCE,):
+            with self.subTest(path=relative_path):
+                text = self._read(relative_path)
+                self.assertIn(relative_path.removeprefix("docs/"), nav)
+                self.assertEqual([], explicit_atx_heading_errors(text))
+
+        self._read(self.SVG)
+        common_anchors = {
+            "purpose",
+            "learning-outcomes",
+            "applicability",
+            "theory",
+            "ulm-application",
+            "part-fcl-extension",
+            "safety",
+            "common-errors",
+            "summary",
+            "review-questions",
+            "sources",
+        }
+        chapter_specific = (
+            "choice-matrix",
+            "fcl-110-a-credit",
+            "direct-ppl-no-maf-credit",
+            "fcl-210-a-b-upgrade",
+            "medical-exam-skill-test-gates",
+            "written-quote-gates",
+        )
+        for relative_path, required_anchor in zip(self.CHAPTERS, chapter_specific):
+            anchors = markdown_anchors(self._read(relative_path))
+            with self.subTest(anchors=relative_path):
+                self.assertTrue(common_anchors <= anchors, common_anchors - anchors)
+                self.assertIn(required_anchor, anchors)
+
+        choose = self._read(self.CHAPTERS[0])
+        self.assertIn("../assets/diagrams/ulm-to-lapl-ppl-decision-tree.svg", choose)
+
+    def test_task13_normative_sections_use_registered_current_sources(self):
+        registered = {
+            item["id"]: item
+            for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        self.assertTrue(
+            self.REQUIRED_SOURCE_IDS <= registered.keys(),
+            self.REQUIRED_SOURCE_IDS - registered.keys(),
+        )
+        combined = self._all_text()
+        cited = set(re.findall(r"SRC-[A-Z0-9-]+", combined))
+        self.assertTrue(
+            self.REQUIRED_SOURCE_IDS <= cited,
+            self.REQUIRED_SOURCE_IDS - cited,
+        )
+        for relative_path in self.CHAPTERS:
+            text = self._read(relative_path)
+            sections = list(
+                re.finditer(r"(?m)^#{2,4}\s+.+\{#norm-[a-z0-9-]+\}\s*$", text)
+            )
+            self.assertTrue(sections, f"no normative section in {relative_path}")
+            for index, section in enumerate(sections):
+                end = sections[index + 1].start() if index + 1 < len(sections) else len(text)
+                source_ids = set(re.findall(r"SRC-[A-Z0-9-]+", text[section.end() : end]))
+                with self.subTest(path=relative_path, section=section.group(0)):
+                    self.assertTrue(source_ids, "normative section has no source")
+                    self.assertTrue(source_ids <= registered.keys(), source_ids - registered.keys())
+
+        self.assertRegex(combined, r"(?i)проверено\s+13\.07\.2026")
+        self.assertRegex(
+            _plain_markdown(combined),
+            r"(?is)(?:Regulation\s*\(EU\)\s*)?2026/781.{0,240}"
+            r"(?:вертол[её]т|helicopter).{0,240}не.{0,100}(?:измен|меня).{0,100}"
+            r"(?:LAPL\(A\)|PPL\(A\))",
+        )
+
+    def test_task13_ulm_is_spain_only_and_never_an_automatic_conversion(self):
+        text = self._all_text()
+        plain = _plain_markdown(text)
+        for pattern in (
+            r"(?is)(?:ULM|MAF).{0,180}(?:эксплуатац|пол[её]т).{0,120}"
+            r"(?:только|ограничен).{0,80}Испани",
+            r"(?is)(?:ULM|MAF).{0,180}не.{0,90}(?:автоматическ|сам[ао]).{0,100}"
+            r"(?:конверт|превращ|станов).{0,100}Part-FCL",
+            r"(?is)(?:национальн\w+\s+ULM|MAF).{0,180}не.{0,90}"
+            r"(?:международн|за\s+пределами\s+Испани|Франци|Португал)",
+            r"(?is)(?:совпадени|общ\w+).{0,100}(?:предмет|программ|syllabus).{0,180}"
+            r"не.{0,80}(?:юридическ|правов|экзаменационн).{0,80}зач[её]т",
+            r"(?is)(?:после\s+получения|сначала).{0,120}(?:ULM|MAF).{0,200}"
+            r"(?:отдельн\w+\s+обучен|DTO|ATO).{0,160}(?:LAPL|PPL)",
+        ):
+            with self.subTest(boundary=pattern):
+                self.assertRegex(plain, pattern)
+
+        violations = []
+        for relative_path in self.CHAPTERS:
+            chapter = self._read(relative_path)
+            violations.extend(
+                f"{relative_path}: {claim}"
+                for claim in automatic_recognition_claims(chapter)
+            )
+            violations.extend(
+                f"{relative_path}: {claim}"
+                for claim in cross_border_procedure_errors(chapter)
+            )
+        self.assertEqual([], violations)
+
+    def test_task13_choice_compares_privileges_medical_passengers_and_recency(self):
+        chapter = _plain_markdown(self._read(self.CHAPTERS[0]))
+        claims = (
+            (
+                r"LAPL\(A\).{0,180}(?:EASA\s+Member\s+States|государств\w+\s*[—-]\s*"
+                r"член\w+\s+EASA).{0,180}(?:не\s+явля|non-ICAO|не\s+соответств).{0,100}ICAO",
+                "LAPL legal status",
+            ),
+            (
+                r"PPL\(A\).{0,180}(?:ICAO-compliant|стандарт\w+\s+Приложени).{0,240}"
+                r"(?:rating|квалификац|medical|медицин|государств)",
+                "PPL legal status and conditions",
+            ),
+            (
+                r"LAPL\(A\).{0,220}2[ .]?000\s*(?:kg|кг).{0,180}3\s+пассажир.{0,120}"
+                r"(?:4\s+(?:лиц|человек)|четыр[её]х\s+(?:лиц|человек))",
+                "LAPL aircraft and passenger limits",
+            ),
+            (
+                r"LAPL\(A\).{0,220}10\s+час.{0,80}PIC.{0,160}(?:перв\w+\s+перевоз|пассажир)"
+                r".{0,220}FCL\.060.{0,160}90\s+дн",
+                "LAPL initial and common passenger gates",
+            ),
+            (
+                r"FCL\.140\.A.{0,220}(?:скользящ|rolling).{0,120}2\s+(?:год|лет).{0,260}"
+                r"FCL\.740\.A.{0,220}(?:срок|2\s+(?:год|лет)|продлен)",
+                "LAPL versus SEP recency",
+            ),
+            (
+                r"MED\.A\.030.{0,220}(?:LAPL\s+medical|медицинск\w+\s+свидетельств\w+\s+LAPL)"
+                r".{0,220}(?:Class\s*2|класс\w*\s*2).{0,120}PPL",
+                "medical comparison",
+            ),
+        )
+        for pattern, label in claims:
+            with self.subTest(claim=label):
+                self.assertRegex(chapter, pattern)
+
+    def test_task13_fcl110a_credit_ceiling_exclusion_and_assessment_are_exact(self):
+        chapter = self._read(self.CHAPTERS[1])
+        plain = _plain_markdown(chapter)
+        for pattern, label in (
+            (
+                r"FCL\.110\.A\(c\).{0,260}(?:DTO|ATO).{0,220}"
+                r"(?:pre-entry\s+flight\s+assessment|предварительн\w+\s+л[её]тн\w+\s+оцен)",
+                "credit is a DTO/ATO decision after assessment",
+            ),
+            (
+                r"(?:не\s+больше|не\s+превыш).{0,100}фактическ\w+.{0,80}PIC.{0,180}"
+                r"50\s*%.{0,180}(?:30\s+час|FCL\.110\.A\(a\)).{0,160}15\s+час",
+                "statutory ceiling is min(actual PIC, 50%, 15 hours)",
+            ),
+            (
+                r"(?:максимальн|потолок|15\s+час).{0,180}не.{0,80}(?:гарантир|обещан|автоматическ)"
+                r".{0,220}(?:DTO|ATO).{0,100}(?:меньш|ноль|фактическ)",
+                "organisation may award less than the ceiling",
+            ),
+            (
+                r"(?:зач[её]т|credit).{0,180}не.{0,80}(?:включ|покрыва|замен).{0,120}"
+                r"(?:supervised\s+solo|самостоятельн\w+\s+пол[её]т\w+\s+под\s+наблюден)",
+                "supervised solo is excluded",
+            ),
+            (
+                r"6\s+час.{0,160}(?:supervised\s+solo|самостоятельн).{0,180}3\s+час.{0,160}"
+                r"(?:cross-country|маршрутн).{0,160}150\s*(?:km|км).{0,100}80\s*NM",
+                "mandatory solo details remain",
+            ),
+            (
+                r"15\s+час.{0,100}(?:dual|с\s+инструктор).{0,220}(?:отдельн|самостоятельн\w+\s+подпункт|"
+                r"не\s+отмен).{0,180}(?:зач[её]т|credit)",
+                "dual subrequirement remains separate",
+            ),
+            (
+                r"(?:всю|полн\w+).{0,100}(?:программ|syllabus).{0,180}AMC1\s+FCL\.110\.A\(c\)",
+                "assessment covers the full syllabus",
+            ),
+        ):
+            with self.subTest(claim=label):
+                self._assert_claim_has_nearby_source(chapter, pattern, label)
+        self.assertRegex(plain, r"(?is)MAF.{0,120}PIC.{0,240}FCL\.110\.A\(c\)")
+
+    def test_task13_direct_ppl_route_has_no_maf_credit(self):
+        chapter = self._read(self.CHAPTERS[2])
+        plain = _plain_markdown(chapter)
+        for pattern, label in (
+            (
+                r"(?:AESA|официальн\w+\s+разъяснен).{0,220}(?:MAF|ULM).{0,180}"
+                r"не.{0,80}(?:призна|засчиты|credit).{0,100}(?:initial|первоначальн).{0,100}PPL\(A\)",
+                "AESA excludes MAF hours from initial PPL",
+            ),
+            (
+                r"FCL\.210\.A\(a\).{0,180}45\s+час.{0,160}25\s+час.{0,100}"
+                r"(?:dual|инструктор).{0,160}10\s+час.{0,100}(?:supervised\s+solo|самостоятельн)",
+                "PPL total dual and solo minima",
+            ),
+            (
+                r"5\s+час.{0,120}(?:cross-country|маршрутн).{0,160}270\s*(?:km|км).{0,100}"
+                r"150\s*NM.{0,180}(?:двух|2).{0,100}(?:друг|ин).{0,80}аэродром",
+                "PPL solo cross-country minimum",
+            ),
+            (
+                r"FCL\.210\.A\(d\).{0,200}(?:друг\w+\s+категори|other\s+category).{0,180}"
+                r"MAF.{0,180}(?:той\s+же|самол[её]т\w+\s+категори).{0,180}не.{0,80}(?:примен|засчит)",
+                "other-category credit is inapplicable",
+            ),
+        ):
+            with self.subTest(claim=label):
+                self._assert_claim_has_nearby_source(chapter, pattern, label)
+        self.assertRegex(
+            plain,
+            r"(?is)(?:полный|без\s+зач[её]та).{0,160}(?:курс|маршрут|программ).{0,160}PPL",
+        )
+
+    def test_task13_lapl_to_ppl_uses_current_combined_requirements(self):
+        chapter = self._read(self.CHAPTERS[3])
+        plain = _plain_markdown(chapter)
+        for pattern, label in (
+            (
+                r"FCL\.210\.A\(b\)\(1\).{0,240}45\s+час.{0,100}(?:total|общ).{0,180}"
+                r"40\s+час.{0,120}(?:flight\s+instruction|л[её]тн\w+\s+обучен).{0,160}"
+                r"21\s+час.{0,100}(?:dual|инструктор)",
+                "issued-LAPL combined thresholds",
+            ),
+            (
+                r"FCL\.210\.A\(b\)\(2\).{0,200}5\s+час.{0,160}"
+                r"(?:PPL-qualified|уполномоч|квалифицир).{0,120}инструктор",
+                "five PPL-qualified dual hours",
+            ),
+            (
+                r"FCL\.210\.A\(a\)\(2\).{0,220}(?:весь|полн\w+).{0,100}"
+                r"(?:supervised\s+solo|самостоятельн\w+\s+нал[её]т\w+\s+под\s+наблюден)",
+                "all PPL supervised solo remains",
+            ),
+            (
+                r"AMC1\s+FCL\.210\.A\(b\).{0,240}(?:индивидуальн|Head\s+of\s+Training).{0,240}"
+                r"(?:предотвращен\w+\s+штопор|spin\s+avoidance).{0,220}радионавигац.{0,220}"
+                r"(?:основ\w+\s+пол[её]т\w+\s+по\s+приборам|basic\s+instrument)",
+                "individual delta syllabus",
+            ),
+            (
+                r"(?:MAF|ULM).{0,180}(?:зачт[её]н|использован).{0,120}LAPL.{0,220}"
+                r"не.{0,80}(?:повторн|второй\s+раз|двойн).{0,100}(?:PPL|зач[её]т|credit)",
+                "no double counting MAF experience",
+            ),
+        ):
+            with self.subTest(claim=label):
+                self._assert_claim_has_nearby_source(chapter, pattern, label)
+        self.assertRegex(
+            plain,
+            r"(?is)не.{0,80}(?:формула|означает|достаточно).{0,100}(?:ещ[её]\s+)?(?:10|15)\s+час",
+        )
+
+    def test_task13_theory_credit_separates_holder_and_exam_only_branches(self):
+        chapter = self._read(self.CHAPTERS[3])
+        plain = _plain_markdown(chapter)
+        holder = re.search(
+            r"(?is)(?:Appendix\s*1|Приложени\w*\s*1).{0,120}§?\s*1\.3.{0,260}"
+            r"обладател\w*.{0,100}выданн\w+.{0,100}LAPL.{0,240}полн\w+\s+зач[её]т"
+            r".{0,240}не.{0,80}(?:24-месяч|FCL\.025\(c\)|истека)",
+            plain,
+        )
+        self.assertIsNotNone(holder, "issued-LAPL holder branch is missing")
+        exam_only = re.search(
+            r"(?is)(?:без\s+выданн\w+.{0,80}LAPL|только\s+сдал.{0,100}"
+            r"теоретическ\w+\s+экзамен).{0,320}FCL\.025\(c\).{0,160}24\s+месяц",
+            plain,
+        )
+        self.assertIsNotNone(exam_only, "exam-only branch is missing")
+        self.assertRegex(
+            plain,
+            r"(?is)(?:ULM|MAF).{0,160}(?:теори|экзамен).{0,160}не.{0,80}"
+            r"(?:замен|да[её]т|явля).{0,120}(?:Part-FCL|LAPL|PPL).{0,80}зач[её]т",
+        )
+        for match, label in ((holder, "holder theory credit"), (exam_only, "exam-only credit")):
+            window = chapter[max(0, match.start() - 220) : match.end() + 700]
+            self.assertRegex(window, r"SRC-EURLEX-2024-2076", label)
+
+    def test_task13_medical_exams_radio_and_skill_tests_are_separate_gates(self):
+        chapter = self._read(self.CHAPTERS[4])
+        plain = _plain_markdown(chapter)
+        claims = (
+            (
+                r"MED\.A\.030.{0,220}(?:LAPL\s+medical|медицинск\w+\s+свидетельств\w+\s+LAPL)"
+                r".{0,220}(?:Class\s*2|класс\w*\s*2).{0,140}PPL",
+                "LAPL versus Class 2 medical",
+            ),
+            (
+                r"(?:AME|авиационн\w+\s+медицинск\w+\s+эксперт).{0,220}"
+                r"(?:актуальн\w+\s+список|AESA).{0,160}(?:до\s+расход|заранее|до\s+обучен)",
+                "early current AME check",
+            ),
+            (r"FCL\.025.{0,260}75\s*%", "exam pass mark"),
+            (
+                r"FCL\.025.{0,320}(?:не\s+более|максимум).{0,80}4\s+"
+                r"(?:попыт|attempt).{0,100}(?:paper|работ|предмет)",
+                "attempt limit per paper",
+            ),
+            (
+                r"FCL\.025.{0,320}(?:все|полн\w+\s+комплект).{0,140}"
+                r"18\s+месяц",
+                "exam completion window",
+            ),
+            (
+                r"(?:рекомендац|recommendation).{0,180}12\s+месяц",
+                "recommendation validity",
+            ),
+            (
+                r"FCL\.025\(c\).{0,220}(?:результат|комплект|LAPL|PPL).{0,160}"
+                r"24\s+месяц",
+                "exam result validity for issue",
+            ),
+            (
+                r"(?:FCL\.120|FCL\.215).{0,220}9\s+(?:предмет|дисциплин).{0,220}"
+                r"(?:ULM|MAF).{0,160}не.{0,80}(?:замен|засчиты)",
+                "nine subjects and no ULM exam credit",
+            ),
+            (
+                r"FCL\.125.{0,160}(?:LAPL|skill\s+test|проверка\s+практическ).{0,220}"
+                r"FCL\.235.{0,160}(?:PPL|skill\s+test|проверка\s+практическ)",
+                "different LAPL and PPL skill-test rules",
+            ),
+            (
+                r"(?:pre-entry\s+flight\s+assessment|предварительн\w+\s+л[её]тн\w+\s+оцен).{0,180}"
+                r"не.{0,80}(?:skill\s+test|проверка\s+практическ).{0,220}"
+                r"(?:ULM|MAF).{0,120}(?:практическ\w+\s+экзамен|practical\s+exam)",
+                "assessment, ULM exam and skill test are distinct",
+            ),
+            (
+                r"(?:RTC|radiofonista).{0,180}не.{0,80}(?:автоматическ|равн|замен).{0,180}"
+                r"(?:FCL\.055|language\s+proficiency|языков\w+\s+отмет)",
+                "RTC and FCL.055 are distinct",
+            ),
+            (
+                r"(?:актуальн\w+|текущ\w+).{0,100}(?:бланк|форм).{0,120}AESA.{0,140}"
+                r"(?:перед|до).{0,80}(?:skill\s+test|провер)",
+                "current AESA form gate",
+            ),
+        )
+        for pattern, label in claims:
+            with self.subTest(claim=label):
+                self._assert_claim_has_nearby_source(chapter, pattern, label)
+        self.assertRegex(plain, r"(?is)(?:испанск|английск).{0,180}(?:теоретическ\w+\s+экзамен).{0,220}(?:четыр|4)\s+вариант")
+
+    def test_task13_written_dto_ato_quote_checklist_is_executable(self):
+        lesson = self._read(self.CHAPTERS[5])
+        worksheet = self._read(self.REFERENCE)
+        combined = _plain_markdown(lesson + "\n" + worksheet)
+        self.assertGreaterEqual(
+            len(re.findall(r"(?m)^\s*[-*]\s+\[\s*\]\s+", worksheet)),
+            18,
+        )
+        self.assertGreaterEqual(worksheet.count("|"), 24)
+        required = (
+            r"(?:номер|идентификатор).{0,100}(?:DTO|ATO).{0,140}(?:declaration|approval|scope|программ)",
+            r"(?:ULM-лицензи|лицензи\w+\s+ULM).{0,120}MAF.{0,120}(?:медицин|medical).{0,160}(?:logbook|л[её]тн\w+\s+книж)",
+            r"PIC\s+MAF.{0,120}dual\s+ULM.{0,120}solo\s+ULM.{0,160}(?:not\s+eligible|unclear|неясн|недопустим)",
+            r"FCL\.110\.A\(c\).{0,180}(?:письменн|решени).{0,160}(?:точн\w+\s+числ|количеств).{0,120}(?:credit|зачт)",
+            r"30\s*(?:h|час).{0,120}15\s*(?:h|час).{0,120}6\s*(?:h|час).{0,120}150\s*(?:km|км).{0,80}80\s*NM",
+            r"FCL\.210\.A\(b\).{0,200}45\s*(?:h|час).{0,120}40\s*(?:h|час).{0,120}21\s*(?:h|час).{0,120}5\s*(?:h|час)",
+            r"ULM\s+prior\s+PIC.{0,160}Part-FCL\s+training.{0,160}post-licence\s+PIC.{0,160}(?:recency|revalidation)\s+credit",
+            r"(?:двойн\w+\s+сч[её]т|повторн\w+\s+зач[её]т|не\s+учитывать\s+повторно)",
+            r"(?:LAPL\s+medical|медицинск\w+\s+свидетельств\w+\s+LAPL).{0,140}(?:Class\s*2|класс\w*\s*2).{0,120}AME",
+            r"(?:рекомендац|recommendation).{0,120}12\s+месяц.{0,160}18\s+месяц.{0,160}24\s+месяц",
+            r"(?:RTC|radiofonista).{0,140}(?:R/T|радиотелефон).{0,140}FCL\.055",
+            r"(?:фиксированн|включено).{0,140}(?:перемен|дополнительн|не\s+включено).{0,180}(?:самол[её]т|инструктор|экзаменатор|посадочн)",
+            r"(?:срок\s+действия|действител).{0,100}(?:предложени|расч[её]т|quote).{0,140}(?:дата|до)",
+        )
+        for pattern in required:
+            with self.subTest(checklist_item=pattern):
+                self.assertRegex(combined, pattern)
+        self.assertRegex(combined, r"(?is)(?:credit|зач[её]т).{0,140}не.{0,80}(?:обещан|гарантир|автоматическ)")
+
+    def test_task13_has_thirty_original_anchored_complete_questions(self):
+        registered = {
+            item["id"] for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        existing_prompts = set()
+        for path in COURSE_DOCS.rglob("*.md"):
+            if "11-transition-to-part-fcl" in path.parts:
+                continue
+            for match in re.finditer(
+                r"(?m)^###\s+Q-[A-Z]+-\d{3}\s+—\s+(.+?)(?:\s+\{#[^}]+\})?\s*$",
+                path.read_text(encoding="utf-8"),
+            ):
+                existing_prompts.add(
+                    re.sub(r"\W+", " ", _plain_markdown(match.group(1)).casefold()).strip()
+                )
+
+        all_blocks = []
+        identifiers = set()
+        prompts = set()
+        answer_counts = {letter: 0 for letter in "ABCD"}
+        for relative_path in self.CHAPTERS:
+            text = self._read(relative_path)
+            blocks = self._transition_questions(text)
+            self.assertGreaterEqual(len(blocks), 5, relative_path)
+            all_blocks.extend(blocks)
+            transformed = text.replace("Q-TRANS-", "Q-LAW-").replace(
+                "#q-trans-", "#q-law-"
+            )
+            self.assertEqual([], question_block_errors(transformed), relative_path)
+            anchors = markdown_anchors(text)
+            for block in blocks:
+                with self.subTest(question=block["id"]):
+                    self.assertNotIn(block["id"], identifiers)
+                    identifiers.add(block["id"])
+                    self.assertIn(block["anchor"], anchors)
+                    prompt = re.sub(
+                        r"\W+", " ", _plain_markdown(block["prompt"]).casefold()
+                    ).strip()
+                    self.assertNotIn(prompt, prompts)
+                    self.assertNotIn(prompt, existing_prompts)
+                    prompts.add(prompt)
+                    options = re.findall(
+                        r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", block["body"]
+                    )
+                    self.assertEqual(list("ABCD"), [item[0] for item in options])
+                    answer = re.search(
+                        r"(?m)^\*\*Правильный ответ:\*\*\s*([A-D])\.\s*$",
+                        block["body"],
+                    )
+                    self.assertIsNotNone(answer, block["id"])
+                    if answer:
+                        answer_counts[answer.group(1)] += 1
+                    theory = re.search(
+                        r"(?m)^\*\*Опора в теории:\*\*\s*"
+                        r"\[[^]\n]+\]\(#([a-z][a-z0-9-]*)\)\.?\s*$",
+                        block["body"],
+                    )
+                    self.assertIsNotNone(theory, block["id"])
+                    if theory:
+                        self.assertIn(theory.group(1), anchors, block["id"])
+                        self.assertNotEqual(theory.group(1), block["anchor"])
+                    source = re.search(
+                        r"(?m)^\*\*Источник:\*\*\s*(.+)$", block["body"]
+                    )
+                    self.assertIsNotNone(source, block["id"])
+                    if source:
+                        source_ids = set(re.findall(r"SRC-[A-Z0-9-]+", source.group(1)))
+                        self.assertTrue(source_ids, block["id"])
+                        self.assertTrue(source_ids <= registered, source_ids - registered)
+        self.assertGreaterEqual(len(all_blocks), 30)
+        self.assertLessEqual(
+            max(answer_counts.values()) - min(answer_counts.values()),
+            2,
+            answer_counts,
+        )
+
+    def test_task13_is_russian_first_and_links_specialist_terms_to_glossary(self):
+        combined = self._all_text()
+        terms = {
+            item["canonical"]: item
+            for item in json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))
+        }
+        required_terms = {
+            "LAPL(A)",
+            "PPL(A)",
+            "DTO",
+            "ATO",
+            "training credit",
+            "pre-entry flight assessment",
+            "skill test",
+            "LAPL medical certificate",
+            "Class 2 medical certificate",
+            "aeromedical examiner (AME)",
+            "Head of Training",
+            "flight simulation training device (FSTD)",
+        }
+        self.assertTrue(required_terms <= terms.keys(), required_terms - terms.keys())
+        for canonical in required_terms:
+            term = terms[canonical]
+            with self.subTest(term=canonical):
+                self.assertTrue(term["russian"].strip())
+                self.assertTrue(term["english"].strip())
+                self.assertTrue(term["spanish"].strip())
+                self.assertIn(
+                    f"../reference/glossary.md#{term['anchor']}",
+                    combined,
+                )
+
+        plain = _plain_markdown(combined)
+        first_use_patterns = (
+            r"предварительн\w+\s+л[её]тн\w+\s+оценк\w*\s+\(pre-entry\s+flight\s+assessment\)",
+            r"зач[её]т\w*\s+(?:предыдущ\w+\s+опыт\w*\s+)?\(training\s+credit\)",
+            r"проверк\w+\s+практическ\w+\s+навык\w*\s+\(skill\s+test\)",
+            r"авиационн\w+\s+медицинск\w+\s+эксперт\w*\s+\(aeromedical\s+examiner\s+\(AME\)\)",
+            r"руководител\w+\s+подготовк\w*\s+\(Head\s+of\s+Training\)",
+        )
+        for pattern in first_use_patterns:
+            with self.subTest(first_use=pattern):
+                self.assertRegex(plain, pattern)
+
+        hybrid_errors = []
+        for relative_path in self.CHAPTERS:
+            text = self._read(relative_path)
+            hybrid_errors.extend(
+                f"{relative_path}:{line}: {term}"
+                for line, term in unexplained_hybrid_occurrences(text)
+            )
+            learner_text = text.split("## Источники", 1)[0]
+            cyrillic_words = re.findall(r"\b[А-Яа-яЁё]{3,}\b", learner_text)
+            latin_words = re.findall(r"\b[A-Za-z]{3,}\b", learner_text)
+            self.assertGreater(len(cyrillic_words), len(latin_words), relative_path)
+
+        worksheet = self._read(self.REFERENCE)
+        hybrid_errors.extend(
+            f"{self.REFERENCE}:{line}: {term}"
+            for line, term in unexplained_hybrid_occurrences(worksheet)
+        )
+        worksheet_unlinked = []
+        for canonical, term in terms.items():
+            worksheet_unlinked.extend(
+                f"{self.REFERENCE}:{line}: {canonical}"
+                for line in unlinked_term_occurrences(worksheet, term)
+            )
+        self.assertEqual([], worksheet_unlinked)
+        self.assertEqual([], hybrid_errors)
+
+    def test_task13_decision_tree_is_accessible_mobile_and_semantic(self):
+        path = ROOT / self.SVG
+        if not path.is_file():
+            self.fail(f"missing Task 13 artifact: {self.SVG}")
+        root = ET.parse(path).getroot()
+        ns = "{http://www.w3.org/2000/svg}"
+        self.assertEqual(f"{ns}svg", root.tag)
+        self.assertEqual("img", root.attrib.get("role"))
+        self.assertTrue(root.attrib.get("aria-labelledby"))
+        self.assertIsNotNone(root.find(f"{ns}title"))
+        self.assertIsNotNone(root.find(f"{ns}desc"))
+        self.assertFalse(list(root.iter(f"{ns}image")))
+        viewbox = tuple(float(value) for value in root.attrib["viewBox"].split())
+        self.assertEqual(4, len(viewbox))
+        width = viewbox[2]
+        self.assertLessEqual(width, 760)
+        font_sizes = [
+            float(node.attrib["font-size"].removesuffix("px"))
+            for node in root.iter(f"{ns}text")
+            if "font-size" in node.attrib
+        ]
+        self.assertTrue(font_sizes)
+        self.assertGreaterEqual(min(font_sizes) * 340 / width, 13.0)
+        ids = {node.attrib["id"] for node in root.iter() if "id" in node.attrib}
+        required_ids = {
+            "ulm-maf-spain",
+            "part-fcl-choice",
+            "pre-entry-assessment",
+            "lapl-route",
+            "no-maf-ppl-credit",
+            "direct-ppl-route",
+            "lapl-to-ppl-route",
+            "medical-gate",
+            "international-gate",
+        }
+        self.assertTrue(required_ids <= ids, required_ids - ids)
+        geometry_tags = {
+            f"{ns}path",
+            f"{ns}line",
+            f"{ns}polyline",
+            f"{ns}polygon",
+            f"{ns}rect",
+            f"{ns}circle",
+            f"{ns}ellipse",
+        }
+        self.assertGreaterEqual(
+            sum(1 for node in root.iter() if node.tag in geometry_tags), 14
+        )
+        words = _plain_markdown(" ".join(root.itertext()))
+        for pattern in (
+            r"(?i)ULM.{0,80}MAF.{0,100}Испани",
+            r"(?i)LAPL.{0,180}(?:оценк|assessment).{0,180}(?:зач[её]т|credit)",
+            r"(?i)(?:прям\w+\s+PPL|PPL.{0,80}прям).{0,160}без.{0,80}(?:MAF|зач[её]т|credit)",
+            r"(?i)LAPL.{0,100}PPL.{0,120}(?:опциональн|после|отдельн)",
+            r"(?i)(?:КОНЦЕПТУАЛЬНО|НЕ\s+РЕШЕНИЕ\s+DTO|НЕ\s+ОБЕЩАНИЕ)",
+        ):
+            self.assertRegex(words, pattern)
+
+    def test_task13_decision_tree_edges_touch_real_nodes(self):
+        root = ET.fromstring(self._read(self.SVG))
+        expected = {
+            ("ulm-maf-spain", "part-fcl-choice"),
+            ("part-fcl-choice", "medical-gate"),
+            ("medical-gate", "pre-entry-assessment"),
+            ("medical-gate", "no-maf-ppl-credit"),
+            ("pre-entry-assessment", "lapl-route"),
+            ("no-maf-ppl-credit", "direct-ppl-route"),
+            ("lapl-route", "lapl-to-ppl-route"),
+            ("lapl-route", "international-gate"),
+            ("lapl-to-ppl-route", "international-gate"),
+            ("direct-ppl-route", "international-gate"),
+        }
+
+        def topology_errors(svg_root):
+            by_id = {
+                node.attrib["id"]: node
+                for node in svg_root.iter()
+                if "id" in node.attrib
+            }
+
+            def endpoints(node):
+                tag = node.tag.rsplit("}", 1)[-1]
+                if tag == "line":
+                    return (
+                        (float(node.attrib["x1"]), float(node.attrib["y1"])),
+                        (float(node.attrib["x2"]), float(node.attrib["y2"])),
+                    )
+                if tag in {"path", "polyline"}:
+                    data = node.attrib.get("d", node.attrib.get("points", ""))
+                    numbers = [
+                        float(value)
+                        for value in re.findall(r"-?\d+(?:\.\d+)?", data)
+                    ]
+                    if len(numbers) >= 4 and len(numbers) % 2 == 0:
+                        return tuple(numbers[:2]), tuple(numbers[-2:])
+                return None
+
+            def touches(point, box, tolerance=4.0):
+                x, y = point
+                bx, by, width, height = box
+                dx = max(bx - x, 0, x - (bx + width))
+                dy = max(by - y, 0, y - (by + height))
+                return dx * dx + dy * dy <= tolerance * tolerance
+
+            errors = []
+            edges = {
+                (node.attrib["data-from"], node.attrib["data-to"]): node
+                for node in svg_root.iter()
+                if node.attrib.get("data-from") and node.attrib.get("data-to")
+            }
+            for source, target in expected:
+                edge = edges.get((source, target))
+                if edge is None:
+                    errors.append(f"missing {source}->{target}")
+                    continue
+                if source not in by_id or target not in by_id:
+                    errors.append(f"unknown endpoint {source}->{target}")
+                    continue
+                points = endpoints(edge)
+                source_box = element_bbox(by_id[source])
+                target_box = element_bbox(by_id[target])
+                if points is None or source_box is None or target_box is None:
+                    errors.append(f"missing geometry {source}->{target}")
+                    continue
+                start, end = points
+                if not touches(start, source_box):
+                    errors.append(f"detached start {source}->{target}")
+                if not touches(end, target_box):
+                    errors.append(f"detached end {source}->{target}")
+                if not edge.attrib.get("marker-end", "").startswith("url(#"):
+                    errors.append(f"missing arrow {source}->{target}")
+            return errors
+
+        self.assertEqual([], topology_errors(root))
+        mutated = ET.fromstring(ET.tostring(root, encoding="unicode"))
+        edge = next(
+            node
+            for node in mutated.iter()
+            if node.attrib.get("data-from") == "ulm-maf-spain"
+            and node.attrib.get("data-to") == "part-fcl-choice"
+        )
+        if edge.tag.rsplit("}", 1)[-1] == "line":
+            edge.attrib.update({"x1": "-100", "y1": "-100"})
+        elif edge.tag.rsplit("}", 1)[-1] == "polyline":
+            edge.attrib["points"] = "-100,-100 -90,-90"
         else:
             edge.attrib["d"] = "M -100 -100 L -90 -90"
         self.assertTrue(topology_errors(mutated))

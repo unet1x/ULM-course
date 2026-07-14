@@ -128,3 +128,4 @@
 | CHG | [change message (CHG)](glossary.md#term-change-message-chg) | сообщение об изменении плана полёта |
 | CNL | [cancellation message (CNL)](glossary.md#term-cancellation-message-cnl) | сообщение об отмене плана полёта |
 | ARR | [arrival message (ARR)](glossary.md#term-arrival-message-arr) | сообщение о прибытии и закрытии FPL |
+| FSTD | [flight simulation training device (FSTD)](glossary.md#term-flight-simulation-training-device-fstd) | квалифицированное имитационное устройство для разрешённой части лётной подготовки |
