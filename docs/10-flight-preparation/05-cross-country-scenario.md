@@ -20,7 +20,7 @@
 
 | Метка | Что означает |
 |---|---|
-| [ULM — ОСНОВА](../reference/glossary.md#term-ulm) | Внутренний полёт [MAF](../reference/glossary.md#term-maf) между испанскими аэродромами/площадками |
+| [ULM — ОСНОВА](../reference/glossary.md#term-ulm) | Внутренний полёт на многоосевом [ULM](../reference/glossary.md#term-ulm) с неподвижным крылом с реализацией полномочий [MAF](../reference/glossary.md#term-maf) между испанскими аэродромами/площадками |
 | [ULM — ОСОБО ВАЖНО](../reference/glossary.md#term-ulm) | Приём [ULM](../reference/glossary.md#term-ulm), малый топливный и массовый запас проверяются явно |
 | [PART-FCL — ОБЩЕЕ](../reference/glossary.md#term-part-fcl) | Только отдельные блоки для последующей применимой [SEP](../reference/glossary.md#term-sep)-операции |
 | [LAPL — ПЕРЕХОД](../reference/glossary.md#term-lapl-a) | Сквозной маршрут готовит к планированию [LAPL(A)](../reference/glossary.md#term-lapl-a) |
@@ -33,7 +33,7 @@
 
 ### 1. Цель и границы миссии {#xc-mission}
 
-**Задача:** дневной [VFR](../reference/glossary.md#term-vfr)-полёт на национальном [ULM](../reference/glossary.md#term-ulm)/[MAF](../reference/glossary.md#term-maf) от «Поля Альфа» к «Полю Браво» с «Полем Чарли» как одним из рассматриваемых вариантов. Выбор варианта не делает его формальным запасным аэродромом без применимой нормы и не доказывает доступность.
+**Задача:** дневной [VFR](../reference/glossary.md#term-vfr)-полёт на национальном многоосевом [ULM](../reference/glossary.md#term-ulm) с неподвижным крылом с реализацией полномочий [MAF](../reference/glossary.md#term-maf), от «Поля Альфа» к «Полю Браво» с «Полем Чарли» как одним из рассматриваемых вариантов. Выбор варианта не делает его формальным запасным аэродромом без применимой нормы и не доказывает доступность.
 
 Запишите:
 

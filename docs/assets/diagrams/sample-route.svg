@@ -21,9 +21,14 @@
   <rect x="30" y="207" width="330" height="72" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
   <text x="195" y="235" text-anchor="middle" font-size="32" font-weight="700" fill="#6d28d9">уход на запад</text>
   <text x="195" y="268" text-anchor="middle" font-size="32" fill="#6d28d9">escape west</text>
-  <rect x="380" y="207" width="330" height="72" rx="12" fill="#ffe4e6" stroke="#be123c" stroke-width="2"/>
-  <text x="545" y="235" text-anchor="middle" font-size="32" font-weight="700" fill="#9f1239">уход на восток: СТОП</text>
-  <text x="545" y="268" text-anchor="middle" font-size="32" fill="#9f1239">проверка AREA-A / check</text>
+  <g id="escape-east-callout">
+    <rect x="370" y="200" width="340" height="108" rx="12" fill="#ffe4e6" stroke="#be123c" stroke-width="2"/>
+    <text x="540" y="234" text-anchor="middle" font-size="32" font-weight="700" fill="#9f1239">уход на восток: СТОП</text>
+    <text x="540" y="267" text-anchor="middle" font-size="32" fill="#9f1239">
+      <tspan x="540" y="267">проверка / check</tspan>
+      <tspan x="540" y="300">AREA-A</tspan>
+    </text>
+  </g>
 
   <g id="terrain">
     <path d="M 20 755 C 150 655, 250 715, 350 630 C 470 530, 560 615, 720 490 L 720 930 L 20 930 Z" fill="url(#terrain-pattern)" stroke="#92400e" stroke-width="3"/>
@@ -31,10 +36,10 @@
   </g>
 
   <g id="airspace">
-    <path d="M 430 300 L 690 300 L 655 615 L 470 580 Z" fill="#bfdbfe" fill-opacity="0.65" stroke="#1d4ed8" stroke-width="5" stroke-dasharray="14 9"/>
-    <text x="555" y="345" text-anchor="middle" font-size="32" font-weight="700" fill="#1e3a8a">AREA-A</text>
-    <text x="555" y="385" text-anchor="middle" font-size="32" fill="#1e3a8a">границы/статус:</text>
-    <text x="555" y="422" text-anchor="middle" font-size="32" font-weight="700" fill="#1e3a8a">ПРОВЕРИТЬ</text>
+    <path d="M 430 325 L 690 325 L 655 615 L 470 580 Z" fill="#bfdbfe" fill-opacity="0.65" stroke="#1d4ed8" stroke-width="5" stroke-dasharray="14 9"/>
+    <text x="555" y="365" text-anchor="middle" font-size="32" font-weight="700" fill="#1e3a8a">AREA-A</text>
+    <text x="555" y="405" text-anchor="middle" font-size="32" fill="#1e3a8a">границы/статус:</text>
+    <text x="555" y="442" text-anchor="middle" font-size="32" font-weight="700" fill="#1e3a8a">ПРОВЕРИТЬ</text>
   </g>
 
   <g id="route-line" fill="none" stroke="#047857" stroke-width="9">

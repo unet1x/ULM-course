@@ -7,7 +7,8 @@
     </marker>
   </defs>
   <rect width="720" height="1260" fill="#f8fafc"/>
-  <text x="360" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#102a43">Система спасения: думать рано, действовать по документу</text>
+  <text x="360" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">Система спасения: думать рано</text>
+  <text x="360" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">действовать по документу</text>
 
   <g id="recognition">
     <rect x="70" y="85" width="580" height="138" rx="18" fill="#fff7ed" stroke="#c2410c" stroke-width="5"/>
@@ -32,10 +33,11 @@
   <g id="exact-manual-gate">
     <rect x="100" y="555" width="520" height="186" rx="18" fill="#ecfdf5" stroke="#047857" stroke-width="5"/>
     <path d="M135 600 H185 V680 H135 Z M145 615 H175 M145 635 H175 M145 655 H170" fill="#ffffff" stroke="#047857" stroke-width="4"/>
-    <text x="405" y="595" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">Заранее, до полёта</text>
-    <text x="405" y="635" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">точные данные и обучение</text>
-    <text x="405" y="673" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">AFM/POH · дополнение · табличка</text>
-    <text x="405" y="711" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">серийный № · статус сервиса · SB</text>
+    <text x="410" y="590" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">Заранее, до полёта</text>
+    <text x="410" y="623" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">точные данные и обучение</text>
+    <text x="410" y="654" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">AFM/POH · дополнение</text>
+    <text x="410" y="685" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">табличка · серийный №</text>
+    <text x="410" y="716" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">статус сервиса · SB</text>
   </g>
 
   <line x1="360" y1="741" x2="360" y2="792" stroke="#334155" stroke-width="7" marker-end="url(#boundary-arrow)"/>

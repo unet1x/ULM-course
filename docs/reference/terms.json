@@ -2451,5 +2451,16 @@
     "definition": "Обобщающий термин Part-FCL для квалифицированного имитационного устройства, на котором разрешённая программа может засчитать прямо предусмотренную часть подготовки. Домашний симулятор сам по себе не становится FSTD и не создаёт зачёт часов.",
     "anchor": "term-flight-simulation-training-device-fstd",
     "defined_in": "docs/reference/glossary.md#term-flight-simulation-training-device-fstd"
+  },
+  {
+    "id": "term-airworthiness-directive-ad",
+    "canonical": "airworthiness directive (AD)",
+    "english": "airworthiness directive",
+    "spanish": "directiva de aeronavegabilidad",
+    "russian": "директива лётной годности",
+    "abbreviation": "AD",
+    "definition": "Директива лётной годности устанавливает обязательное корректирующее действие для указанной области применимости, когда её выпускает компетентный орган в применимом режиме. Применимость проверяют по типу, компоненту, оборудованию, серийному номеру и редакции; AD не является автоматическим синонимом сервисного бюллетеня изготовителя.",
+    "anchor": "term-airworthiness-directive-ad",
+    "defined_in": "docs/reference/glossary.md#term-airworthiness-directive-ad"
   }
 ]

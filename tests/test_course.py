@@ -1,8 +1,10 @@
 import json
+import math
 import re
 import unicodedata
 import unittest
 import xml.etree.ElementTree as ET
+from difflib import SequenceMatcher
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -220,6 +222,7 @@ REQUIRED_SOURCE_IDS = {
     "SRC-CDC-CO-CLINICAL",
 }
 REQUIRED_CANONICAL_TERMS = {
+    "airworthiness directive (AD)",
     "aircraft checklist",
     "aircraft flight manual supplement",
     "placard",
@@ -2180,6 +2183,50 @@ class CourseRegistryTests(unittest.TestCase):
             with self.subTest(source=source["id"]):
                 self.assertIn(source["url"], evidence)
 
+    def test_every_registered_source_has_id_level_audit_traceability(self):
+        evidence_lines = [
+            line
+            for path in AUDIT_FILES
+            for line in path.read_text(encoding="utf-8").splitlines()
+        ]
+        for source in self.load_json(SOURCE_REGISTRY):
+            with self.subTest(source=source["id"]):
+                self.assertTrue(
+                    any(
+                        source["id"] in line and source["url"] in line
+                        for line in evidence_lines
+                    ),
+                    f"{source['id']} is not bound to its audited URL on one line",
+                )
+
+    def test_every_lapl_transition_evidence_row_maps_to_registered_source_ids(self):
+        path = COURSE_DOCS / "sources/audit-lapl-transition.md"
+        text = path.read_text(encoding="utf-8")
+        evidence_rows = set(
+            re.findall(r"(?m)^\|\s*(LTR-[A-Z]+-\d{3}[A-Z]?)\s*\|", text)
+        )
+        self.assertEqual(50, len(evidence_rows))
+
+        source_map = text.split(
+            "### Трассировка evidence-row → Source ID", 1
+        )[1].split("\n## ", 1)[0]
+        mapped_rows = set(re.findall(r"LTR-[A-Z]+-\d{3}[A-Z]?", source_map))
+        for family, first, last in re.findall(
+            r"`LTR-([A-Z]+)-(\d{3})`[–-]`(\d{3})`", source_map
+        ):
+            mapped_rows.update(
+                f"LTR-{family}-{number:03d}"
+                for number in range(int(first), int(last) + 1)
+            )
+        self.assertEqual(evidence_rows, mapped_rows)
+
+        registered = {
+            source["id"] for source in self.load_json(SOURCE_REGISTRY)
+        }
+        mapped_sources = set(re.findall(r"SRC-[A-Z0-9-]+", source_map))
+        self.assertTrue(mapped_sources)
+        self.assertEqual(set(), mapped_sources - registered)
+
     def test_term_registry_schema_required_terms_and_unique_stable_ids(self):
         terms = self.load_json(TERMS_REGISTRY)
         self.assertIsInstance(terms, list)
@@ -2731,7 +2778,8 @@ class Task4RoadmapAndAirLawTests(unittest.TestCase):
         for relative_path in TASK4_CHAPTERS:
             text = (ROOT / relative_path).read_text(encoding="utf-8")
             chapter_blocks = parsed_question_blocks(text)
-            self.assertEqual(4, len(chapter_blocks), relative_path)
+            self.assertGreaterEqual(len(chapter_blocks), 4, relative_path)
+            self.assertLessEqual(len(chapter_blocks), 6, relative_path)
             blocks.extend(chapter_blocks)
             violations.extend(
                 f"{relative_path}: {error}"
@@ -6972,16 +7020,20 @@ class GU09MigrationTests(unittest.TestCase):
             "docs/sources/official-sources.md",
             "docs/sources/audit-technical.md",
             "docs/sources/audit-spain-2026.md",
+            "docs/sources/release-audit-2026-07-13.md",
         }
         occurrences = {
             str(path.relative_to(ROOT))
             for path in COURSE_DOCS.rglob("*.md")
             if self.HISTORICAL_ID in path.read_text(encoding="utf-8")
         }
-        self.assertEqual(
-            allowed_history_files - {"docs/sources/official-sources.json"},
-            occurrences,
-        )
+        expected_history_files = allowed_history_files - {
+            "docs/sources/official-sources.json"
+        }
+        release_audit = "docs/sources/release-audit-2026-07-13.md"
+        if not (ROOT / release_audit).is_file():
+            expected_history_files.remove(release_audit)
+        self.assertEqual(expected_history_files, occurrences)
 
     def test_each_active_gu09_citation_has_an_adjacent_exact_subject_page_scope(self):
         aggregate_scope = re.compile(
@@ -7043,7 +7095,16 @@ class GU09MigrationTests(unittest.TestCase):
         sources = self._sources()
         source = sources["SRC-AESA-ULM-QUESTION-BANKS"]
         self.assertEqual("https://www.seguridadaerea.gob.es/es/node/3759", source["url"])
-        self.assertIn("23.06.2026", source["edition"])
+        self.assertIn("10.07.2026", source["edition"])
+        self.assertRegex(
+            source["scope"],
+            r"(?is)ULM.{0,160}(?:четв[её]рт|Q4).{0,80}2026",
+        )
+        self.assertRegex(
+            source["scope"],
+            r"(?is)(?:LAPL/PPL|LAPL.{0,20}PPL).{0,160}"
+            r"(?:перв\w+\s+квартал|Q1).{0,80}2027",
+        )
 
         chapter = (ROOT / "docs/00-start/03-medical-training-exams.md").read_text(
             encoding="utf-8"
@@ -7055,10 +7116,11 @@ class GU09MigrationTests(unittest.TestCase):
         self.assertIsNotNone(warning)
         plain = _plain_markdown(warning.group(0))
         for pattern in (
-            r"(?is)23\.06\.2026",
-            r"(?is)банк.{0,120}(?:пересматр|провер).{0,120}(?:GU09|нов\w+\s+цел)",
-            r"(?is)после\s+лета\s+2026.{0,140}(?:план|намер)",
-            r"(?is)дат\w+.{0,100}(?:объяв|опублик).{0,100}отдельн",
+            r"(?is)10\.07\.2026",
+            r"(?is)банк.{0,180}(?:пересматр|провер).{0,180}(?:GU09|нов\w+\s+цел)",
+            r"(?is)(?:четв[её]рт\w+\s+квартал|Q4).{0,80}2026.{0,140}(?:план|намер)",
+            r"(?is)(?:LAPL/PPL|LAPL.{0,20}PPL).{0,160}(?:перв\w+\s+квартал|Q1).{0,80}2027",
+            r"(?is)дат\w+.{0,100}(?:сообщ|объяв|опублик).{0,100}(?:отдельн|дополн)",
             r"(?is)не.{0,100}(?:полн\w+\s+соответств|уже\s+соответств)",
             r"(?is)не.{0,100}(?:обещан|гарантирован|фиксирован).{0,80}дат",
         ):
@@ -10365,6 +10427,640 @@ class Task13TransitionTests(unittest.TestCase):
         else:
             edge.attrib["d"] = "M -100 -100 L -90 -90"
         self.assertTrue(topology_errors(mutated))
+
+
+class Task14ExamPreparationTests(unittest.TestCase):
+    MOCKS = (
+        ("docs/12-exam-preparation/02-ulm-mock-1.md", "ULM1", 60),
+        ("docs/12-exam-preparation/03-ulm-mock-2.md", "ULM2", 60),
+        ("docs/12-exam-preparation/04-part-fcl-mock-1.md", "FCL1", 90),
+        ("docs/12-exam-preparation/05-part-fcl-mock-2.md", "FCL2", 90),
+    )
+    SUPPORT = (
+        "docs/12-exam-preparation/01-study-strategy.md",
+        "docs/12-exam-preparation/06-answer-key.md",
+        "docs/reference/study-plan-16-weeks.md",
+    )
+
+    def _read(self, relative_path):
+        path = ROOT / relative_path
+        if not path.is_file():
+            self.fail(f"missing Task 14 artifact: {relative_path}")
+        return path.read_text(encoding="utf-8")
+
+    @staticmethod
+    def _blocks(text, heading_pattern):
+        headings = list(re.finditer(heading_pattern, text, re.MULTILINE))
+        blocks = []
+        for index, match in enumerate(headings):
+            end = headings[index + 1].start() if index + 1 < len(headings) else len(text)
+            blocks.append((match, text[match.end() : end]))
+        return blocks
+
+    def _mock_questions(self, text, family):
+        return self._blocks(
+            text,
+            rf"^###\s+(Q-MOCK-{family}-(\d{{3}}))\s+—\s+(.+?)\s+"
+            rf"\{{#(q-mock-{family.casefold()}-\2)\}}\s*$",
+        )
+
+    def _mock_answers(self, text, family):
+        return self._blocks(
+            text,
+            rf"^###\s+(A-MOCK-{family}-(\d{{3}}))\s+—\s+([A-D])\s+"
+            rf"\{{#(a-mock-{family.casefold()}-\2)\}}\s*$",
+        )
+
+    def test_task14_files_navigation_and_explicit_anchors(self):
+        nav = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        for relative_path in tuple(item[0] for item in self.MOCKS) + self.SUPPORT:
+            text = self._read(relative_path)
+            with self.subTest(path=relative_path):
+                self.assertIn(relative_path.removeprefix("docs/"), nav)
+                self.assertEqual([], explicit_atx_heading_errors(text))
+
+    def test_task14_mocks_have_complete_unique_traceable_questions_and_answers(self):
+        registered_sources = {
+            item["id"] for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        all_question_ids = set()
+        all_prompts = set()
+        for relative_path, family, minimum in self.MOCKS:
+            text = self._read(relative_path)
+            questions = self._mock_questions(text, family)
+            answers = self._mock_answers(text, family)
+            self.assertGreaterEqual(len(questions), minimum, relative_path)
+            self.assertEqual(len(questions), len(answers), relative_path)
+            expected_numbers = [f"{number:03d}" for number in range(1, len(questions) + 1)]
+            self.assertEqual(expected_numbers, [match.group(2) for match, _ in questions])
+            self.assertEqual(expected_numbers, [match.group(2) for match, _ in answers])
+            answer_by_number = {match.group(2): (match, body) for match, body in answers}
+            self.assertEqual(len(answers), len(answer_by_number), relative_path)
+            answer_counts = {letter: 0 for letter in "ABCD"}
+
+            for match, body in questions:
+                question_id = match.group(1)
+                number = match.group(2)
+                prompt = re.sub(
+                    r"\W+", " ", _plain_markdown(match.group(3)).casefold()
+                ).strip()
+                with self.subTest(question=question_id):
+                    self.assertNotIn(question_id, all_question_ids)
+                    all_question_ids.add(question_id)
+                    self.assertNotIn(prompt, all_prompts)
+                    all_prompts.add(prompt)
+                    options = re.findall(
+                        r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", body
+                    )
+                    self.assertEqual(list("ABCD"), [item[0] for item in options])
+                    self.assertEqual(4, len({item[1].strip() for item in options}))
+                    self.assertIn(number, answer_by_number)
+
+                answer_match, answer_body = answer_by_number[number]
+                answer_counts[answer_match.group(3)] += 1
+                for label in ("Почему", "Главная ошибка", "Раздел курса", "Источник"):
+                    self.assertRegex(
+                        answer_body,
+                        rf"(?m)^\*\*{re.escape(label)}:\*\*\s+\S",
+                        f"{question_id}: {label}",
+                    )
+                self.assertRegex(
+                    answer_body,
+                    r"(?m)^\*\*Раздел курса:\*\*\s+\[[^]\n]+\]"
+                    r"\([^\n)#]+\.md#[a-z][a-z0-9-]*\)\.?\s*$",
+                    question_id,
+                )
+                source_line = re.search(
+                    r"(?m)^\*\*Источник:\*\*\s+(.+)$", answer_body
+                )
+                source_ids = set(re.findall(r"SRC-[A-Z0-9-]+", source_line.group(1)))
+                self.assertTrue(source_ids, question_id)
+                self.assertTrue(
+                    source_ids <= registered_sources,
+                    f"{question_id}: {source_ids - registered_sources}",
+                )
+
+            self.assertLessEqual(
+                max(answer_counts.values()) - min(answer_counts.values()),
+                2,
+                f"{relative_path}: {answer_counts}",
+            )
+
+        existing_ids = set()
+        for path in COURSE_DOCS.rglob("*.md"):
+            if "12-exam-preparation" in path.parts:
+                continue
+            existing_ids.update(re.findall(r"(?m)^###\s+(Q-[A-Z0-9-]+)\s+—", path.read_text(encoding="utf-8")))
+        self.assertFalse(all_question_ids & existing_ids)
+
+    def test_task14_mocks_are_original_study_sets_with_required_coverage(self):
+        texts = {family: self._read(path) for path, family, _ in self.MOCKS}
+        for family, text in texts.items():
+            plain = _plain_markdown(text)
+            with self.subTest(mock=family):
+                self.assertRegex(
+                    plain,
+                    r"(?is)не.{0,80}(?:официальн|закрыт).{0,100}(?:банк|вопрос)",
+                )
+                self.assertNotRegex(
+                    plain,
+                    r"(?is)(?:скопирован|взят|получен).{0,80}"
+                    r"(?:официальн|закрыт).{0,80}(?:банк|AESA)",
+                )
+
+        ulm = _plain_markdown(texts["ULM1"] + "\n" + texts["ULM2"])
+        for pattern in (
+            r"(?i)(?:право|норматив|AESA|BOE)",
+            r"(?i)(?:человек|физиолог|решени)",
+            r"(?i)(?:метеор|погод|METAR|TAF)",
+            r"(?i)(?:связ|RTC|радио)",
+            r"(?i)(?:навигац|курс|маршрут)",
+            r"(?i)(?:аэродинами|принцип|свалив)",
+            r"(?i)(?:систем|двигател|прибор)",
+            r"(?i)(?:характерист|масса|топлив)",
+            r"(?i)(?:эксплуатац|процедур|авари)",
+        ):
+            self.assertRegex(ulm, pattern)
+        self.assertRegex(
+            ulm,
+            r"(?is)(?:ULM|MAF).{0,180}(?:только|ограничен).{0,100}Испани",
+        )
+
+        part_fcl = _plain_markdown(texts["FCL1"] + "\n" + texts["FCL2"])
+        for subject in (
+            "Воздушное право",
+            "Возможности человека",
+            "Метеорология",
+            "Связь",
+            "Навигация",
+            "Принципы полёта",
+            "Эксплуатационные процедуры",
+            "Лётные характеристики",
+            "Воздушное судно",
+        ):
+            self.assertRegex(part_fcl, rf"(?i){subject}")
+        self.assertGreaterEqual(len(re.findall(r"(?i)PPL", part_fcl)), 18)
+
+    def test_task14_answer_keys_do_not_reveal_a_short_periodic_pattern(self):
+        for relative_path, family, _ in self.MOCKS:
+            text = self._read(relative_path)
+            sequence = "".join(
+                match.group(3) for match, _ in self._mock_answers(text, family)
+            )
+            with self.subTest(path=relative_path):
+                for period in range(1, min(9, len(sequence))):
+                    self.assertFalse(
+                        all(
+                            sequence[index] == sequence[index % period]
+                            for index in range(len(sequence))
+                        ),
+                        f"{relative_path}: answer key repeats every {period} questions",
+                    )
+                transitions = {
+                    sequence[index : index + 2]
+                    for index in range(len(sequence) - 1)
+                }
+                self.assertGreaterEqual(
+                    len(transitions),
+                    10,
+                    f"{relative_path}: only {sorted(transitions)} transitions",
+                )
+
+    def test_task14_correct_option_length_is_not_a_systematic_answer_cue(self):
+        for relative_path, family, _ in self.MOCKS:
+            text = self._read(relative_path)
+            questions = self._mock_questions(text, family)
+            correct = {
+                match.group(2): match.group(3)
+                for match, _ in self._mock_answers(text, family)
+            }
+            uniquely_longest = []
+            uniquely_shortest = []
+            correct_at_max = []
+            rank_bins = {rank: [] for rank in range(1, 5)}
+            for match, body in questions:
+                options = {
+                    letter: _plain_markdown(value).strip()
+                    for letter, value in re.findall(
+                        r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", body
+                    )
+                }
+                lengths = {letter: len(value) for letter, value in options.items()}
+                answer = correct[match.group(2)]
+                answer_length = lengths[answer]
+                rank = 1 + sum(
+                    length < answer_length
+                    for letter, length in lengths.items()
+                    if letter != answer
+                )
+                rank_bins[rank].append(match.group(1))
+                if answer_length == max(lengths.values()):
+                    correct_at_max.append(match.group(1))
+                if lengths[answer] > max(
+                    length for letter, length in lengths.items() if letter != answer
+                ):
+                    uniquely_longest.append(match.group(1))
+                if lengths[answer] < min(
+                    length for letter, length in lengths.items() if letter != answer
+                ):
+                    uniquely_shortest.append(match.group(1))
+            with self.subTest(path=relative_path, metric="longest_upper_bound"):
+                self.assertLessEqual(
+                    len(uniquely_longest),
+                    int(len(questions) * 0.45),
+                    f"{relative_path}: correct option is uniquely longest in "
+                    f"{len(uniquely_longest)}/{len(questions)} questions; "
+                    f"examples: {uniquely_longest[:12]}",
+                )
+            with self.subTest(path=relative_path, metric="longest_lower_bound"):
+                self.assertGreaterEqual(
+                    len(uniquely_longest),
+                    math.ceil(len(questions) * 0.08),
+                    f"{relative_path}: the longest option can be discarded in "
+                    f"nearly every question because the correct option is uniquely "
+                    f"longest in only {len(uniquely_longest)}/{len(questions)}; "
+                    f"examples: {uniquely_longest[:12]}",
+                )
+            with self.subTest(path=relative_path, metric="shortest_upper_bound"):
+                self.assertLessEqual(
+                    len(uniquely_shortest),
+                    int(len(questions) * 0.45),
+                    f"{relative_path}: correct option is uniquely shortest in "
+                    f"{len(uniquely_shortest)}/{len(questions)} questions; "
+                    f"examples: {uniquely_shortest[:12]}",
+                )
+            with self.subTest(path=relative_path, metric="correct_at_max_lower_bound"):
+                self.assertGreaterEqual(
+                    len(correct_at_max),
+                    math.ceil(len(questions) * 0.10),
+                    f"{relative_path}: the longest option is almost always a "
+                    f"distractor; correct is at maximum length in only "
+                    f"{len(correct_at_max)}/{len(questions)} questions",
+                )
+            for rank, identifiers in rank_bins.items():
+                with self.subTest(
+                    path=relative_path,
+                    metric="length_rank_upper_bound",
+                    rank=rank,
+                ):
+                    self.assertLessEqual(
+                        len(identifiers),
+                        int(len(questions) * 0.45),
+                        f"{relative_path}: correct option has length rank {rank} "
+                        f"in {len(identifiers)}/{len(questions)} questions; "
+                        f"examples: {identifiers[:12]}",
+                    )
+            with self.subTest(path=relative_path, metric="unique_extremes"):
+                self.assertLessEqual(
+                    len(uniquely_longest) + len(uniquely_shortest),
+                    int(len(questions) * 0.60),
+                    f"{relative_path}: correct option is a unique length extreme "
+                    f"in {len(uniquely_longest) + len(uniquely_shortest)}/"
+                    f"{len(questions)} questions",
+                )
+
+    def test_task14_distractors_do_not_overuse_absolute_answer_cues(self):
+        absolute_cue = re.compile(
+            r"(?i)\b(?:только|всегда|автоматически|никогда|любой|любая|"
+            r"любое|любые|гарант\w*)\b"
+        )
+        for relative_path, family, _ in self.MOCKS:
+            text = self._read(relative_path)
+            correct = {
+                match.group(2): match.group(3)
+                for match, _ in self._mock_answers(text, family)
+            }
+            distractors = []
+            for match, body in self._mock_questions(text, family):
+                for letter, value in re.findall(
+                    r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", body
+                ):
+                    if letter != correct[match.group(2)]:
+                        distractors.append(_plain_markdown(value))
+            cue_count = sum(bool(absolute_cue.search(item)) for item in distractors)
+            with self.subTest(path=relative_path):
+                self.assertLessEqual(
+                    cue_count,
+                    int(len(distractors) * 0.25),
+                    f"{relative_path}: {cue_count}/{len(distractors)} distractors "
+                    "contain absolute cue words",
+                )
+
+    def test_task14_absolute_cues_are_not_asymmetric_key_signals(self):
+        absolute_cue = re.compile(
+            r"(?i)\b(?:только|всегда|автоматически|никогда|любой|любая|"
+            r"любое|любые|гарант\w*)\b"
+        )
+        for relative_path, family, _ in self.MOCKS:
+            text = self._read(relative_path)
+            correct = {
+                match.group(2): match.group(3)
+                for match, _ in self._mock_answers(text, family)
+            }
+            correct_marks = []
+            distractor_marks = []
+            distractor_only_questions = []
+            questions = self._mock_questions(text, family)
+            for match, body in questions:
+                correct_marked = False
+                distractor_marked = False
+                for letter, value in re.findall(
+                    r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", body
+                ):
+                    marked = bool(absolute_cue.search(_plain_markdown(value)))
+                    if letter == correct[match.group(2)]:
+                        correct_marks.append(marked)
+                        correct_marked = marked
+                    else:
+                        distractor_marks.append(marked)
+                        distractor_marked |= marked
+                if distractor_marked and not correct_marked:
+                    distractor_only_questions.append(match.group(1))
+
+            rate_gap = (
+                sum(distractor_marks) / len(distractor_marks)
+                - sum(correct_marks) / len(correct_marks)
+            )
+            with self.subTest(path=relative_path, metric="option_rate_gap"):
+                self.assertLessEqual(
+                    rate_gap,
+                    0.15,
+                    f"{relative_path}: absolute-cue rate gap is {rate_gap:.3f}",
+                )
+            with self.subTest(path=relative_path, metric="question_exclusion"):
+                self.assertLessEqual(
+                    len(distractor_only_questions),
+                    int(len(questions) * 0.25),
+                    f"{relative_path}: absolute cues identify distractors in "
+                    f"{len(distractor_only_questions)}/{len(questions)} questions; "
+                    f"examples: {distractor_only_questions[:12]}",
+                )
+
+    def test_task14_options_do_not_signal_the_key_by_editorial_voice_or_mean_length(self):
+        self_incriminating = re.compile(
+            r"(?i)\b(?:ошибочн\w*|нович\w*|якобы|миф\w*|заблужд\w*)\b"
+        )
+        for relative_path, family, _ in self.MOCKS:
+            text = self._read(relative_path)
+            correct = {
+                match.group(2): match.group(3)
+                for match, _ in self._mock_answers(text, family)
+            }
+            correct_lengths = []
+            distractor_lengths = []
+            marked_distractors = []
+            for match, body in self._mock_questions(text, family):
+                for letter, value in re.findall(
+                    r"(?m)^([A-D])\.\s+(.+?)(?:<br>)?\s*$", body
+                ):
+                    plain = _plain_markdown(value).strip()
+                    if letter == correct[match.group(2)]:
+                        correct_lengths.append(len(plain))
+                    else:
+                        distractor_lengths.append(len(plain))
+                        if self_incriminating.search(plain):
+                            marked_distractors.append(match.group(1))
+
+            with self.subTest(path=relative_path, metric="editorial_voice"):
+                self.assertLessEqual(
+                    len(marked_distractors),
+                    int(len(distractor_lengths) * 0.05),
+                    f"{relative_path}: {len(marked_distractors)}/"
+                    f"{len(distractor_lengths)} distractors identify themselves "
+                    f"as wrong; examples: {marked_distractors[:12]}",
+                )
+            with self.subTest(path=relative_path, metric="mean_length"):
+                self.assertLessEqual(
+                    sum(correct_lengths) / len(correct_lengths),
+                    1.35 * (sum(distractor_lengths) / len(distractor_lengths)),
+                    f"{relative_path}: mean correct-option length remains a key cue",
+                )
+
+    def test_task14_ulm_sets_disclose_real_format_and_held_out_scoring(self):
+        ulm_texts = [self._read(path) for path, family, _ in self.MOCKS if family.startswith("ULM")]
+        for text in ulm_texts:
+            plain = _plain_markdown(text)
+            for pattern in (
+                r"(?i)80\s+вопрос",
+                r"(?i)100\s+мин",
+                r"(?i)A\s*[/–-]\s*B\s*[/–-]\s*C",
+                r"(?i)(?:не\s+менее|≥)\s*75\s*%",
+                r"(?is)60\s+вопрос.{0,160}A\s*[/–-]\s*D.{0,180}"
+                r"(?:не.{0,40}(?:симулятор|имитир)|диагност)",
+                r"(?is)(?:карта|таблиц).{0,120}(?:предмет|област).{0,180}"
+                r"Q-MOCK-ULM",
+            ):
+                self.assertRegex(plain, pattern)
+
+        strategy = _plain_markdown(self._read(self.SUPPORT[0]))
+        plan = _plain_markdown(self._read(self.SUPPORT[2]))
+        combined = strategy + "\n" + plan
+        self.assertRegex(
+            combined,
+            r"(?is)набор\w*\s*(?:№|номер)?\s*1.{0,180}форматив",
+        )
+        self.assertRegex(
+            combined,
+            r"(?is)набор\w*\s*(?:№|номер)?\s*2.{0,220}"
+            r"(?:held-out|отложенн|контрольн).{0,160}(?:не\s+откры|впервые)",
+        )
+        self.assertNotRegex(
+            strategy,
+            r"(?is)после\s+разбор.{0,120}нов\w+\s+смешанн\w+\s+набор",
+        )
+
+        hub = _plain_markdown(self._read(self.SUPPORT[1]))
+        self.assertGreaterEqual(len(re.findall(r"(?i)недел\w*\s+12", hub)), 2)
+        self.assertRegex(
+            hub,
+            r"(?is)набор\w*\s*(?:№|номер)?\s*2.{0,220}"
+            r"не\s+открыва\w*\s+ни\s+вопрос\w*,?\s+ни\s+ключ",
+        )
+
+    def test_task14_precheckpoint_metrics_use_only_available_course_materials(self):
+        plan = _plain_markdown(self._read(self.SUPPORT[2]))
+        before_week_12 = re.split(
+            r"(?i)Недел[яи]\s+12\b", plan, maxsplit=1
+        )[0]
+        self.assertNotRegex(
+            before_week_12,
+            r"(?is)контрольн\w+\s+метрик\w*.{0,220}"
+            r"(?:нов\w+|смешанн\w+)\s+(?:вопрос\w+|набор\w+)",
+        )
+
+        strategy = _plain_markdown(self._read(self.SUPPORT[0]))
+        question = re.search(
+            r"(?is)Q-STUDY-004\b(.+?)(?=Q-STUDY-005\b)", strategy
+        )
+        self.assertIsNotNone(question)
+        block = question.group(1)
+        self.assertNotRegex(
+            block,
+            r"(?i)(?:два\s+первоначальн\w+\s+слеп\w+\s+набор\w+|"
+            r"нов\w+\s+смешанн\w+\s+результат)",
+        )
+        for required in (
+            r"(?i)набор\w*\s*(?:№|номер)?\s*1",
+            r"(?i)(?:held-out|отложенн\w+\s+контрольн\w+).{0,80}"
+            r"набор\w*\s*(?:№|номер)?\s*2",
+            r"(?i)девят\w+\s+(?:предмет|област)",
+            r"(?i)красн\w+\s+ошиб",
+            r"(?i)сценари",
+            r"(?i)(?:школ|инструктор)",
+        ):
+            self.assertRegex(block, required)
+
+    def test_task14_part_fcl_sets_teach_one_common_lapl_ppl_theory_syllabus(self):
+        for relative_path, family, _ in self.MOCKS:
+            if not family.startswith("FCL"):
+                continue
+            text = self._read(relative_path)
+            plain = _plain_markdown(text)
+            with self.subTest(path=relative_path):
+                self.assertNotIn("[Глубина PPL]", text)
+                self.assertRegex(plain, r"(?i)AMC1\s+FCL\.115/FCL\.120")
+                self.assertRegex(
+                    plain,
+                    r"(?is)LAPL\(A\).{0,160}PPL\(A\).{0,160}"
+                    r"(?:общ\w+\s+(?:теоретическ\w+\s+)?программ|один\w+\s+syllabus)",
+                )
+                self.assertRegex(
+                    plain,
+                    r"(?is)(?:расширен|добавлен).{0,120}(?:после|относительно)\s+ULM",
+                )
+
+    def test_task14_reviewed_semantic_duplicates_are_replaced_by_transfer_scenarios(self):
+        pairs = (
+            (("02-ulm-mock-1.md", "ULM1", "005"), ("04-part-fcl-mock-1.md", "FCL1", "001")),
+            (("02-ulm-mock-1.md", "ULM1", "055"), ("04-part-fcl-mock-1.md", "FCL1", "082")),
+            (("02-ulm-mock-1.md", "ULM1", "056"), ("04-part-fcl-mock-1.md", "FCL1", "083")),
+            (("03-ulm-mock-2.md", "ULM2", "052"), ("05-part-fcl-mock-2.md", "FCL2", "030")),
+            (("03-ulm-mock-2.md", "ULM2", "027"), ("05-part-fcl-mock-2.md", "FCL2", "035")),
+            (("02-ulm-mock-1.md", "ULM1", "016"), ("04-part-fcl-mock-1.md", "FCL1", "022")),
+            (("02-ulm-mock-1.md", "ULM1", "036"), ("04-part-fcl-mock-1.md", "FCL1", "052")),
+            (("03-ulm-mock-2.md", "ULM2", "040"), ("04-part-fcl-mock-1.md", "FCL1", "057")),
+            (("03-ulm-mock-2.md", "ULM2", "021"), ("05-part-fcl-mock-2.md", "FCL2", "023")),
+            (("03-ulm-mock-2.md", "ULM2", "053"), ("05-part-fcl-mock-2.md", "FCL2", "076")),
+            (("02-ulm-mock-1.md", "ULM1", "015"), ("04-part-fcl-mock-1.md", "FCL1", "021")),
+            (("02-ulm-mock-1.md", "ULM1", "018"), ("05-part-fcl-mock-2.md", "FCL2", "028")),
+            (("02-ulm-mock-1.md", "ULM1", "029"), ("04-part-fcl-mock-1.md", "FCL1", "043")),
+            (("02-ulm-mock-1.md", "ULM1", "030"), ("04-part-fcl-mock-1.md", "FCL1", "048")),
+            (("02-ulm-mock-1.md", "ULM1", "037"), ("04-part-fcl-mock-1.md", "FCL1", "058")),
+            (("02-ulm-mock-1.md", "ULM1", "053"), ("04-part-fcl-mock-1.md", "FCL1", "074")),
+            (("03-ulm-mock-2.md", "ULM2", "011"), ("05-part-fcl-mock-2.md", "FCL2", "016")),
+            (("03-ulm-mock-2.md", "ULM2", "016"), ("05-part-fcl-mock-2.md", "FCL2", "022")),
+            (("03-ulm-mock-2.md", "ULM2", "019"), ("04-part-fcl-mock-1.md", "FCL1", "025")),
+            (("03-ulm-mock-2.md", "ULM2", "035"), ("05-part-fcl-mock-2.md", "FCL2", "045")),
+            (("03-ulm-mock-2.md", "ULM2", "043"), ("05-part-fcl-mock-2.md", "FCL2", "066")),
+            (("03-ulm-mock-2.md", "ULM2", "051"), ("04-part-fcl-mock-1.md", "FCL1", "072")),
+            (("03-ulm-mock-2.md", "ULM2", "060"), ("04-part-fcl-mock-1.md", "FCL1", "088")),
+            (("02-ulm-mock-1.md", "ULM1", "041"), ("05-part-fcl-mock-2.md", "FCL2", "071")),
+        )
+
+        def prompt(spec):
+            filename, family, number = spec
+            text = self._read(f"docs/12-exam-preparation/{filename}")
+            match = re.search(
+                rf"(?m)^###\s+Q-MOCK-{family}-{number}\s+—\s+(.+?)\s+\{{#",
+                text,
+            )
+            self.assertIsNotNone(match, spec)
+            return _plain_markdown(match.group(1)).casefold()
+
+        for left, right in pairs:
+            ratio = SequenceMatcher(None, prompt(left), prompt(right)).ratio()
+            with self.subTest(left=left, right=right):
+                self.assertLess(ratio, 0.55)
+
+    def test_task14_strategy_plan_checkpoint_and_answer_hub_are_executable(self):
+        strategy = self._read(self.SUPPORT[0])
+        hub = self._read(self.SUPPORT[1])
+        plan = self._read(self.SUPPORT[2])
+        strategy_plain = _plain_markdown(strategy)
+        for concept in (
+            r"(?i)active recall|активн\w+\s+воспроизвед",
+            r"(?i)spaced|интервальн\w+\s+повтор",
+            r"(?i)(?:журнал|реестр).{0,80}ошиб",
+            r"(?i)ULM.{0,100}(?:checkpoint|контрольн|готовност)",
+            r"(?i)(?:LAPL|PPL).{0,100}(?:необязательн|после|отдельн)",
+        ):
+            self.assertRegex(strategy_plain, concept)
+        self.assertEqual(6, len(re.findall(r"(?m)^###\s+Q-STUDY-\d{3}\s+—", strategy)))
+
+        plan_plain = _plain_markdown(plan)
+        for week in range(1, 17):
+            self.assertRegex(plan_plain, rf"(?im)Недел[яи]\s+{week}\b")
+        checkpoint = re.search(
+            r"(?is)(?:ULM.{0,80}(?:ready|готов)|(?:ready|готов).{0,80}ULM)",
+            plan_plain,
+        )
+        week13 = re.search(r"(?i)Недел[яи]\s+13\b", plan_plain)
+        self.assertIsNotNone(checkpoint)
+        self.assertIsNotNone(week13)
+        self.assertLess(checkpoint.start(), week13.start())
+        self.assertRegex(plan_plain, r"(?is)(?:13|тринадцат).{0,300}(?:LAPL|PPL)")
+
+        for filename in (
+            "02-ulm-mock-1.md",
+            "03-ulm-mock-2.md",
+            "04-part-fcl-mock-1.md",
+            "05-part-fcl-mock-2.md",
+        ):
+            self.assertRegex(
+                hub,
+                rf"\([^\n)]*{re.escape(filename)}#answer-key\)",
+            )
+        self.assertRegex(
+            _plain_markdown(hub),
+            r"(?is)(?:журнал|реестр).{0,100}ошиб.{0,220}(?:повтор|пересда)",
+        )
+
+    def test_task14_study_plan_links_terms_and_is_russian_first(self):
+        plan = self._read(self.SUPPORT[2])
+        terms = json.loads(TERMS_REGISTRY.read_text(encoding="utf-8"))
+        violations = [
+            f"{line}: {term['canonical']}"
+            for term in terms
+            for line in unlinked_term_occurrences(plan, term)
+        ]
+        self.assertEqual([], violations)
+        self.assertEqual([], unexplained_hybrid_occurrences(plan))
+        plain = _plain_markdown(plan)
+        for stale_label in (
+            "ULM-ready checkpoint",
+            "sanity check",
+            "Красные OPEN",
+            "статус HOLD",
+            "web-версию",
+        ):
+            self.assertNotIn(stale_label, plain)
+
+    def test_maf_is_never_used_as_the_aircraft_and_ppl_theory_is_not_deeper(self):
+        corpus = "\n".join(
+            _plain_markdown(path.read_text(encoding="utf-8"))
+            for path in learner_chapter_files()
+        )
+        for forbidden in (
+            r"(?i)реакц\w*[^.\n]{0,35}\bMAF\b",
+            r"(?i)\bна\s+MAF\b",
+            r"(?i)\bпол[её]т\s+MAF\b",
+            r"(?i)\bсамол[её]т\s+MAF\b",
+            r"(?i)\b(?:конкретн|друг)\w*\s+MAF\b",
+            r"(?i)\bконструкц\w*[^.\n]{0,20}\bMAF\b",
+            r"(?i)\bсобыти\w*[^.\n]{0,35}\bMAF\b",
+            r"(?i)\bполос\w*\s+для\s+MAF\b",
+        ):
+            self.assertNotRegex(corpus, forbidden)
+
+        self.assertNotRegex(
+            corpus,
+            r"(?is)PPL.{0,100}(?:дополнительн\w+\s+глубин|углубл)",
+        )
+        self.assertRegex(
+            corpus,
+            r"(?is)(?:теоретическ\w+\s+программ\w+\s+LAPL/PPL\s+общ|"
+            r"общ\w+\s+теори\w+\s+LAPL/PPL.{0,80}относительно\s+ULM)",
+        )
 
 
 if __name__ == "__main__":

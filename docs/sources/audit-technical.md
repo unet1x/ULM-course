@@ -29,7 +29,7 @@ Every row below was checked on 2026-07-13. “Exact applicable claim/scope” is
 | TECH-GOV-004 | The post-February Aircrew amendment, Regulation (EU) 2026/781, concerns FSTD and specified instructor provisions; it does not amend the PPL(A) theory subject list or AMC syllabus mapped here. | <https://www.easa.europa.eu/en/document-library/regulations/commission-implementing-regulation-eu-2026781> | Commission Implementing Regulation (EU) 2026/781, adopted 2026-04-08, OJ 2026-04-10 | 2026-07-13 | This is an update check, not a substitute for the 2026-02-24 AMC consolidation. Recheck the EASA amendment register before release or annual review. |
 | TECH-GOV-005 | FCL.210 requires a PPL applicant to complete a training course at an ATO or DTO, including theoretical knowledge and flight instruction appropriate to the requested privileges; FCL.215 separately requires demonstration of theoretical knowledge through examinations in the prescribed subjects. | <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02011R1178-20250501> | Regulation (EU) No 1178/2011, consolidated text dated 2025-05-01; Annex I, FCL.210 and FCL.215 | 2026-07-13 | The consolidation records the legal course-and-examination duties; later amendments must also be checked. It supplies no general MAF-to-PPL theory credit. Only credit expressly provided by applicable Part-FCL rules and accepted through the DTO/ATO/competent-authority process may be used. |
 | TECH-GOV-006 | `SRC-AESA-MAF-SYLLABUS-ED01`, `FOR-ULM-P01-ETI01-GU01 Ed.01`, is retained as a historical/superseded source with its original URL for migration traceability only. | <https://www.seguridadaerea.gob.es/sites/default/files/FOR-ULM-P01-ETI01-GU01%20Conocimientos%20teoricos%20habilitacion%20licencia%20de%20piloto%20de%20ULM%20%28MAF%29.pdf> | Historical GU01 Ed.01; no calendar issue date printed | 2026-07-13 | Replaced for active teaching by `SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01`; the old ID is not repointed because GU01 and GU09 are distinct documents. The unavailable separate traceability list is not reconstructed or invented. |
-| TECH-GOV-007 | The AESA `Bancos de preguntas` page says the ULM bank is under review for the new learning objectives, with introduction planned after summer 2026 and dates to be announced separately. | <https://www.seguridadaerea.gob.es/es/node/3759> | Dynamic page updated 23.06.2026 | 2026-07-13 | Teach the current GU09 objectives, but do not claim that the present bank is already fully aligned or promise a changeover date; recheck this dynamic page immediately before exam preparation. |
+| TECH-GOV-007 | The AESA `Bancos de preguntas` page says the ULM and SPL banks are under review for their learning objectives. Entry into service is planned for Q4 2026 for ULM and Q1 2027 for SPL; specific dates will be communicated later. Review of the LAPL/PPL bank is planned for Q1 2027. | <https://www.seguridadaerea.gob.es/es/node/3759> | Dynamic page updated 10.07.2026 | 2026-07-13 | These are changeable plans, not guaranteed dates. Teach the current GU09 objectives, but do not claim the operational ULM bank is already GU09-aligned or that the new version is in service; recheck immediately before exam preparation. |
 | TECH-EASA-001 | PPL common Air law scope includes international law/organisations, airworthiness, nationality and registration, personnel licensing, rules of the air, aircraft operations/PANS, ATS/ATM, AIS, aerodromes, search and rescue, security, accident investigation, and relevant national law. | <https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew?erules-id=ERULES-1963177438-10509> | AMC1 FCL.210/FCL.215, online consolidation dated 2026-02-24 | 2026-07-13 | Use the exact common/PPL(A) `x` markings. Current EU and Spanish legal texts/AIP remain authoritative for operational rules. |
 | TECH-EASA-002 | PPL common Human performance scope covers human factors and basic concepts, basic aviation physiology and health maintenance, and basic aviation psychology, with non-technical skills integrated through the syllabus. | <https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew?erules-id=ERULES-1963177438-10509> | AMC1 FCL.210/FCL.215, online consolidation dated 2026-02-24 | 2026-07-13 | Educational scope only; not medical diagnosis or fitness-to-fly clearance. |
 | TECH-HP-001 | EASA's hypoxia leaflet describes subtle, non-specific and individually variable signs, impaired night vision and judgement, and the need for early operational action rather than confidence in a single sensation or device. | <https://www.easa.europa.eu/en/document-library/general-publications/general-aviation-safety-briefing-preventing-hypoxia> | General Aviation Leaflet, publication date 01.08.2016 | 2026-07-13 | Safety promotion and physiological awareness only; not diagnosis, treatment, an aircraft checklist or a universal operating threshold. |
@@ -223,6 +223,41 @@ The grouped rows above state the permitted inference; the list below preserves e
 - `SRC-EU-1321-2014-PART-ML-2026`: <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02014R1321-20260222>
 - `SRC-EASA-CONTINUING-AIRWORTHINESS-2026`: <https://www.easa.europa.eu/en/document-library/agency-decisions/ed-decision-2026002r>
 - `SRC-EURLEX-2026-0100`: <https://eur-lex.europa.eu/eli/reg_impl/2026/100/oj>
+
+### Stable registry IDs for URL-evidenced rows {#stable-source-id-map}
+
+The following registry aliases make ID-level traceability explicit for URLs already evidenced in this audit set. This list does not add a new substantive claim or replace the dated evidence row; it binds the stable `SRC-*` name used by learner chapters to the exact audited URL.
+
+- `SRC-EURLEX-1178-2011` → <https://eur-lex.europa.eu/eli/reg/2011/1178/2026-02-22/eng>
+- `SRC-EURLEX-2024-2076` → <https://eur-lex.europa.eu/eli/reg_impl/2024/2076/oj/eng>
+- `SRC-EURLEX-2025-0134` → <https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202500134>
+- `SRC-EURLEX-2026-0781` → <https://eur-lex.europa.eu/eli/reg_impl/2026/781/oj/eng>
+- `SRC-BOE-RD-182-2026` → <https://www.boe.es/eli/es/rd/2026/03/11/182>
+- `SRC-AESA-ULM-PROCEDURES` → <https://www.seguridadaerea.gob.es/es/ambitos/formacion-y-examenes/formacion-al-personal-de-vuelo/formacion-ulm>
+- `SRC-AESA-ULM-QUESTION-BANKS` → <https://www.seguridadaerea.gob.es/es/node/3759>
+- `SRC-AESA-LAPL-PPL-PROCEDURES` → <https://www.seguridadaerea.gob.es/es/ambitos/formacion-y-examenes/examenes-de-piloto/examenes-teoricos/inscripcion-y-calendario>
+- `SRC-AESA-FLIGHT-TEST-FORMS-2026` → <https://www.seguridadaerea.gob.es/es/node/3745>
+- `SRC-AESA-AME-LIST-2026` → <https://www.seguridadaerea.gob.es/es/ambitos/licencias-y-medicina-aeronautica/medicina-aeronautica/medicos-examinadores-aereos-autorizados>
+- `SRC-SENASA-AESA-EXAM-GUIDE-FOR-EFT-P01-GU01-ED03` → <https://www.senasa.es/recursos/adobePDF/2026/pdf/FOR-EFT-P01-GU01_Ed.03_Guia_examenes_electronicos_pilotos_habilitaciones.pdf>
+- `SRC-BOE-ULM-EXAM-RESOLUTION-2019` → <https://www.boe.es/diario_boe/txt.php?id=BOE-A-2019-7513>
+- `SRC-BOE-PART-FCL-SPL-BPL-EXAM-RESOLUTION-2025` → <https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-17756>
+- `SRC-AESA-ULM-EXAM-GUIDE-ED10-2019-HISTORICAL` → <https://www.seguridadaerea.gob.es/sites/default/files/a-dla-eut-01_guia_realiz_exam_teoricos_pilotos_ulm_y_hab_asoc.pdf>
+- `SRC-AESA-RD182-FAQ-2026` → <https://sede.seguridadaerea.gob.es/sede-aesa/sites/default/files/Preguntas_y_respuestas_frecuentes_nuevo_RD182_2026.pdf>
+- `SRC-AEMET-AVIATION` → <https://www.aemet.es/en/eltiempo/prediccion/aeronautica>
+- `SRC-EASA-HYPOXIA-2016` → <https://www.easa.europa.eu/en/document-library/general-publications/general-aviation-safety-briefing-preventing-hypoxia>
+- `SRC-EASA-SIB-2020-01R1` → <https://ad.easa.europa.eu/ad/2020-01R1/print>
+- `SRC-EASA-EGAST-GA2` → <https://www.easa.europa.eu/en/document-library/general-publications/egast-leaflet-ga-2-decision-making>
+- `SRC-FAA-AIM-RADIO-2026` → <https://www.faa.gov/air_traffic/publications/atpubs/aim_html/chap4_section_2.html>
+- `SRC-BOE-FOM-1146-2019` → <https://www.boe.es/eli/es/o/2019/11/13/fom1146/con>
+- `SRC-AESA-ULM-RTC-PROGRAM` → <https://www.seguridadaerea.gob.es/sites/default/files/a_dla_urtc_01_guia_para_curso_radiofonista_rtc_de_ulm.pdf>
+- `SRC-ENAIRE-AIP-GEN-3-4-2026` → <https://aip.enaire.es/AIP/contenido_AIP/GEN/LE_GEN_3_4_es.html>
+- `SRC-ENAIRE-AIP-LEBG-2026` → <https://aip.enaire.es/aip/contenido_AMDT/LE_Amdt_A_2026_06_AD_2_LEBG_es.html>
+- `SRC-ENAIRE-AIP-ENR-1-4-2026` → <https://aip.enaire.es/AIP/contenido_AIP/ENR/LE_ENR_1_4_es.html>
+- `SRC-ROTAX-IM-MML-ROLE-2026` → <https://www.flyrotax.com/p/service/technical-documentation>
+- `SRC-BRS-REBUILD-2026` → <https://brsaerospace.com/rebuild/>
+- `SRC-AESA-PART-FCL-LICENCE-COMPONENTS` → <https://www.seguridadaerea.gob.es/es/preguntas-frecuentes/7-%C2%BFqu%C3%A9-compone-una-licencia-part-fcl>
+- `SRC-EASA-MUTUAL-RECOGNITION-FAQ` → <https://www.easa.europa.eu/en/faq/19230>
+- `SRC-EASA-LAPL-NON-ICAO-FAQ` → <https://www.easa.europa.eu/en/faq/127231>
 
 ## Dangerous simplifications to prohibit
 

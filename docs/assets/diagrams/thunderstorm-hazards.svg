@@ -44,7 +44,7 @@
   </g>
 
   <g id="updraft-label">
-    <rect x="100" y="700" width="185" height="70" rx="14" fill="#FEF2F2" stroke="#B91C1C" stroke-width="3"/>
+    <rect x="80" y="700" width="225" height="70" rx="14" fill="#FEF2F2" stroke="#B91C1C" stroke-width="3"/>
     <text x="192" y="744" text-anchor="middle" font-size="26" font-weight="700" fill="#991B1B">ВОСХОДЯЩИЙ</text>
   </g>
   <g id="downdraft-label">

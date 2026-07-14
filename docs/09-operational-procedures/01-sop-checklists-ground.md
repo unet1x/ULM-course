@@ -25,7 +25,7 @@
 
 | Метка | Что изучать |
 |---|---|
-| [ULM — ОСНОВА] | [PIC](../reference/glossary.md#term-pic), документы, состояние борта, внешний осмотр и наземные угрозы испанского [MAF](../reference/glossary.md#term-maf) |
+| [ULM — ОСНОВА] | [PIC](../reference/glossary.md#term-pic), документы, состояние борта, внешний осмотр и наземные угрозы самолёта [ULM](../reference/glossary.md#term-ulm), эксплуатируемого с [MAF](../reference/glossary.md#term-maf) |
 | [ULM — ОСОБО ВАЖНО] | Лёгкий самолёт и открытая кабина не уменьшают энергию винта, топлива или аккумулятора |
 | [PART-FCL — ОБЩЕЕ] | Позднейшая operation-based рамка NCO.GEN.105 и latest manufacturer checklist |
 | [LAPL — ПЕРЕХОД] | Освоить контрольную карту и SOP нового учебного самолёта [DTO](../reference/glossary.md#term-dto)/[ATO](../reference/glossary.md#term-ato) |

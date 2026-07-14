@@ -74,6 +74,29 @@
 | LTR-GEO-002 | EASA прямо отмечает, что LAPL не является ICAO-compliant licence и потому не конвертируется по режиму third-country ICAO licence. | https://www.easa.europa.eu/en/faq/127231 | EASA FAQ, 07.05.2021 | 2026-07-13 | Внутри EASA Member States LAPL признаётся; за пределами системы нельзя предполагать признание без правила соответствующего государства. |
 | LTR-GEO-003 | Формат Part-FCL licence указывает соответствие ICAO standards, за исключением LAPL privileges, BIR/GPL и случая использования PPL с LAPL medical. | https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-aircrew?erules-id=ERULES-1963177438-10927 | Part-ARA Appendix I; Easy Access 24.02.2026 | 2026-07-13 | Для планируемых полётов вне EASA системы PPL + Class 2 всё равно требует проверки acceptance/validation, регистрации aircraft и local rules. |
 
+### Трассировка evidence-row → Source ID {#lapl-evidence-source-id-map}
+
+Эта карта связывает каждую строку `LTR-*` со стабильным идентификатором реестра `official-sources.json`. Если в evidence-row дан точечный deep link или альтернативное официальное представление того же акта, Source ID указывает контролируемую запись документа, а не подменяет точный URL строки.
+
+| Evidence row(s) | Зарегистрированный Source ID |
+|---|---|
+| `LTR-CUR-001`, `LTR-LAPL-001`–`005`, `LTR-LAPL-007`–`010`, `LTR-PPL-001`–`003`, `LTR-PPL-005`–`008`, `LTR-PPL-010`–`011`, `LTR-EXAM-001`, `LTR-MED-001`, `LTR-PAX-001`, `LTR-GEO-003` | `SRC-EASA-AIRCREW-2026` |
+| `LTR-CUR-002` | `SRC-EURLEX-2026-0781` |
+| `LTR-ULM-001` | `SRC-BOE-RD-765-2022` |
+| `LTR-ULM-002` | `SRC-BOE-RD-182-2026` |
+| `LTR-ULM-003`–`004` | `SRC-BOE-RD-123-2015` |
+| `LTR-ULM-005`–`006`, `LTR-PPL-004A`, `LTR-SEP-002` | `SRC-AESA-RD182-FAQ-2026` |
+| `LTR-LAPL-006`, `LTR-LAPL-011`, `LTR-PPL-009`, `LTR-SEP-001` | `SRC-EURLEX-2024-2076` |
+| `LTR-LAPL-012`–`013`, `LTR-PPL-004`, `LTR-MED-003`, `LTR-RT-001`, `LTR-RT-004` | `SRC-EURLEX-1178-2011` |
+| `LTR-SKILL-001` | `SRC-AESA-FLIGHT-TEST-FORMS-2026` |
+| `LTR-EXAM-002` | `SRC-AESA-LAPL-PPL-PROCEDURES`, `SRC-BOE-PART-FCL-SPL-BPL-EXAM-RESOLUTION-2025`, `SRC-BOE-ULM-EXAM-RESOLUTION-2019`, `SRC-SENASA-AESA-EXAM-GUIDE-FOR-EFT-P01-GU01-ED03` |
+| `LTR-EXAM-003` | `SRC-BOE-PART-FCL-SPL-BPL-EXAM-RESOLUTION-2025` |
+| `LTR-MED-002` | `SRC-AESA-AME-LIST-2026` |
+| `LTR-RT-002` | `SRC-AESA-PART-FCL-LICENCE-COMPONENTS` |
+| `LTR-RT-003` | `SRC-BOE-FOM-1146-2019` |
+| `LTR-GEO-001` | `SRC-EASA-MUTUAL-RECOGNITION-FAQ` |
+| `LTR-GEO-002` | `SRC-EASA-LAPL-NON-ICAO-FAQ` |
+
 ## Что именно можно и нельзя зачесть
 
 | Элемент предыдущего ULM/MAF опыта | ULM → LAPL(A) | ULM → PPL(A) напрямую | После выдачи LAPL → PPL(A) |

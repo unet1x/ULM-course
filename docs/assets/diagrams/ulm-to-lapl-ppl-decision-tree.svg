@@ -65,7 +65,7 @@
   <text x="380" y="1326" text-anchor="middle" font-size="30px" fill="#7c2d12">лицензия + medical + rating + язык + борт</text>
   <text x="380" y="1362" text-anchor="middle" font-size="30px" fill="#7c2d12">+ правила государства и операции</text>
 
-  <polyline points="35,875 22,875 22,1310 35,1310" fill="none" stroke="#164e63" stroke-width="6" marker-end="url(#transition-arrow)" data-from="lapl-route" data-to="international-gate"/>
+  <polyline points="35,875 22,875 22,1200 60,1200 60,1240" fill="none" stroke="#164e63" stroke-width="6" marker-end="url(#transition-arrow)" data-from="lapl-route" data-to="international-gate"/>
   <line x1="195" y1="1160" x2="195" y2="1240" stroke="#164e63" stroke-width="6" marker-end="url(#transition-arrow)" data-from="lapl-to-ppl-route" data-to="international-gate"/>
   <line x1="565" y1="940" x2="565" y2="1240" stroke="#164e63" stroke-width="6" marker-end="url(#transition-arrow)" data-from="direct-ppl-route" data-to="international-gate"/>
 

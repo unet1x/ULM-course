@@ -121,9 +121,9 @@
     "authority": "AESA",
     "title": "Bancos de preguntas — transición ULM",
     "url": "https://www.seguridadaerea.gob.es/es/node/3759",
-    "edition": "динамическая страница, обновлена 23.06.2026",
+    "edition": "динамическая страница, обновлена 10.07.2026",
     "checked": "2026-07-13",
-    "scope": "AESA сообщает, что банк вопросов ULM пересматривается под новые цели обучения и его введение планируется после лета 2026; даты будут объявлены отдельно. Это изменяемое уведомление, не подтверждение полного соответствия текущего банка GU09 и не обещание даты перехода"
+    "scope": "AESA сообщает, что банки ULM и SPL пересматриваются под соответствующие цели обучения: ввод новой версии ULM планируется на четвёртый квартал 2026 года, SPL — на первый квартал 2027 года, а конкретные даты сообщат дополнительно. Пересмотр банка LAPL/PPL запланирован на первый квартал 2027 года. Это изменяемое уведомление и планы, а не гарантированные даты; оно не подтверждает, что действующий банк ULM уже соответствует GU09 или что новая версия уже введена"
   },
   {
     "id": "SRC-AESA-LAPL-PPL-PROCEDURES",
@@ -1024,5 +1024,32 @@
     "edition": "dynamic official interface; page modified 01.07.2025; process checked 13.07.2026",
     "checked": "2026-07-13",
     "scope": "Current route for private individuals, including pilots not reporting through an organisation; separates mandatory and voluntary occurrence reporting and states that accidents/serious incidents require notification to both the investigation body and AESA. Forms, address, mandatory-event list, 72-hour applicability and authority identity are dynamic and must be rechecked; no blanket 72-hour rule is asserted for every private-pilot event"
+  },
+  {
+    "id": "SRC-AESA-PART-FCL-LICENCE-COMPONENTS",
+    "authority": "AESA",
+    "title": "FAQ — ¿Qué compone una licencia Part-FCL?",
+    "url": "https://www.seguridadaerea.gob.es/es/preguntas-frecuentes/7-%C2%BFqu%C3%A9-compone-una-licencia-part-fcl",
+    "edition": "dynamic official FAQ; checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "AESA overview distinguishing the licence document, current ratings/certificates, radiotelephony privileges and language-proficiency endorsement. It supports only the administrative-component boundary; the binding requirements remain Regulation (EU) 1178/2011, current Part-FCL/Part-MED and the applicable Spanish procedure"
+  },
+  {
+    "id": "SRC-EASA-MUTUAL-RECOGNITION-FAQ",
+    "authority": "EASA",
+    "title": "FAQ — mutual recognition under Article 67(1)",
+    "url": "https://www.easa.europa.eu/en/faq/19230",
+    "edition": "official FAQ updated 26.08.2019; checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Explains mutual recognition of certificates issued under the EASA Basic Regulation among Member States. It does not mean every geographical European state, does not extend Spanish national ULM privileges abroad and does not remove aircraft-registration, operational, airspace, rating, medical or language requirements"
+  },
+  {
+    "id": "SRC-EASA-LAPL-NON-ICAO-FAQ",
+    "authority": "EASA",
+    "title": "FAQ — LAPL and third-country ICAO conversion",
+    "url": "https://www.easa.europa.eu/en/faq/127231",
+    "edition": "official FAQ updated 07.05.2021; checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "States that LAPL is not ICAO-compliant and therefore is not converted through the third-country ICAO-licence route. This does not affect recognition within EASA Member States and does not promise acceptance outside that system"
   }
 ]

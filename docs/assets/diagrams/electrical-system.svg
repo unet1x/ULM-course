@@ -7,7 +7,8 @@
     </marker>
   </defs>
   <rect width="720" height="1080" fill="#f8fafc"/>
-  <text x="360" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#102a43">Электропитание: источники → шина → нагрузки</text>
+  <text x="360" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">Электропитание: источники → шина</text>
+  <text x="360" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">→ нагрузки</text>
 
   <g id="generator">
     <circle cx="150" cy="160" r="64" fill="#dbeafe" stroke="#1d4ed8" stroke-width="5"/>
@@ -15,13 +16,14 @@
     <text x="150" y="256" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Генератор</text>
   </g>
 
+  <path d="M555 217 V305" fill="none" stroke="#047857" stroke-width="8" marker-end="url(#current-arrow)"/>
   <g id="battery">
-    <rect x="480" y="105" width="150" height="112" rx="10" fill="#ecfdf5" stroke="#047857" stroke-width="5"/>
+    <rect x="445" y="105" width="220" height="112" rx="10" fill="#ecfdf5" stroke="#047857" stroke-width="5"/>
     <line x1="510" y1="92" x2="545" y2="92" stroke="#047857" stroke-width="6"/>
     <line x1="565" y1="84" x2="565" y2="100" stroke="#047857" stroke-width="5"/>
     <line x1="555" y1="92" x2="575" y2="92" stroke="#047857" stroke-width="5"/>
-    <text x="555" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">Аккумулятор</text>
-    <text x="555" y="256" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">хранит энергию</text>
+    <text x="555" y="162" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">Аккумулятор</text>
+    <text x="555" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">хранит энергию</text>
   </g>
 
   <g id="protection">
@@ -39,7 +41,6 @@
   </g>
 
   <path d="M150 224 V305" fill="none" stroke="#2563eb" stroke-width="8" marker-end="url(#current-arrow)"/>
-  <path d="M555 217 V305" fill="none" stroke="#047857" stroke-width="8" marker-end="url(#current-arrow)"/>
   <path d="M300 345 H360 V500" fill="none" stroke="#2563eb" stroke-width="8" marker-end="url(#current-arrow)"/>
   <path d="M445 345 H360" fill="none" stroke="#047857" stroke-width="8" marker-end="url(#current-arrow)"/>
 

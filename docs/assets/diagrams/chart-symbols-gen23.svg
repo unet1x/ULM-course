@@ -15,7 +15,7 @@
 
   <rect width="700" height="950" fill="#ffffff"/>
   <text x="350" y="42" text-anchor="middle" class="label">Представительные знаки GEN 2.3</text>
-  <text x="350" y="78" text-anchor="middle" class="note">учебная перерисовка — сверять текущую легенду карты</text>
+  <text x="350" y="78" text-anchor="middle" class="note" style="font-size:22px">учебная перерисовка — сверять текущую легенду карты</text>
 
   <g id="symbol-civil-aerodrome" transform="translate(20 105)">
     <rect class="panel" width="320" height="175" rx="14"/>
@@ -36,9 +36,9 @@
     <polyline points="66,111 96,36 126,111" class="symbol"/>
     <circle cx="48" cy="123" r="7" fill="#075985"/>
     <circle cx="96" cy="123" r="7" fill="#075985"/>
-    <text x="138" y="62" class="label">Группа</text>
-    <text x="138" y="98" class="label">препятствий</text>
-    <text x="138" y="137" class="note">Obstáculos</text>
+    <text x="132" y="62" class="label" style="font-size:24px">Группа</text>
+    <text x="132" y="98" class="label" style="font-size:24px">препятствий</text>
+    <text x="132" y="137" class="note">Obstáculos</text>
   </g>
 
   <g id="symbol-prd-zone" transform="translate(20 300)">
@@ -48,7 +48,10 @@
     <text x="240" y="43" class="label">Запретная /</text>
     <text x="240" y="77" class="label">ограниченная /</text>
     <text x="240" y="111" class="label">опасная зона</text>
-    <text x="240" y="149" class="note">P/R/D: границы, высоты, статус</text>
+    <text x="240" y="140" class="note">
+      <tspan x="240" y="140">P/R/D: границы, высоты</tspan>
+      <tspan x="240" y="168">и статус зоны</tspan>
+    </text>
   </g>
 
   <g id="symbol-powerline" transform="translate(20 495)">
@@ -92,6 +95,6 @@
     <text x="158" y="137" class="note">Castillo</text>
   </g>
 
-  <text x="350" y="898" text-anchor="middle" class="note">Источник формы знаков: ENAIRE AIP España GEN 2.3</text>
+  <text x="350" y="898" text-anchor="middle" class="note" style="font-size:22px">Источник формы знаков: ENAIRE AIP España GEN 2.3</text>
   <text x="350" y="928" text-anchor="middle" class="note">снимок проверен 13.07.2026</text>
 </svg>

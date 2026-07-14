@@ -7,7 +7,8 @@
     </marker>
   </defs>
   <rect width="720" height="1060" fill="#f8fafc"/>
-  <text x="360" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#102a43">Четырёхтактный цикл — качественная модель</text>
+  <text x="360" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">Четырёхтактный цикл</text>
+  <text x="360" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">качественная модель</text>
 
   <g id="intake">
     <rect x="30" y="80" width="320" height="410" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="4"/>

@@ -40,3 +40,4 @@ habilitación **MAF — multiejes de ala fija**. Первоначальная ц
 - [Аудит норм Испании и процедур](sources/audit-spain-2026.md)
 - [Техническая карта ULM/MAF и Part-FCL](sources/audit-technical.md)
 - [Аудит перехода ULM → LAPL(A)](sources/audit-lapl-transition.md)
+- [Журнал независимой проверки выпуска](sources/release-audit-2026-07-13.md)

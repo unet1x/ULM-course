@@ -27,10 +27,6 @@
     </text>
   </g>
 
-  <g id="branch-or">
-    <text x="250" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#0F172A">ИЛИ</text>
-  </g>
-
   <g id="co-path">
     <rect id="co-panel" x="260" y="92" width="220" height="248" rx="14" fill="#FFF4E6" stroke="#9C4221" stroke-width="4"/>
     <text x="370" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#6B2A16">
@@ -47,6 +43,10 @@
 
   <line id="hypoxia-to-merge" x1="130" y1="340" x2="250" y2="390" stroke="#334E68" stroke-width="5"/>
   <line id="co-to-merge" x1="370" y1="340" x2="250" y2="390" stroke="#334E68" stroke-width="5"/>
+  <g id="branch-or">
+    <rect x="218" y="346" width="64" height="34" rx="10" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"/>
+    <text x="250" y="371" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#0F172A">ИЛИ</text>
+  </g>
   <circle cx="250" cy="390" r="8" fill="#334E68"/>
   <line id="merge-to-aviate" x1="250" y1="390" x2="250" y2="426" stroke="#334E68" stroke-width="5" marker-end="url(#flow-arrow)"/>
 
@@ -87,7 +87,7 @@
   <line id="landing-to-other" x1="250" y1="944" x2="370" y2="991" stroke="#334E68" stroke-width="5" marker-end="url(#flow-arrow)"/>
 
   <g id="postflight-co">
-    <rect id="postflight-co-panel" x="20" y="1005" width="220" height="228" rx="14" fill="#FFF1F2" stroke="#9B2C2C" stroke-width="3"/>
+    <rect id="postflight-co-panel" x="20" y="1005" width="220" height="240" rx="14" fill="#FFF1F2" stroke="#9B2C2C" stroke-width="3"/>
     <text x="130" y="1040" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#742A2A">
       <tspan x="130" y="1040">При CO</tspan>
       <tspan x="130" y="1069">после посадки:</tspan>
@@ -100,7 +100,7 @@
   </g>
 
   <g id="postflight-other">
-    <rect id="postflight-other-panel" x="260" y="1005" width="220" height="228" rx="14" fill="#F3E8FF" stroke="#6B46C1" stroke-width="3"/>
+    <rect id="postflight-other-panel" x="260" y="1005" width="220" height="240" rx="14" fill="#F3E8FF" stroke="#6B46C1" stroke-width="3"/>
     <text x="370" y="1040" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#44337A">
       <tspan x="370" y="1037">При других</tspan>
       <tspan x="370" y="1064">симптомах</tspan>

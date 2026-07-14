@@ -14,7 +14,7 @@
     <rect x="40" y="130" width="680" height="150" rx="16" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
     <text x="380" y="170" text-anchor="middle" font-size="32px" font-family="sans-serif" font-weight="700" fill="#1e3a8a">Самолёт</text>
     <rect x="65" y="195" width="180" height="55" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
-    <rect x="290" y="195" width="180" height="55" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+    <rect x="275" y="195" width="210" height="55" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
     <rect x="515" y="195" width="180" height="55" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
     <text x="155" y="232" text-anchor="middle" font-size="30px" font-family="sans-serif" fill="#1e3a8a">масса / CG</text>
     <text x="380" y="232" text-anchor="middle" font-size="30px" font-family="sans-serif" fill="#1e3a8a">конфигурация</text>
@@ -43,8 +43,8 @@
     <text x="592.5" y="592" text-anchor="middle" font-size="30px" font-family="sans-serif" fill="#9a3412">уклон / рельеф</text>
   </g>
 
-  <path id="aircraft-to-source" data-from="aircraft-inputs" data-to="source-gate" d="M720 205 C742 205 742 665 430 704" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#flow-arrow)"/>
-  <path id="environment-to-source" data-from="environment-inputs" data-to="source-gate" d="M720 385 C732 385 732 665 405 696" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#flow-arrow)"/>
+  <path id="aircraft-to-source" data-from="aircraft-inputs" data-to="source-gate" d="M720 205 H740 V662 H650 L430 704" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#flow-arrow)"/>
+  <path id="environment-to-source" data-from="environment-inputs" data-to="source-gate" d="M720 385 H730 V650 H610 L405 696" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#flow-arrow)"/>
   <line id="runway-to-source" data-from="runway-inputs" data-to="source-gate" x1="380" y1="640" x2="380" y2="690" stroke="#334155" stroke-width="5" marker-end="url(#flow-arrow)"/>
   <g id="source-gate">
     <polygon points="380,690 650,750 380,810 110,750" fill="#fef3c7" stroke="#d97706" stroke-width="5"/>

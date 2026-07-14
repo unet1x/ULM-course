@@ -7,7 +7,8 @@
     </marker>
   </defs>
   <rect width="720" height="1020" fill="#f8fafc"/>
-  <text x="360" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#102a43">Пито-статическая система: кто получает давление</text>
+  <text x="360" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">Пито-статическая система</text>
+  <text x="360" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">кто получает какое давление</text>
 
   <g id="pitot-input">
     <path d="M45 162 H190 V205 H115 V188 H45 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="5"/>
@@ -21,8 +22,9 @@
     <path d="M530 130 Q610 105 680 150 V220 Q610 260 530 230 Z" fill="#ecfdf5" stroke="#047857" stroke-width="5"/>
     <circle cx="585" cy="180" r="12" fill="#ffffff" stroke="#047857" stroke-width="5"/>
     <circle cx="625" cy="180" r="12" fill="#ffffff" stroke="#047857" stroke-width="5"/>
-    <text x="605" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">Статический порт</text>
-    <text x="605" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">статическое давление</text>
+    <text x="545" y="278" text-anchor="end" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#065f46">Статический порт</text>
+    <text x="545" y="308" text-anchor="end" font-family="Arial, sans-serif" font-size="28" fill="#065f46">статическое</text>
+    <text x="545" y="338" text-anchor="end" font-family="Arial, sans-serif" font-size="28" fill="#065f46">давление</text>
   </g>
 
   <path d="M190 185 H280 V395" fill="none" stroke="#2563eb" stroke-width="8" marker-end="url(#pressure-arrow)"/>

@@ -2,7 +2,7 @@
 
 ## Назначение {#purpose}
 
-Эта глава связывает внешнюю форму [MAF](../reference/glossary.md#term-maf) с путём нагрузки через крыло, фюзеляж, оперение, органы управления и шасси. Цель пилота — распознать несоответствие до полёта и не превратить наблюдение в самовольный ремонт. Основа программы: GU09, Conocimiento General de la Aeronave, pp. 33–39; здесь используются цели pp. 35–36 (`SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01`). Технический механизм: FAA-H-8083-25C, pp. 3-1–3-16 и 6-2–6-12 (`SRC-FAA-PHAK-25C-CH3`, `SRC-FAA-PHAK-25C-CH6`).
+Эта глава связывает внешнюю форму многокоординатного самолёта [ULM](../reference/glossary.md#term-ulm), используемого для подготовки к [MAF](../reference/glossary.md#term-maf), с путём нагрузки через крыло, фюзеляж, оперение, органы управления и шасси. Цель пилота — распознать несоответствие до полёта и не превратить наблюдение в самовольный ремонт. Основа программы: GU09, Conocimiento General de la Aeronave, pp. 33–39; здесь используются цели pp. 35–36 (`SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01`). Технический механизм: FAA-H-8083-25C, pp. 3-1–3-16 и 6-2–6-12 (`SRC-FAA-PHAK-25C-CH3`, `SRC-FAA-PHAK-25C-CH6`).
 
 > **УЧЕБНАЯ СХЕМА — НЕ ЧЕК-ЛИСТ.** Закон, действующие [AIP](../reference/glossary.md#term-aip)/[NOTAM](../reference/glossary.md#term-notam) и AD; затем текущие [AFM](../reference/glossary.md#term-afm)/[POH](../reference/glossary.md#term-poh), [дополнение к руководству по лётной эксплуатации (English: aircraft flight manual supplement; español: suplemento al manual de vuelo)](../reference/glossary.md#term-aircraft-flight-manual-supplement), [эксплуатационная табличка (English: placard; español: letrero o placa)](../reference/glossary.md#term-placard) и [самолётная контрольная карта (English: aircraft checklist; español: lista de comprobación de la aeronave)](../reference/glossary.md#term-aircraft-checklist) конкретного борта; затем точные руководства оборудования, применимые [сервисные бюллетени (English: service bulletins; español: boletines de servicio; SB)](../reference/glossary.md#term-service-bulletin-sb) и [сервисные инструкции (English: service instructions; español: instrucciones de servicio; SI)](../reference/glossary.md#term-service-instruction-si); затем программа и записи обслуживания; только после них — общий справочник и этот курс. Инструктор и точные документы самолёта определяют действия.
 
@@ -20,7 +20,7 @@
 
 | Метка | Что изучать |
 |---|---|
-| [ULM — ОСНОВА][ulm] | Конструкция [MAF](../reference/glossary.md#term-maf), органы управления, шасси и логика осмотра |
+| [ULM — ОСНОВА][ulm] | Конструкция многокоординатного самолёта [ULM](../reference/glossary.md#term-ulm), органы управления, шасси и логика осмотра в программе [MAF](../reference/glossary.md#term-maf) |
 | [ULM — ОСОБО ВАЖНО][ulm] | Лёгкая конструкция не разрешает давить, тянуть или «проверять на прочность» |
 | [PART-FCL — ОБЩЕЕ][part-fcl] | Та же физика планера в AMC1 FCL.210/FCL.215 §§8.1–8.2 |
 | [LAPL — ПЕРЕХОД] | Полная программа PPL Aircraft General Knowledge через [DTO](../reference/glossary.md#term-dto)/[ATO](../reference/glossary.md#term-ato) |
@@ -45,7 +45,7 @@
 
 ### Органы управления и проводка {#controls-linkages}
 
-Первичные органы обычно связывают элероны с креном, руль высоты или цельноповоротный стабилизатор с тангажом, руль направления — с рысканием. Конкретный [MAF](../reference/glossary.md#term-maf) может использовать тяги, тросы, качалки, торсионы или смешанную кинематику. Свободный ход, направление, полный диапазон и отсутствие помех проверяют только способом и последовательностью контрольной карты самолёта.
+Первичные органы обычно связывают элероны с креном, руль высоты или цельноповоротный стабилизатор с тангажом, руль направления — с рысканием. Конкретный самолёт [ULM](../reference/glossary.md#term-ulm), на котором осваивают [MAF](../reference/glossary.md#term-maf), может использовать тяги, тросы, качалки, торсионы или смешанную кинематику. Свободный ход, направление, полный диапазон и отсутствие помех проверяют только способом и последовательностью контрольной карты самолёта.
 
 Закрылки меняют кривизну и/или площадь крыла, интерцепторы — распределение подъёмной силы и сопротивления. Триммирование (English: [trim](../reference/glossary.md#term-trim-system); español: compensación) уменьшает постоянное усилие для выбранного режима, но не удерживает траекторию само и не возвращает утраченную энергию. Положение указателя не доказывает фактическое положение поверхности при неисправной связи.
 
@@ -99,7 +99,7 @@ AMC1 FCL.115/FCL.120 направляет LAPL к общей программе 
 A. Сила остаётся только в обшивке и не достигает фюзеляжа.<br>
 B. Аэродинамическая нагрузка через элементы крыла и узлы крепления передаётся остальной конструкции.<br>
 C. Лонжерон воспринимает только массу топлива, но не изгиб крыла.<br>
-D. У [MAF](../reference/glossary.md#term-maf) нагрузка исчезает из-за малой массы самолёта.<br>
+D. У самолёта [ULM](../reference/glossary.md#term-ulm) нагрузка исчезает из-за его малой массы.<br>
 
 **Правильный ответ:** B.
 

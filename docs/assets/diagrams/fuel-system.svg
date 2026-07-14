@@ -7,13 +7,14 @@
     </marker>
   </defs>
   <rect width="720" height="1040" fill="#f8fafc"/>
-  <text x="360" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#102a43">Топливный тракт: функция узлов, не установка</text>
+  <text x="360" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">Топливный тракт: функции узлов</text>
+  <text x="360" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#102a43">не схема установки</text>
 
   <g id="tank">
     <path d="M225 88 H495 L525 145 V218 H195 V145 Z" fill="#dbeafe" stroke="#1d4ed8" stroke-width="5"/>
     <path d="M250 178 Q360 135 470 178 V205 H250 Z" fill="#60a5fa" opacity="0.75"/>
-    <line x1="465" y1="88" x2="465" y2="60" stroke="#334155" stroke-width="5"/>
-    <path d="M465 60 C490 55 505 65 510 84" fill="none" stroke="#334155" stroke-width="5" marker-end="url(#fuel-arrow)"/>
+    <line x1="465" y1="88" x2="465" y2="68" stroke="#334155" stroke-width="5"/>
+    <path d="M465 68 C490 63 505 70 510 84" fill="none" stroke="#334155" stroke-width="5" marker-end="url(#fuel-arrow)"/>
     <text x="360" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Бак</text>
     <text x="360" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#1e3a8a">вентиляция зависит от установки</text>
   </g>
@@ -38,7 +39,7 @@
   <g id="pump">
     <circle cx="360" cy="600" r="52" fill="#f5f3ff" stroke="#6d28d9" stroke-width="5"/>
     <path d="M330 600 H390 M370 580 L390 600 L370 620" fill="none" stroke="#6d28d9" stroke-width="6"/>
-    <text x="360" y="680" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#5b21b6">Насосный узел</text>
+    <text x="500" y="680" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#5b21b6">Насосный узел</text>
   </g>
 
   <path d="M360 652 V720 H205 V755" fill="none" stroke="#2563eb" stroke-width="8" marker-end="url(#fuel-arrow)"/>
@@ -58,7 +59,7 @@
     <text x="515" y="875" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#065f46">и управление</text>
   </g>
 
-  <path id="fuel-return" d="M555 890 V915 H690 V175 H535" fill="none" stroke="#64748b" stroke-width="5" stroke-dasharray="12 9" marker-end="url(#fuel-arrow)"/>
+  <path id="fuel-return" d="M555 890 V915 H690 V205 H535" fill="none" stroke="#64748b" stroke-width="5" stroke-dasharray="12 9" marker-end="url(#fuel-arrow)"/>
   <text x="670" y="535" text-anchor="end" font-family="Arial, sans-serif" font-size="28" fill="#475569">обратная магистраль</text>
   <text x="670" y="570" text-anchor="end" font-family="Arial, sans-serif" font-size="28" fill="#475569">только по установке</text>
 

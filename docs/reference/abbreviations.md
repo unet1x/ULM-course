@@ -129,3 +129,4 @@
 | CNL | [cancellation message (CNL)](glossary.md#term-cancellation-message-cnl) | сообщение об отмене плана полёта |
 | ARR | [arrival message (ARR)](glossary.md#term-arrival-message-arr) | сообщение о прибытии и закрытии FPL |
 | FSTD | [flight simulation training device (FSTD)](glossary.md#term-flight-simulation-training-device-fstd) | квалифицированное имитационное устройство для разрешённой части лётной подготовки |
+| AD | [airworthiness directive (AD)](glossary.md#term-airworthiness-directive-ad) | директива лётной годности с обязательным действием в указанной области применимости |

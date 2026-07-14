@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="roadmap-title roadmap-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 860" role="img" aria-labelledby="roadmap-title roadmap-desc">
   <title id="roadmap-title">Дорожная карта ULM/MAF к LAPL(A) или PPL(A)</title>
   <desc id="roadmap-desc">Концептуальная схема: сначала национальная лицензия ULM с MAF для Испании, затем независимый выбор курса LAPL(A) с индивидуальной оценкой prior PIC либо прямого курса PPL(A) без credit часов MAF. От LAPL(A) возможен отдельный индивидуальный переход к PPL(A).</desc>
   <defs>
@@ -14,48 +14,54 @@
       .warning { fill: #ffffff; stroke: #8b1e1e; stroke-width: 4; rx: 14; }
       .line { fill: none; stroke: #17324d; stroke-width: 5; marker-end: url(#arrow); }
       .dash { fill: none; stroke: #4b3b75; stroke-width: 4; stroke-dasharray: 12 10; marker-end: url(#arrow); }
-      .title { font: 700 28px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
-      .body { font: 21px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
-      .small { font: 18px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
-      .danger { font: 700 20px system-ui, sans-serif; fill: #8b1e1e; text-anchor: middle; }
+      .title { font: 700 40px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .body { font: 40px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .small { font: 40px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .footer { font: 40px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .danger { font: 700 40px system-ui, sans-serif; fill: #8b1e1e; text-anchor: middle; }
     </style>
   </defs>
 
-  <text x="600" y="42" class="title">Концептуальная учебная схема — не решение о зачёте</text>
+  <rect x="0" y="0" width="1200" height="860" fill="#f8fafc"/>
+  <text x="600" y="40" class="title">Концептуальная схема — не решение о зачёте</text>
 
-  <rect x="380" y="75" width="440" height="120" class="box national"/>
-  <text x="600" y="116" class="title">1. ULM + MAF</text>
-  <text x="600" y="150" class="body">национальная лицензия Испании</text>
-  <text x="600" y="178" class="small">обучение, экзамены, отдельная лётная книжка</text>
+  <rect x="320" y="55" width="560" height="145" class="box national"/>
+  <text x="600" y="94" class="title">1. ULM + MAF</text>
+  <text x="600" y="130" class="body" textLength="500" lengthAdjust="spacingAndGlyphs">национальная лицензия Испании</text>
+  <text x="600" y="160" class="small">обучение, экзамены</text>
+  <text x="600" y="186" class="small">отдельная лётная книжка</text>
 
-  <path d="M 600 195 L 600 250" class="line"/>
-  <rect x="400" y="250" width="400" height="90" class="box choice"/>
-  <text x="600" y="287" class="title">2. Выбор цели</text>
-  <text x="600" y="318" class="body">письменный план DTO/ATO</text>
+  <path d="M 600 200 L 600 220" class="line"/>
+  <rect x="350" y="220" width="500" height="90" class="box choice"/>
+  <text x="600" y="258" class="title">2. Выбор цели</text>
+  <text x="600" y="295" class="body">письменный план DTO/ATO</text>
 
-  <path d="M 520 340 C 450 385 350 390 300 425" class="line"/>
-  <path d="M 680 340 C 750 385 850 390 900 425" class="line"/>
+  <path d="M 520 310 C 450 335 350 340 305 360" class="line"/>
+  <path d="M 680 310 C 750 335 850 340 895 360" class="line"/>
 
-  <rect x="90" y="425" width="430" height="155" class="box lapl"/>
-  <text x="305" y="465" class="title">Ветвь A: LAPL(A)</text>
-  <text x="305" y="491" class="body">предварительная оценка</text>
-  <text x="305" y="518" class="body">всей программы</text>
-  <text x="305" y="544" class="small">предыдущий MAF PIC: индивидуально</text>
-  <text x="305" y="568" class="small">ограниченный зачёт по FCL.110.A(c)</text>
+  <rect x="40" y="360" width="530" height="220" class="box lapl"/>
+  <text x="305" y="402" class="title">Ветвь A: LAPL(A)</text>
+  <text x="305" y="442" class="body">оценка всей программы</text>
+  <text x="305" y="480" class="small">MAF PIC: ограниченный</text>
+  <text x="305" y="522" class="small">индивидуальный зачёт</text>
+  <text x="305" y="564" class="small">по FCL.110.A(c)</text>
 
-  <rect x="680" y="425" width="430" height="155" class="box ppl"/>
-  <text x="895" y="465" class="title">Ветвь B: прямой PPL(A)</text>
-  <text x="895" y="501" class="body">полная программа FCL.210.A</text>
-  <text x="895" y="533" class="small">AESA: часы MAF не являются</text>
-  <text x="895" y="560" class="small">зачётом при первоначальной выдаче PPL(A)</text>
+  <rect x="630" y="360" width="530" height="220" class="box ppl"/>
+  <text x="895" y="402" class="title">Ветвь B: прямой PPL(A)</text>
+  <text x="895" y="442" class="body" textLength="480" lengthAdjust="spacingAndGlyphs">полная программа FCL.210.A</text>
+  <text x="895" y="480" class="small">AESA: часы MAF</text>
+  <text x="895" y="522" class="small" textLength="480" lengthAdjust="spacingAndGlyphs">не засчитываются при выдаче</text>
+  <text x="895" y="564" class="small">первоначальной PPL(A)</text>
 
-  <path d="M 520 530 C 610 610 665 605 750 580" class="dash"/>
-  <text x="613" y="626" class="small">необязательный LAPL(A) → PPL(A):</text>
-  <text x="613" y="651" class="small">новая оценка + совокупные пороги</text>
+  <path d="M 570 540 L 630 540" class="dash"/>
+  <text x="600" y="618" class="footer">Необязательный LAPL(A) → PPL(A):</text>
+  <text x="600" y="658" class="footer">новая оценка + совокупные пороги</text>
 
-  <rect id="roadmap-warning-panel" x="215" y="665" width="770" height="50" class="warning"/>
-  <text id="roadmap-warning-text" x="600" y="687" class="danger" font-size="20" text-anchor="middle">
-    <tspan x="600" y="687">Нет автоматической конверсии или гарантии минимальных часов.</tspan>
-    <tspan x="600" y="708">Каждый зачёт требует нормы и индивидуальной оценки.</tspan>
+  <rect id="roadmap-warning-panel" x="75" y="675" width="1050" height="180" class="warning"/>
+  <text id="roadmap-warning-text" x="600" y="715" class="danger" font-size="40" text-anchor="middle">
+    <tspan x="600" y="715">Нет автоматической конверсии</tspan>
+    <tspan x="600" y="755">и гарантии минимальных часов.</tspan>
+    <tspan x="600" y="795">Каждый зачёт требует нормы</tspan>
+    <tspan x="600" y="835">и индивидуальной оценки.</tspan>
   </text>
 </svg>

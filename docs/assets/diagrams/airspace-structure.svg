@@ -11,55 +11,64 @@
       .zone { fill: #fff1b8; stroke: #8b1e1e; stroke-width: 4; stroke-dasharray: 10 8; }
       .terrain { fill: #7a5b3a; stroke: #3d2e1d; stroke-width: 3; }
       .limit { stroke: #102a43; stroke-width: 3; stroke-dasharray: 12 8; }
-      .title { font: 700 27px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
-      .label { font: 700 22px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
-      .body { font: 18px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
-      .terrain-label { font: 700 18px system-ui, sans-serif; fill: #ffffff; text-anchor: middle; }
-      .warn { font: 700 19px system-ui, sans-serif; text-anchor: middle; }
+      .title { font: 700 40px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .label { font: 700 40px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .body { font: 40px system-ui, sans-serif; fill: #102a43; text-anchor: middle; }
+      .terrain-label { font: 700 40px system-ui, sans-serif; fill: #ffffff; text-anchor: middle; }
+      .warn { font: 700 40px system-ui, sans-serif; text-anchor: middle; }
     </style>
   </defs>
 
-  <text x="600" y="38" class="title">Концептуальная схема — не навигационная карта и не текущая структура España</text>
+  <rect x="0" y="0" width="1200" height="820" fill="#f8fafc"/>
+  <text x="600" y="36" class="title">
+    <tspan x="600" y="36">Концептуальная схема — не навигационная карта</tspan>
+    <tspan x="600" y="76">и не текущая структура España</tspan>
+  </text>
 
-  <rect x="55" y="65" width="1090" height="170" class="outline upper"/>
-  <text x="600" y="115" class="label">Верхний контролируемый слой</text>
-  <text x="600" y="150" class="body">класс и услуги определяет текущая публикация</text>
-  <text x="600" y="182" class="body">верхняя/нижняя границы имеют точную систему отсчёта</text>
+  <rect x="55" y="90" width="1090" height="155" class="outline upper"/>
+  <text x="600" y="132" class="label">Верхний контролируемый слой</text>
+  <text x="600" y="174" class="body">класс и услуги определяет текущая публикация</text>
+  <text x="600" y="220" class="body">границы имеют точную систему отсчёта</text>
 
-  <rect x="180" y="235" width="840" height="180" class="outline tma"/>
-  <text x="600" y="275" class="label">TMA / CTA</text>
-  <text x="600" y="307" class="body">контролируемое пространство начинается выше опубликованной нижней границы</text>
-  <line x1="180" y1="350" x2="1020" y2="350" class="limit"/>
-  <text x="600" y="382" class="body">пример нижней границы: значение + AMSL / AGL / FL</text>
+  <rect x="180" y="245" width="840" height="210" class="outline tma"/>
+  <text x="600" y="287" class="label">TMA / CTA</text>
+  <text x="600" y="326" class="body">
+    <tspan x="600" y="326">контролируемое пространство начинается выше</tspan>
+    <tspan x="600" y="368">опубликованной нижней границы</tspan>
+  </text>
+  <line x1="180" y1="380" x2="1020" y2="380" class="limit"/>
+  <text x="600" y="428" class="body">нижняя граница: значение + AMSL / AGL / FL</text>
 
-  <rect x="465" y="415" width="270" height="305" class="outline ctr"/>
-  <text x="600" y="458" class="label">CTR</text>
-  <text x="600" y="488" class="body">контролируемое от SFC</text>
+  <rect x="465" y="455" width="270" height="265" class="outline ctr"/>
+  <text x="600" y="486" class="label">CTR</text>
+  <text x="600" y="518" class="body">от SFC</text>
 
-  <path d="M 55 415 L 465 415 L 465 720 L 55 720 Z" class="outline uncontrolled"/>
-  <path d="M 735 415 L 1145 415 L 1145 720 L 735 720 Z" class="outline uncontrolled"/>
-  <text x="255" y="455" class="label">Неконтролируемое</text>
-  <text x="255" y="488" class="body">например класс G</text>
-  <text x="940" y="455" class="label">Неконтролируемое</text>
-  <text x="940" y="488" class="body">правила всё равно действуют</text>
+  <path d="M 55 455 L 465 455 L 465 720 L 55 720 Z" class="outline uncontrolled"/>
+  <path d="M 735 455 L 1145 455 L 1145 720 L 735 720 Z" class="outline uncontrolled"/>
+  <text x="255" y="499" class="label">Неконтролируемое</text>
+  <text x="255" y="540" class="body">например: класс G</text>
+  <text x="940" y="499" class="label">Неконтролируемое</text>
+  <text x="940" y="532" class="body">правила действуют</text>
 
   <!-- Terrain is intentionally painted before the operational symbols and labels. -->
   <path id="terrain-layer" d="M 55 670 L 190 625 L 300 665 L 410 620 L 520 670 L 640 635 L 760 675 L 890 625 L 1010 670 L 1145 630 L 1145 720 L 55 720 Z" class="terrain"/>
-  <text x="600" y="705" class="terrain-label">рельеф / SFC — учитывайте препятствия и систему отсчёта высоты</text>
+  <text x="600" y="705" class="terrain-label">рельеф / SFC — препятствия и отсчёт высоты</text>
 
   <g id="special-use-zone">
-    <rect x="820" y="510" width="220" height="100" rx="12" class="zone"/>
-    <text x="930" y="543" class="label">P / R / D</text>
-    <text x="930" y="574" class="body">проверить пределы</text>
-    <text x="930" y="600" class="body">и активацию</text>
+    <rect x="740" y="545" width="380" height="75" rx="12" class="zone"/>
+    <text x="930" y="574" class="body" font-weight="700">P / R / D</text>
+    <text x="930" y="612" class="body">пределы, активация</text>
   </g>
 
   <g id="aerodrome-symbol">
-    <path d="M 540 575 L 600 535 L 660 575 Z" fill="#102a43"/>
-    <rect x="525" y="575" width="150" height="12" fill="#102a43"/>
-    <text x="600" y="607" class="body">аэродром</text>
+    <text x="600" y="551" class="body">аэродром</text>
+    <path d="M 540 600 L 600 562 L 660 600 Z" fill="#102a43"/>
+    <rect x="525" y="600" width="150" height="12" fill="#102a43"/>
   </g>
 
-  <rect id="warning-panel" x="95" y="752" width="1010" height="52" rx="12" fill="#102a43"/>
-  <text id="warning-text" x="600" y="785" class="warn" fill="#ffffff">Фактические классы, границы, частоты, расписания и NOTAM берите только из текущей AIS</text>
+  <rect id="warning-panel" x="95" y="735" width="1010" height="80" rx="12" fill="#102a43"/>
+  <text id="warning-text" x="600" y="770" class="warn" fill="#ffffff">
+    <tspan x="600" y="770">Классы, границы, частоты, расписания и NOTAM:</tspan>
+    <tspan x="600" y="808">только текущая AIS</tspan>
+  </text>
 </svg>
