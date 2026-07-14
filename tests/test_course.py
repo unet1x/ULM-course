@@ -131,6 +131,28 @@ TASK11_SVGS = (
     "docs/assets/diagrams/mass-balance.svg",
     "docs/assets/diagrams/performance-factors.svg",
 )
+TASK12_OPERATION_CHAPTERS = (
+    "docs/09-operational-procedures/01-sop-checklists-ground.md",
+    "docs/09-operational-procedures/02-taxi-circuit-wake.md",
+    "docs/09-operational-procedures/03-short-soft-crosswind.md",
+    "docs/09-operational-procedures/04-engine-failure-forced-landing.md",
+    "docs/09-operational-procedures/05-fire-system-emergencies.md",
+    "docs/09-operational-procedures/06-after-incident.md",
+)
+TASK12_PREPARATION_CHAPTERS = (
+    "docs/10-flight-preparation/01-pilot-aircraft-environment.md",
+    "docs/10-flight-preparation/02-briefing-route-alternates.md",
+    "docs/10-flight-preparation/03-ats-flight-plan.md",
+    "docs/10-flight-preparation/04-local-flight-scenario.md",
+    "docs/10-flight-preparation/05-cross-country-scenario.md",
+)
+TASK12_CHAPTERS = TASK12_OPERATION_CHAPTERS + TASK12_PREPARATION_CHAPTERS
+TASK12_REFERENCE = "docs/reference/checklists-flight.md"
+TASK12_SVGS = (
+    "docs/assets/diagrams/aerodrome-circuit.svg",
+    "docs/assets/diagrams/forced-landing-priorities.svg",
+    "docs/assets/diagrams/preflight-decision-gates.svg",
+)
 APPLICABILITY_LABELS = (
     "[ULM — ОСНОВА]",
     "[ULM — ОСОБО ВАЖНО]",
@@ -405,6 +427,21 @@ REQUIRED_CANONICAL_TERMS = {
     "aircraft range",
     "aircraft endurance",
     "climb gradient",
+    "standard operating procedure (SOP)",
+    "aerodrome traffic circuit",
+    "wake turbulence",
+    "go-around",
+    "precautionary landing",
+    "forced landing",
+    "pre-flight information bulletin (PIB)",
+    "prior permission required (PPR)",
+    "flight plan mandatory zone (FPMZ)",
+    "accident",
+    "serious incident",
+    "delay message (DLA)",
+    "change message (CHG)",
+    "cancellation message (CNL)",
+    "arrival message (ARR)",
 }
 
 HYBRID_TERMS_REQUIRING_EXPLANATION = (
@@ -839,6 +876,20 @@ def unlinked_term_occurrences(text, term):
         match.span()
         for match in re.finditer(r"\{[^}\n]*#[^}\n]+\}", clean_text)
     )
+    # These exact labels are structural interfaces consumed by other validators.
+    # Linking a term inside them changes the literal label and breaks scenario or
+    # applicability parsing, so the prose-link rule intentionally ignores them.
+    structural_labels = APPLICABILITY_LABELS + (
+        "Граница AFM/чек-листа/инструктора",
+        "AIP AIRAC/WEF",
+        "NOTAM/PIB",
+        "Ревизия AFM/чек-листа",
+    )
+    for label in structural_labels:
+        ignored.extend(
+            match.span()
+            for match in re.finditer(re.escape(label), clean_text)
+        )
     anchor_pattern = re.compile(
         rf"<a\b[^>]*\bid\s*=\s*(?:"
         rf'"{re.escape(anchor)}"|\'{re.escape(anchor)}\'|'
@@ -1057,7 +1108,7 @@ def _substantive(value, minimum_words=3, minimum_length=12):
 def parsed_question_blocks(text):
     headings = list(
         re.finditer(
-            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV|PF|AGK|PERF)-\d{3})\s+—\s+(.+?)"
+            r"(?m)^###\s+(Q-(?:START|LAW|HP|MET|RTC|NAV|PF|AGK|PERF|OPS)-\d{3})\s+—\s+(.+?)"
             r"(?:\s+\{#([a-z][a-z0-9-]*)\})?\s*$",
             text,
         )
@@ -2079,15 +2130,7 @@ class CourseRegistryTests(unittest.TestCase):
             with self.subTest(source=source.get("id")):
                 self.assertTrue(required_fields.issubset(source))
                 self.assertRegex(source["id"], r"^SRC-[A-Z0-9-]+$")
-                expected_checked = (
-                    "2026-07-14"
-                    if source["id"] in {
-                        "SRC-BRS6-REV-A-HISTORICAL",
-                        "SRC-ENAIRE-AIP-GEN-3-1-2026",
-                        "SRC-ENAIRE-INSIGNIA-HELP-2026",
-                    }
-                    else "2026-07-13"
-                )
+                expected_checked = "2026-07-13"
                 self.assertEqual(expected_checked, source["checked"])
                 parsed = urlsplit(source["url"])
                 self.assertEqual("https", parsed.scheme)
@@ -6434,7 +6477,7 @@ class Task10AircraftGeneralKnowledgeTests(unittest.TestCase):
         self.assertRegex(chapter8, r"(?is)ML\.A\.803.{0,260}(?:владелец-пилот|pilot-owner).{0,220}(?:запис|log).{0,200}(?:лиценз|подпис)")
         self.assertRegex(chapter8, r"(?is)(?:критическ|critical).{0,240}(?:AD|ALI).{0,240}(?:специальн|calibrated|калиброван)")
         self.assertRegex(chapter8, r"(?is)2026/100.{0,160}07\.08\.2026.{0,140}(?:будущ|ещ[её]\s+не|повторн\w+\s+провер)")
-        self.assertRegex(chapter8, r"(?is)BRS-6.{0,180}доступ.{0,120}14\.07\.2026.{0,220}(?:историч|статус).{0,160}не.{0,80}(?:установлен|подтвержд|актуальн)")
+        self.assertRegex(chapter8, r"(?is)BRS-6.{0,180}доступ.{0,120}13\.07\.2026.{0,220}(?:историч|статус).{0,160}не.{0,80}(?:установлен|подтвержд|актуальн)")
         self.assertNotRegex(chapter8, r"(?is)BRS-6.{0,180}(?:404|недоступ)")
         self.assertRegex(chapter8, r"(?is)(?:самовольн|непредписан|неизвестн).{0,180}перерезан\w+\s+кабел.{0,180}не.{0,100}(?:доказыва|подтвержд).{0,100}безопас")
         self.assertRegex(chapter8, r"(?is)(?:точн|актуальн).{0,140}(?:инструкц|материал).{0,140}(?:изготовител|спасател).{0,180}(?:может|способн).{0,120}(?:предпис|указ).{0,120}перерез")
@@ -6793,8 +6836,8 @@ class Task10AircraftGeneralKnowledgeTests(unittest.TestCase):
             self.assertIn(edition, sources[identifier]["edition"])
             self.assertIn("rotax.my.salesforce-sites.com", sources[identifier]["url"])
         stale = sources["SRC-BRS6-REV-A-HISTORICAL"]
-        self.assertEqual("2026-07-14", stale["checked"])
-        self.assertRegex(stale["edition"], r"(?is)доступ.{0,100}14\.07\.2026")
+        self.assertEqual("2026-07-13", stale["checked"])
+        self.assertRegex(stale["edition"], r"(?is)доступ.{0,100}13\.07\.2026")
         self.assertRegex(stale["scope"], r"(?is)(?:историч|status|статус).{0,160}не.{0,100}(?:установлен|подтвержд|current|текущ)")
         self.assertNotRegex(stale["edition"] + stale["scope"], r"(?is)404|stale|недоступ")
         self.assertNotRegex(stale["edition"], r"(?i)^current|текущ")
@@ -8823,10 +8866,10 @@ class Task11PerformancePlanningTests(unittest.TestCase):
         ):
             source = sources[identifier]
             with self.subTest(source=identifier):
-                self.assertEqual("2026-07-14", source["checked"])
-                self.assertIn("checked 14.07.2026", source["edition"])
+                self.assertEqual("2026-07-13", source["checked"])
+                self.assertIn("checked 13.07.2026", source["edition"])
                 row = next(line for line in registry_md.splitlines() if f"| {identifier} |" in line)
-                self.assertIn("| 2026-07-14 |", row)
+                self.assertIn("| 2026-07-13 |", row)
         insignia_rows = "\n".join(
             line for line in spain_audit.splitlines()
             if "ES-AIP-005" in line or "SRC-ENAIRE-INSIGNIA-HELP-2026" in line
@@ -8960,6 +9003,626 @@ class Task11PerformancePlanningTests(unittest.TestCase):
                 words = " ".join(root.itertext())
                 self.assertRegex(words, r"[А-Яа-яЁё]")
                 self.assertIn("УЧЕБНАЯ СХЕМА — НЕ ДЛЯ ПОЛЁТА", words)
+
+
+def task12_unsafe_shortcut_errors(text):
+    """Return affirmative unsafe shortcuts while accepting explicit refutations."""
+    learner_text = re.split(
+        r"(?m)^##\s+(?:Контрольные вопросы|Источники)\b", text, maxsplit=1
+    )[0]
+    patterns = (
+        r"\bULM\b.{0,80}\bвсегда\b.{0,80}(?:300\s*(?:м|m)|10[ .]?000\s*(?:ft|фут))",
+        r"\bULM\b.{0,100}(?:универсальн\w+|обязательн\w+).{0,80}30[- ]?минутн\w+\s+резерв",
+        r"(?:кажд\w+|люб\w+)\s+внутренн\w+.{0,50}(?:маршрут|перел[её]т).{0,60}(?:требу\w+|обязан\w+).{0,30}\bFPL\b",
+        r"(?:местн\w+|неконтролируем\w+)\s+пол[её]т.{0,80}\bFPL\b.{0,40}(?:никогда|не\s+нужен)",
+        r"\bFPL\b.{0,60}(?:всегда|автоматическ\w+).{0,50}(?:закрыва\w+|заверша\w+)",
+        r"(?:наличие|держатель|имея).{0,60}\bPPL\b.{0,100}(?:делает|превращает|означает).{0,80}\bPart-NCO\b",
+        r"инструктор.{0,60}(?:выше|важнее|отменяет|переопределяет).{0,50}(?:AFM|POH|закон|норм)",
+        r"(?:потребительск\w+\s+)?(?:навигационн\w+\s+)?приложени\w+.{0,70}(?:заменяет|достаточно\s+вместо).{0,70}(?:AIS|AIP|PIB|AEMET)",
+        r"(?:универсальн\w+|для\s+всех\s+(?:ULM|самол[её]т)).{0,100}(?:скорост|закрыл|боков\w+\s+ветр|высот\w+\s+разворот)",
+        r"\bATC\b.{0,70}(?:всегда|гарантирует).{0,50}(?:эшелонирован|разделен|спутн\w+\s+след)",
+        r"(?:сообщить|уведомить).{0,50}(?:клуб|страхов).{0,80}(?:достаточно|завершает|заменяет).{0,80}(?:уведомлен|обязанност)",
+        r"\bENR\s*1\.10\b.{0,80}(?:выше|важнее|отменяет|имеет\s+приоритет).{0,50}\bSERA\b",
+        r"уход\s+на\s+второй\s+круг.{0,50}(?:ошибка|провал|неудача)",
+        r"(?:запомните|выполните|используйте).{0,80}(?:универсальн\w+|типов\w+).{0,40}чек-лист.{0,80}(?:запуск|отказ|пожар|BRS|парашют)",
+    )
+    errors = []
+    safe_negation = re.compile(
+        r"(?i)\b(?:не|нет|нельзя|не\s+существует)\b.{0,55}"
+        r"(?:всегда|универсальн|кажд\w+|требу\w+|закрыва\w+|превраща\w+|"
+        r"отменя\w+|заменя\w+|скорост\w+|гарантир\w+|достаточно|приоритет|"
+        r"провал|чек-лист)"
+    )
+    for sentence in _sentences(learner_text):
+        clauses = re.split(r"\s*;\s*|,\s+(?:а|но|однако)\s+", sentence)
+        for clause in clauses:
+            if safe_negation.search(clause):
+                continue
+            for pattern in patterns:
+                if re.search(pattern, clause, re.IGNORECASE):
+                    errors.append(clause)
+                    break
+    return errors
+
+
+class Task12OperationsFlightPreparationTests(unittest.TestCase):
+    REQUIRED_SOURCE_IDS = {
+        "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01",
+        "SRC-BOE-RD-765-2022",
+        "SRC-BOE-RD-123-2015",
+        "SRC-BOE-RD-141-2025",
+        "SRC-EASA-SERA-2025",
+        "SRC-EASA-AIR-OPS-2026",
+        "SRC-BOE-RD-1180-2018",
+        "SRC-ENAIRE-AIP-GEN-3-1-2026",
+        "SRC-ENAIRE-AIP-ENR-1-10-2026",
+        "SRC-AEMET-GUIA-MET-2025",
+        "SRC-FAA-AFH-3C-CH2",
+        "SRC-FAA-AFH-3C-CH8",
+        "SRC-FAA-AFH-3C-CH9",
+        "SRC-FAA-AFH-3C-CH18",
+        "SRC-EASA-EGAST-GA5",
+        "SRC-EASA-SIB-2017-10R1",
+        "SRC-BOE-RD-389-1998",
+        "SRC-BOE-LEY-2-2024",
+        "SRC-BOE-RD-141-2026",
+        "SRC-AESA-OCCURRENCE-REPORTING",
+    }
+
+    def _read(self, relative_path):
+        path = ROOT / relative_path
+        self.assertTrue(path.is_file(), relative_path)
+        return path.read_text(encoding="utf-8")
+
+    def _all_text(self):
+        return "\n".join(self._read(path) for path in TASK12_CHAPTERS)
+
+    def _scenario_blocks(self):
+        text = self._all_text()
+        matches = list(
+            re.finditer(
+                r"(?m)^###\s+(SCN-OPS-(\d{2}))\s+—[^\n]+"
+                r"\{#scn-ops-\2\}\s*$",
+                text,
+            )
+        )
+        blocks = {}
+        for index, match in enumerate(matches):
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            next_h2 = re.search(r"(?m)^##\s+", text[match.end():end])
+            if next_h2:
+                end = match.end() + next_h2.start()
+            blocks[match.group(1)] = text[match.start():end]
+        return blocks
+
+    def test_task12_files_navigation_and_chapter_anchors(self):
+        nav_paths = mkdocs_nav_paths((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        missing = [
+            relative_path
+            for relative_path in TASK12_CHAPTERS + (TASK12_REFERENCE,) + TASK12_SVGS
+            if not (ROOT / relative_path).is_file()
+        ]
+        self.assertEqual([], missing)
+        for relative_path in TASK12_CHAPTERS + (TASK12_REFERENCE,):
+            with self.subTest(path=relative_path):
+                self.assertIn(relative_path.removeprefix("docs/"), nav_paths)
+
+        required = {
+            "purpose", "outcomes", "applicability", "theory", "ulm-application",
+            "part-fcl-extension", "safety", "common-errors", "summary",
+            "review-questions", "sources",
+        }
+        for relative_path in TASK12_CHAPTERS:
+            text = self._read(relative_path)
+            with self.subTest(anchors=relative_path):
+                self.assertEqual([], explicit_atx_heading_errors(text))
+                self.assertTrue(required <= markdown_anchors(text), required - markdown_anchors(text))
+                for label in APPLICABILITY_LABELS:
+                    self.assertIn(label, applicability_table_labels(text))
+
+    def test_task12_sources_are_registered_audited_cited_and_pinpointed(self):
+        sources = {
+            item["id"]: item
+            for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        self.assertTrue(
+            self.REQUIRED_SOURCE_IDS <= sources.keys(),
+            self.REQUIRED_SOURCE_IDS - sources.keys(),
+        )
+        registry_md = SOURCE_REGISTRY_MD.read_text(encoding="utf-8")
+        audits = "\n".join(path.read_text(encoding="utf-8") for path in AUDIT_FILES)
+        chapters = self._all_text()
+        for identifier in self.REQUIRED_SOURCE_IDS:
+            with self.subTest(source=identifier):
+                self.assertIn(identifier, registry_md)
+                self.assertIn(identifier, audits)
+                self.assertIn(identifier, chapters)
+
+        scope_patterns = {
+            "SRC-AESA-ULM-LEARNING-OBJECTIVES-GU09-ED01": (
+                r"pp\. 49–58", r"p\. 26.+§§8\.1–8\.7", r"p\. 27.+§8\.8",
+                r"p\. 11.+§§7\.2–7\.4", r"p\. 8.+§§2\.1–2\.7",
+                r"p\. 10.+§4\.8", r"p\. 63", r"pp\. 64–65",
+            ),
+            "SRC-BOE-RD-765-2022": (r"art\. 4\.1\(c\)", r"01\.04\.2026"),
+            "SRC-BOE-RD-141-2025": (r"arts?\. 30", r"34–37", r"2\.1\.5"),
+            "SRC-EASA-SERA-2025": (
+                r"SERA\.2010", r"\.3105", r"\.3210", r"\.3225",
+                r"\.4001–\.4020", r"\.5001", r"\.5005", r"\.8012",
+            ),
+            "SRC-EASA-AIR-OPS-2026": (
+                r"NCO\.GEN\.105", r"NCO\.OP\.125", r"\.130", r"\.135",
+                r"\.145", r"\.160", r"\.165", r"\.170", r"\.175", r"\.185",
+            ),
+            "SRC-BOE-RD-1180-2018": (r"art\. 36\.2",),
+            "SRC-FAA-AFH-3C-CH2": (r"pp\. 2-1–2-23",),
+            "SRC-FAA-AFH-3C-CH8": (r"pp\. 8-1–8-7",),
+            "SRC-FAA-AFH-3C-CH9": (r"pp\. 9-20–9-24",),
+            "SRC-FAA-AFH-3C-CH18": (r"pp\. 18-1–18-23",),
+            "SRC-BOE-RD-389-1998": (r"arts?\. 15–16",),
+            "SRC-BOE-LEY-2-2024": (r"arts?\. 6", r"9", r"21"),
+        }
+        for identifier, patterns in scope_patterns.items():
+            scope = sources[identifier]["scope"]
+            for pattern in patterns:
+                with self.subTest(source=identifier, pinpoint=pattern):
+                    self.assertRegex(scope, pattern)
+
+    def test_task12_exact_current_ulm_operating_boundaries(self):
+        text = _plain_markdown(self._all_text())
+        for pattern in (
+            r"(?is)(?:стар\w+|прежн\w+).{0,100}10[ .]?000\s*(?:ft|фут).{0,180}не.{0,80}(?:действ|текущ|универсальн)",
+            r"(?is)10[ .]?000\s*(?:ft|фут).{0,180}(?:DA4|исключ[её]нн\w+\s+категор)",
+            r"(?is)art\.\s*4\.1\(c\).{0,180}(?:кислород|oxygen)",
+            r"(?is)контролируем\w+\s+воздушн\w+\s+пространств.{0,240}оборудован.{0,240}Part-FCL.{0,180}(?:категори|класс).{0,160}(?:действующ|текущ)",
+            r"(?is)ночн\w+\s+VFR.{0,240}оборудован.{0,220}Part-FCL.{0,180}(?:ночн\w+\s+квалификац|night\s+rating)",
+            r"(?is)(?:только\s+ULM|ULM-лицензи\w+).{0,220}не.{0,100}(?:да[её]т|открывает|разрешает).{0,180}(?:контролируем|ночн)",
+            r"(?is)300\s*(?:м|m)\s*AGL.{0,180}не.{0,80}(?:универсальн|предел|лимит)",
+        ):
+            with self.subTest(boundary=pattern):
+                self.assertRegex(text, pattern)
+
+    def test_task12_part_nco_is_operation_based_and_later_layer_only(self):
+        text = _plain_markdown(self._all_text())
+        self.assertRegex(
+            text,
+            r"(?is)Part-NCO.{0,180}(?:воздушн\w+\s+судн|операци).{0,180}не.{0,90}(?:лиценз|наличие\s+PPL)",
+        )
+        self.assertRegex(
+            text,
+            r"(?is)(?:испанск\w+\s+ULM|национальн\w+\s+ULM).{0,180}(?:даже|при).{0,100}PPL.{0,180}не.{0,80}(?:станов|превращ).{0,100}Part-NCO",
+        )
+        self.assertRegex(text, r"(?is)Article\s*5\(4\).{0,120}Annex\s+VII")
+        self.assertRegex(
+            text,
+            r"(?is)\[PART-FCL\s+—\s+ОБЩЕЕ\].{0,400}10.{0,100}30.{0,100}45.{0,220}не.{0,80}(?:испанск\w+\s+ULM|правил\w+\s+ULM)",
+        )
+        for rule in (
+            "NCO.GEN.105", "NCO.OP.125", "NCO.OP.130", "NCO.OP.135",
+            "NCO.OP.145", "NCO.OP.160", "NCO.OP.165", "NCO.OP.170",
+            "NCO.OP.175",
+            "NCO.OP.185",
+        ):
+            self.assertIn(rule, text)
+
+    def test_task12_circuit_left_turn_default_and_authorised_exceptions(self):
+        text = _plain_markdown(self._read(TASK12_OPERATION_CHAPTERS[1]))
+        self.assertRegex(
+            text,
+            r"(?is)SERA\.3225\(c\).{0,260}(?:поворот\w*).{0,80}влево"
+            r".{0,260}(?:если\s+иное|исключен|ATC|ATS)",
+        )
+        self.assertRegex(
+            text,
+            r"(?is)(?:AD/VAC|AIP|NOTAM).{0,220}(?:исключен|направлен|высот)"
+            r".{0,220}SOP.{0,100}(?:соответств|не\s+замен)",
+        )
+
+    def test_task12_fpl_decision_messages_and_closure_lifecycle_are_current(self):
+        chapter = self._read(TASK12_PREPARATION_CHAPTERS[2])
+        text = _plain_markdown(chapter)
+        for token in (
+            "SERA.4001", "SERA.4020", "ENR 1.10", "DLA", "CHG", "CNL", "ARR",
+            "FPMZ",
+        ):
+            self.assertIn(token, text)
+        for pattern in (
+            r"(?is)SERA.{0,120}(?:правов\w+\s+основ|норм).{0,180}ENR\s*1\.10.{0,120}(?:реализац|динамическ)",
+            r"(?is)(?:внутренн\w+|по\s+Испани).{0,100}(?:маршрут|перел[её]т).{0,160}не.{0,80}(?:автоматическ|всегда).{0,60}FPL",
+            r"(?is)(?:местн\w+|неконтролируем\w+).{0,100}не.{0,80}(?:автоматическ|всегда).{0,80}(?:освобожда|означает\s+отсутствие).{0,60}FPL",
+            r"(?is)FPL.{0,160}не.{0,70}(?:разрешени|авторизац).{0,120}(?:воздушн\w+\s+пространств|иностранн\w+\s+ULM)",
+            r"(?is)FPL.{0,180}не.{0,60}(?:всегда|автоматическ).{0,80}закрыва",
+            r"(?is)(?:адресат|подач).{0,120}(?:ATS|ARO|FPMZ).{0,180}(?:текущ\w+\s+AIP|AD)",
+            r"(?is)(?:активац|открыт).{0,160}(?:изменен|задержк).{0,160}(?:закрыт|ARR)",
+        ):
+            with self.subTest(lifecycle=pattern):
+                self.assertRegex(text, pattern)
+        for trigger in (
+            r"(?is)диспетчерск\w+\s+обслужив",
+            r"(?is)IFR.{0,100}консультативн\w+\s+воздушн\w+\s+пространств",
+            r"(?is)пол[её]тно-информационн.{0,160}поисково-спасательн",
+            r"(?is)военн\w+\s+орган.{0,160}ATS\s+соседн\w+\s+государств",
+            r"(?is)пересечен\w+\s+государственн\w+\s+границ",
+            r"(?is)ночн\w+\s+пол[её]т.{0,120}окрестност\w+\s+аэродром",
+        ):
+            with self.subTest(sera_4001_trigger=trigger):
+                self.assertRegex(text, trigger)
+        lifecycle = chapter.split("## Источники", 1)[0]
+        self.assertNotRegex(lifecycle, r"(?i)\+34\s*\d|[\w.+-]+@(?:enaire|transportes|aesa)\.")
+
+    def test_task12_manual_checklist_sop_course_hierarchy_and_stop_gate(self):
+        text = self._all_text()
+        hierarchy = re.search(
+            r"(?ms)^##\s+[^\n]*\{#source-hierarchy\}\s*$\n(.*?)(?=^##\s+|\Z)",
+            text,
+        )
+        self.assertIsNotNone(hierarchy, "missing #source-hierarchy section")
+        plain = _plain_markdown(hierarchy.group(1)) if hierarchy else ""
+        ordered = (
+            r"1\..{0,180}(?:закон|AIP|NOTAM|ATC)",
+            r"2\..{0,180}(?:AFM|POH|руководств).{0,100}(?:ограничен|таблич|placard|табличк)",
+            r"3\..{0,180}(?:чек-лист|контрольн\w+\s+карт)",
+            r"4\..{0,180}(?:SOP|аэродром|оператор|клуб|инструктор)",
+            r"5\..{0,180}(?:курс|учебн\w+\s+материал)",
+        )
+        positions = []
+        for pattern in ordered:
+            match = re.search(pattern, plain, re.IGNORECASE | re.DOTALL)
+            self.assertIsNotNone(match, pattern)
+            positions.append(match.start() if match else -1)
+        self.assertEqual(sorted(positions), positions)
+        self.assertRegex(
+            plain,
+            r"(?is)инструктор.{0,180}не.{0,80}(?:отменяет|переопределяет|выше).{0,80}(?:закон|AFM|POH)",
+        )
+        self.assertRegex(plain, r"(?is)конфликт.{0,100}(?:стоп|останов|не\s+лететь).{0,120}(?:разрешить|устранить|уточнить)")
+
+    def test_task12_shortcut_guard_rejects_unsafe_claims_and_accepts_negations(self):
+        unsafe = (
+            "ULM в Испании всегда ограничен 10 000 ft.",
+            "Для ULM универсально обязателен 30-минутный резерв.",
+            "Каждый внутренний перелёт требует FPL.",
+            "Местный неконтролируемый полёт: FPL никогда не нужен.",
+            "FPL всегда закрывается автоматически.",
+            "Наличие PPL превращает испанский ULM в Part-NCO.",
+            "Инструктор важнее AFM.",
+            "Навигационное приложение заменяет официальный AIS и AEMET.",
+            "Для всех ULM универсальна скорость захода.",
+            "ATC всегда гарантирует разделение спутного следа.",
+            "Сообщить клубу достаточно и заменяет официальное уведомление.",
+            "ENR 1.10 имеет приоритет над SERA.",
+            "Уход на второй круг — провал пилота.",
+            "Запомните универсальный чек-лист пожара.",
+        )
+        for probe in unsafe:
+            with self.subTest(unsafe=probe):
+                self.assertTrue(task12_unsafe_shortcut_errors(probe), probe)
+        safe = (
+            "ULM в Испании не всегда и не универсально ограничен 10 000 ft.",
+            "Для испанского ULM нет универсального 30-минутного резерва.",
+            "Не каждый внутренний перелёт требует FPL.",
+            "FPL не всегда закрывается автоматически.",
+            "Наличие PPL не превращает испанский ULM в Part-NCO.",
+            "Инструктор не отменяет AFM или закон.",
+            "Навигационное приложение не заменяет AIS, PIB или AEMET.",
+            "Нет универсальной скорости захода для всех ULM.",
+            "ATC не гарантирует разделение спутного следа во всяком VFR-контексте.",
+            "Сообщение клубу не заменяет официальное уведомление.",
+            "ENR 1.10 не имеет приоритета над SERA.",
+            "Уход на второй круг — нормальный вариант безопасности, а не провал.",
+            "Этот курс не даёт универсальный чек-лист пожара.",
+        )
+        for probe in safe:
+            with self.subTest(safe=probe):
+                self.assertEqual([], task12_unsafe_shortcut_errors(probe), probe)
+        self.assertEqual([], task12_unsafe_shortcut_errors(self._all_text()))
+
+    def test_task12_technique_sections_defer_exact_actions_to_aircraft_sources(self):
+        technique = re.compile(
+            r"(?i)(?:запуск|рулен|тормож|круг\w*\s+пол[её]т|взл[её]т|посад|"
+            r"боков\w+\s+ветр|коротк\w+\s+ВПП|мягк\w+\s+ВПП|отказ|"
+            r"потер\w+\s+мощност|пожар|дым|BRS|парашют|уход\w+\s+на\s+второй)"
+        )
+        checked = []
+        for relative_path in TASK12_OPERATION_CHAPTERS[:5]:
+            text = self._read(relative_path).split("## Контрольные вопросы", 1)[0]
+            sections = re.split(r"(?m)(?=^#{2,3}\s+)", text)
+            for section in sections:
+                if not technique.search(_plain_markdown(section)):
+                    continue
+                heading = re.search(r"(?m)^#{2,3}\s+([^\n]+)", section)
+                label = f"{relative_path}: {heading.group(1) if heading else '?'}"
+                checked.append(label)
+                with self.subTest(section=label):
+                    self.assertRegex(section, r"(?i)AFM|POH|руководств\w+\s+по\s+л[её]тн\w+\s+эксплуатац")
+                    self.assertRegex(section, r"(?i)чек-лист|контрольн\w+\s+карт")
+                    self.assertRegex(section, r"(?i)инструктор|обучен|подготовк")
+                    self.assertRegex(section, r"(?i)(?:точн\w+\s+действ|последовательност|скорост|конфигурац).{0,160}(?:тип|конкретн\w+\s+самол[её]т|AFM|POH)")
+        self.assertGreaterEqual(len(checked), 15)
+
+    def test_task12_post_incident_workflow_and_dynamic_authority_boundary(self):
+        chapter = self._read(TASK12_OPERATION_CHAPTERS[5])
+        text = _plain_markdown(chapter)
+        ordered_patterns = (
+            r"(?:жизн|спасен|экстренн\w+\s+служб)",
+            r"(?:немедленн\w+\s+уведомлен|уведомить\s+немедленно)",
+            r"(?:сохран|не\s+перемещ).{0,80}(?:мест|доказательств|обломк)",
+            r"(?:сотруднич|предостав).{0,80}(?:документ|информац)",
+            r"(?:отдельн|затем).{0,100}AESA.{0,100}(?:occurrence|событи)",
+            r"(?:владел|клуб|страхов|техобслужив)",
+        )
+        positions = []
+        for pattern in ordered_patterns:
+            match = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+            self.assertIsNotNone(match, pattern)
+            positions.append(match.start() if match else -1)
+        self.assertEqual(sorted(positions), positions)
+        for pinpoint in (
+            "RD 389/1998", "arts. 15–16", "Ley 2/2024", "arts. 6, 9", "21",
+            "RD 141/2026",
+        ):
+            self.assertIn(pinpoint, text)
+        self.assertRegex(text, r"(?is)(?:орган|ведомств|контакт|канал).{0,120}(?:динамическ|быстро\s+меня).{0,160}(?:текущ\w+\s+официальн|проверить)")
+        self.assertRegex(text, r"(?is)72\s*час.{0,180}(?:применимост|кто\s+пода[её]т|форма|канал).{0,180}(?:обнов|провер|динамическ)")
+        learner = chapter.split("## Источники", 1)[0]
+        self.assertNotRegex(learner, r"(?i)CIAIAC.{0,120}(?:@|\+34|телефон|email|correo)")
+
+    def test_task12_has_twelve_complete_decision_scenarios_with_current_data(self):
+        blocks = self._scenario_blocks()
+        self.assertGreaterEqual(len(blocks), 12)
+        required_labels = (
+            "Сигналы", "Применимый источник", "Варианты", "Решение",
+            "Граница AFM/чек-листа/инструктора", "AIP AIRAC/WEF", "AD/VAC",
+            "NOTAM/PIB", "Метеобрифинг", "Ревизия AFM/чек-листа",
+            "Время решения",
+        )
+        adverse = 0
+        for identifier, block in blocks.items():
+            with self.subTest(scenario=identifier):
+                for label in required_labels:
+                    self.assertRegex(block, rf"(?m)^\*\*{re.escape(label)}:\*\*\s*\S.+$")
+                cited = set(re.findall(r"SRC-[A-Z0-9-]+", block))
+                self.assertTrue(cited, identifier)
+                self.assertRegex(block, r"(?i)(?:СТОП|GO|NO-GO|ОТМЕН|ПРЕРВАТЬ|DIVERT|УХОД|САДИТЬСЯ|ПОСАДК)")
+                decision = re.search(r"(?m)^\*\*Решение:\*\*\s*(.+)$", block)
+                if decision and re.search(
+                    r"(?i)(?:NO-GO|ОТМЕН|ПРЕРВАТЬ|DIVERT|НЕ\s+ВЫЛЕТАТЬ|УХОД|САДИТЬСЯ|ПОСАДК)",
+                    decision.group(1),
+                ):
+                    adverse += 1
+        self.assertGreaterEqual(adverse, 3)
+        combined = _plain_markdown("\n".join(blocks.values())).casefold()
+        for topic in (
+            "перрон", "рулен", "круг", "спутн", "боков", "мощност", "пожар",
+            "событи", "местн", "маршрут",
+        ):
+            self.assertIn(topic, combined)
+
+    def test_task12_has_fifty_original_anchored_questions_four_per_chapter(self):
+        questions = []
+        errors = []
+        chapter_counts = []
+        registered = {
+            item["id"]
+            for item in json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+        }
+        identifiers = set()
+        for relative_path in TASK12_CHAPTERS:
+            text = self._read(relative_path)
+            chapter_questions = parsed_question_blocks(text)
+            questions.extend(chapter_questions)
+            chapter_counts.append(len(chapter_questions))
+            errors.extend(
+                f"{relative_path}: {error}" for error in question_block_errors(text)
+            )
+            anchors = markdown_anchors(text)
+            for question in chapter_questions:
+                self.assertTrue(question["id"].startswith("Q-OPS-"), question["id"])
+                self.assertNotIn(question["id"], identifiers)
+                identifiers.add(question["id"])
+                self.assertIn(question["anchor"], anchors, question["id"])
+                theory = re.search(
+                    r"(?m)^\*\*Опора в теории:\*\*\s*"
+                    r"\[[^]\n]+\]\(#([a-z][a-z0-9-]*)\)\.?\s*$",
+                    question["body"],
+                )
+                self.assertIsNotNone(theory, question["id"])
+                if theory:
+                    self.assertIn(theory.group(1), anchors, question["id"])
+                    self.assertNotEqual(theory.group(1), question["anchor"], question["id"])
+                source = re.search(r"(?m)^\*\*Источник:\*\*\s*(.+)$", question["body"])
+                self.assertIsNotNone(source, question["id"])
+                if source:
+                    cited = set(re.findall(r"SRC-[A-Z0-9-]+", source.group(1)))
+                    self.assertTrue(cited, question["id"])
+                    self.assertTrue(cited <= registered, (question["id"], cited - registered))
+        self.assertEqual([], errors)
+        self.assertGreaterEqual(len(questions), 50)
+        self.assertTrue(all(count >= 4 for count in chapter_counts), chapter_counts)
+
+    def test_task12_planning_worksheet_is_complete_and_not_cockpit_checklist(self):
+        worksheet = self._read(TASK12_REFERENCE)
+        text = _plain_markdown(worksheet)
+        self.assertRegex(text, r"(?is)(?:планировочн\w+|проверочн\w+)\s+лист.{0,180}не.{0,80}(?:кабинн\w+|cockpit|чек-лист\w+\s+действ)")
+        required_fields = (
+            r"(?:AFM|POH|руководств).{0,80}(?:дата|ревизи)",
+            r"чек-лист.{0,80}(?:дата|ревизи)",
+            r"(?:л[её]тн\w+\s+годност|airworthiness).{0,100}(?:статус|дата)",
+            r"техобслужив.{0,100}(?:статус|дата)",
+            r"AIP.{0,40}AIRAC.{0,40}WEF",
+            r"AD/VAC.{0,80}(?:дата|ревизи)",
+            r"NOTAM/PIB.{0,80}(?:время|получен)",
+            r"(?:погод|метеобрифинг).{0,80}(?:время|получен)",
+            r"(?:W&B|масс\w+\s+и\s+центровк).{0,100}(?:источник|расч[её]т)",
+            r"характеристик.{0,100}(?:источник|расч[её]т)",
+            r"топливн\w+\s+политик.{0,100}(?:норм|источник|основан)",
+            r"\bPPR\b.{0,80}(?:статус|источник|подтвержден)",
+            r"(?:связ|частот).{0,100}(?:статус|источник)",
+            r"\bSSR\b.{0,80}(?:статус|требован|источник)",
+            r"\bFPL\b.{0,100}(?:статус|сообщен|DLA|CHG|CNL|ARR)",
+            r"(?:GO|NO-GO).{0,80}(?:отмен|ворот|решени)",
+        )
+        for pattern in required_fields:
+            with self.subTest(field=pattern):
+                self.assertRegex(text, pattern)
+        self.assertGreaterEqual(worksheet.count("|"), 60)
+
+    def test_task12_local_and_cross_country_scenarios_are_end_to_end(self):
+        local = _plain_markdown(self._read(TASK12_PREPARATION_CHAPTERS[3]))
+        cross_country = _plain_markdown(self._read(TASK12_PREPARATION_CHAPTERS[4]))
+        shared_gates = (
+            "привилег", "самочувств", "документ", "лётн", "дефект", "aip",
+            "notam", "погод", "воздушн", "аэродром", "центров", "характеристик",
+            "топлив", "связ", "fpl", "отмен",
+        )
+        for name, text in (("local", local), ("cross-country", cross_country)):
+            for gate in shared_gates:
+                with self.subTest(scenario=name, gate=gate):
+                    self.assertIn(gate, text.casefold())
+            self.assertRegex(text, r"(?is)(?:GO|NO-GO).{0,180}(?:решени|ворот|отмен)")
+            self.assertRegex(text, r"(?is)(?:УЧЕБН|синтетическ).{0,100}(?:НЕ\s+ДЛЯ\s+ПОЛ[ЕЁ]ТА|условн\w+\s+данн)")
+        for extra in (
+            "маршрут", "рельеф", "запасн", "изменение маршрута", "ssr", "мониторинг",
+            "прибыт", "закрыт", "журнал",
+        ):
+            self.assertIn(extra, cross_country.casefold())
+        self.assertRegex(local, r"(?is)(?:тот\s+же|same).{0,80}(?:площадк|аэродром).{0,80}(?:видим|sight).{0,180}NCO\.OP\.125")
+        self.assertRegex(local, r"(?is)\[PART-FCL\s+—\s+ОБЩЕЕ\].{0,500}NCO\.OP\.125")
+        self.assertEqual([], cross_border_procedure_errors(self._read(TASK12_PREPARATION_CHAPTERS[4])))
+
+    def test_task12_svgs_are_accessible_mobile_and_semantically_geometric(self):
+        required_ids = (
+            {
+                "upwind-leg", "crosswind-leg", "downwind-leg", "base-leg",
+                "final-leg", "lookout", "wake", "go-around", "local-data-warning",
+            },
+            {
+                "energy", "landing-area", "occupants", "communication", "rescue",
+                "forced-branch", "precautionary-branch",
+            },
+            {
+                "pilot-gate", "aircraft-gate", "environment-gate", "data-gate",
+                "performance-fuel-gate", "comms-fpl-gate", "decision-gate",
+                "go-path", "refresh-path", "no-go-path", "reassess-path",
+            },
+        )
+        for relative_path, semantic_ids in zip(TASK12_SVGS, required_ids):
+            path = ROOT / relative_path
+            self.assertTrue(path.is_file(), relative_path)
+            root = ET.parse(path).getroot()
+            ns = "{http://www.w3.org/2000/svg}"
+            with self.subTest(svg=relative_path):
+                self.assertEqual(f"{ns}svg", root.tag)
+                self.assertEqual("img", root.attrib.get("role"))
+                self.assertTrue(root.attrib.get("aria-labelledby"))
+                self.assertIsNotNone(root.find(f"{ns}title"))
+                self.assertIsNotNone(root.find(f"{ns}desc"))
+                self.assertFalse(list(root.iter(f"{ns}image")))
+                viewbox = tuple(float(value) for value in root.attrib["viewBox"].split())
+                self.assertEqual(4, len(viewbox))
+                _, _, width, _ = viewbox
+                self.assertLessEqual(width, 760)
+                sizes = [
+                    float(node.attrib["font-size"].removesuffix("px"))
+                    for node in root.iter(f"{ns}text")
+                    if "font-size" in node.attrib
+                ]
+                self.assertTrue(sizes)
+                self.assertGreaterEqual(min(sizes) * 340 / width, 13.0)
+                ids = {
+                    node.attrib["id"] for node in root.iter() if "id" in node.attrib
+                }
+                self.assertTrue(semantic_ids <= ids, semantic_ids - ids)
+                geometry_tags = {
+                    f"{ns}path", f"{ns}line", f"{ns}polyline", f"{ns}polygon",
+                    f"{ns}rect", f"{ns}circle", f"{ns}ellipse",
+                }
+                self.assertGreaterEqual(
+                    sum(1 for node in root.iter() if node.tag in geometry_tags), 12
+                )
+                words = " ".join(root.itertext())
+                self.assertIn("КОНЦЕПТУАЛЬНО — НЕ ЧЕК-ЛИСТ", words)
+        circuit = " ".join(ET.parse(ROOT / TASK12_SVGS[0]).getroot().itertext())
+        self.assertRegex(circuit, r"(?is)(?:текущ\w+\s+AD/VAC).{0,100}(?:направлен|высот|местн)")
+
+    def test_task12_svg_edges_reference_and_touch_real_geometry(self):
+        def topology_errors(root):
+            by_id = {
+                node.attrib["id"]: node
+                for node in root.iter()
+                if "id" in node.attrib
+            }
+
+            def endpoints(node):
+                tag = node.tag.rsplit("}", 1)[-1]
+                if tag == "line":
+                    return (
+                        (float(node.attrib["x1"]), float(node.attrib["y1"])),
+                        (float(node.attrib["x2"]), float(node.attrib["y2"])),
+                    )
+                if tag in {"path", "polyline"}:
+                    source = node.attrib.get("d", node.attrib.get("points", ""))
+                    numbers = [
+                        float(value)
+                        for value in re.findall(r"-?\d+(?:\.\d+)?", source)
+                    ]
+                    if len(numbers) >= 4 and len(numbers) % 2 == 0:
+                        return (tuple(numbers[:2]), tuple(numbers[-2:]))
+                return None
+
+            def touches(point, box, tolerance=4.0):
+                x, y = point
+                bx, by, width, height = box
+                dx = max(bx - x, 0, x - (bx + width))
+                dy = max(by - y, 0, y - (by + height))
+                return dx * dx + dy * dy <= tolerance * tolerance
+
+            errors = []
+            edges = [
+                node for node in root.iter()
+                if node.attrib.get("data-from") and node.attrib.get("data-to")
+            ]
+            if len(edges) < 3:
+                errors.append("fewer than three semantic edges")
+            for edge in edges:
+                source = edge.attrib["data-from"]
+                target = edge.attrib["data-to"]
+                if source not in by_id or target not in by_id:
+                    errors.append(f"unknown endpoint {source}->{target}")
+                    continue
+                points = endpoints(edge)
+                source_box = element_bbox(by_id[source])
+                target_box = element_bbox(by_id[target])
+                if points is None or source_box is None or target_box is None:
+                    errors.append(f"missing real geometry {source}->{target}")
+                    continue
+                start, end = points
+                if not touches(start, source_box):
+                    errors.append(f"detached start {source}->{target}")
+                if not touches(end, target_box):
+                    errors.append(f"detached end {source}->{target}")
+                if not edge.attrib.get("marker-end", "").startswith("url(#"):
+                    errors.append(f"missing arrow {source}->{target}")
+            return errors
+
+        for relative_path in TASK12_SVGS:
+            path = ROOT / relative_path
+            self.assertTrue(path.is_file(), relative_path)
+            root = ET.parse(path).getroot()
+            with self.subTest(svg=relative_path):
+                self.assertEqual([], topology_errors(root))
+
+        root = ET.parse(ROOT / TASK12_SVGS[2]).getroot()
+        mutated = ET.fromstring(ET.tostring(root, encoding="unicode"))
+        edge = next(
+            node for node in mutated.iter()
+            if node.attrib.get("data-from") and node.attrib.get("data-to")
+        )
+        if edge.tag.rsplit("}", 1)[-1] == "line":
+            edge.attrib.update({"x1": "-100", "y1": "-100"})
+        else:
+            edge.attrib["d"] = "M -100 -100 L -90 -90"
+        self.assertTrue(topology_errors(mutated))
 
 
 if __name__ == "__main__":

@@ -2275,5 +2275,170 @@
     "definition": "Градиент набора — отношение набранной высоты к горизонтальному расстоянию; для перевода скороподъёмности в градиент относительно земли требуется путевая скорость.",
     "anchor": "term-climb-gradient",
     "defined_in": "docs/reference/glossary.md#term-climb-gradient"
+  },
+  {
+    "id": "term-standard-operating-procedure-sop",
+    "canonical": "standard operating procedure (SOP)",
+    "english": "standard operating procedure",
+    "spanish": "procedimiento operativo estándar",
+    "russian": "стандартная эксплуатационная процедура",
+    "abbreviation": "SOP",
+    "definition": "SOP описывает согласованный способ работы организации, аэродрома или клуба в своей области применимости. Она не отменяет право, разрешение ATC, ограничения AFM/POH или контрольную карту конкретного самолёта.",
+    "anchor": "term-standard-operating-procedure-sop",
+    "defined_in": "docs/reference/glossary.md#term-standard-operating-procedure-sop"
+  },
+  {
+    "id": "term-aerodrome-traffic-circuit",
+    "canonical": "aerodrome traffic circuit",
+    "english": "aerodrome traffic circuit",
+    "spanish": "circuito de tránsito de aeródromo",
+    "russian": "аэродромный круг полётов",
+    "abbreviation": null,
+    "definition": "Аэродромный круг полётов организует движение вокруг аэродрома через именованные участки. Если иное не указано и не предписано ATC, SERA.3225(c) задаёт левые повороты; высота, вход, точки доклада, исключение для стороны и остальные ограничения берутся из текущих AD/VAC, NOTAM, разрешения и местной процедуры.",
+    "anchor": "term-aerodrome-traffic-circuit",
+    "defined_in": "docs/reference/glossary.md#term-aerodrome-traffic-circuit"
+  },
+  {
+    "id": "term-wake-turbulence",
+    "canonical": "wake turbulence",
+    "english": "wake turbulence",
+    "spanish": "turbulencia de estela",
+    "russian": "турбулентность спутного следа",
+    "abbreviation": null,
+    "definition": "Турбулентность спутного следа включает вихревые и иные возмущения за воздушным судном. Риск зависит от создающего борта, ветра, траектории, расстояния и времени; обслуживание ATC не устраняет обязанность пилота оценивать применимый риск.",
+    "anchor": "term-wake-turbulence",
+    "defined_in": "docs/reference/glossary.md#term-wake-turbulence"
+  },
+  {
+    "id": "term-go-around",
+    "canonical": "go-around",
+    "english": "go-around",
+    "spanish": "motor y al aire",
+    "russian": "уход на второй круг",
+    "abbreviation": null,
+    "definition": "Уход на второй круг — нормальное решение прекратить продолжение захода или посадки и восстановить безопасный профиль. Точные действия, скорость и конфигурация принадлежат AFM/POH, контрольной карте и подготовке на конкретном типе.",
+    "anchor": "term-go-around",
+    "defined_in": "docs/reference/glossary.md#term-go-around"
+  },
+  {
+    "id": "term-precautionary-landing",
+    "canonical": "precautionary landing",
+    "english": "precautionary landing",
+    "spanish": "aterrizaje de precaución",
+    "russian": "предупредительная посадка",
+    "abbreviation": null,
+    "definition": "Предупредительная посадка выбирается до утраты возможности продолжать полёт, когда раннее завершение снижает растущий риск. Она отличается от вынужденной посадки сохранением большего времени и выбора, но точная техника остаётся привязанной к конкретному типу, самолёту, AFM/POH, контрольной карте и подготовке с инструктором.",
+    "anchor": "term-precautionary-landing",
+    "defined_in": "docs/reference/glossary.md#term-precautionary-landing"
+  },
+  {
+    "id": "term-forced-landing",
+    "canonical": "forced landing",
+    "english": "forced landing",
+    "spanish": "aterrizaje forzoso",
+    "russian": "вынужденная посадка",
+    "abbreviation": null,
+    "definition": "Вынужденная посадка требуется из-за состояния, при котором продолжение обычного полёта невозможно или небезопасно. Приоритеты управления энергией и выбора достижимой зоны не являются универсальной последовательностью действий в кабине.",
+    "anchor": "term-forced-landing",
+    "defined_in": "docs/reference/glossary.md#term-forced-landing"
+  },
+  {
+    "id": "term-pre-flight-information-bulletin-pib",
+    "canonical": "pre-flight information bulletin (PIB)",
+    "english": "pre-flight information bulletin",
+    "spanish": "boletín de información previa al vuelo",
+    "russian": "бюллетень предполётной информации",
+    "abbreviation": "PIB",
+    "definition": "PIB собирает относящиеся к выбранной области и времени NOTAM для предполётного брифинга. Его полнота зависит от параметров запроса и времени получения; сохранённый PIB необходимо обновлять по условиям реального вылета.",
+    "anchor": "term-pre-flight-information-bulletin-pib",
+    "defined_in": "docs/reference/glossary.md#term-pre-flight-information-bulletin-pib"
+  },
+  {
+    "id": "term-prior-permission-required-ppr",
+    "canonical": "prior permission required (PPR)",
+    "english": "prior permission required",
+    "spanish": "permiso previo requerido",
+    "russian": "предварительное разрешение на использование аэродрома",
+    "abbreviation": "PPR",
+    "definition": "PPR означает необходимость заранее получить предусмотренное разрешение владельца или эксплуатанта аэродрома. Оно не заменяет проверку приёма ULM, часов, состояния полосы, AIP/NOTAM или разрешения воздушного пространства.",
+    "anchor": "term-prior-permission-required-ppr",
+    "defined_in": "docs/reference/glossary.md#term-prior-permission-required-ppr"
+  },
+  {
+    "id": "term-flight-plan-mandatory-zone-fpmz",
+    "canonical": "flight plan mandatory zone (FPMZ)",
+    "english": "flight plan mandatory zone",
+    "spanish": "zona de presentación obligatoria de plan de vuelo",
+    "russian": "зона обязательной подачи плана полёта",
+    "abbreviation": "FPMZ",
+    "definition": "FPMZ — опубликованная зона, в которой применяется требование к плану полёта. Её наличие, границы и условия являются динамическими данными текущего AIP/NOTAM; курс не хранит постоянный перечень таких зон.",
+    "anchor": "term-flight-plan-mandatory-zone-fpmz",
+    "defined_in": "docs/reference/glossary.md#term-flight-plan-mandatory-zone-fpmz"
+  },
+  {
+    "id": "term-accident",
+    "canonical": "accident",
+    "english": "accident",
+    "spanish": "accidente",
+    "russian": "авиационное происшествие",
+    "abbreviation": null,
+    "definition": "Авиационное происшествие — юридически определённая категория события. Классификацию и каналы уведомления устанавливают применимые нормы и текущие официальные страницы; внутреннее сообщение клубу или страховщику её не заменяет.",
+    "anchor": "term-accident",
+    "defined_in": "docs/reference/glossary.md#term-accident"
+  },
+  {
+    "id": "term-serious-incident",
+    "canonical": "serious incident",
+    "english": "serious incident",
+    "spanish": "incidente grave",
+    "russian": "серьёзный авиационный инцидент",
+    "abbreviation": null,
+    "definition": "Серьёзный инцидент — юридическая категория инцидента с высокой вероятностью происшествия. Пилот не откладывает требуемое уведомление ради самостоятельной окончательной классификации и проверяет текущий официальный канал.",
+    "anchor": "term-serious-incident",
+    "defined_in": "docs/reference/glossary.md#term-serious-incident"
+  },
+  {
+    "id": "term-delay-message-dla",
+    "canonical": "delay message (DLA)",
+    "english": "delay message",
+    "spanish": "mensaje de demora",
+    "russian": "сообщение о задержке плана полёта",
+    "abbreviation": "DLA",
+    "definition": "Сообщение DLA передаёт требуемое обновление при задержке ранее представленного FPL. Конкретный порог, адресат и способ подачи проверяются по SERA.4015 и текущей испанской реализации AIP ENR 1.10.",
+    "anchor": "term-delay-message-dla",
+    "defined_in": "docs/reference/glossary.md#term-delay-message-dla"
+  },
+  {
+    "id": "term-change-message-chg",
+    "canonical": "change message (CHG)",
+    "english": "change message",
+    "spanish": "mensaje de cambio",
+    "russian": "сообщение об изменении плана полёта",
+    "abbreviation": "CHG",
+    "definition": "Сообщение CHG передаёт допустимое изменение данных представленного FPL. Если требуемое изменение нельзя внести CHG, применяется текущая процедура отмены и новой подачи.",
+    "anchor": "term-change-message-chg",
+    "defined_in": "docs/reference/glossary.md#term-change-message-chg"
+  },
+  {
+    "id": "term-cancellation-message-cnl",
+    "canonical": "cancellation message (CNL)",
+    "english": "cancellation message",
+    "spanish": "mensaje de cancelación",
+    "russian": "сообщение об отмене плана полёта",
+    "abbreviation": "CNL",
+    "definition": "Сообщение CNL отменяет ранее представленный FPL, когда полёт по нему не выполняется или текущая процедура требует отмены перед новой подачей. Оно не является сообщением о прибытии.",
+    "anchor": "term-cancellation-message-cnl",
+    "defined_in": "docs/reference/glossary.md#term-cancellation-message-cnl"
+  },
+  {
+    "id": "term-arrival-message-arr",
+    "canonical": "arrival message (ARR)",
+    "english": "arrival message",
+    "spanish": "mensaje de llegada",
+    "russian": "сообщение о прибытии",
+    "abbreviation": "ARR",
+    "definition": "Сообщение ARR используется для требуемого донесения о прибытии и закрытия FPL по SERA.4020 и текущей реализации. Сам факт посадки не всегда доказывает подтверждённое закрытие плана.",
+    "anchor": "term-arrival-message-arr",
+    "defined_in": "docs/reference/glossary.md#term-arrival-message-arr"
   }
 ]

@@ -109,7 +109,7 @@
 
 **Тип обслуживания:** контролируемое ATS.<br>
 **Контекст:** три альтернативных момента одной учебной последовательности; в реальном обмене возникает только одна ветвь.<br>
-**English:** Landing branch: station `[CALLSIGN], RUNWAY [RUNWAY] CLEARED TO LAND`; pilot `RUNWAY [RUNWAY] CLEARED TO LAND, [CALLSIGN]`. Go-around branch: station `[CALLSIGN], GO AROUND`; pilot `GOING AROUND, [CALLSIGN]`. After landing and fully clear: pilot `[CALLSIGN], RUNWAY VACATED`.<br>
+**English:** Landing branch: station `[CALLSIGN], RUNWAY [RUNWAY] CLEARED TO LAND`; pilot `RUNWAY [RUNWAY] CLEARED TO LAND, [CALLSIGN]`. [Go-around](../reference/glossary.md#term-go-around) branch: station `[CALLSIGN], GO AROUND`; pilot `GOING AROUND, [CALLSIGN]`. After landing and fully clear: pilot `[CALLSIGN], RUNWAY VACATED`.<br>
 **Español:** Rama aterrizaje: estación `[CALLSIGN], PISTA [RUNWAY] AUTORIZADO PARA ATERRIZAR`; piloto `PISTA [RUNWAY] AUTORIZADO PARA ATERRIZAR, [CALLSIGN]`. Rama motor y al aire: estación `[CALLSIGN], MOTOR Y AL AIRE`; piloto `MOTOR Y AL AIRE, [CALLSIGN]`. Tras liberar: piloto `[CALLSIGN], PISTA LIBRE`.<br>
 **Пояснение:** разрешение на посадку отличается от доклада на прямой; уход на второй круг может быть указанием ATC или решением пилота по безопасности.<br>
 **[Readback][readback]/[acknowledgement][acknowledgement]:** разрешение на посадку включает ВПП; уход подтверждают быстро, не задерживая управление траекторией.<br>

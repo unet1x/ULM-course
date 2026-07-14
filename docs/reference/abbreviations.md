@@ -120,3 +120,11 @@
 | PSR | [primary surveillance radar (PSR)](glossary.md#term-primary-surveillance-radar-psr) | первичный обзорный радиолокатор |
 | Mode A | [Mode A](glossary.md#term-mode-a) | код ответчика без передачи барометрической высоты |
 | Mode C | [Mode C](glossary.md#term-mode-c) | ответчик с передачей кодированной барометрической высоты |
+| SOP | [standard operating procedure (SOP)](glossary.md#term-standard-operating-procedure-sop) | стандартная эксплуатационная процедура организации, аэродрома или клуба |
+| PIB | [pre-flight information bulletin (PIB)](glossary.md#term-pre-flight-information-bulletin-pib) | бюллетень предполётной информации |
+| PPR | [prior permission required (PPR)](glossary.md#term-prior-permission-required-ppr) | предварительное разрешение на использование аэродрома |
+| FPMZ | [flight plan mandatory zone (FPMZ)](glossary.md#term-flight-plan-mandatory-zone-fpmz) | зона обязательной подачи плана полёта |
+| DLA | [delay message (DLA)](glossary.md#term-delay-message-dla) | сообщение о задержке плана полёта |
+| CHG | [change message (CHG)](glossary.md#term-change-message-chg) | сообщение об изменении плана полёта |
+| CNL | [cancellation message (CNL)](glossary.md#term-cancellation-message-cnl) | сообщение об отмене плана полёта |
+| ARR | [arrival message (ARR)](glossary.md#term-arrival-message-arr) | сообщение о прибытии и закрытии FPL |

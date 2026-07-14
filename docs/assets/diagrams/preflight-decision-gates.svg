@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 1740" role="img" aria-labelledby="preflight-title preflight-desc">
+  <title id="preflight-title">Ворота предполётного решения</title>
+  <desc id="preflight-desc">Связная концептуальная схема проверки пилота, воздушного судна, среды, текущих данных, массы, характеристик, топлива, связи и плана полёта с отдельным исходом GO и ветвями обновления, запрета вылета и повторной оценки. Это не кабинный чек-лист.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F3D56"/>
+    </marker>
+    <style>
+      .bg { fill: #F7FAFC; }
+      .gate { fill: #FFFFFF; stroke: #0F3D56; stroke-width: 4; rx: 18; }
+      .risk { fill: #FFF4E5; stroke: #9A4D00; stroke-width: 4; rx: 18; }
+      .stop { fill: #FDECEC; stroke: #8B1E1E; stroke-width: 4; rx: 18; }
+      .good { fill: #EAF7EF; stroke: #176B3A; stroke-width: 4; rx: 18; }
+      .edge { fill: none; stroke: #0F3D56; stroke-width: 5; marker-end: url(#arrow); }
+      .title { font: 700 36px sans-serif; fill: #102A43; text-anchor: middle; }
+      .label { font: 700 31px sans-serif; fill: #102A43; text-anchor: middle; }
+      .small { font: 400 30px sans-serif; fill: #243B53; text-anchor: middle; }
+      .warning { font: 700 30px sans-serif; fill: #8B1E1E; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="740" height="1740"/>
+  <text class="title" font-size="36" x="370" y="50">Предполётные ворота решения</text>
+  <text class="warning" font-size="30" x="370" y="92">КОНЦЕПТУАЛЬНО — НЕ ЧЕК-ЛИСТ</text>
+
+  <g id="pilot-gate">
+    <rect class="gate" x="40" y="120" width="660" height="110"/>
+    <text class="label" font-size="31" x="370" y="162">1. Пилот</text>
+    <text class="small" font-size="30" x="370" y="203">привилегии · актуальность · готовность</text>
+  </g>
+
+  <line id="edge-pilot-aircraft" class="edge" x1="370" y1="230" x2="370" y2="280" data-from="pilot-gate" data-to="aircraft-gate" marker-end="url(#arrow)"/>
+
+  <g id="aircraft-gate">
+    <rect class="gate" x="40" y="280" width="660" height="110"/>
+    <text class="label" font-size="31" x="370" y="322">2. Воздушное судно</text>
+    <text class="small" font-size="30" x="370" y="363">документы · годность · дефекты · AFM</text>
+  </g>
+
+  <line id="edge-aircraft-environment" class="edge" x1="370" y1="390" x2="370" y2="440" data-from="aircraft-gate" data-to="environment-gate" marker-end="url(#arrow)"/>
+
+  <g id="environment-gate">
+    <rect class="gate" x="40" y="440" width="660" height="110"/>
+    <text class="label" font-size="31" x="370" y="482">3. Среда и миссия</text>
+    <text class="small" font-size="30" x="370" y="523">погода · пространство · аэродром · рельеф</text>
+  </g>
+
+  <line id="edge-environment-data" class="edge" x1="370" y1="550" x2="370" y2="600" data-from="environment-gate" data-to="data-gate" marker-end="url(#arrow)"/>
+
+  <g id="data-gate">
+    <rect class="gate" x="40" y="600" width="660" height="110"/>
+    <text class="label" font-size="31" x="370" y="642">4. Текущие данные</text>
+    <text class="small" font-size="30" x="370" y="683">AIRAC/WEF · AD/VAC · PIB · AEMET</text>
+  </g>
+
+  <line id="edge-data-performance" class="edge" x1="370" y1="710" x2="370" y2="760" data-from="data-gate" data-to="performance-fuel-gate" marker-end="url(#arrow)"/>
+
+  <g id="performance-fuel-gate">
+    <rect class="gate" x="40" y="760" width="660" height="110"/>
+    <text class="label" font-size="31" x="370" y="802">5. Масса · характеристики · топливо</text>
+    <text class="small" font-size="30" x="370" y="843">источник · расчёт · запас · вариант</text>
+  </g>
+
+  <line id="edge-performance-comms" class="edge" x1="370" y1="870" x2="370" y2="920" data-from="performance-fuel-gate" data-to="comms-fpl-gate" marker-end="url(#arrow)"/>
+
+  <g id="comms-fpl-gate">
+    <rect class="gate" x="40" y="920" width="660" height="110"/>
+    <text class="label" font-size="31" x="370" y="962">6. Связь · SSR · FPL</text>
+    <text class="small" font-size="30" x="370" y="1003">требование · статус · сообщения · закрытие</text>
+  </g>
+
+  <line id="edge-comms-decision" class="edge" x1="370" y1="1030" x2="370" y2="1080" data-from="comms-fpl-gate" data-to="decision-gate" marker-end="url(#arrow)"/>
+
+  <g id="decision-gate">
+    <rect class="risk" x="40" y="1080" width="660" height="110"/>
+    <text class="label" font-size="31" x="370" y="1122">7. Все доказательства согласованы?</text>
+    <text class="small" font-size="30" x="370" y="1163">да → GO · иначе → безопасная ветвь</text>
+  </g>
+
+  <g id="go-path">
+    <rect class="good" x="270" y="1240" width="200" height="100"/>
+    <text class="label" font-size="31" x="370" y="1302">GO</text>
+  </g>
+
+  <line id="edge-decision-go" class="edge" x1="370" y1="1190" x2="370" y2="1240" data-from="decision-gate" data-to="go-path" marker-end="url(#arrow)"/>
+  <polyline id="edge-decision-refresh" class="edge" points="170,1190 120,1370 140,1420" data-from="decision-gate" data-to="refresh-path" marker-end="url(#arrow)"/>
+  <polyline id="edge-decision-no-go" class="edge" points="260,1190 250,1370 370,1420" data-from="decision-gate" data-to="no-go-path" marker-end="url(#arrow)"/>
+  <polyline id="edge-decision-reassess" class="edge" points="570,1190 620,1370 600,1420" data-from="decision-gate" data-to="reassess-path" marker-end="url(#arrow)"/>
+
+  <g id="refresh-path">
+    <rect class="risk" x="40" y="1420" width="200" height="160"/>
+    <text class="label" font-size="31" x="140" y="1470">ОБНОВИТЬ</text>
+    <text class="small" font-size="30" x="140" y="1512">данные</text>
+    <text class="small" font-size="30" x="140" y="1552">и повторить</text>
+  </g>
+
+  <g id="no-go-path">
+    <rect class="stop" x="270" y="1420" width="200" height="160"/>
+    <text class="label" font-size="31" x="370" y="1470">NO-GO</text>
+    <text class="small" font-size="30" x="370" y="1512">отмена</text>
+    <text class="small" font-size="30" x="370" y="1552">или перенос</text>
+  </g>
+
+  <g id="reassess-path">
+    <rect class="good" x="500" y="1420" width="200" height="160"/>
+    <text class="label" font-size="31" x="600" y="1470">ПОВТОРИТЬ</text>
+    <text class="small" font-size="30" x="600" y="1512">затронутые</text>
+    <text class="small" font-size="30" x="600" y="1552">ворота</text>
+  </g>
+
+  <g id="scope-warning">
+    <rect class="stop" x="40" y="1620" width="660" height="85"/>
+    <text class="warning" font-size="30" x="370" y="1671">Неизвестное поле = ворота не пройдены</text>
+  </g>
+</svg>

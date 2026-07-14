@@ -15,7 +15,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-standardised-european?erules-id=ERULES-1963177438-9807",
     "edition": "онлайн-консолидация, revision August 2025",
     "checked": "2026-07-13",
-    "scope": "SERA.2010(b) pre-flight information, fuel/energy and alternative-course logic; SERA.11012/GM fuel-state communication meaning for MINIMUM FUEL and MAYDAY FUEL; SERA.4001 flight-plan submission including international borders; SERA.3401 time system; SERA.8015(e) и GM1 SERA.8015(ec) readback/conditional clearance; SERA.8025 position reports после Regulation (EU) 2024/404; SERA.13001/SERA.13005 SSR; SERA.14001, SERA.14015, SERA.14020, SERA.14035, SERA.14040, SERA.14045, SERA.14050, SERA.14055, SERA.14070, SERA.14075, SERA.14083, SERA.14085 и SERA.14095; Appendix 1 Table AP 1-1 light signals; текущие национальные AIP/NOTAM применяются дополнительно"
+    "scope": "SERA.2010(a) responsibility and SERA.2010(b) pre-flight information; SERA.3105 minimum-height baseline; SERA.3210 right-of-way and wake awareness; SERA.3225 operation on and in the vicinity of an aerodrome; SERA.4001–.4020 flight-plan triggers, content, acceptance, changes and arrival report; SERA.5001 VMC minima; SERA.5005 VFR and night-VFR conditions; SERA.8012 ATS wake-turbulence separation scope. Also SERA.11012/GM fuel-state communication meaning for MINIMUM FUEL and MAYDAY FUEL; SERA.3401 time; SERA.8015(e) and GM1 SERA.8015(ec) readback/conditional clearance; SERA.8025 position reports; SERA.13001/SERA.13005 SSR; SERA.14001, SERA.14015, SERA.14020, SERA.14035, SERA.14040, SERA.14045, SERA.14050, SERA.14055, SERA.14070, SERA.14075, SERA.14083, SERA.14085 и SERA.14095 communications; Appendix 1 Table AP 1-1 light signals. Current national AIP/NOTAM apply additionally; neither an accepted FPL nor ATS service removes PIC responsibility"
   },
   {
     "id": "SRC-EURLEX-1178-2011",
@@ -78,7 +78,7 @@
     "url": "https://www.boe.es/eli/es/rd/2022/09/20/765/con",
     "edition": "консолидировано 12.03.2026; изменения действуют с 01.04.2026",
     "checked": "2026-07-13",
-    "scope": "Испанские категории и эксплуатация; arts. 1.2, 1.4 и 3 различают category mass ceilings, design empty-mass formula including the one-hour fuel term and aircraft documents: это не MTOM каждого борта и не operational reserve. art. 4.1(d), (e), (f) и art. 4.2 после RD 182/2026: controlled airspace и ночной VFR требуют установленного нормой оборудования и действующих эквивалентных полномочий Part-FCL; за пределами Испании применяются требования государства пролёта; применяется с 01.04.2026"
+    "scope": "Испанские категории и эксплуатация; arts. 1.2, 1.4 и 3 различают category mass ceilings, design empty-mass formula including the one-hour fuel term and aircraft documents: это не MTOM каждого борта и не operational reserve. art. 4.1(c) после RD 182/2026 устанавливает кислородные условия 10 000–13 000 ft и выше 13 000 ft, а не универсальный потолок ULM. art. 4.1(d), (e), (f) и art. 4.2: controlled airspace и ночной VFR требуют установленного нормой оборудования и действующих эквивалентных полномочий Part-FCL; за пределами Испании применяются требования государства пролёта; редакция применяется с 01.04.2026"
   },
   {
     "id": "SRC-BOE-RD-141-2025",
@@ -87,7 +87,7 @@
     "url": "https://www.boe.es/eli/es/rd/2025/02/25/141",
     "edition": "BOE от 26.02.2025; действует с 27.02.2025",
     "checked": "2026-07-13",
-    "scope": "Начальная и поддерживаемая лётная годность испанских ULM; arts. 2, 28, 30 задают document/airworthiness boundary; art. 29(2)(c) для нового и art. 29(5)(b)(3) для подержанного ULM указывают particularized equipment and complete weight-and-balance data origin; art. 29(2)(d), 29(5)(c) и art. 34(3)(d) поддерживают current manuals/data. Не регулирует лицензию пилота и не даёт generic dispatch numbers"
+    "scope": "Начальная и поддерживаемая лётная годность испанских ULM; arts. 2 и 28 вместе с art. 30 задают document/airworthiness boundary и случаи недействительности restricted CofA; arts. 34–37 закрепляют ответственность owner/operator, continuing-airworthiness tasks, competence/current technical data, maintenance programme и ARC; Annex essential requirements 2.1.5 и 2.2 требуют normal/failure/emergency procedures и доведения operating limitations до экипажа. Arts. 29(2)(c), 29(5)(b)(3), 29(2)(d), 29(5)(c) и 34(3)(d) задают источник equipment, weight-and-balance и current manuals/data. Не регулирует лицензию пилота, не разрешает обслуживание вне компетенции и не даёт generic dispatch numbers"
   },
   {
     "id": "SRC-AESA-ULM-PROCEDURES",
@@ -114,7 +114,7 @@
     "url": "https://www.seguridadaerea.gob.es/sites/default/files/FOR-ULM-P01-ETI01-GU09_Objetivos_de_aprendizaje_ULM.pdf",
     "edition": "FOR-ULM-P01-ETI01-GU09 Ed.01; страница AESA обновлена 29.05.2026; PDF HTTP Last-Modified 29.05.2026; применимость «Desde publicación»",
     "checked": "2026-07-13",
-    "scope": "Текущие цели обучения ULM; это syllabus целей обучения, а не самостоятельный источник стабильной физики или технических механизмов. Документ содержит 66 страниц, все девять предметов на pp. 7–63: Derecho Aéreo pp. 7–14, Principios de Vuelo pp. 15–20, Performance pp. 21–27, Navegación, pp. 28–32, Conocimiento General pp. 33–39, Meteorología pp. 40–48, Procedimientos pp. 49–58, Human Factors pp. 59–62, Comunicaciones p. 63; отдельная Habilitación Radiotelefonía на pp. 64–65. Аудированная копия SHA-256 52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2. Копия неконтролируемая: перед применением сверять текущую версию на сайте AESA. Аномалии: на p. 66 заголовок GU10 Ed.01, а упомянутого на p. 3 отдельного списка Trazabilidad в доступном 66-страничном PDF нет"
+    "scope": "Текущие цели обучения ULM; это syllabus целей обучения, а не самостоятельный источник стабильной физики или технических механизмов. Документ содержит 66 страниц, все девять предметов на pp. 7–63: Derecho Aéreo, pp. 7–14, включая p. 8 §§2.1–2.7, p. 10 §4.8 и p. 11 §§7.2–7.4; Principios de Vuelo, pp. 15–20; Performance y Planificación Vuelo, pp. 21–27, включая p. 26 §§8.1–8.7 и p. 27 §8.8; Navegación, pp. 28–32; Conocimiento General de la Aeronave, pp. 33–39; Meteorología, pp. 40–48; Procedimientos Operacionales, pp. 49–58; Actuaciones y Limitaciones Humanas, pp. 59–62; Comunicaciones, p. 63; отдельная Habilitación Radiotelefonía, pp. 64–65. Аудированная копия SHA-256 52947c9347a07f5df34e83853f8032528ca3df54938b73190eb728ef63938cf2. Копия неконтролируемая: перед применением сверять текущую версию на сайте AESA. Аномалии: на p. 66 заголовок GU10 Ed.01, а упомянутого на p. 3 отдельного списка Trazabilidad в доступном 66-страничном PDF нет"
   },
   {
     "id": "SRC-AESA-ULM-QUESTION-BANKS",
@@ -330,7 +330,7 @@
     "url": "https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?erules-id=ERULES-1963177438-18537",
     "edition": "Revision 24, March 2026, published 27.03.2026",
     "checked": "2026-07-13",
-    "scope": "Article 5(4), Annex VII (Part-NCO); NCO.GEN.135(a)(10)/AMC1 и NCO.OP.135 для документов, карт, погоды и предполётной информации; NCO.OP.125/AMC1–3/GM2 for scoped fuel planning and protected final reserve; NCO.OP.140 IFR alternate scope; NCO.OP.185 in-flight fuel monitoring; NCO.OP.205/AMC1 for landing-condition assessment and in-flight update; NCO.POL.100, .105 and .110 for mass, CG, weighing and performance; NCO.OP.160, AMC1 and GM1/GM2 for weather continuation/replanning; NCO.IDE.A.170 ELT/PLB and NCO.IDE.A.200 transponder. Область определяется операцией и воздушным судном; одно наличие лицензии не определяет применимость Part-NCO"
+    "scope": "Article 5(4), Annex VII (Part-NCO); NCO.GEN.105 PIC responsibility/authority and current manufacturer checklists; NCO.GEN.135(a)(10)/AMC1 and NCO.OP.135 documents, charts, weather and facilities; NCO.OP.125/AMC1–3/GM2 fuel/oil planning and protected final reserve; NCO.OP.130 passenger briefing; NCO.OP.140 IFR alternate scope; NCO.OP.145 refuelling with passengers; NCO.OP.160/AMC1/GM1–2 weather continuation/replanning; NCO.OP.165 ground contamination; NCO.OP.170 flight in icing conditions; NCO.OP.175 take-off conditions; NCO.OP.185 in-flight fuel monitoring; NCO.OP.205/AMC1 landing-condition assessment and in-flight update; NCO.POL.100, .105 and .110 mass, CG, weighing and performance; NCO.IDE.A.170 ELT/PLB and NCO.IDE.A.200 transponder. Область определяется операцией и воздушным судном: одно наличие лицензии не определяет применимость Part-NCO"
   },
   {
     "id": "SRC-WMO-CLOUD-ATLAS-2017",
@@ -393,7 +393,7 @@
     "url": "https://www.boe.es/eli/es/rd/2018/09/21/1180/con",
     "edition": "texto consolidado; última actualización publicada 05.06.2024",
     "checked": "2026-07-13",
-    "scope": "Раздельные pinpoints: RCA 10.5.2.1.3.1.1 — группы времени; RCA 10.5.3 — испанские дополнения к сообщениям бедствия/срочности; RCA 4.7.1.5.1.3 — граница AFIS; Annex V 1.4.9 — HOLD SHORT, Annex V 1.4.11 — подготовка к взлёту и условные разрешения, Annex V 1.4.14–1.4.18 — вход в круг, доклады, заход, посадка и уход на второй круг; применяется вместе с SERA и текущим AIP"
+    "scope": "art. 36.2 позволяет компетентному органу обозначать flight plan mandatory zones (FPMZ); конкретные зоны и адресаты подачи остаются динамическими AIP/AD. Раздельные pinpoints: RCA 10.5.2.1.3.1.1 — группы времени; RCA 10.5.3 — испанские дополнения к сообщениям бедствия/срочности; RCA 4.7.1.5.1.3 — граница AFIS; Annex V 1.4.9 — HOLD SHORT, Annex V 1.4.11 — подготовка к взлёту и условные разрешения, Annex V 1.4.14–1.4.18 — вход в круг, доклады, заход, посадка и уход на второй круг; применяется вместе с SERA и текущим AIP"
   },
   {
     "id": "SRC-BOE-FOM-1146-2019",
@@ -627,7 +627,7 @@
     "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/03_afh_ch2.pdf",
     "edition": "FAA-H-8083-3C (2021), Chapter 2",
     "checked": "2026-07-13",
-    "scope": "Printed pp. 2-4–2-6: generic preflight pedagogy that itself defers sequence and detail to the AFM/POH and manufacturer checklist; no U.S. rule or generic checklist transfers"
+    "scope": "Chapter 2 spans printed pp. 2-1–2-23; the bounded use is generic ground-operation and preflight pedagogy, especially pp. 2-4–2-6, which itself defers sequence and detail to the AFM/POH and manufacturer checklist. No U.S. rule, hand signal, fuel practice, maintenance authority or generic checklist transfers"
   },
   {
     "id": "SRC-ROTAX-TECH-DOCS",
@@ -814,8 +814,8 @@
     "authority": "BRS Aerospace",
     "title": "BRS-6 Owner's Manual and General Installation Guide 020002-01 Rev.A — historical revision",
     "url": "https://brsaerospace.com/wp-content/uploads/2020/06/020002-01-Rev.-A.pdf",
-    "edition": "document 020002-01 Rev.A; официальный 96-страничный PDF доступен при проверке 14.07.2026; только исторический/контекстный статус",
-    "checked": "2026-07-14",
+    "edition": "document 020002-01 Rev.A; официальный 96-страничный PDF доступен при проверке 13.07.2026; только исторический/контекстный статус",
+    "checked": "2026-07-13",
     "scope": "Историческая ревизия; её текущий статус и применимость не установлены. Она не используется для пределов, действий с рукоятью, порядка взведения, интервала или контрольной карты; определяющими остаются установленное дополнение/руководство/табличка/серийный номер самолёта и актуальная поддержка производителя"
   },
   {
@@ -904,8 +904,8 @@
     "authority": "ENAIRE",
     "title": "AIP España GEN 3.1 — Servicio de información aeronáutica",
     "url": "https://aip.enaire.es/aip/contenido_AMDT/LE_Amdt_2026_408_GEN_3_1_es.html",
-    "edition": "AMDT 408/26, WEF 09.07.2026; checked 14.07.2026",
-    "checked": "2026-07-14",
+    "edition": "AMDT 408/26, WEF 09.07.2026; checked 13.07.2026",
+    "checked": "2026-07-13",
     "scope": "GEN 3.1 §§3.4–3.5 identifies current NOTAM/PIB structure and ICARO route for PIB and NOTAM queries; operational briefing scope must be obtained through ICARO/AIS and rechecked before flight"
   },
   {
@@ -913,8 +913,98 @@
     "authority": "ENAIRE",
     "title": "Ayuda de ENAIRE Insignia — prototipo de visualización NOTAM",
     "url": "https://insignia.enaire.es/ayuda/help.html",
-    "edition": "Help page, version 3.7 dated 04.05.2026; checked 14.07.2026",
-    "checked": "2026-07-14",
+    "edition": "Help page, version 3.7 dated 04.05.2026; checked 13.07.2026",
+    "checked": "2026-07-13",
     "scope": "The ENAIRE help page labels the NOTAM display as a prototype and directs operational use or PIB generation to ICARO. It supports only the prototype/cross-check boundary, not operational briefing completeness"
+  },
+  {
+    "id": "SRC-ENAIRE-AIP-ENR-1-10-2026",
+    "authority": "ENAIRE",
+    "title": "AIP España ENR 1.10 — Planificación de vuelos",
+    "url": "https://aip.enaire.es/aip/contenido_AMDT/LE_Amdt_A_2026_05_ENR_1_10_es.pdf",
+    "edition": "AIRAC AMDT 05/26, WEF 11.06.2026; checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "ENR 1.10 pp. 1–3, 13 and 28–33: Spanish operational implementation of FPL submission, AFIL exception and CHG/CNL/DLA/DEP/ARR messages, read with SERA.4001–.4020 as the legal baseline. The AIP itself is a descriptive aid; current FPMZ, ARO/ATS addressee, AD and NOTAM must be rechecked at the point of use"
+  },
+  {
+    "id": "SRC-FAA-AFH-3C-CH8",
+    "authority": "FAA",
+    "title": "Airplane Flying Handbook — Chapter 8 Airport Traffic Patterns",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/09_afh_ch8.pdf",
+    "edition": "FAA-H-8083-3C (2021), Chapter 8; catalogue/Addendum status rechecked 13.04.2026",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 8-1–8-7: bounded pedagogy for rectangular circuit geometry, lookout, sequencing, energy management and conflict awareness. U.S. pattern altitude, 45-degree entry, CTAF calls, speeds, statistics and rules do not transfer to Spain; current SERA and the exact ENAIRE AD/VAC/NOTAM control"
+  },
+  {
+    "id": "SRC-FAA-AFH-3C-CH9",
+    "authority": "FAA",
+    "title": "Airplane Flying Handbook — Chapter 9 Approaches and Landings",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/10_afh_ch9.pdf",
+    "edition": "FAA-H-8083-3C (2021), Chapter 9; catalogue/Addendum status rechecked 13.04.2026",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 9-20–9-24: bounded handling concepts for turbulent-air, short-field and soft-field approaches/landings and their common errors. No speed, configuration, distance, surface technique or checklist is generic; the current aircraft AFM/POH, manufacturer checklist and supervised instruction control, and U.S. rules do not transfer"
+  },
+  {
+    "id": "SRC-FAA-AFH-3C-CH18",
+    "authority": "FAA",
+    "title": "Airplane Flying Handbook — Chapter 18 Emergency Procedures",
+    "url": "https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/airplane_handbook/19_afh_ch18.pdf",
+    "edition": "FAA-H-8083-3C (2021), Chapter 18; catalogue/Addendum status rechecked 13.04.2026",
+    "checked": "2026-07-13",
+    "scope": "Printed pp. 18-1–18-23: emergency-planning, forced-landing, fire/system-failure and VFR-into-IMC awareness at general-pedagogy level. The chapter expressly subordinates its guidance to manufacturer procedures; it supplies no universal ULM memory items, BRS action, self-training exercise or Spanish reporting rule"
+  },
+  {
+    "id": "SRC-EASA-EGAST-GA5",
+    "authority": "EASA / EGAST",
+    "title": "EGAST Leaflet GA 5 — Piston Engine Icing",
+    "url": "https://www.easa.europa.eu/en/document-library/general-publications/egast-leaflet-ga-5-piston-engine-icing",
+    "edition": "GA 5, publication date 01.06.2013; official page checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Safety-promotion explanation of piston-engine induction/carburettor icing, including the possibility in warm humid conditions and heightened risk at reduced power. Advisory educational material only: exact recognition, carb-heat availability/use, limits and procedures remain engine/installation specific and are controlled by the current aircraft AFM/POH and manufacturer checklist"
+  },
+  {
+    "id": "SRC-EASA-SIB-2017-10R1",
+    "authority": "EASA",
+    "title": "SIB 2017-10R1 — En-route Wake Turbulence Encounters",
+    "url": "https://ad.easa.europa.eu/ad/2017-10R1",
+    "edition": "SIB 2017-10R1, issued 02.09.2021",
+    "checked": "2026-07-13",
+    "scope": "Pp. 1–7: en-route wake-vortex formation, drift/decay, crossing-trajectory risk and precautionary awareness. The SIB states that it is information only and its recommendations are not mandatory; it neither guarantees separation nor replaces SERA right-of-way, PIC lookout, ATC instructions or aircraft-specific upset training"
+  },
+  {
+    "id": "SRC-BOE-RD-389-1998",
+    "authority": "BOE",
+    "title": "Real Decreto 389/1998 — investigación de accidentes e incidentes de aviación civil",
+    "url": "https://www.boe.es/buscar/pdf/1998/BOE-A-1998-6697-consolidado.pdf",
+    "edition": "texto consolidado, última actualización 27.02.2026",
+    "checked": "2026-07-13",
+    "scope": "arts. 15–16: immediate notification, assistance, protection of the aircraft/site/evidence and communication duties of PIC/owner/operator. Read only insofar as compatible with Ley 2/2024 and the RD 141/2026 transition; legacy institutional names and contacts are not hard-coded"
+  },
+  {
+    "id": "SRC-BOE-LEY-2-2024",
+    "authority": "BOE",
+    "title": "Ley 2/2024 — Autoridad de investigación técnica multimodal",
+    "url": "https://www.boe.es/eli/es/l/2024/08/01/2",
+    "edition": "BOE 02.08.2024; texto consolidado vigente en la fecha de control",
+    "checked": "2026-07-13",
+    "scope": "arts. 6, 9, 10 and 21: aviation-investigation scope, notification without delay, preservation of data/evidence and protection of the occurrence site, with safety/rescue exceptions and coordination. Life safety comes first; technical-investigation notification is distinct from AESA safety-occurrence reporting and other judicial/administrative duties"
+  },
+  {
+    "id": "SRC-BOE-RD-141-2026",
+    "authority": "BOE",
+    "title": "Real Decreto 141/2026 — Estatuto orgánico de la Autoridad de investigación técnica",
+    "url": "https://www.boe.es/eli/es/rd/2026/02/25/141/con",
+    "edition": "BOE 27.02.2026; vigente desde 28.02.2026",
+    "checked": "2026-07-13",
+    "scope": "Additional provisions 1.2 and 2 and transitional provision 1: operational succession occurs on the Authority's constitutive Council session; until constitution, the predecessor commissions continue and RD 389/1998 remains applicable insofar as compatible. Appointments published 08.07.2026 do not by themselves prove constitution; focused official search found no public constitutive-session confirmation as of 13.07.2026, so the authority name/channel must be rechecked and no legacy contact is hard-coded"
+  },
+  {
+    "id": "SRC-AESA-OCCURRENCE-REPORTING",
+    "authority": "AESA",
+    "title": "Sistema de Notificación de Sucesos — notificación de particulares",
+    "url": "https://www.seguridadaerea.gob.es/es/ambitos/gestion-de-la-seguridad-operacional/sistema-de-notificacion-de-sucesos/notifica-un-suceso/notificaci%C3%B3n-de-particulares",
+    "edition": "dynamic official interface; page modified 01.07.2025; process checked 13.07.2026",
+    "checked": "2026-07-13",
+    "scope": "Current route for private individuals, including pilots not reporting through an organisation; separates mandatory and voluntary occurrence reporting and states that accidents/serious incidents require notification to both the investigation body and AESA. Forms, address, mandatory-event list, 72-hour applicability and authority identity are dynamic and must be rechecked; no blanket 72-hour rule is asserted for every private-pilot event"
   }
 ]
