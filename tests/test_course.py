@@ -2368,6 +2368,44 @@ class CourseStructureTests(unittest.TestCase):
             with self.subTest(path=relative_path):
                 self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
+    def test_github_pages_workflow_deploys_verified_master_site(self):
+        workflow = (ROOT / ".github/workflows/docs.yml").read_text(
+            encoding="utf-8"
+        )
+        required_fragments = (
+            "pages: write",
+            "id-token: write",
+            "group: pages",
+            "cancel-in-progress: true",
+            "actions/configure-pages@v5",
+            "actions/upload-pages-artifact@v4",
+            "path: site/",
+            "needs: build",
+            "name: github-pages",
+            "actions/deploy-pages@v4",
+        )
+        for fragment in required_fragments:
+            with self.subTest(fragment=fragment):
+                self.assertIn(fragment, workflow)
+
+        self.assertRegex(
+            workflow,
+            r"(?ms)^  push:\s*\n    branches:\s*\n      - master$",
+        )
+        self.assertRegex(
+            workflow,
+            r"(?ms)^  pull_request:\s*\n    branches:\s*\n      - master$",
+        )
+        self.assertIn(
+            "if: github.event_name != 'pull_request' && "
+            "github.ref == 'refs/heads/master'",
+            workflow,
+        )
+
+    def test_readme_links_to_public_course(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("https://unet1x.github.io/ULM-course/", readme)
+
     def test_required_source_directory_exists(self):
         self.assertTrue((ROOT / "docs/sources").is_dir(), "docs/sources")
 
