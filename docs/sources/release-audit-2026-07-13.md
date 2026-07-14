@@ -448,12 +448,12 @@
 
 | Направление | Reviewer | Commit | Findings | Вердикт |
 |---|---|---|---|---|
-| Соответствие утверждённой спецификации | Independent final spec/repo reviewer, 14.07.2026 | `c13622d` | Цель «испанский ULM/MAF сначала, затем отдельный LAPL(A) или PPL(A)» соблюдена; автоматическая конверсия и зарубежные полномочия национального ULM не обещаны | PASS |
+| Соответствие утверждённой спецификации | Independent final spec/repo reviewer, 14.07.2026 | `41ba3e6` | Цель «испанский ULM/MAF сначала, затем отдельный LAPL(A) или PPL(A)» соблюдена; автоматическая конверсия и зарубежные полномочия национального ULM не обещаны | PASS |
 | Качество и применимость источников | Independent source/terms reviewer, 14.07.2026 | `c13622d` | Bounded 24/24; 117 ID / 116 URL; audit binding 117/117; LTR 50/50; динамические и historical boundaries проверены | PASS |
 | Педагогическая ясность и пошаговость | Independent pedagogy reviewer, 14.07.2026 | `c13622d` | Task14 15/15; четыре mock-набора прошли bidirectional answer-cue gates; 16-недельный план ULM-first; blockers 0 | PASS |
-| Приоритет ULM/MAF для полётов в Испании | Independent final spec/repo reviewer, 14.07.2026 | `c13622d` | ULM/MAF является первичной эксплуатационной целью в Испании; LAPL/PPL вынесены в последующий слой | PASS |
-| Качество репозитория, навигации и сборки | Independent final spec/repo reviewer, 14.07.2026 | `c13622d` | Content commit ссылается на этот ещё не включённый release audit; чистый archive имеет два missing-target failures и strict-build warnings | FAIL — закрывается отдельным audit commit |
+| Приоритет ULM/MAF для полётов в Испании | Independent final spec/repo reviewer, 14.07.2026 | `41ba3e6` | ULM/MAF является первичной эксплуатационной целью в Испании; LAPL/PPL вынесены в последующий слой | PASS |
+| Качество репозитория, навигации и сборки | Independent final spec/repo reviewer, 14.07.2026 | `41ba3e6` | Clean archive: 55/55 targeted tests PASS, `mkdocs build --strict` exit 0; README/index/nav targets разрешаются; `git diff --check` чист | PASS |
 
 ## Release gate {#release-gate}
 
-Traceability GAP закрыты или честно классифицированы как ВНЕ ЦЕЛИ; расчёты **65/65 PASS**, SVG **28/28 desktop + 28/28 narrow PASS**, source/terms и педагогический re-review завершены без блокеров, полный валидатор content snapshot дал **338/338 PASS** и strict build PASS. Единственный оставшийся gate — включить этот release audit в git и повторить чистую проверку навигации. Статус выпуска: **NOT READY / AUDIT COMMIT REQUIRED**.
+Traceability GAP закрыты или честно классифицированы как ВНЕ ЦЕЛИ; расчёты **65/65 PASS**, SVG **28/28 desktop + 28/28 narrow PASS**, source/terms и педагогический re-review завершены без блокеров. Полный валидатор дал **338/338 PASS** и strict build PASS; независимая проверка clean archive `41ba3e6` дала **55/55 targeted PASS** и strict build exit 0. Все пять финальных вердиктов — PASS. Статус выпуска: **READY / PASS**.
